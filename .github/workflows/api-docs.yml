@@ -1,0 +1,248 @@
+name: API Documentation
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'src/app/api/**'
+      - 'scripts/generate-api-docs.js'
+      - 'openapi.yaml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'src/app/api/**'
+      - 'scripts/generate-api-docs.js'
+      - 'openapi.yaml'
+
+jobs:
+  validate-docs:
+    name: Validate API Documentation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate API documentation
+        run: npm run docs:generate
+        env:
+          NODE_ENV: ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
+
+      - name: Validate OpenAPI specification
+        run: npm run docs:validate
+
+      - name: Check for uncommitted changes
+        run: |
+          git diff --exit-code openapi.yaml || {
+            echo "❌ OpenAPI documentation is out of sync!"
+            echo "Please run 'npm run docs:generate' and commit the changes."
+            exit 1
+          }
+
+      - name: Build static documentation
+        run: npm run docs:build-static
+
+      - name: Upload documentation artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-documentation-${{ github.sha }}
+          path: |
+            openapi.yaml
+            docs/api.html
+          retention-days: 30
+
+  deploy-docs:
+    name: Deploy Documentation
+    runs-on: ubuntu-latest
+    needs: validate-docs
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate documentation
+        run: |
+          npm run docs:generate
+          npm run docs:build-static
+        env:
+          NODE_ENV: production
+
+      - name: Create documentation site
+        run: |
+          mkdir -p docs-site
+          cp docs/api.html docs-site/index.html
+          cp openapi.yaml docs-site/
+
+          # Create a simple landing page
+          cat > docs-site/README.md << 'EOF'
+          # Fly-Fleet API Documentation
+
+          - [Interactive API Documentation](./index.html) - Redoc interface
+          - [OpenAPI Specification](./openapi.yaml) - Raw YAML file
+
+          ## Quick Start
+
+          To serve this documentation locally:
+
+          ```bash
+          npm install -g swagger-ui-serve
+          swagger-ui-serve openapi.yaml
+          ```
+
+          Or use Redoc:
+
+          ```bash
+          npm install -g redoc-cli
+          redoc-cli serve openapi.yaml
+          ```
+          EOF
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs-site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  pr-preview:
+    name: PR Documentation Preview
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate documentation
+        run: |
+          npm run docs:generate
+          npm run docs:build-static
+        env:
+          NODE_ENV: staging
+
+      - name: Comment PR with documentation preview
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            // Read the generated OpenAPI spec
+            const openapi = fs.readFileSync('openapi.yaml', 'utf8');
+            const lines = openapi.split('\n');
+            const summary = {
+              paths: (openapi.match(/^  \/api/gm) || []).length,
+              schemas: (openapi.match(/^    \w+:$/gm) || []).length,
+              endpoints: (openapi.match(/(get|post|put|patch|delete):/g) || []).length
+            };
+
+            const body = `## 📚 API Documentation Preview
+
+            The API documentation has been updated in this PR.
+
+            **Summary:**
+            - 🛣️ **${summary.paths}** API paths
+            - 📊 **${summary.schemas}** data schemas
+            - 🔗 **${summary.endpoints}** HTTP endpoints
+
+            **Preview Options:**
+
+            1. **Download artifacts** from this workflow run
+            2. **Local preview:**
+               \`\`\`bash
+               git checkout ${context.payload.pull_request.head.sha}
+               npm install
+               npm run docs:generate
+               npm run docs:serve
+               \`\`\`
+
+            3. **Validate specification:**
+               \`\`\`bash
+               npm run docs:validate
+               \`\`\`
+
+            The documentation will be automatically deployed when this PR is merged to main.
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+
+  notify-slack:
+    name: Notify Team
+    runs-on: ubuntu-latest
+    needs: [deploy-docs]
+    if: always() && github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: Notify Slack on success
+        if: needs.deploy-docs.result == 'success'
+        uses: 8398a7/action-slack@v3
+        with:
+          status: success
+          text: |
+            ✅ API documentation has been updated and deployed!
+
+            📖 View docs: ${{ needs.deploy-docs.outputs.page_url }}
+            🔧 Commit: ${{ github.sha }}
+            👤 Author: ${{ github.actor }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Notify Slack on failure
+        if: needs.deploy-docs.result == 'failure'
+        uses: 8398a7/action-slack@v3
+        with:
+          status: failure
+          text: |
+            ❌ API documentation deployment failed!
+
+            🔧 Commit: ${{ github.sha }}
+            👤 Author: ${{ github.actor }}
+            📋 Check the workflow for details
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

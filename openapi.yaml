@@ -1,0 +1,1794 @@
+openapi: 3.0.3
+info:
+  title: Fly-Fleet API
+  description: |
+    Private Jet Charter Brokerage Platform API
+
+    Fly-Fleet is a comprehensive platform for managing private jet charter requests,
+    contact forms, airport searches, and content management with multilingual support.
+
+    **Features:**
+    - Quote request management with real-time status tracking
+    - Contact form processing with automated email notifications
+    - Airport search with fuzzy matching and localization
+    - Content management system with multilingual support
+    - FAQ management with categorization and search
+    - Analytics event tracking with GA4 integration
+    - WhatsApp integration for customer communication
+    - Admin dashboard for quote and content management
+    - reCAPTCHA verification for form security
+    - Webhook handling for email service events
+
+    **Supported Languages:** Spanish (es), English (en), Portuguese (pt)
+
+    **Authentication:** Admin endpoints require Bearer token authentication
+
+    **Rate Limiting:** Various endpoints have IP-based rate limiting for security
+  version: 1.0.0
+  contact:
+    name: Fly-Fleet Support
+    email: contact@fly-fleet.com
+  license:
+    name: Private
+servers:
+  - url: https://api.fly-fleet.com
+    description: Production server
+  - url: https://staging-api.fly-fleet.com
+    description: Staging server
+  - url: http://localhost:3000
+    description: Development server
+
+tags:
+  - name: quotes
+    description: Quote request management
+  - name: contact
+    description: Contact form handling
+  - name: airports
+    description: Airport search functionality
+  - name: content
+    description: Content management system
+  - name: faqs
+    description: FAQ management
+  - name: analytics
+    description: Event tracking and analytics
+  - name: whatsapp
+    description: WhatsApp integration
+  - name: webhooks
+    description: External service webhooks
+  - name: recaptcha
+    description: reCAPTCHA verification
+  - name: seo
+    description: SEO metadata generation
+  - name: admin
+    description: Administrative operations
+
+paths:
+  /api/quote:
+    post:
+      tags: [quotes]
+      summary: Submit a quote request
+      description: |
+        Submit a new quote request for private jet charter services.
+        Includes reCAPTCHA verification, rate limiting, and automatic email notifications.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuoteRequest'
+            examples:
+              charter_request:
+                summary: Charter request example
+                value:
+                  service: "charter"
+                  fullName: "John Doe"
+                  email: "john@example.com"
+                  phone: "+1234567890"
+                  passengers: 4
+                  origin: "MIA"
+                  destination: "LAX"
+                  date: "2024-03-15"
+                  time: "14:30"
+                  standardBagsCount: 2
+                  specialItems: "Golf equipment"
+                  pets: false
+                  additionalServices: ["premium_catering", "vip_lounge_fbo"]
+                  comments: "Preferred departure time flexible"
+                  privacyConsent: true
+                  locale: "en"
+                  recaptchaToken: "03AGdBq26..."
+      responses:
+        '201':
+          description: Quote request created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuoteResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/quotes/{id}/status:
+    get:
+      tags: [quotes]
+      summary: Get quote status
+      description: Retrieve the current status and history of a quote request
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Quote request ID
+      responses:
+        '200':
+          description: Quote status retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuoteStatusResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    patch:
+      tags: [quotes, admin]
+      summary: Update quote status (Admin only)
+      description: Update the status of a quote request. Requires admin authentication.
+      security:
+        - AdminAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Quote request ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [status]
+              properties:
+                status:
+                  $ref: '#/components/schemas/QuoteStatus'
+                notes:
+                  type: string
+                  maxLength: 500
+                  description: Optional notes about the status change
+      responses:
+        '200':
+          description: Quote status updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuoteStatusResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/contact:
+    post:
+      tags: [contact]
+      summary: Submit a contact form
+      description: |
+        Submit a general contact form inquiry.
+        Includes reCAPTCHA verification, rate limiting, and automatic email notifications.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactRequest'
+            examples:
+              general_inquiry:
+                summary: General inquiry example
+                value:
+                  fullName: "Jane Smith"
+                  email: "jane@example.com"
+                  phone: "+1987654321"
+                  subject: "Charter inquiry"
+                  message: "I'm interested in charter services for a business trip next month."
+                  locale: "en"
+                  recaptchaToken: "03AGdBq26..."
+      responses:
+        '201':
+          description: Contact form submitted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/airports:
+    get:
+      tags: [airports]
+      summary: Search airports
+      description: |
+        Search for airports by IATA code, city name, or airport name.
+        Supports fuzzy matching and returns localized results.
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 50
+          description: Search query (IATA code, city, or airport name)
+          example: "mia"
+        - name: locale
+          in: query
+          schema:
+            $ref: '#/components/schemas/Locale'
+          description: Language for localized results
+          example: "en"
+      responses:
+        '200':
+          description: Airport search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AirportSearchResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    delete:
+      tags: [airports, admin]
+      summary: Clear airport search cache
+      description: Clear the in-memory cache for airport search results
+      responses:
+        '200':
+          description: Cache cleared successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Cache cleared"
+
+  /api/content:
+    get:
+      tags: [content]
+      summary: Content management overview
+      description: |
+        Retrieve content management information with various actions:
+        - pages: List available pages
+        - page-all-locales: Get page content in all locales
+        - stats: Cache and service statistics
+        - preload: Preload content for performance
+      parameters:
+        - name: action
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [pages, page-all-locales, stats, preload]
+          description: Action to perform
+        - name: page
+          in: query
+          schema:
+            type: string
+          description: Page slug (required for page-all-locales action)
+      responses:
+        '200':
+          description: Content management response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    post:
+      tags: [content, admin]
+      summary: Content cache management
+      description: Perform cache management operations on content
+      security:
+        - AdminAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [action]
+              properties:
+                action:
+                  type: string
+                  enum: [clear-cache, warm-cache, invalidate]
+                  description: Cache operation to perform
+                page:
+                  type: string
+                  description: Specific page to target (optional)
+                locale:
+                  $ref: '#/components/schemas/Locale'
+                  description: Specific locale to target (optional)
+      responses:
+        '200':
+          description: Cache operation completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/content/{page}/{locale}:
+    get:
+      tags: [content]
+      summary: Get specific page content
+      description: Retrieve content for a specific page and locale
+      parameters:
+        - name: page
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Page slug
+          example: "homepage"
+        - name: locale
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/Locale'
+          description: Content locale
+          example: "en"
+      responses:
+        '200':
+          description: Page content retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageContent'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/faqs:
+    get:
+      tags: [faqs]
+      summary: FAQ service overview
+      description: |
+        Retrieve FAQ service information with various actions:
+        - categories: List available categories
+        - stats: FAQ statistics
+        - health: Service health check
+      parameters:
+        - name: action
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [categories, stats, health]
+          description: Action to perform
+        - name: locale
+          in: query
+          schema:
+            $ref: '#/components/schemas/Locale'
+          description: Filter by locale
+      responses:
+        '200':
+          description: FAQ service response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FaqServiceResponse'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    post:
+      tags: [faqs, admin]
+      summary: FAQ cache management
+      description: Perform cache management operations on FAQs
+      security:
+        - AdminAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [action]
+              properties:
+                action:
+                  type: string
+                  enum: [clear-cache, refresh]
+                  description: Cache operation to perform
+      responses:
+        '200':
+          description: Cache operation completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FaqServiceResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/faqs/{locale}:
+    get:
+      tags: [faqs]
+      summary: Get FAQs for specific locale
+      description: |
+        Retrieve FAQs for a specific locale with various filtering and formatting options
+      parameters:
+        - name: locale
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/Locale'
+          description: FAQ locale
+        - name: category
+          in: query
+          schema:
+            type: string
+          description: Filter by category
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: Full-text search in questions and answers
+        - name: grouped
+          in: query
+          schema:
+            type: boolean
+          description: Group FAQs by category
+        - name: schema
+          in: query
+          schema:
+            type: boolean
+          description: Include Schema.org structured data
+        - name: stats
+          in: query
+          schema:
+            type: boolean
+          description: Include FAQ statistics
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+          description: Maximum number of results
+      responses:
+        '200':
+          description: FAQs retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FaqResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/analytics/event:
+    post:
+      tags: [analytics]
+      summary: Track analytics event
+      description: |
+        Track user analytics events. Events are batched and processed asynchronously.
+        Integrates with Google Analytics 4 Measurement Protocol.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnalyticsEvent'
+            examples:
+              page_view:
+                summary: Page view event
+                value:
+                  eventName: "page_view"
+                  eventData:
+                    page_title: "Homepage"
+                    page_location: "https://fly-fleet.com/"
+                  sessionId: "sess_123456789"
+                  pagePath: "/"
+                  locale: "en"
+              quote_started:
+                summary: Quote form started
+                value:
+                  eventName: "quote_form_started"
+                  eventData:
+                    service_type: "charter"
+                    origin: "MIA"
+                    destination: "LAX"
+                  sessionId: "sess_123456789"
+                  userId: "user_123"
+                  locale: "en"
+      responses:
+        '200':
+          description: Event tracked successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  eventId:
+                    type: string
+                    format: uuid
+                  queued:
+                    type: boolean
+                    description: Whether event was queued for batch processing
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    get:
+      tags: [analytics]
+      summary: Analytics service health check
+      description: Check the health and status of the analytics service
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "healthy"
+                  queueSize:
+                    type: integer
+                    description: Current event queue size
+                  uptime:
+                    type: string
+                    description: Service uptime
+
+  /api/whatsapp/link:
+    post:
+      tags: [whatsapp]
+      summary: Generate WhatsApp link
+      description: |
+        Generate a WhatsApp link with pre-filled message based on the request type and data.
+        Tracks click analytics and supports different message templates.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WhatsAppRequest'
+            examples:
+              general_contact:
+                summary: General contact WhatsApp link
+                value:
+                  type: "general"
+                  locale: "en"
+                  pageSource: "/contact"
+                  sessionId: "sess_123456789"
+              quote_specific:
+                summary: Quote-specific WhatsApp link
+                value:
+                  type: "quote"
+                  locale: "en"
+                  pageSource: "/quote"
+                  sessionId: "sess_123456789"
+                  fullName: "John Doe"
+                  email: "john@example.com"
+                  origin: "MIA"
+                  destination: "LAX"
+                  date: "2024-03-15"
+                  passengers: 4
+                  serviceType: "charter"
+      responses:
+        '200':
+          description: WhatsApp link generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WhatsAppResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    get:
+      tags: [whatsapp]
+      summary: WhatsApp service statistics
+      description: Get statistics and information about WhatsApp integration usage
+      responses:
+        '200':
+          description: WhatsApp statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalClicks:
+                    type: integer
+                    description: Total WhatsApp clicks tracked
+                  clicksByType:
+                    type: object
+                    additionalProperties:
+                      type: integer
+                  clicksByLocale:
+                    type: object
+                    additionalProperties:
+                      type: integer
+                  recentClicks:
+                    type: integer
+                    description: Clicks in the last 24 hours
+
+  /api/recaptcha/verify:
+    post:
+      tags: [recaptcha]
+      summary: Verify reCAPTCHA token
+      description: |
+        Verify a reCAPTCHA token with Google's verification service.
+        Used internally by form submission endpoints.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token, action]
+              properties:
+                token:
+                  type: string
+                  description: reCAPTCHA response token
+                action:
+                  type: string
+                  description: Expected action name
+                  example: "quote_request"
+      responses:
+        '200':
+          description: Token verification result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecaptchaResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    get:
+      tags: [recaptcha]
+      summary: reCAPTCHA service health check
+      description: Check the health of the reCAPTCHA verification service
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "healthy"
+                  configured:
+                    type: boolean
+                    description: Whether reCAPTCHA is properly configured
+
+  /api/seo/{page}/{locale}:
+    get:
+      tags: [seo]
+      summary: Get SEO metadata
+      description: Generate SEO metadata for a specific page and locale
+      parameters:
+        - name: page
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Page slug
+          example: "homepage"
+        - name: locale
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/Locale'
+          description: Content locale
+          example: "en"
+      responses:
+        '200':
+          description: SEO metadata generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeoResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/admin/quotes:
+    get:
+      tags: [admin, quotes]
+      summary: List quotes (Admin only)
+      description: |
+        Retrieve a list of quote requests with filtering and pagination.
+        Requires admin authentication.
+      security:
+        - AdminAuth: []
+      parameters:
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/QuoteStatus'
+          description: Filter by quote status
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+          description: Number of results per page
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+          description: Pagination offset
+        - name: stale
+          in: query
+          schema:
+            type: boolean
+          description: Get stale quotes (>7 days old)
+        - name: stats
+          in: query
+          schema:
+            type: boolean
+          description: Include status statistics
+      responses:
+        '200':
+          description: Quotes retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminQuotesResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    post:
+      tags: [admin, quotes]
+      summary: Bulk quote operations (Admin only)
+      description: |
+        Perform bulk operations on multiple quotes.
+        Requires admin authentication.
+      security:
+        - AdminAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [action, quoteIds]
+              properties:
+                action:
+                  type: string
+                  enum: [update_status, delete, export]
+                  description: Bulk operation to perform
+                quoteIds:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                  description: List of quote IDs to operate on
+                status:
+                  $ref: '#/components/schemas/QuoteStatus'
+                  description: New status (required for update_status action)
+                notes:
+                  type: string
+                  maxLength: 500
+                  description: Optional notes for status updates
+      responses:
+        '200':
+          description: Bulk operation completed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  processedCount:
+                    type: integer
+                  failedCount:
+                    type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        quoteId:
+                          type: string
+                          format: uuid
+                        success:
+                          type: boolean
+                        error:
+                          type: string
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/webhooks/resend:
+    post:
+      tags: [webhooks]
+      summary: Handle Resend email webhooks
+      description: |
+        Process webhook events from Resend email service.
+        Updates email delivery status in the database.
+      security:
+        - WebhookSignature: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResendWebhookEvent'
+      responses:
+        '200':
+          description: Webhook processed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  processed:
+                    type: boolean
+                  message:
+                    type: string
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          description: Invalid webhook signature
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Invalid signature"
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    get:
+      tags: [webhooks]
+      summary: Webhook statistics
+      description: Get statistics about webhook processing
+      responses:
+        '200':
+          description: Webhook statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalEvents:
+                    type: integer
+                  eventsByType:
+                    type: object
+                    additionalProperties:
+                      type: integer
+                  recentEvents:
+                    type: integer
+                    description: Events processed in the last 24 hours
+
+  /api/webhooks/resend/test:
+    post:
+      tags: [webhooks]
+      summary: Test webhook processing
+      description: |
+        Test webhook processing with sample data.
+        Useful for development and debugging.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [messageId, eventType]
+              properties:
+                messageId:
+                  type: string
+                  description: Test message ID
+                eventType:
+                  type: string
+                  enum: [email.sent, email.delivered, email.bounced, email.failed]
+                  description: Event type to simulate
+      responses:
+        '200':
+          description: Test webhook processed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  testMode:
+                    type: boolean
+                    example: true
+                  simulatedEvent:
+                    type: string
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    get:
+      tags: [webhooks]
+      summary: Test webhook information
+      description: Get information about webhook testing capabilities
+      responses:
+        '200':
+          description: Test information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  available:
+                    type: boolean
+                  supportedEvents:
+                    type: array
+                    items:
+                      type: string
+                  testMode:
+                    type: boolean
+
+components:
+  securitySchemes:
+    AdminAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        Admin authentication using Bearer token.
+        Also requires x-admin-email header with authorized email address.
+    WebhookSignature:
+      type: apiKey
+      in: header
+      name: resend-signature
+      description: HMAC-SHA256 signature for webhook verification
+
+  schemas:
+    Locale:
+      type: string
+      enum: [es, en, pt]
+      description: Supported locale codes
+      example: "en"
+
+    ServiceType:
+      type: string
+      enum: [charter, empty_legs, multicity, helicopter, medical, cargo, other]
+      description: Type of aviation service requested
+
+    AdditionalService:
+      type: string
+      enum:
+        - international_support
+        - country_documentation
+        - pet_friendly_transport
+        - ground_transfer_driver
+        - premium_catering
+        - vip_lounge_fbo
+        - customs_immigration_assist
+      description: Additional services that can be requested
+
+    QuoteStatus:
+      type: string
+      enum: [pending, processing, quoted, converted, closed]
+      description: Status of a quote request
+
+    QuoteRequest:
+      type: object
+      required:
+        - service
+        - fullName
+        - email
+        - passengers
+        - origin
+        - destination
+        - date
+        - time
+        - privacyConsent
+        - locale
+        - recaptchaToken
+      properties:
+        service:
+          $ref: '#/components/schemas/ServiceType'
+        fullName:
+          type: string
+          minLength: 2
+          maxLength: 100
+          example: "John Doe"
+        email:
+          type: string
+          format: email
+          example: "john@example.com"
+        phone:
+          type: string
+          minLength: 10
+          maxLength: 20
+          example: "+1234567890"
+        passengers:
+          type: integer
+          minimum: 1
+          maximum: 50
+          example: 4
+        origin:
+          type: string
+          length: 3
+          description: Origin airport IATA code
+          example: "MIA"
+        destination:
+          type: string
+          length: 3
+          description: Destination airport IATA code
+          example: "LAX"
+        date:
+          type: string
+          pattern: '^\d{4}-\d{2}-\d{2}$'
+          description: Departure date in YYYY-MM-DD format
+          example: "2024-03-15"
+        time:
+          type: string
+          pattern: '^\d{2}:\d{2}$'
+          description: Departure time in HH:MM format
+          example: "14:30"
+        standardBagsCount:
+          type: integer
+          minimum: 0
+          maximum: 20
+          default: 0
+          example: 2
+        specialItems:
+          type: string
+          maxLength: 500
+          example: "Golf equipment and skis"
+        pets:
+          type: boolean
+          default: false
+          example: false
+        petSpecies:
+          type: string
+          maxLength: 50
+          example: "Dog"
+        petSize:
+          type: string
+          maxLength: 20
+          example: "Medium"
+        petDocuments:
+          type: boolean
+          example: true
+        additionalServices:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalService'
+          default: []
+          example: ["premium_catering", "vip_lounge_fbo"]
+        comments:
+          type: string
+          maxLength: 1000
+          example: "Flexible with departure time, prefer morning flights"
+        privacyConsent:
+          type: boolean
+          description: Must be true to submit request
+          example: true
+        locale:
+          $ref: '#/components/schemas/Locale'
+        recaptchaToken:
+          type: string
+          description: reCAPTCHA response token
+          example: "03AGdBq26..."
+
+    QuoteResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        quoteId:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        message:
+          type: string
+          example: "Quote request submitted successfully"
+
+    QuoteStatusResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          $ref: '#/components/schemas/QuoteStatus'
+        serviceType:
+          $ref: '#/components/schemas/ServiceType'
+        origin:
+          type: string
+          example: "MIA"
+        destination:
+          type: string
+          example: "LAX"
+        departureDate:
+          type: string
+          format: date
+        passengers:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        statusHistory:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                $ref: '#/components/schemas/QuoteStatus'
+              timestamp:
+                type: string
+                format: date-time
+              notes:
+                type: string
+
+    ContactRequest:
+      type: object
+      required:
+        - fullName
+        - email
+        - message
+        - locale
+        - recaptchaToken
+      properties:
+        fullName:
+          type: string
+          minLength: 2
+          maxLength: 100
+          example: "Jane Smith"
+        email:
+          type: string
+          format: email
+          example: "jane@example.com"
+        phone:
+          type: string
+          minLength: 10
+          maxLength: 20
+          example: "+1987654321"
+        subject:
+          type: string
+          maxLength: 200
+          example: "Charter inquiry"
+        message:
+          type: string
+          minLength: 10
+          maxLength: 1000
+          example: "I'm interested in charter services for a business trip next month."
+        locale:
+          $ref: '#/components/schemas/Locale'
+        recaptchaToken:
+          type: string
+          description: reCAPTCHA response token
+          example: "03AGdBq26..."
+
+    ContactResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        contactId:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        message:
+          type: string
+          example: "Contact form submitted successfully"
+
+    AirportSearchResult:
+      type: object
+      properties:
+        code:
+          type: string
+          description: IATA airport code
+          example: "MIA"
+        name:
+          type: string
+          description: Airport name
+          example: "Miami International Airport"
+        city:
+          type: string
+          description: City name
+          example: "Miami"
+        country:
+          type: string
+          description: Country name in requested locale
+          example: "United States"
+        region:
+          type: string
+          description: Region name in requested locale
+          example: "North America"
+        isPopular:
+          type: boolean
+          description: Whether this is a popular airport
+          example: true
+
+    AirportSearchResponse:
+      type: object
+      properties:
+        query:
+          type: string
+          example: "mia"
+        locale:
+          $ref: '#/components/schemas/Locale'
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AirportSearchResult'
+        count:
+          type: integer
+          example: 10
+        cached:
+          type: boolean
+          description: Whether results were served from cache
+          example: false
+
+    ContentResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        action:
+          type: string
+          example: "pages"
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          type: object
+          description: Action-specific response data
+
+    PageContent:
+      type: object
+      properties:
+        pageSlug:
+          type: string
+          example: "homepage"
+        locale:
+          $ref: '#/components/schemas/Locale'
+        content:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              value:
+                type: string
+              type:
+                type: string
+                enum: [text, html, json, image_url]
+        lastModified:
+          type: string
+          format: date-time
+        cached:
+          type: boolean
+
+    FaqServiceResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        action:
+          type: string
+          example: "categories"
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          type: object
+          description: Action-specific response data
+
+    FaqResponse:
+      type: object
+      properties:
+        locale:
+          $ref: '#/components/schemas/Locale'
+        faqs:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              question:
+                type: string
+              answer:
+                type: string
+              category:
+                type: string
+              sortOrder:
+                type: integer
+        grouped:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: object
+        stats:
+          type: object
+          properties:
+            totalCount:
+              type: integer
+            categoryCount:
+              type: integer
+        structuredData:
+          type: object
+          description: Schema.org FAQ structured data
+
+    AnalyticsEvent:
+      type: object
+      required: [eventName]
+      properties:
+        eventName:
+          type: string
+          minLength: 1
+          maxLength: 50
+          example: "page_view"
+        eventData:
+          type: object
+          additionalProperties: true
+          example:
+            page_title: "Homepage"
+            page_location: "https://fly-fleet.com/"
+        userId:
+          type: string
+          minLength: 1
+          maxLength: 100
+          example: "user_123"
+        sessionId:
+          type: string
+          minLength: 1
+          maxLength: 100
+          example: "sess_123456789"
+        pagePath:
+          type: string
+          maxLength: 255
+          example: "/"
+        referrer:
+          type: string
+          maxLength: 255
+          example: "https://google.com"
+        locale:
+          $ref: '#/components/schemas/Locale'
+        timestamp:
+          type: string
+          format: date-time
+          description: Event timestamp (defaults to current time)
+
+    WhatsAppRequest:
+      type: object
+      required: [type, locale]
+      properties:
+        type:
+          type: string
+          enum: [general, quote, contact]
+          description: Type of WhatsApp message to generate
+        locale:
+          $ref: '#/components/schemas/Locale'
+        pageSource:
+          type: string
+          description: Source page path
+          example: "/contact"
+        sessionId:
+          type: string
+          description: User session ID
+          example: "sess_123456789"
+        email:
+          type: string
+          format: email
+          example: "john@example.com"
+        phone:
+          type: string
+          example: "+1234567890"
+        fullName:
+          type: string
+          example: "John Doe"
+        # Quote-specific fields
+        origin:
+          type: string
+          description: Origin airport IATA code
+          example: "MIA"
+        destination:
+          type: string
+          description: Destination airport IATA code
+          example: "LAX"
+        date:
+          type: string
+          format: date
+          example: "2024-03-15"
+        time:
+          type: string
+          example: "14:30"
+        passengers:
+          type: integer
+          minimum: 1
+          example: 4
+        serviceType:
+          $ref: '#/components/schemas/ServiceType'
+        bags:
+          type: integer
+          minimum: 0
+          example: 2
+        specialItems:
+          type: string
+          example: "Golf equipment"
+        additionalServices:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalService'
+        comments:
+          type: string
+          example: "Flexible timing"
+        # Contact-specific fields
+        subject:
+          type: string
+          example: "Charter inquiry"
+        message:
+          type: string
+          example: "Interested in charter services"
+
+    WhatsAppResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        whatsappUrl:
+          type: string
+          format: uri
+          description: WhatsApp link with pre-filled message
+          example: "https://wa.me/1234567890?text=Hello%20Fly-Fleet..."
+        message:
+          type: string
+          description: Pre-filled message content
+        clickId:
+          type: string
+          format: uuid
+          description: Tracking ID for this click
+
+    RecaptchaResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Whether verification was successful
+        score:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Risk score (1.0 is very likely legitimate, 0.0 is very likely a bot)
+        action:
+          type: string
+          description: Action name that was verified
+        challenge_ts:
+          type: string
+          format: date-time
+          description: Timestamp of the challenge load
+        hostname:
+          type: string
+          description: Hostname of the site where reCAPTCHA was solved
+        errors:
+          type: array
+          items:
+            type: string
+          description: Error codes if verification failed
+
+    SeoResponse:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "Fly-Fleet - Premium Private Jet Charter"
+        description:
+          type: string
+          example: "Experience luxury travel with Fly-Fleet's premium private jet charter services."
+        keywords:
+          type: string
+          example: "private jet, charter, luxury travel, aviation"
+        metaTags:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              content:
+                type: string
+        structuredData:
+          type: object
+          description: Schema.org structured data
+        canonicalUrl:
+          type: string
+          format: uri
+          example: "https://fly-fleet.com/en"
+        alternateUrls:
+          type: object
+          additionalProperties:
+            type: string
+            format: uri
+          example:
+            es: "https://fly-fleet.com/es"
+            en: "https://fly-fleet.com/en"
+            pt: "https://fly-fleet.com/pt"
+        openGraph:
+          type: object
+          properties:
+            title:
+              type: string
+            description:
+              type: string
+            image:
+              type: string
+              format: uri
+            url:
+              type: string
+              format: uri
+        twitter:
+          type: object
+          properties:
+            card:
+              type: string
+            title:
+              type: string
+            description:
+              type: string
+            image:
+              type: string
+              format: uri
+
+    AdminQuotesResponse:
+      type: object
+      properties:
+        quotes:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              serviceType:
+                $ref: '#/components/schemas/ServiceType'
+              fullName:
+                type: string
+              email:
+                type: string
+              origin:
+                type: string
+              destination:
+                type: string
+              departureDate:
+                type: string
+                format: date
+              passengers:
+                type: integer
+              status:
+                $ref: '#/components/schemas/QuoteStatus'
+              createdAt:
+                type: string
+                format: date-time
+              updatedAt:
+                type: string
+                format: date-time
+        pagination:
+          type: object
+          properties:
+            total:
+              type: integer
+            limit:
+              type: integer
+            offset:
+              type: integer
+            hasMore:
+              type: boolean
+        stats:
+          type: object
+          properties:
+            totalQuotes:
+              type: integer
+            statusCounts:
+              type: object
+              additionalProperties:
+                type: integer
+            staleQuotes:
+              type: integer
+
+    ResendWebhookEvent:
+      type: object
+      required: [type, created_at, data]
+      properties:
+        type:
+          type: string
+          enum:
+            - email.sent
+            - email.delivered
+            - email.delivery_delayed
+            - email.complained
+            - email.bounced
+            - email.delivery_failed
+            - email.opened
+            - email.clicked
+          description: Type of email event
+        created_at:
+          type: string
+          format: date-time
+          description: When the event occurred
+        data:
+          type: object
+          required: [email_id]
+          properties:
+            email_id:
+              type: string
+              description: Resend email ID
+            message_id:
+              type: string
+              description: Message ID from email headers
+            from:
+              type: string
+              format: email
+              description: Sender email address
+            to:
+              type: array
+              items:
+                type: string
+                format: email
+              description: Recipient email addresses
+            subject:
+              type: string
+              description: Email subject
+            clicked_link:
+              type: string
+              format: uri
+              description: Clicked link (for click events)
+            bounce_type:
+              type: string
+              enum: [hard, soft]
+              description: Type of bounce (for bounce events)
+            complaint_type:
+              type: string
+              description: Type of complaint (for complaint events)
+
+  responses:
+    ValidationError:
+      description: Request validation failed
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Validation failed"
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                    path:
+                      type: array
+                      items:
+                        oneOf:
+                          - type: string
+                          - type: integer
+                    message:
+                      type: string
+
+    RateLimitError:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Rate limit exceeded. Maximum 7 requests per hour."
+
+    UnauthorizedError:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Authentication required"
+
+    ForbiddenError:
+      description: Insufficient permissions
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Insufficient permissions"
+
+    NotFoundError:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Resource not found"
+
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Internal server error"

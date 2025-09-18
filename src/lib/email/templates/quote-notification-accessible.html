@@ -1,0 +1,198 @@
+<!-- Quote Notification Email Template with Accessibility -->
+<section aria-labelledby="request-summary">
+    <h2 id="request-summary">{{requestSummaryTitle}}</h2>
+
+    <div class="status-badge status-info" role="status" aria-live="polite">
+        {{statusText}}
+    </div>
+
+    <p><strong>{{requestIdLabel}}</strong> {{id}}</p>
+    <p><strong>{{submittedLabel}}</strong> <time datetime="{{submittedDatetime}}">{{submittedDate}}</time></p>
+</section>
+
+<section aria-labelledby="customer-info">
+    <h3 id="customer-info">{{customerInfoTitle}}</h3>
+
+    <table class="data-table" role="table" aria-labelledby="customer-info">
+        <caption class="sr-only">{{customerInfoCaption}}</caption>
+        <tbody>
+            <tr>
+                <th scope="row" id="customer-name">{{nameLabel}}</th>
+                <td headers="customer-name">{{fullName}}</td>
+            </tr>
+            <tr>
+                <th scope="row" id="customer-email">{{emailLabel}}</th>
+                <td headers="customer-email">
+                    <a href="mailto:{{email}}" aria-label="{{emailAriaLabel}}">{{email}}</a>
+                </td>
+            </tr>
+            {{#if phone}}
+            <tr>
+                <th scope="row" id="customer-phone">{{phoneLabel}}</th>
+                <td headers="customer-phone">
+                    <a href="tel:{{phone}}" aria-label="{{phoneAriaLabel}}">{{phone}}</a>
+                </td>
+            </tr>
+            {{/if}}
+            <tr>
+                <th scope="row" id="customer-locale">{{languageLabel}}</th>
+                <td headers="customer-locale">{{localeDisplay}}</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section aria-labelledby="flight-details">
+    <h3 id="flight-details">{{flightDetailsTitle}}</h3>
+
+    <table class="data-table" role="table" aria-labelledby="flight-details">
+        <caption class="sr-only">{{flightDetailsCaption}}</caption>
+        <tbody>
+            <tr>
+                <th scope="row" id="service-type">{{serviceTypeLabel}}</th>
+                <td headers="service-type">
+                    <span class="status-badge status-info">{{serviceType}}</span>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" id="route">{{routeLabel}}</th>
+                <td headers="route">
+                    <strong>{{origin}}</strong>
+                    <span aria-label="{{toAriaLabel}}">→</span>
+                    <strong>{{destination}}</strong>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" id="departure-date">{{departureDateLabel}}</th>
+                <td headers="departure-date">
+                    <time datetime="{{departureDatetime}}">{{departureDate}}</time>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" id="departure-time">{{departureTimeLabel}}</th>
+                <td headers="departure-time">
+                    <time datetime="{{departureTimeDatetime}}">{{departureTime}}</time>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" id="passengers-count">{{passengersLabel}}</th>
+                <td headers="passengers-count">
+                    <span aria-label="{{passengersAriaLabel}}">{{passengers}}</span>
+                </td>
+            </tr>
+            {{#if standardBagsCount}}
+            <tr>
+                <th scope="row" id="bags-count">{{bagsLabel}}</th>
+                <td headers="bags-count">
+                    <span aria-label="{{bagsAriaLabel}}">{{standardBagsCount}}</span>
+                </td>
+            </tr>
+            {{/if}}
+        </tbody>
+    </table>
+</section>
+
+{{#if hasPets}}
+<section aria-labelledby="pet-info">
+    <h3 id="pet-info">{{petInfoTitle}}</h3>
+
+    <table class="data-table" role="table" aria-labelledby="pet-info">
+        <caption class="sr-only">{{petInfoCaption}}</caption>
+        <tbody>
+            {{#if petSpecies}}
+            <tr>
+                <th scope="row" id="pet-species">{{petSpeciesLabel}}</th>
+                <td headers="pet-species">{{petSpecies}}</td>
+            </tr>
+            {{/if}}
+            {{#if petSize}}
+            <tr>
+                <th scope="row" id="pet-size">{{petSizeLabel}}</th>
+                <td headers="pet-size">{{petSize}}</td>
+            </tr>
+            {{/if}}
+            <tr>
+                <th scope="row" id="pet-documents">{{petDocumentsLabel}}</th>
+                <td headers="pet-documents">
+                    <span class="status-badge {{#if petDocuments}}status-success{{else}}status-warning{{/if}}">
+                        {{#if petDocuments}}{{petDocumentsYes}}{{else}}{{petDocumentsNo}}{{/if}}
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+{{/if}}
+
+{{#if additionalServices}}
+<section aria-labelledby="additional-services">
+    <h3 id="additional-services">{{additionalServicesTitle}}</h3>
+
+    <ul class="service-list" role="list" aria-labelledby="additional-services">
+        {{#each additionalServices}}
+        <li role="listitem">{{this}}</li>
+        {{/each}}
+    </ul>
+</section>
+{{/if}}
+
+{{#if specialItems}}
+<section aria-labelledby="special-items">
+    <h3 id="special-items">{{specialItemsTitle}}</h3>
+    <p>{{specialItems}}</p>
+</section>
+{{/if}}
+
+{{#if comments}}
+<section aria-labelledby="comments">
+    <h3 id="comments">{{commentsTitle}}</h3>
+    <blockquote cite="customer">
+        <p>{{comments}}</p>
+        <footer>— {{fullName}}</footer>
+    </blockquote>
+</section>
+{{/if}}
+
+<section aria-labelledby="tracking-info">
+    <h3 id="tracking-info">{{trackingInfoTitle}}</h3>
+
+    <table class="data-table" role="table" aria-labelledby="tracking-info">
+        <caption class="sr-only">{{trackingInfoCaption}}</caption>
+        <tbody>
+            {{#if utmSource}}
+            <tr>
+                <th scope="row" id="utm-source">{{sourceLabel}}</th>
+                <td headers="utm-source">{{utmSource}}</td>
+            </tr>
+            {{/if}}
+            {{#if utmMedium}}
+            <tr>
+                <th scope="row" id="utm-medium">{{mediumLabel}}</th>
+                <td headers="utm-medium">{{utmMedium}}</td>
+            </tr>
+            {{/if}}
+            {{#if utmCampaign}}
+            <tr>
+                <th scope="row" id="utm-campaign">{{campaignLabel}}</th>
+                <td headers="utm-campaign">{{utmCampaign}}</td>
+            </tr>
+            {{/if}}
+        </tbody>
+    </table>
+</section>
+
+<section class="cta-section" role="complementary" aria-label="{{nextStepsAriaLabel}}">
+    <h3>{{nextStepsTitle}}</h3>
+    <p>{{nextStepsInstructions}}</p>
+
+    <a href="{{adminUrl}}" class="cta-button" role="button" aria-label="{{adminLinkAriaLabel}}">
+        {{adminLinkText}}
+    </a>
+
+    <p><small>{{quoteValidityText}}</small></p>
+</section>
+
+<!-- Screen reader summary -->
+<div class="visually-hidden" aria-live="polite" aria-atomic="true">
+    {{screenReaderSummary}}
+</div>
