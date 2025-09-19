@@ -1,0 +1,27 @@
+{
+  "nav": {
+    "home": "Início",
+    "whatWeDo": "O que fazemos",
+    "quote": "Cotação",
+    "services": "Serviços",
+    "fleet": "Frota",
+    "faqs": "FAQs",
+    "about": "Sobre nós",
+    "contact": "Contato"
+  },
+  "hero": {
+    "title": "Voe privado, sem complicações",
+    "subtitle": "Peça sua cotação de voo em minutos. Operadores certificados e suporte 24/7",
+    "primaryCTA": "Pedir cotação",
+    "secondaryCTA": "WhatsApp"
+  },
+  "footer": {
+    "description": "Conectamos passageiros com a melhor opção de aeronave e operador certificado para cada rota.",
+    "contact": "Contato",
+    "legal": "Legal",
+    "terms": "Termos e condições",
+    "privacy": "Política de privacidade",
+    "cookies": "Política de cookies",
+    "copyright": "© 2025 Fly-Fleet. Todos os direitos reservados."
+  }
+}

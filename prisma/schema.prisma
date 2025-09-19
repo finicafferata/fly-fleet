@@ -1,0 +1,293 @@
+// Fly-Fleet Database Schema
+// Private Jet Charter Brokerage Platform
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ENUMS
+enum ServiceType {
+  charter
+  empty_legs
+  multicity
+  helicopter
+  medical
+  cargo
+  other
+}
+
+enum ContentType {
+  text
+  html
+  json
+  image_url
+}
+
+enum QuoteStatus {
+  pending
+  processing
+  quoted
+  converted
+  closed
+}
+
+enum ContactStatus {
+  pending
+  responded
+  closed
+}
+
+enum AdditionalService {
+  international_support
+  country_documentation
+  pet_friendly_transport
+  ground_transfer_driver
+  premium_catering
+  vip_lounge_fbo
+  customs_immigration_assist
+}
+
+// MODELS
+model Airport {
+  id           String  @id @default(uuid()) @db.Uuid
+  iataCode     String  @unique @map("iata_code") @db.VarChar(3)
+  icaoCode     String? @map("icao_code") @db.VarChar(4)
+  airportName  String  @map("airport_name") @db.VarChar(200)
+  cityName     String  @map("city_name") @db.VarChar(100)
+  countryCode  String  @map("country_code") @db.VarChar(2)
+  regionCode   String  @map("region_code") @db.VarChar(10)
+  latitude     Decimal? @db.Decimal(10, 8)
+  longitude    Decimal? @db.Decimal(11, 8)
+  isActive     Boolean @default(true) @map("is_active")
+  isPopular    Boolean @default(false) @map("is_popular")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @default(now()) @updatedAt @map("updated_at")
+
+  // Relations
+  originQuotes      QuoteRequest[] @relation("OriginAirport")
+  destinationQuotes QuoteRequest[] @relation("DestinationAirport")
+
+  @@index([iataCode])
+  @@index([cityName])
+  @@index([countryCode])
+  @@index([regionCode])
+  @@index([isPopular])
+  @@map("airports")
+}
+
+model AirportTranslation {
+  id           String @id @default(uuid()) @db.Uuid
+  entityType   String @map("entity_type") @db.VarChar(20)
+  entityCode   String @map("entity_code") @db.VarChar(10)
+  entityNameEn String @map("entity_name_en") @db.VarChar(100)
+  entityNameEs String @map("entity_name_es") @db.VarChar(100)
+  entityNamePt String @map("entity_name_pt") @db.VarChar(100)
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@unique([entityType, entityCode], name: "unique_entity")
+  @@index([entityType])
+  @@index([entityCode])
+  @@map("airport_translations")
+}
+
+model QuoteRequest {
+  id                    String              @id @default(uuid()) @db.Uuid
+  serviceType           ServiceType         @map("service_type")
+  fullName              String              @map("full_name") @db.VarChar(100)
+  email                 String              @db.VarChar(255)
+  phone                 String?             @db.VarChar(20)
+  passengers            Int
+  origin                String              @db.VarChar(3)
+  destination           String              @db.VarChar(3)
+  departureDate         DateTime            @map("departure_date") @db.Date
+  departureTime         DateTime            @map("departure_time") @db.Time
+  standardBagsCount     Int                 @default(0) @map("standard_bags_count")
+  specialItems          String?             @map("special_items") @db.Text
+  hasPets               Boolean             @default(false) @map("has_pets")
+  petSpecies            String?             @map("pet_species") @db.VarChar(50)
+  petSize               String?             @map("pet_size") @db.VarChar(20)
+  petDocuments          Boolean?            @map("pet_documents")
+  additionalServices    Json?               @map("additional_services")
+  comments              String?             @db.Text
+  locale                String              @db.VarChar(5)
+  privacyConsent        Boolean             @default(true) @map("privacy_consent")
+  ipAddress             String?             @map("ip_address") @db.VarChar(45)
+  userAgent             String?             @map("user_agent") @db.Text
+  utmSource             String?             @map("utm_source") @db.VarChar(50)
+  utmMedium             String?             @map("utm_medium") @db.VarChar(50)
+  utmCampaign           String?             @map("utm_campaign") @db.VarChar(50)
+  createdAt             DateTime            @default(now()) @map("created_at")
+  updatedAt             DateTime            @default(now()) @updatedAt @map("updated_at")
+
+  // Relations
+  originAirport      Airport           @relation("OriginAirport", fields: [origin], references: [iataCode])
+  destinationAirport Airport           @relation("DestinationAirport", fields: [destination], references: [iataCode])
+  emailDeliveries    EmailDelivery[]
+
+  @@index([email])
+  @@index([createdAt], name: "idx_created_desc")
+  @@index([locale])
+  @@index([serviceType])
+  @@index([origin, destination], name: "idx_route")
+  @@index([utmSource])
+  @@map("quote_requests")
+}
+
+model ContactForm {
+  id            String    @id @default(uuid()) @db.Uuid
+  fullName      String    @map("full_name") @db.VarChar(100)
+  email         String    @db.VarChar(255)
+  phone         String?   @db.VarChar(20)
+  subject       String?   @db.VarChar(200)
+  message       String    @db.Text
+  locale        String    @db.VarChar(5)
+  ipAddress     String?   @map("ip_address") @db.VarChar(45)
+  userAgent     String?   @map("user_agent") @db.Text
+  utmSource     String?   @map("utm_source") @db.VarChar(50)
+  utmMedium     String?   @map("utm_medium") @db.VarChar(50)
+  utmCampaign   String?   @map("utm_campaign") @db.VarChar(50)
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  emailDeliveries EmailDelivery[]
+
+  @@index([email])
+  @@index([createdAt])
+  @@index([locale])
+  @@map("contact_forms")
+}
+
+model AnalyticsEvent {
+  id        String   @id @default(uuid()) @db.Uuid
+  eventName String   @map("event_name") @db.VarChar(50)
+  userId    String?  @map("user_id") @db.VarChar(100)
+  sessionId String?  @map("session_id") @db.VarChar(100)
+  eventData Json?    @map("event_data")
+  pagePath  String?  @map("page_path") @db.VarChar(255)
+  referrer  String?  @db.VarChar(255)
+  userAgent String?  @map("user_agent") @db.Text
+  ipAddress String?  @map("ip_address") @db.VarChar(45)
+  locale    String?  @db.VarChar(5)
+  timestamp DateTime @default(now())
+
+  @@index([eventName])
+  @@index([timestamp], name: "idx_timestamp_desc")
+  @@index([locale])
+  @@index([userId])
+  @@index([sessionId])
+  @@map("analytics_events")
+}
+
+model WhatsappClick {
+  id          String   @id @default(uuid()) @db.Uuid
+  sessionId   String?  @map("session_id") @db.VarChar(100)
+  pageSource  String?  @map("page_source") @db.VarChar(255)
+  utmSource   String?  @map("utm_source") @db.VarChar(50)
+  utmMedium   String?  @map("utm_medium") @db.VarChar(50)
+  utmCampaign String?  @map("utm_campaign") @db.VarChar(50)
+  ipAddress   String?  @map("ip_address") @db.VarChar(45)
+  locale      String?  @db.VarChar(5)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@index([sessionId])
+  @@index([pageSource])
+  @@index([createdAt], name: "idx_whatsapp_clicks_created")
+  @@index([locale])
+  @@index([utmSource])
+  @@map("whatsapp_clicks")
+}
+
+model EmailDelivery {
+  id               String        @id @default(uuid()) @db.Uuid
+  quoteRequestId   String?       @map("quote_request_id") @db.Uuid
+  contactFormId    String?       @map("contact_form_id") @db.Uuid
+  emailType        String        @map("email_type") @db.VarChar(50)
+  recipientEmail   String        @map("recipient_email") @db.VarChar(255)
+  senderEmail      String        @map("sender_email") @db.VarChar(255)
+  subject          String        @db.VarChar(500)
+  resendMessageId  String?       @map("resend_message_id") @db.VarChar(100)
+  status           String        @default("pending") @db.VarChar(50)
+  sentAt           DateTime?     @map("sent_at")
+  deliveredAt      DateTime?     @map("delivered_at")
+  bouncedAt        DateTime?     @map("bounced_at")
+  failedAt         DateTime?     @map("failed_at")
+  errorMessage     String?       @map("error_message") @db.Text
+  webhookData      Json?         @map("webhook_data")
+  createdAt        DateTime      @default(now()) @map("created_at")
+  updatedAt        DateTime      @default(now()) @updatedAt @map("updated_at")
+
+  // Relations
+  quoteRequest QuoteRequest? @relation(fields: [quoteRequestId], references: [id], onDelete: Cascade)
+  contactForm  ContactForm?  @relation(fields: [contactFormId], references: [id], onDelete: Cascade)
+
+  @@index([quoteRequestId])
+  @@index([contactFormId])
+  @@index([status])
+  @@index([resendMessageId])
+  @@index([createdAt])
+  @@map("email_deliveries")
+}
+
+model PageContent {
+  id           String      @id @default(uuid()) @db.Uuid
+  pageSlug     String      @map("page_slug") @db.VarChar(100)
+  locale       String      @db.VarChar(5)
+  contentKey   String      @map("content_key") @db.VarChar(100)
+  contentValue String      @map("content_value") @db.Text
+  contentType  ContentType @default(text) @map("content_type")
+  isPublished  Boolean     @default(true) @map("is_published")
+  createdAt    DateTime    @default(now()) @map("created_at")
+  updatedAt    DateTime    @default(now()) @updatedAt @map("updated_at")
+
+  @@unique([pageSlug, locale, contentKey], name: "unique_content")
+  @@index([pageSlug, locale], name: "idx_page_locale")
+  @@index([isPublished])
+  @@map("page_content")
+}
+
+model Faq {
+  id          String   @id @default(uuid()) @db.Uuid
+  question    String   @db.Text
+  answer      String   @db.Text
+  category    String   @db.VarChar(50)
+  locale      String   @db.VarChar(5)
+  sortOrder   Int      @default(0) @map("sort_order")
+  isPublished Boolean  @default(true) @map("is_published")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@index([category, locale, sortOrder], name: "idx_category_locale_order")
+  @@index([isPublished])
+  @@index([locale])
+  @@map("faqs")
+}
+
+model Testimonial {
+  id                String   @id @default(uuid()) @db.Uuid
+  customerName      String   @map("customer_name") @db.VarChar(100)
+  customerTitle     String?  @map("customer_title") @db.VarChar(100)
+  customerCompany   String?  @map("customer_company") @db.VarChar(100)
+  customerLocation  String?  @map("customer_location") @db.VarChar(100)
+  customerPhotoUrl  String?  @map("customer_photo_url") @db.VarChar(500)
+  testimonialText   String   @map("testimonial_text") @db.Text
+  rating            Int?
+  serviceUsed       String?  @map("service_used") @db.VarChar(50)
+  dateOfService     DateTime? @map("date_of_service") @db.Date
+  isFeatured        Boolean  @default(false) @map("is_featured")
+  isPublished       Boolean  @default(true) @map("is_published")
+  locale            String   @db.VarChar(5)
+  sortOrder         Int      @default(0) @map("sort_order")
+  createdAt         DateTime @default(now()) @map("created_at")
+
+  @@index([isPublished, sortOrder], name: "idx_published_order")
+  @@index([isFeatured])
+  @@index([locale])
+  @@index([rating])
+  @@map("testimonials")
+}

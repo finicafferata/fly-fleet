@@ -1,0 +1,27 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "whatWeDo": "Qué hacemos",
+    "quote": "Cotizar",
+    "services": "Servicios",
+    "fleet": "Flota",
+    "faqs": "FAQs",
+    "about": "Nosotros",
+    "contact": "Contacto"
+  },
+  "hero": {
+    "title": "Volá privado, sin complicaciones",
+    "subtitle": "Cotizá tu próximo vuelo en minutos. Operadores certificados y asistencia 24/7",
+    "primaryCTA": "Cotizar ahora",
+    "secondaryCTA": "Hablar por WhatsApp"
+  },
+  "footer": {
+    "description": "Conectamos pasajeros con la mejor opción de aeronave y operador certificado para cada ruta.",
+    "contact": "Contacto",
+    "legal": "Legal",
+    "terms": "Términos y condiciones",
+    "privacy": "Política de privacidad",
+    "cookies": "Política de cookies",
+    "copyright": "© 2025 Fly-Fleet. Todos los derechos reservados."
+  }
+}

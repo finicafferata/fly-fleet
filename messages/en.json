@@ -1,0 +1,27 @@
+{
+  "nav": {
+    "home": "Home",
+    "whatWeDo": "What we do",
+    "quote": "Quote",
+    "services": "Services",
+    "fleet": "Fleet",
+    "faqs": "FAQs",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "Fly private, hassle-free",
+    "subtitle": "Get your next flight quote in minutes. Certified operators and 24/7 support",
+    "primaryCTA": "Get quote now",
+    "secondaryCTA": "WhatsApp us"
+  },
+  "footer": {
+    "description": "We connect passengers with the best aircraft and certified operator option for each route.",
+    "contact": "Contact",
+    "legal": "Legal",
+    "terms": "Terms and conditions",
+    "privacy": "Privacy policy",
+    "cookies": "Cookie policy",
+    "copyright": "© 2025 Fly-Fleet. All rights reserved."
+  }
+}
