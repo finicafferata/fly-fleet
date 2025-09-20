@@ -65,7 +65,6 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 # Copy Prisma files
 COPY --from=builder /app/prisma ./prisma
-COPY --from=builder /app/src/generated ./src/generated
 
 # Copy messages for i18n
 COPY --from=builder /app/messages ./messages
