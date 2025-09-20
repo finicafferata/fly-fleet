@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { PrismaClient } from '../../../generated/prisma';
+import { PrismaClient } from '@prisma/client';
 import { EmailService } from '../../../lib/email/EmailService';
 import { recaptchaService } from '../../../lib/recaptcha/RecaptchaService';
 import {

@@ -1,4 +1,4 @@
-import { PrismaClient } from '../../generated/prisma';
+import { PrismaClient } from '@prisma/client';
 
 // Additional services translations for WhatsApp messages
 const additionalServicesTranslations = {
