@@ -1,0 +1,18 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+numReplicas = 1
+sleepApplication = false
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 10
+
+# Environment-specific settings
+healthcheckPath = "/api/health"
+healthcheckTimeout = 300
+startCommand = "sh -c 'npx prisma migrate deploy && node server.js'"
+
+# Railway deployment optimizations
+[experimental]
+incrementalBuild = true

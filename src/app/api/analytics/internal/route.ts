@@ -156,7 +156,7 @@ async function calculateA11yMetrics(dateFrom: Date) {
         },
         eventData: {
           path: ['screen_reader_detected'],
-          not: null,
+          not: undefined as any,
         },
       },
       select: {

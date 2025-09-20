@@ -85,9 +85,9 @@ export function FormField({
               : 'border-gray-300 bg-white dark:border-gray-600 dark:bg-gray-800',
             'text-gray-900 dark:text-gray-100',
             'placeholder-gray-500 dark:placeholder-gray-400',
-            (children as React.ReactElement).props?.className
+            (children as any).props?.className
           )
-        })}
+        } as any)}
 
         {description && (
           <p

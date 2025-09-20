@@ -362,7 +362,7 @@ export function LanguageSwitcher({
           {languages.map((language, index) => (
             <li role="none" key={language.code}>
               <button
-                ref={(el) => (menuItemRefs.current[index] = el)}
+                ref={(el) => { menuItemRefs.current[index] = el; }}
                 type="button"
                 role="menuitem"
                 onClick={() => switchLanguage(language.code)}

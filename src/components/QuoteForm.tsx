@@ -15,6 +15,7 @@ import { Select } from './ui/Select';
 import { Button } from './ui/Button';
 import { useAnnouncer } from '../hooks/useAnnouncer';
 import { useFocusManagement } from '../hooks/useFocusManagement';
+import { trackFormStart, trackFormSubmitQuote } from '../lib/analytics/accessibleTracking';
 
 interface Airport {
   code: string;
@@ -131,6 +132,7 @@ export function QuoteForm({
   const [showPetSection, setShowPetSection] = useState(false);
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [characterCount, setCharacterCount] = useState(0);
+  const [formStarted, setFormStarted] = useState(false);
 
   const placeholders = accessiblePlaceholders[locale];
 
@@ -145,7 +147,7 @@ export function QuoteForm({
     formState: { errors, isValid },
     reset
   } = useForm<QuoteFormData>({
-    resolver: zodResolver(quoteFormSchema),
+    resolver: zodResolver(quoteFormSchema) as any,
     mode: 'onBlur',
     defaultValues: {
       serviceType: 'charter',
@@ -182,6 +184,17 @@ export function QuoteForm({
       announceAssertive('Please complete the verification before submitting');
       return;
     }
+
+    // Track form submission with exact GA4 format
+    trackFormSubmitQuote({
+      service: data.serviceType,
+      origin: data.departureAirport.code,
+      destination: data.arrivalAirport.code,
+      passengers: data.passengers,
+      standardBagsCount: data.standardBags,
+      pets: showPetSection,
+      additionalServices: selectedServices
+    });
 
     setIsSubmitting(true);
     setSubmitStatus('idle');
@@ -230,9 +243,18 @@ export function QuoteForm({
     } finally {
       setIsSubmitting(false);
     }
-  }, [recaptchaToken, locale, reset, announce, announceAssertive, focusElement, onSubmitSuccess, onSubmitError]);
+  }, [recaptchaToken, locale, reset, announce, announceAssertive, focusElement, onSubmitSuccess, onSubmitError, showPetSection, selectedServices]);
+
+  // Track form start on first interaction
+  const handleFormStart = useCallback(() => {
+    if (!formStarted) {
+      trackFormStart();
+      setFormStarted(true);
+    }
+  }, [formStarted]);
 
   const handleDepartureSelect = useCallback((airport: Airport) => {
+    handleFormStart(); // Track form start on first interaction
     setValue('departureAirport', {
       code: airport.code,
       name: airport.name,
@@ -240,9 +262,10 @@ export function QuoteForm({
       country: airport.country
     }, { shouldValidate: true });
     announce(`Departure airport selected: ${airport.code} - ${airport.name}`, { priority: 'polite' });
-  }, [setValue, announce]);
+  }, [setValue, announce, handleFormStart]);
 
   const handleArrivalSelect = useCallback((airport: Airport) => {
+    handleFormStart(); // Track form start on first interaction
     setValue('arrivalAirport', {
       code: airport.code,
       name: airport.name,
@@ -250,7 +273,7 @@ export function QuoteForm({
       country: airport.country
     }, { shouldValidate: true });
     announce(`Arrival airport selected: ${airport.code} - ${airport.name}`, { priority: 'polite' });
-  }, [setValue, announce]);
+  }, [setValue, announce, handleFormStart]);
 
   const handlePassengerChange = useCallback((increment: boolean) => {
     const newValue = increment

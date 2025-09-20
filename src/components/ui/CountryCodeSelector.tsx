@@ -339,7 +339,7 @@ export function CountryCodeSelector({
                 filteredCountries.map((country, index) => (
                   <button
                     key={country.code}
-                    ref={(el) => (optionRefs.current[index] = el)}
+                    ref={(el) => { optionRefs.current[index] = el; }}
                     type="button"
                     role="option"
                     aria-selected={country.code === currentCode}

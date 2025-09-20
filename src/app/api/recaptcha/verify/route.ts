@@ -20,7 +20,7 @@ const getClientIP = (req: NextRequest): string => {
     return realIP;
   }
 
-  return req.ip || 'unknown';
+  return 'unknown';
 };
 
 // Validate request body

@@ -1,4 +1,4 @@
-import { PrismaClient } from '../../generated/prisma';
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -56,7 +56,7 @@ export class QuoteStatusService {
 
   // Get quote with current status and history
   static async getQuoteWithStatus(quoteId: string): Promise<QuoteWithStatus | null> {
-    const quote = await prisma.quote_requests.findUnique({
+    const quote = await prisma.quoteRequest.findUnique({
       where: { id: quoteId }
     });
 
@@ -107,7 +107,7 @@ export class QuoteStatusService {
     });
 
     // Update quote timestamp
-    await prisma.quote_requests.update({
+    await prisma.quoteRequest.update({
       where: { id: data.quoteId },
       data: { updated_at: new Date() }
     });
@@ -171,7 +171,7 @@ export class QuoteStatusService {
   ): Promise<QuoteWithStatus[]> {
 
     // Get all quotes
-    const quotes = await prisma.quote_requests.findMany({
+    const quotes = await prisma.quoteRequest.findMany({
       skip: offset,
       take: limit,
       orderBy: { created_at: 'desc' }
@@ -220,7 +220,7 @@ export class QuoteStatusService {
     };
 
     // Get all quotes and check their current status
-    const allQuotes = await prisma.quote_requests.findMany({
+    const allQuotes = await prisma.quoteRequest.findMany({
       select: { id: true }
     });
 
@@ -317,7 +317,7 @@ export class QuoteStatusService {
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - daysOld);
 
-    const quotes = await prisma.quote_requests.findMany({
+    const quotes = await prisma.quoteRequest.findMany({
       where: {
         created_at: {
           lt: cutoffDate

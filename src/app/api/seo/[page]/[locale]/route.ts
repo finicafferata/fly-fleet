@@ -1,11 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-interface RouteParams {
-  params: {
-    page: string;
-    locale: string;
-  };
-}
 
 interface MetaTag {
   property?: string;
@@ -38,7 +32,7 @@ interface SEOData {
   };
 }
 
-export async function GET(req: NextRequest, { params }: RouteParams) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ page: string; locale: string }> }) {
   try {
     const { page, locale } = await params;
 

@@ -210,32 +210,58 @@ function trackAccessibleEvent(eventName: string, parameters: ConversionEvent): v
   logInternalEvent(eventName, enhancedParams);
 }
 
-// Form interaction tracking
-function trackFormInteraction(action: 'start' | 'field_complete' | 'validation_error' | 'submit', formData: any = {}): void {
-  const a11yFeatures = getActiveA11yFeatures();
+// Form interaction tracking with exact GA4 format
+function trackFormStart(): void {
+  if (!hasAnalyticsConsent() || typeof window.gtag !== 'function') return;
 
-  trackAccessibleEvent('form_interaction', {
+  // Exact GA4 format as specified
+  window.gtag('event', 'form_start', {
     event_category: 'conversion',
-    event_label: `form_${action}`,
-    value: action === 'submit' ? 1 : 0,
-    custom_parameters: {
-      form_action: action,
-      form_type: formData.formType || 'quote_request',
-      service_type: formData.service,
-      has_accessibility_errors: formData.hasA11yErrors || false,
-      completion_method: getInteractionMethod(),
-      form_fields_count: formData.fieldsCount || 0,
-      form_completion_time: formData.completionTime || 0,
+    form_type: 'quote_request',
+    page_path: window.location.pathname,
+    locale: getCurrentLocale(),
+    utm_source: getUTMParam('utm_source'),
+    utm_medium: getUTMParam('utm_medium'),
+    utm_campaign: getUTMParam('utm_campaign'),
+    device_type: getDeviceType()
+  });
 
-      // Accessibility specific
-      screen_reader_completion: a11yFeatures.screenReaderDetected && action === 'submit',
-      keyboard_only_completion: a11yFeatures.keyboardNavigationUsed && !('ontouchstart' in window),
-    },
+  logInternalEvent('form_start', { form_type: 'quote_request' });
+}
+
+// Form submit tracking with exact GA4 format
+function trackFormSubmitQuote(formData: any): void {
+  if (!hasAnalyticsConsent() || typeof window.gtag !== 'function') return;
+
+  // Exact GA4 format as specified
+  window.gtag('event', 'form_submit_quote', {
+    event_category: 'conversion',
+    event_label: getCurrentLocale(),
+    service_type: formData.service,
+    route: `${formData.origin}-${formData.destination}`,
+    passengers: formData.passengers,
+    standard_bags: formData.standardBagsCount || 0,
+    has_pets: formData.pets || false,
+    additional_services_count: formData.additionalServices?.length || 0,
+    page_path: window.location.pathname,
+    locale: getCurrentLocale(),
+    utm_source: getUTMParam('utm_source'),
+    utm_medium: getUTMParam('utm_medium'),
+    utm_campaign: getUTMParam('utm_campaign'),
+    device_type: getDeviceType(),
+    value: 1 // Conversion value
+  });
+
+  logInternalEvent('form_submit_quote', {
+    service_type: formData.service,
+    route: `${formData.origin}-${formData.destination}`,
   });
 }
 
-// Page view tracking with accessibility context
+// Page view tracking with exact GA4 format
 function trackPageView(pagePath?: string): void {
+  if (!hasAnalyticsConsent() || typeof window.gtag !== 'function') return;
+
   const session = initializeSession();
   const currentPath = pagePath || window.location.pathname;
 
@@ -244,61 +270,107 @@ function trackPageView(pagePath?: string): void {
     session.pageSequence.push(currentPath);
   }
 
-  trackAccessibleEvent('page_view', {
-    event_category: 'navigation',
-    event_label: currentPath,
-    custom_parameters: {
-      page_title: document.title,
-      referrer: document.referrer,
-      page_load_time: getPageLoadTime(),
-      is_repeat_visitor: isRepeatVisitor(),
-    },
+  // Exact GA4 format as specified
+  window.gtag('event', 'page_view', {
+    page_title: document.title,
+    page_location: window.location.href,
+    page_path: currentPath,
+    locale: getCurrentLocale(),
+    utm_source: getUTMParam('utm_source'),
+    utm_medium: getUTMParam('utm_medium'),
+    utm_campaign: getUTMParam('utm_campaign'),
+    device_type: getDeviceType()
+  });
+
+  // Also log to internal analytics
+  logInternalEvent('page_view', {
+    page_title: document.title,
+    page_path: currentPath,
+    locale: getCurrentLocale(),
   });
 }
 
-// CTA click tracking
-function trackCTAClick(ctaType: string, ctaText: string, location: string): void {
-  trackAccessibleEvent('cta_click', {
+// CTA click tracking with exact GA4 format
+function trackCTAClick(ctaType: string, ctaText: string, position: string): void {
+  if (!hasAnalyticsConsent() || typeof window.gtag !== 'function') return;
+
+  // Exact GA4 format as specified
+  window.gtag('event', 'cta_click', {
     event_category: 'engagement',
-    event_label: `${ctaType}_${location}`,
-    value: 1,
-    custom_parameters: {
-      cta_type: ctaType,
-      cta_text: ctaText,
-      cta_location: location,
-      interaction_method: getInteractionMethod(),
-    },
+    event_label: ctaType, // 'quote_button', 'whatsapp_widget', 'header_cta'
+    page_path: window.location.pathname,
+    locale: getCurrentLocale(),
+    cta_position: position, // 'hero', 'footer', 'floating'
+    device_type: getDeviceType()
   });
-}
 
-// WhatsApp click tracking with context
-function trackWhatsAppClick(variant: string, context?: any): void {
-  trackAccessibleEvent('whatsapp_click', {
+  // Also log to internal analytics
+  logInternalEvent('cta_click', {
     event_category: 'engagement',
-    event_label: `whatsapp_${variant}`,
-    value: 1,
-    custom_parameters: {
-      widget_variant: variant,
-      has_form_data: Boolean(context?.formData),
-      page_context: window.location.pathname,
-      user_journey_stage: getUserJourneyStage(),
-    },
+    event_label: ctaType,
+    cta_position: position,
   });
 }
 
-// Conversion tracking
-function trackConversion(conversionType: string, conversionValue?: number): void {
-  trackAccessibleEvent('conversion', {
+// WhatsApp click tracking with exact GA4 format
+function trackWhatsAppClick(formData?: any): void {
+  if (!hasAnalyticsConsent() || typeof window.gtag !== 'function') return;
+
+  // Exact GA4 format as specified
+  window.gtag('event', 'click_whatsapp', {
+    event_category: 'cta',
+    event_label: getCurrentLocale(),
+    page_path: window.location.pathname,
+    locale: getCurrentLocale(),
+    form_data_available: !!formData,
+    utm_source: getUTMParam('utm_source'),
+    utm_medium: getUTMParam('utm_medium'),
+    utm_campaign: getUTMParam('utm_campaign'),
+    device_type: getDeviceType()
+  });
+
+  logInternalEvent('click_whatsapp', {
+    page_path: window.location.pathname,
+    form_data_available: !!formData,
+  });
+}
+
+// Contact success tracking with exact GA4 format
+function trackContactSuccess(contactType: 'form_submission' | 'whatsapp_click' = 'form_submission'): void {
+  if (!hasAnalyticsConsent() || typeof window.gtag !== 'function') return;
+
+  // Exact GA4 format as specified
+  window.gtag('event', 'contact_success', {
     event_category: 'conversion',
-    event_label: conversionType,
-    value: conversionValue || 1,
-    custom_parameters: {
-      conversion_type: conversionType,
-      conversion_timestamp: new Date().toISOString(),
-      session_duration: getSessionDuration(),
-      pages_before_conversion: sessionContext?.pageSequence.length || 1,
-    },
+    contact_type: contactType,
+    page_path: window.location.pathname,
+    locale: getCurrentLocale(),
+    device_type: getDeviceType()
   });
+
+  logInternalEvent('contact_success', {
+    contact_type: contactType,
+    page_path: window.location.pathname,
+  });
+}
+
+// Generic conversion tracking for backward compatibility
+function trackConversion(conversionType: string, conversionValue?: number): void {
+  if (conversionType === 'contact_success') {
+    trackContactSuccess('form_submission');
+  } else {
+    trackAccessibleEvent('conversion', {
+      event_category: 'conversion',
+      event_label: conversionType,
+      value: conversionValue || 1,
+      custom_parameters: {
+        conversion_type: conversionType,
+        conversion_timestamp: new Date().toISOString(),
+        session_duration: getSessionDuration(),
+        pages_before_conversion: sessionContext?.pageSequence.length || 1,
+      },
+    });
+  }
 }
 
 // Helper functions
@@ -394,10 +466,12 @@ if (typeof window !== 'undefined') {
 
 export {
   trackAccessibleEvent,
-  trackFormInteraction,
+  trackFormStart,
+  trackFormSubmitQuote,
   trackPageView,
   trackCTAClick,
   trackWhatsAppClick,
+  trackContactSuccess,
   trackConversion,
   hasAnalyticsConsent,
   setAnalyticsConsent,

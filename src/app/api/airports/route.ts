@@ -179,7 +179,7 @@ const searchAirports = async (query: string, locale: string): Promise<AirportSea
 
     // Sort by score and take top 10
     const sortedResults = scoredResults
-      .sort((a, b) => b.score - a.score || b.isPopular - a.isPopular)
+      .sort((a, b) => b.score - a.score || (b.isPopular ? 1 : 0) - (a.isPopular ? 1 : 0))
       .slice(0, 10);
 
     // Format results with accessibility information
@@ -194,7 +194,7 @@ const searchAirports = async (query: string, locale: string): Promise<AirportSea
         },
         index + 1,
         sortedResults.length,
-        locale
+        locale as any
       );
 
       return {
@@ -273,7 +273,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json(
         {
           ...ariaError,
-          details: validationResult.error.errors,
+          details: validationResult.error.issues,
           accessibility: {
             ...ariaError.accessibility,
             fieldTarget: '#airport-search-input',

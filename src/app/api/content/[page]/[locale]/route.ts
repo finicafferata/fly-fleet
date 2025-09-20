@@ -1,14 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { contentService } from '../../../../../lib/content/ContentService';
 
-interface RouteParams {
-  params: {
-    page: string;
-    locale: string;
-  };
-}
-
-export async function GET(req: NextRequest, { params }: RouteParams) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ page: string; locale: string }> }) {
   try {
     const { page, locale } = await params;
     const { searchParams } = new URL(req.url);

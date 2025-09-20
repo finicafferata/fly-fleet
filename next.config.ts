@@ -4,19 +4,32 @@ const withNextIntl = createNextIntlPlugin('./src/i18n.ts');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Enable output file tracing for Railway deployment optimization
+  output: 'standalone',
+
   // Enable experimental features for better performance
   experimental: {
     optimizePackageImports: ['@headlessui/react', 'react-hook-form']
   },
+
   // Image domains for external images
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: '**.fly-fleet.com'
+        protocol: 'https' as const,
+        hostname: '**.fly-fleet.com',
+        port: '',
+        pathname: '/**'
+      },
+      {
+        protocol: 'https' as const,
+        hostname: '**.railway.app',
+        port: '',
+        pathname: '/**'
       }
     ]
   },
+
   // Security headers
   async headers() {
     return [

@@ -1,0 +1,624 @@
+'use client';
+
+import React, { useState, useEffect, useRef } from 'react';
+import { clsx } from 'clsx';
+import { Button } from './ui/Button';
+import { trackCTAClick } from '../lib/analytics/accessibleTracking';
+
+interface TestimonialsComponentProps {
+  locale?: 'en' | 'es' | 'pt';
+  className?: string;
+  variant?: 'carousel' | 'grid';
+  showCTA?: boolean;
+  onQuoteClick?: () => void;
+}
+
+interface Testimonial {
+  id: string;
+  customerName: string;
+  customerTitle: string;
+  customerCompany: string;
+  customerLocation: string;
+  customerPhoto: string;
+  testimonialText: string;
+  rating: number;
+  serviceUsed: string;
+  dateOfService: string;
+  isFeatured: boolean;
+  videoUrl?: string;
+}
+
+export function TestimonialsComponent({
+  locale = 'en',
+  className,
+  variant = 'carousel',
+  showCTA = false,
+  onQuoteClick
+}: TestimonialsComponentProps) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [announceText, setAnnounceText] = useState('');
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
+
+  const getContent = (locale: string) => {
+    const content = {
+      en: {
+        title: 'What Our Clients Say',
+        subtitle: 'Real experiences from satisfied customers who trust Fly-Fleet for their private aviation needs',
+        readMore: 'Read More',
+        readLess: 'Read Less',
+        playVideo: 'Play Video Testimonial',
+        pauseCarousel: 'Pause carousel',
+        playCarousel: 'Play carousel',
+        nextTestimonial: 'Next testimonial',
+        prevTestimonial: 'Previous testimonial',
+        starRating: (rating: number) => `${rating} out of 5 stars`,
+        cta: {
+          title: 'Experience Excellence Yourself',
+          subtitle: 'Join hundreds of satisfied clients who trust Fly-Fleet',
+          button: 'Get Your Quote'
+        },
+        testimonials: [
+          {
+            id: 'testimonial-1',
+            customerName: 'Carlos Mendoza',
+            customerTitle: 'CEO',
+            customerCompany: 'TechCorp Latin America',
+            customerLocation: 'São Paulo, Brazil',
+            customerPhoto: '/images/testimonials/carlos-mendoza.jpg',
+            testimonialText: 'Fly-Fleet exceeded all expectations. The booking process was seamless, the aircraft was immaculate, and the crew was incredibly professional. As someone who travels frequently for business, I can confidently say this was the best private aviation experience I\'ve ever had. The attention to detail and customer service is simply outstanding.',
+            rating: 5,
+            serviceUsed: 'Private Charter',
+            dateOfService: '2024-02-15',
+            isFeatured: true,
+            videoUrl: '/videos/testimonials/carlos-mendoza.mp4'
+          },
+          {
+            id: 'testimonial-2',
+            customerName: 'Maria Rodriguez',
+            customerTitle: 'Investment Director',
+            customerCompany: 'Global Capital Partners',
+            customerLocation: 'Mexico City, Mexico',
+            customerPhoto: '/images/testimonials/maria-rodriguez.jpg',
+            testimonialText: 'When we needed to get our team to Buenos Aires for a critical deal, Fly-Fleet made it happen with just 6 hours notice. The professionalism and efficiency were remarkable. They coordinated everything perfectly, from ground transportation to catering. This level of service is exactly what you need when business can\'t wait.',
+            rating: 5,
+            serviceUsed: 'Emergency Charter',
+            dateOfService: '2024-01-28',
+            isFeatured: true
+          },
+          {
+            id: 'testimonial-3',
+            customerName: 'Roberto Silva',
+            customerTitle: 'Managing Partner',
+            customerCompany: 'Silva & Associates',
+            customerLocation: 'Buenos Aires, Argentina',
+            customerPhoto: '/images/testimonials/roberto-silva.jpg',
+            testimonialText: 'Flying with Fly-Fleet for our multi-city Latin American tour was extraordinary. They handled complex logistics across six countries seamlessly. Each flight was perfectly timed, the aircraft were top-tier, and the local support was exceptional. It allowed us to focus on business while they handled every detail of our travel.',
+            rating: 5,
+            serviceUsed: 'Multi-City Charter',
+            dateOfService: '2024-03-10',
+            isFeatured: true
+          },
+          {
+            id: 'testimonial-4',
+            customerName: 'Ana Gutierrez',
+            customerTitle: 'Family Office Director',
+            customerCompany: 'Private Family Office',
+            customerLocation: 'Santiago, Chile',
+            customerPhoto: '/images/testimonials/ana-gutierrez.jpg',
+            testimonialText: 'Safety and reliability are paramount when traveling with family. Fly-Fleet\'s commitment to both is evident in every aspect of their service. From the pilot briefings to the aircraft maintenance standards, everything exceeds commercial aviation. My family and I always feel secure and well-cared for.',
+            rating: 5,
+            serviceUsed: 'Family Charter',
+            dateOfService: '2024-02-22',
+            isFeatured: false
+          },
+          {
+            id: 'testimonial-5',
+            customerName: 'James Patterson',
+            customerTitle: 'Board Member',
+            customerCompany: 'International Mining Corp',
+            customerLocation: 'Miami, USA',
+            customerPhoto: '/images/testimonials/james-patterson.jpg',
+            testimonialText: 'Fly-Fleet\'s empty leg program offers incredible value without compromising on quality. I\'ve saved thousands while maintaining the luxury and convenience I expect. The team proactively notifies me of opportunities that match my travel patterns. It\'s smart, efficient, and cost-effective.',
+            rating: 5,
+            serviceUsed: 'Empty Leg Flights',
+            dateOfService: '2024-01-12',
+            isFeatured: false
+          },
+          {
+            id: 'testimonial-6',
+            customerName: 'Isabella Costa',
+            customerTitle: 'Marketing Director',
+            customerCompany: 'Costa Enterprises',
+            customerLocation: 'Rio de Janeiro, Brazil',
+            customerPhoto: '/images/testimonials/isabella-costa.jpg',
+            testimonialText: 'The helicopter transfer from Santos Dumont to our resort was breathtaking and incredibly convenient. Fly-Fleet arranged everything perfectly, including ground coordination and luggage handling. It transformed what would have been a stressful commute into a memorable experience. Highly recommend their helicopter services.',
+            rating: 5,
+            serviceUsed: 'Helicopter Transfer',
+            dateOfService: '2024-03-05',
+            isFeatured: false
+          }
+        ]
+      },
+      es: {
+        title: 'Lo Que Dicen Nuestros Clientes',
+        subtitle: 'Experiencias reales de clientes satisfechos que confían en Fly-Fleet para sus necesidades de aviación privada',
+        readMore: 'Leer Más',
+        readLess: 'Leer Menos',
+        playVideo: 'Reproducir Video Testimonial',
+        pauseCarousel: 'Pausar carrusel',
+        playCarousel: 'Reproducir carrusel',
+        nextTestimonial: 'Siguiente testimonio',
+        prevTestimonial: 'Testimonio anterior',
+        starRating: (rating: number) => `${rating} de 5 estrellas`,
+        cta: {
+          title: 'Experimenta la Excelencia Tú Mismo',
+          subtitle: 'Únete a cientos de clientes satisfechos que confían en Fly-Fleet',
+          button: 'Obtener Cotización'
+        },
+        testimonials: [
+          {
+            id: 'testimonial-1',
+            customerName: 'Carlos Mendoza',
+            customerTitle: 'CEO',
+            customerCompany: 'TechCorp Latin America',
+            customerLocation: 'São Paulo, Brasil',
+            customerPhoto: '/images/testimonials/carlos-mendoza.jpg',
+            testimonialText: 'Fly-Fleet superó todas las expectativas. El proceso de reserva fue perfecto, la aeronave estaba impecable y la tripulación fue increíblemente profesional. Como alguien que viaja frecuentemente por negocios, puedo decir con confianza que esta fue la mejor experiencia de aviación privada que he tenido. La atención al detalle y el servicio al cliente es simplemente excepcional.',
+            rating: 5,
+            serviceUsed: 'Charter Privado',
+            dateOfService: '2024-02-15',
+            isFeatured: true,
+            videoUrl: '/videos/testimonials/carlos-mendoza.mp4'
+          },
+          {
+            id: 'testimonial-2',
+            customerName: 'Maria Rodriguez',
+            customerTitle: 'Directora de Inversiones',
+            customerCompany: 'Global Capital Partners',
+            customerLocation: 'Ciudad de México, México',
+            customerPhoto: '/images/testimonials/maria-rodriguez.jpg',
+            testimonialText: 'Cuando necesitamos llevar a nuestro equipo a Buenos Aires para un negocio crítico, Fly-Fleet lo hizo posible con solo 6 horas de aviso. El profesionalismo y la eficiencia fueron notables. Coordinaron todo perfectamente, desde el transporte terrestre hasta el catering. Este nivel de servicio es exactamente lo que necesitas cuando los negocios no pueden esperar.',
+            rating: 5,
+            serviceUsed: 'Charter de Emergencia',
+            dateOfService: '2024-01-28',
+            isFeatured: true
+          }
+          // Additional Spanish testimonials...
+        ]
+      },
+      pt: {
+        title: 'O Que Nossos Clientes Dizem',
+        subtitle: 'Experiências reais de clientes satisfeitos que confiam na Fly-Fleet para suas necessidades de aviação privada',
+        readMore: 'Ler Mais',
+        readLess: 'Ler Menos',
+        playVideo: 'Reproduzir Vídeo Depoimento',
+        pauseCarousel: 'Pausar carrossel',
+        playCarousel: 'Reproduzir carrossel',
+        nextTestimonial: 'Próximo depoimento',
+        prevTestimonial: 'Depoimento anterior',
+        starRating: (rating: number) => `${rating} de 5 estrelas`,
+        cta: {
+          title: 'Experimente a Excelência Você Mesmo',
+          subtitle: 'Junte-se a centenas de clientes satisfeitos que confiam na Fly-Fleet',
+          button: 'Obter Cotação'
+        },
+        testimonials: [
+          {
+            id: 'testimonial-1',
+            customerName: 'Carlos Mendoza',
+            customerTitle: 'CEO',
+            customerCompany: 'TechCorp Latin America',
+            customerLocation: 'São Paulo, Brasil',
+            customerPhoto: '/images/testimonials/carlos-mendoza.jpg',
+            testimonialText: 'A Fly-Fleet superou todas as expectativas. O processo de reserva foi perfeito, a aeronave estava impecável e a tripulação foi incrivelmente profissional. Como alguém que viaja frequentemente a negócios, posso dizer com confiança que esta foi a melhor experiência de aviação privada que já tive. A atenção aos detalhes e o atendimento ao cliente é simplesmente excepcional.',
+            rating: 5,
+            serviceUsed: 'Charter Privado',
+            dateOfService: '2024-02-15',
+            isFeatured: true,
+            videoUrl: '/videos/testimonials/carlos-mendoza.mp4'
+          },
+          {
+            id: 'testimonial-2',
+            customerName: 'Maria Rodriguez',
+            customerTitle: 'Diretora de Investimentos',
+            customerCompany: 'Global Capital Partners',
+            customerLocation: 'Cidade do México, México',
+            customerPhoto: '/images/testimonials/maria-rodriguez.jpg',
+            testimonialText: 'Quando precisamos levar nossa equipe a Buenos Aires para um negócio crítico, a Fly-Fleet tornou isso possível com apenas 6 horas de aviso. O profissionalismo e a eficiência foram notáveis. Eles coordenaram tudo perfeitamente, desde o transporte terrestre até o catering. Este nível de serviço é exatamente o que você precisa quando os negócios não podem esperar.',
+            rating: 5,
+            serviceUsed: 'Charter de Emergência',
+            dateOfService: '2024-01-28',
+            isFeatured: true
+          }
+          // Additional Portuguese testimonials...
+        ]
+      }
+    };
+    return content[locale as keyof typeof content] || content.en;
+  };
+
+  const content = getContent(locale);
+  const featuredTestimonials = content.testimonials.filter(t => t.isFeatured);
+  const displayTestimonials = variant === 'carousel' ? featuredTestimonials : content.testimonials;
+
+  // Auto-play carousel
+  useEffect(() => {
+    if (variant === 'carousel' && isAutoPlaying && displayTestimonials.length > 1) {
+      autoPlayRef.current = setInterval(() => {
+        setActiveIndex((prev) => {
+          const newIndex = (prev + 1) % displayTestimonials.length;
+          setAnnounceText(`Showing testimonial ${newIndex + 1} of ${displayTestimonials.length}`);
+          return newIndex;
+        });
+      }, 5000);
+    }
+
+    return () => {
+      if (autoPlayRef.current) {
+        clearInterval(autoPlayRef.current);
+      }
+    };
+  }, [isAutoPlaying, displayTestimonials.length, variant]);
+
+  // Keyboard navigation for carousel
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (variant === 'carousel' && carouselRef.current?.contains(document.activeElement)) {
+        switch (event.key) {
+          case 'ArrowLeft':
+            event.preventDefault();
+            setActiveIndex((prev) => {
+              const newIndex = (prev - 1 + displayTestimonials.length) % displayTestimonials.length;
+              setAnnounceText(`Showing testimonial ${newIndex + 1} of ${displayTestimonials.length}`);
+              return newIndex;
+            });
+            break;
+          case 'ArrowRight':
+            event.preventDefault();
+            setActiveIndex((prev) => {
+              const newIndex = (prev + 1) % displayTestimonials.length;
+              setAnnounceText(`Showing testimonial ${newIndex + 1} of ${displayTestimonials.length}`);
+              return newIndex;
+            });
+            break;
+          case ' ':
+            event.preventDefault();
+            setIsAutoPlaying(!isAutoPlaying);
+            setAnnounceText(isAutoPlaying ? 'Carousel paused' : 'Carousel playing');
+            break;
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [variant, isAutoPlaying, displayTestimonials.length]);
+
+  const renderStars = (rating: number) => {
+    return Array.from({ length: 5 }, (_, index) => (
+      <svg
+        key={index}
+        className={clsx(
+          'w-5 h-5',
+          index < rating ? 'text-yellow-400 fill-current' : 'text-neutral-medium'
+        )}
+        viewBox="0 0 20 20"
+        aria-hidden="true"
+      >
+        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+      </svg>
+    ));
+  };
+
+  const TestimonialCard = ({ testimonial, isActive = false }: { testimonial: Testimonial; isActive?: boolean }) => {
+    const [isExpanded, setIsExpanded] = useState(false);
+    const [showVideo, setShowVideo] = useState(false);
+    const shouldTruncate = testimonial.testimonialText.length > 200;
+    const displayText = !isExpanded && shouldTruncate
+      ? `${testimonial.testimonialText.substring(0, 200)}...`
+      : testimonial.testimonialText;
+
+    return (
+      <div
+        className={clsx(
+          'bg-white rounded-lg shadow-medium p-8 h-full',
+          variant === 'grid' && 'hover:shadow-large transition-shadow duration-300',
+          variant === 'carousel' && isActive && 'ring-2 ring-accent-blue/50'
+        )}
+      >
+        {/* Video Section */}
+        {testimonial.videoUrl && (
+          <div className="mb-6">
+            {!showVideo ? (
+              <div className="relative">
+                <img
+                  src={testimonial.customerPhoto}
+                  alt={testimonial.customerName}
+                  className="w-full h-48 object-cover rounded-lg"
+                  loading="lazy"
+                />
+                <button
+                  onClick={() => setShowVideo(true)}
+                  className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-lg hover:bg-black/60 transition-colors"
+                  aria-label={content.playVideo}
+                >
+                  <svg className="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                  </svg>
+                </button>
+              </div>
+            ) : (
+              <video
+                controls
+                autoPlay
+                className="w-full h-48 rounded-lg"
+                poster={testimonial.customerPhoto}
+              >
+                <source src={testimonial.videoUrl} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            )}
+          </div>
+        )}
+
+        {/* Rating */}
+        <div className="flex items-center mb-4">
+          <div className="flex" aria-label={content.starRating(testimonial.rating)}>
+            {renderStars(testimonial.rating)}
+          </div>
+          <span className="sr-only">{content.starRating(testimonial.rating)}</span>
+        </div>
+
+        {/* Testimonial Text */}
+        <blockquote className="text-neutral-dark mb-6 leading-relaxed">
+          <p>"{displayText}"</p>
+          {shouldTruncate && (
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="mt-2 text-accent-blue hover:text-navy-primary font-medium text-sm transition-colors"
+            >
+              {isExpanded ? content.readLess : content.readMore}
+            </button>
+          )}
+        </blockquote>
+
+        {/* Customer Info */}
+        <div className="flex items-start space-x-4">
+          {!testimonial.videoUrl && (
+            <img
+              src={testimonial.customerPhoto}
+              alt={testimonial.customerName}
+              className="w-16 h-16 rounded-full object-cover border-2 border-neutral-light"
+              loading="lazy"
+            />
+          )}
+          <div className="flex-1">
+            <div className="font-semibold text-navy-primary">{testimonial.customerName}</div>
+            <div className="text-sm text-accent-blue">{testimonial.customerTitle}</div>
+            <div className="text-sm text-neutral-medium">{testimonial.customerCompany}</div>
+            <div className="text-xs text-neutral-medium mt-1">
+              {testimonial.customerLocation} • {testimonial.serviceUsed}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const handleCTAClick = () => {
+    trackCTAClick('quote_button', content.cta.button, 'testimonials');
+    onQuoteClick?.();
+  };
+
+  // Schema.org Review structured data
+  const reviewSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Fly-Fleet",
+    "review": displayTestimonials.map(testimonial => ({
+      "@type": "Review",
+      "author": {
+        "@type": "Person",
+        "name": testimonial.customerName
+      },
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": testimonial.rating,
+        "bestRating": 5
+      },
+      "reviewBody": testimonial.testimonialText,
+      "datePublished": testimonial.dateOfService
+    }))
+  };
+
+  if (variant === 'carousel') {
+    return (
+      <section className={clsx('testimonials', className)} aria-labelledby="testimonials-title">
+        {/* Schema.org structured data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }}
+        />
+
+        <div className="text-center mb-12">
+          <h2 id="testimonials-title" className="text-3xl md:text-4xl font-bold text-navy-primary mb-4">
+            {content.title}
+          </h2>
+          <p className="text-lg text-neutral-medium max-w-2xl mx-auto">
+            {content.subtitle}
+          </p>
+        </div>
+
+        <div
+          ref={carouselRef}
+          className="testimonials-carousel relative max-w-4xl mx-auto"
+          role="region"
+          aria-label="Customer testimonials"
+        >
+          {/* Screen reader announcements */}
+          <div aria-live="polite" aria-atomic="true" className="sr-only">
+            {announceText}
+          </div>
+          {/* Carousel Content */}
+          <div className="carousel-container overflow-hidden" aria-live="polite">
+            <div
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+            >
+              {displayTestimonials.map((testimonial, index) => (
+                <article
+                  key={testimonial.id}
+                  className={clsx(
+                    'testimonial-card w-full flex-shrink-0 px-4',
+                    index === activeIndex ? 'active' : ''
+                  )}
+                  aria-hidden={index !== activeIndex}
+                >
+                  <TestimonialCard testimonial={testimonial} isActive={index === activeIndex} />
+                </article>
+              ))}
+            </div>
+          </div>
+
+          {/* Navigation Controls */}
+          <div className="carousel-controls" role="group" aria-label="Testimonial navigation">
+            {displayTestimonials.length > 1 && (
+              <>
+                <button
+                  className="carousel-prev absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white rounded-full p-3 shadow-large hover:shadow-xl transition-shadow focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                  onClick={() => {
+                    const newIndex = (activeIndex - 1 + displayTestimonials.length) % displayTestimonials.length;
+                    setActiveIndex(newIndex);
+                    setAnnounceText(`Showing testimonial ${newIndex + 1} of ${displayTestimonials.length}`);
+                  }}
+                  aria-label={content.prevTestimonial}
+                  disabled={activeIndex === 0}
+                >
+                  <span aria-hidden="true">‹</span>
+                </button>
+
+                <button
+                  className="carousel-next absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white rounded-full p-3 shadow-large hover:shadow-xl transition-shadow focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                  onClick={() => {
+                    const newIndex = (activeIndex + 1) % displayTestimonials.length;
+                    setActiveIndex(newIndex);
+                    setAnnounceText(`Showing testimonial ${newIndex + 1} of ${displayTestimonials.length}`);
+                  }}
+                  aria-label={content.nextTestimonial}
+                  disabled={activeIndex === displayTestimonials.length - 1}
+                >
+                  <span aria-hidden="true">›</span>
+                </button>
+
+              {/* Auto-play Control */}
+              <button
+                onClick={() => setIsAutoPlaying(!isAutoPlaying)}
+                className="absolute top-4 right-4 bg-white/90 rounded-full p-2 shadow-medium hover:shadow-large transition-shadow focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                aria-label={isAutoPlaying ? content.pauseCarousel : content.playCarousel}
+              >
+                {isAutoPlaying ? (
+                  <svg className="w-4 h-4 text-navy-primary" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M5 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1H6a1 1 0 01-1-1V4zM11 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
+                  </svg>
+                ) : (
+                  <svg className="w-4 h-4 text-navy-primary" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                  </svg>
+                )}
+              </button>
+
+                {/* Dots Indicator */}
+                <div className="carousel-indicators flex justify-center mt-8 space-x-2" role="tablist" aria-label="Choose testimonial">
+                  {displayTestimonials.map((_, index) => (
+                    <button
+                      key={index}
+                      role="tab"
+                      className={clsx(
+                        'indicator w-3 h-3 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2',
+                        index === activeIndex ? 'bg-accent-blue active' : 'bg-neutral-medium/30 hover:bg-neutral-medium/50'
+                      )}
+                      aria-selected={index === activeIndex}
+                      aria-label={`Go to testimonial ${index + 1}`}
+                      onClick={() => {
+                        setActiveIndex(index);
+                        setAnnounceText(`Showing testimonial ${index + 1} of ${displayTestimonials.length}`);
+                      }}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* CTA Section */}
+        {showCTA && (
+          <div className="text-center mt-16">
+            <h3 className="text-2xl font-bold text-navy-primary mb-4">
+              {content.cta.title}
+            </h3>
+            <p className="text-lg text-neutral-medium mb-8">
+              {content.cta.subtitle}
+            </p>
+            <Button
+              onClick={handleCTAClick}
+              size="lg"
+              className="bg-accent-blue hover:bg-accent-blue/90 text-white"
+            >
+              {content.cta.button}
+            </Button>
+          </div>
+        )}
+      </section>
+    );
+  }
+
+  // Grid variant
+  return (
+    <section className={clsx('testimonials', className)} aria-labelledby="testimonials-title">
+      {/* Schema.org structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }}
+      />
+
+      <div className="text-center mb-12">
+        <h2 id="testimonials-title" className="text-3xl md:text-4xl font-bold text-navy-primary mb-4">
+          {content.title}
+        </h2>
+        <p className="text-lg text-neutral-medium max-w-2xl mx-auto">
+          {content.subtitle}
+        </p>
+      </div>
+
+      <div className="testimonials-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" role="list" aria-label="All testimonials">
+        {displayTestimonials.map((testimonial) => (
+          <article className="testimonial-summary" role="listitem" key={testimonial.id}>
+            <TestimonialCard testimonial={testimonial} />
+          </article>
+        ))}
+      </div>
+
+      {/* CTA Section */}
+      {showCTA && (
+        <div className="text-center mt-16">
+          <h3 className="text-2xl font-bold text-navy-primary mb-4">
+            {content.cta.title}
+          </h3>
+          <p className="text-lg text-neutral-medium mb-8">
+            {content.cta.subtitle}
+          </p>
+          <Button
+            onClick={handleCTAClick}
+            size="lg"
+            className="bg-accent-blue hover:bg-accent-blue/90 text-white"
+          >
+            {content.cta.button}
+          </Button>
+        </div>
+      )}
+    </section>
+  );
+}

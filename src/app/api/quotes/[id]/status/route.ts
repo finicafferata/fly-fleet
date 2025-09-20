@@ -1,14 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '../../../../../generated/prisma';
+import { PrismaClient } from '@prisma/client';
 import { z } from 'zod';
 
 const prisma = new PrismaClient();
 
-interface RouteParams {
-  params: {
-    id: string;
-  };
-}
 
 // Status validation schema
 const QuoteStatusUpdateSchema = z.object({
@@ -39,7 +34,7 @@ interface StatusChangeLog {
   userAgent?: string;
 }
 
-export async function PATCH(req: NextRequest, { params }: RouteParams) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
 
@@ -59,7 +54,7 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
       return NextResponse.json(
         {
           error: 'Validation failed',
-          details: validationResult.error.errors
+          details: validationResult.error.issues
         },
         { status: 400 }
       );
@@ -76,7 +71,7 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
     }
 
     // Get current quote
-    const currentQuote = await prisma.quote_requests.findUnique({
+    const currentQuote = await prisma.quoteRequest.findUnique({
       where: { id },
       select: {
         id: true,
@@ -133,7 +128,7 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
     });
 
     // Update quote's updated_at timestamp
-    const updatedQuote = await prisma.quote_requests.update({
+    const updatedQuote = await prisma.quoteRequest.update({
       where: { id },
       data: {
         updated_at: new Date()
@@ -198,7 +193,7 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
 }
 
 // GET endpoint to retrieve quote status and history
-export async function GET(req: NextRequest, { params }: RouteParams) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
 
@@ -211,7 +206,7 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
     }
 
     // Get quote
-    const quote = await prisma.quote_requests.findUnique({
+    const quote = await prisma.quoteRequest.findUnique({
       where: { id }
     });
 
@@ -271,7 +266,7 @@ function isValidAdminToken(token: string, email: string): boolean {
 
 function isValidStatusTransition(fromStatus: string, toStatus: string): boolean {
   const validTransitions = VALID_STATUS_TRANSITIONS[fromStatus as keyof typeof VALID_STATUS_TRANSITIONS];
-  return validTransitions ? validTransitions.includes(toStatus) : false;
+  return validTransitions ? (validTransitions as string[]).includes(toStatus) : false;
 }
 
 async function createStatusChangeLog(data: {
@@ -355,7 +350,7 @@ async function getQuoteStatusHistory(quoteId: string) {
     }
   });
 
-  return statusEvents.map(event => {
+  return statusEvents.map((event: any) => {
     const eventData = event.event_data as any;
     return {
       id: event.id,

@@ -14,7 +14,7 @@ const getClientIP = (req: NextRequest): string => {
     return realIP;
   }
 
-  return req.ip || 'unknown';
+  return 'unknown';
 };
 
 // Extract UTM parameters from request
@@ -171,9 +171,9 @@ export async function POST(req: NextRequest) {
     const utmParams = extractUTMParams(req, body);
 
     // Add UTM parameters to request data
-    requestData.utmSource = utmParams.utm_source;
-    requestData.utmMedium = utmParams.utm_medium;
-    requestData.utmCampaign = utmParams.utm_campaign;
+    requestData.utmSource = utmParams.utm_source || undefined;
+    requestData.utmMedium = utmParams.utm_medium || undefined;
+    requestData.utmCampaign = utmParams.utm_campaign || undefined;
 
     // Generate WhatsApp link and store click
     const result = await whatsappService.generateWhatsAppLink(

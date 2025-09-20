@@ -1,13 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { faqService } from '../../../../lib/faq/FAQService';
 
-interface RouteParams {
-  params: {
-    locale: string;
-  };
-}
-
-export async function GET(req: NextRequest, { params }: RouteParams) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ locale: string }> }) {
   try {
     const { locale } = await params;
     const { searchParams } = new URL(req.url);

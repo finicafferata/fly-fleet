@@ -11,6 +11,7 @@ import { LiveRegion } from './ui/LiveRegion';
 import { VisuallyHidden } from './ui/VisuallyHidden';
 import { useAnnouncer } from '../hooks/useAnnouncer';
 import { useFocusManagement } from '../hooks/useFocusManagement';
+import { trackContactSuccess } from '../lib/analytics/accessibleTracking';
 
 const contactFormSchema = z.object({
   inquiryType: z.enum(['general', 'quote', 'support', 'partnership', 'media']),
@@ -120,6 +121,9 @@ export function ContactForm({
 
       setSubmitStatus('success');
       setAnnouncement(result.accessibility?.ariaLiveMessage || 'Message sent successfully');
+
+      // Track contact success with exact GA4 format
+      trackContactSuccess('form_submission');
 
       // Focus management for success state
       if (result.accessibility?.focusTarget) {

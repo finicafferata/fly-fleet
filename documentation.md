@@ -1270,3 +1270,771 @@ Smart error recovery suggestions
 Keyboard shortcut for error navigation
 High contrast error styling with navy/accent colors
 Estimated Hours: 12-15 hours
+
+Epic 3: Content Pages & Trust Building (P1)
+FE-2.1: About Page Component
+As a visitor I want to learn about Fly-Fleet So that I can trust their services
+Acceptance Criteria:
+[ ] Create About page layout with company story, team, certifications
+[ ] Statistics dashboard with animated counters
+[ ] Trust signal components (badges, certificates)
+[ ] Call-to-action sections
+[ ] Professional photography integration
+Estimated Hours: 14-18 hours
+FE-2.2: Services Page Component
+As a visitor I want detailed service information So that I can understand all offerings
+Acceptance Criteria:
+[ ] Create Services page with category cards
+[ ] Aircraft type comparisons with specs
+[ ] Route examples with sample pricing ranges
+[ ] Additional services detail
+[ ] Fleet showcase with images
+Estimated Hours: 16-20 hours
+FE-2.3: FAQ Component
+As a visitor I want to find answers to common questions So that I can get information without contacting support
+Acceptance Criteria:
+[ ] Create FAQ component with accordion-style questions
+[ ] Category filtering tabs
+[ ] Search functionality within FAQs
+[ ] Schema.org FAQPage markup for SEO
+[ ] Mobile-optimized design
+Estimated Hours: 12-15 hours
+FE-2.4: Testimonials Component
+As a visitor I want to see customer reviews So that I can assess service quality
+Acceptance Criteria:
+[ ] Create testimonial components (carousel + grid)
+[ ] Star rating display
+[ ] Customer photo and company info
+[ ] Schema.org Review markup for SEO
+[ ] Video testimonials support
+Estimated Hours: 10-12 hours
+FE-2.5: Contact Page Component
+As a visitor I want multiple contact options So that I can reach out in my preferred way
+Acceptance Criteria:
+[ ] Create Contact page with contact form
+[ ] Contact information display
+[ ] Business hours by timezone
+[ ] WhatsApp integration prominent
+[ ] Map integration (Google Maps embed)
+Estimated Hours: 12-15 hours
+FE-2.6: Legal Pages Component
+As a visitor I want to understand terms and privacy policies So that I know how my data is handled
+Acceptance Criteria:
+[ ] Create legal page templates for Terms, Privacy, Cookies
+[ ] All pages in 3 languages
+[ ] Clear, readable formatting
+[ ] Table of contents for navigation
+[ ] Mobile-optimized layout
+Estimated Hours: 10-12 hours
+
+# Epic 4: SEO & Performance Optimization (P1)
+
+### FE-3.1: SEO Head Component (ACCESSIBLE)
+**As a** search engine and user **I want** optimized, accessible meta tags **So that** content is properly indexed and announced to all users
+
+**Acceptance Criteria:**
+- [ ] Implement comprehensive SEO with accessibility:
+```typescript
+const AccessibleSEOHead = ({ page, locale }) => {
+  const seoData = getSEOData(page, locale);
+  
+  return (
+    <Head>
+      {/* Basic Meta Tags */}
+      <title>{seoData.title}</title>
+      <meta name="description" content={seoData.description} />
+      <meta name="keywords" content={seoData.keywords} />
+      <meta name="author" content="Fly-Fleet" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      
+      {/* Language and Accessibility */}
+      <html lang={locale} />
+      <meta httpEquiv="Content-Language" content={locale} />
+      
+      {/* Multilingual Support */}
+      <link rel="alternate" hrefLang="es" href={`https://fly-fleet.com${seoData.path}`} />
+      <link rel="alternate" hrefLang="en" href={`https://fly-fleet.com/en${seoData.path}`} />
+      <link rel="alternate" hrefLang="pt" href={`https://fly-fleet.com/pt${seoData.path}`} />
+      <link rel="alternate" hrefLang="x-default" href={`https://fly-fleet.com${seoData.path}`} />
+      
+      {/* Open Graph with Accessibility */}
+      <meta property="og:title" content={seoData.ogTitle} />
+      <meta property="og:description" content={seoData.ogDescription} />
+      <meta property="og:image" content={seoData.ogImage} />
+      <meta property="og:image:alt" content={seoData.ogImageAlt} />
+      <meta property="og:url" content={seoData.canonical} />
+      <meta property="og:type" content="website" />
+      <meta property="og:locale" content={getOGLocale(locale)} />
+      
+      {/* Twitter Card */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={seoData.twitterTitle} />
+      <meta name="twitter:description" content={seoData.twitterDescription} />
+      <meta name="twitter:image" content={seoData.twitterImage} />
+      <meta name="twitter:image:alt" content={seoData.twitterImageAlt} />
+      
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(seoData.structuredData)
+        }}
+      />
+      
+      {/* Canonical and Performance */}
+      <link rel="canonical" href={seoData.canonical} />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      
+      {/* Accessibility Enhancements */}
+      <meta name="theme-color" content="#0B1E3C" />
+      <meta name="color-scheme" content="light dark" />
+      
+      {/* Icons */}
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+      <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+      <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    </Head>
+  );
+};
+```
+
+- [ ] Enhanced structured data:
+  - Organization schema with accessibility features
+  - Service schema with detailed descriptions
+  - FAQPage schema with proper formatting
+  - Review schema with rating information
+  - LocalBusiness schema with complete contact info
+- [ ] Multilingual SEO optimization:
+  - Proper hreflang implementation
+  - Language-specific meta descriptions
+  - Cultural considerations for each market
+  - Regional structured data variations
+
+**SEO Templates by Page:**
+```typescript
+const seoTemplates = {
+  homepage: {
+    es: {
+      title: "Fly-Fleet | Vuelos privados y chárter – Cotizá en minutos",
+      description: "Cotizá tu vuelo privado con operadores certificados. Atención 24/7, soporte internacional, pet-friendly y servicios a medida.",
+      keywords: ["vuelos privados", "charter", "jet privado", "aviación"]
+    },
+    en: {
+      title: "Fly-Fleet | Private jet charter – Get a quote in minutes",
+      description: "Request your private charter quote. Certified operators, 24/7 support, international handling and pet-friendly services.",
+      keywords: ["private jet", "charter", "aviation", "private flights"]
+    },
+    pt: {
+      title: "Fly-Fleet | Voos privados – Peça uma cotação em minutos",
+      description: "Peça sua cotação de voo privado. Operadores certificados, suporte 24/7, handling internacional e serviço pet-friendly.",
+      keywords: ["voos privados", "charter", "jato privado", "aviação"]
+    }
+  }
+}
+```
+
+**Dependencies**: BE-1.10
+
+**Estimated Hours**: 12-15 hours
+
+---
+
+### FE-3.2: Performance Optimization (ACCESSIBLE)
+**As a** user **I want** fast-loading, accessible pages **So that** I have a smooth browsing experience regardless of my device or connection
+
+**Acceptance Criteria:**
+- [ ] Implement comprehensive performance optimization:
+```typescript
+// Image optimization with accessibility
+const OptimizedImage = ({ src, alt, className, priority = false }) => {
+  return (
+    <picture>
+      <source
+        srcSet={generateWebPSrcSet(src)}
+        type="image/webp"
+        media="(min-width: 768px)"
+      />
+      <source
+        srcSet={generateAVIFSrcSet(src)}
+        type="image/avif"
+        media="(min-width: 768px)"
+      />
+      <img
+        src={src}
+        alt={alt}
+        className={className}
+        loading={priority ? 'eager' : 'lazy'}
+        decoding="async"
+        width="auto"
+        height="auto"
+      />
+    </picture>
+  );
+};
+
+// Accessible lazy loading
+const useLazyLoad = (threshold = 0.1) => {
+  const [isIntersecting, setIsIntersecting] = useState(false);
+  const ref = useRef();
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsIntersecting(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold, rootMargin: '100px' }
+    );
+    
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+    
+    return () => observer.disconnect();
+  }, [threshold]);
+  
+  return [ref, isIntersecting];
+};
+```
+
+- [ ] Enhanced accessibility optimizations:
+  - Proper loading priorities for accessibility features
+  - Screen reader compatible lazy loading
+  - Focus management during dynamic loading
+  - Alternative content for slow connections
+  - Proper error boundaries with accessible error messages
+- [ ] Advanced performance features:
+  - Critical CSS inlining with accessibility styles
+  - Code splitting with accessibility considerations
+  - Service worker implementation with accessibility awareness
+  - Resource hints optimization (preload, prefetch, preconnect)
+  - Bundle optimization with tree shaking
+- [ ] Performance monitoring with accessibility metrics:
+  - Core Web Vitals tracking
+  - Accessibility-specific performance metrics
+  - Screen reader performance optimization
+  - Keyboard navigation responsiveness
+  - Focus management performance
+
+**Performance Targets:**
+- Lighthouse Performance ≥90 (desktop), ≥80 (mobile)
+- Lighthouse Accessibility ≥95 (all devices)
+- Core Web Vitals: LCP <2.5s, FID <100ms, CLS <0.1
+- Time to Interactive <3s on 3G connections
+- First Contentful Paint <1.5s
+
+**Estimated Hours**: 20-25 hours
+
+---
+
+### FE-3.3: Analytics Integration (PRIVACY-RESPECTING & ACCESSIBLE)
+**As a** marketing manager **I want** comprehensive, privacy-compliant analytics tracking **So that** I can measure and optimize conversions while respecting user privacy and accessibility needs
+
+**Acceptance Criteria:**
+- [ ] Implement privacy-first analytics:
+```typescript
+// Privacy-compliant analytics initialization
+const initializeAccessibleAnalytics = () => {
+  // Check for user consent
+  if (!hasAnalyticsConsent()) {
+    console.log('Analytics disabled - user has not consented');
+    return;
+  }
+  
+  // Initialize GA4 with privacy settings
+  gtag('config', 'GA_MEASUREMENT_ID', {
+    anonymize_ip: true,
+    allow_google_signals: false,
+    allow_ad_personalization_signals: false,
+    cookie_flags: 'SameSite=Strict;Secure',
+    respect_dnt: true
+  });
+  
+  // Track accessibility features usage
+  trackAccessibilityFeatures();
+};
+
+// Comprehensive event tracking with accessibility context
+const trackAccessibleUserJourney = () => {
+  // Page view with accessibility context
+  gtag('event', 'page_view', {
+    page_title: document.title,
+    page_location: window.location.href,
+    page_path: window.location.pathname,
+    locale: getCurrentLocale(),
+    accessibility_features: {
+      screen_reader: isScreenReaderDetected(),
+      high_contrast: window.matchMedia('(prefers-contrast: high)').matches,
+      reduced_motion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+      keyboard_navigation: isKeyboardUser(),
+      zoom_level: getZoomLevel()
+    },
+    device_type: getDeviceType(),
+    connection_speed: getConnectionSpeed(),
+    utm_source: getUTMParam('utm_source'),
+    utm_medium: getUTMParam('utm_medium'),
+    utm_campaign: getUTMParam('utm_campaign')
+  });
+};
+
+// Form interaction tracking with accessibility metrics
+const trackFormAccessibility = (formData, interactionType) => {
+  gtag('event', 'form_interaction_accessible', {
+    event_category: 'conversion',
+    event_label: interactionType, // 'start', 'field_focus', 'validation_error', 'submit'
+    form_type: 'quote_request',
+    service_type: formData.service,
+    completion_method: getInteractionMethod(), // 'keyboard', 'mouse', 'touch', 'voice'
+    has_accessibility_errors: hasAccessibilityErrors(formData),
+    validation_errors_count: getValidationErrorsCount(formData),
+    time_to_complete: getFormCompletionTime(),
+    accessibility_features_used: getActiveAccessibilityFeatures(),
+    locale: getCurrentLocale(),
+    device_type: getDeviceType()
+  });
+};
+
+// WhatsApp click tracking with context
+const trackWhatsAppAccessible = (context = {}) => {
+  gtag('event', 'click_whatsapp_accessible', {
+    event_category: 'cta',
+    event_label: getCurrentLocale(),
+    page_path: window.location.pathname,
+    widget_variant: context.variant, // 'floating', 'inline', 'header'
+    form_data_available: !!context.formData,
+    accessibility_method: getInteractionMethod(),
+    screen_reader_active: isScreenReaderDetected(),
+    utm_source: getUTMParam('utm_source'),
+    utm_medium: getUTMParam('utm_medium'),
+    utm_campaign: getUTMParam('utm_campaign')
+  });
+};
+```
+
+- [ ] Enhanced user journey tracking:
+  - Accessibility-aware conversion funnel
+  - Screen reader user behavior patterns
+  - Keyboard navigation success rates
+  - Form abandonment analysis with accessibility context
+  - Mobile accessibility performance metrics
+- [ ] Privacy compliance features:
+  - GDPR/LGPD compliant consent management
+  - Data anonymization for accessibility features
+  - User opt-out mechanisms with clear instructions
+  - Cookie-less tracking options
+  - Accessibility-focused data retention policies
+- [ ] Custom conversion goals:
+  - Quote form submissions with accessibility metrics
+  - WhatsApp contact conversions
+  - User journey completion rates
+  - Accessibility feature adoption rates
+  - Mobile vs desktop accessibility performance
+
+**Event Tracking Examples:**
+```typescript
+// Form submission
+gtag('event', 'form_submit_quote', {
+  event_category: 'conversion',
+  event_label: locale,
+  service_type: formData.service,
+  route: `${formData.origin}-${formData.destination}`,
+  value: 1
+});
+
+// Conversion funnel
+gtag('event', 'page_view');      // Landing
+gtag('event', 'cta_click');      // Interest
+gtag('event', 'form_start');     // Consideration
+gtag('event', 'form_submit');    // Conversion
+```
+
+**Dependencies**: BE-1.5
+
+**Estimated Hours**: 15-18 hours
+
+---
+
+### FE-3.4: Cookie Consent Banner (FULLY ACCESSIBLE)
+**As a** visitor **I want** to control cookie preferences with full accessibility **So that** my privacy choices are respected regardless of my abilities
+
+**Acceptance Criteria:**
+- [ ] Implement fully accessible cookie consent:
+```typescript
+const AccessibleCookieConsent = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [showPreferences, setShowPreferences] = useState(false);
+  const [preferences, setPreferences] = useState({
+    necessary: true, // Always required
+    analytics: false,
+    marketing: false,
+    functional: false
+  });
+
+  return (
+    <>
+      {isVisible && (
+        <>
+          {/* Backdrop for modal behavior */}
+          <div 
+            className="cookie-backdrop"
+            onClick={() => setShowPreferences(false)}
+            aria-hidden="true"
+          />
+          
+          <div 
+            className="cookie-consent"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="cookie-title"
+            aria-describedby="cookie-description"
+          >
+            <div className="cookie-content">
+              <h2 id="cookie-title">Cookie Preferences</h2>
+              <p id="cookie-description">
+                We use cookies to enhance your experience, analyze site usage, and provide personalized content. 
+                You can manage your preferences below.
+              </p>
+              
+              {!showPreferences ? (
+                // Simple consent interface
+                <div className="cookie-actions">
+                  <button
+                    className="btn-accept-all"
+                    onClick={acceptAllCookies}
+                    aria-describedby="accept-all-desc"
+                  >
+                    Accept All Cookies
+                  </button>
+                  <div id="accept-all-desc" className="sr-only">
+                    Accepts all cookie categories including analytics and marketing
+                  </div>
+                  
+                  <button
+                    className="btn-essential-only"
+                    onClick={acceptEssentialOnly}
+                    aria-describedby="essential-desc"
+                  >
+                    Essential Cookies Only
+                  </button>
+                  <div id="essential-desc" className="sr-only">
+                    Accepts only necessary cookies required for site functionality
+                  </div>
+                  
+                  <button
+                    className="btn-customize"
+                    onClick={() => setShowPreferences(true)}
+                    aria-describedby="customize-desc"
+                  >
+                    Customize Preferences
+                  </button>
+                  <div id="customize-desc" className="sr-only">
+                    Opens detailed cookie preferences where you can choose specific categories
+                  </div>
+                </div>
+              ) : (
+                // Detailed preferences interface
+                <form className="cookie-preferences" onSubmit={savePreferences}>
+                  <fieldset>
+                    <legend>Cookie Categories</legend>
+                    
+                    <div className="cookie-category">
+                      <div className="category-header">
+                        <input
+                          type="checkbox"
+                          id="necessary-cookies"
+                          checked={preferences.necessary}
+                          disabled={true}
+                          aria-describedby="necessary-desc"
+                        />
+                        <label htmlFor="necessary-cookies">
+                          <strong>Necessary Cookies</strong> (Always Active)
+                        </label>
+                      </div>
+                      <p id="necessary-desc" className="category-description">
+                        Essential for website functionality, including navigation, form submission, and security features.
+                      </p>
+                    </div>
+                    
+                    <div className="cookie-category">
+                      <div className="category-header">
+                        <input
+                          type="checkbox"
+                          id="analytics-cookies"
+                          checked={preferences.analytics}
+                          onChange={(e) => updatePreference('analytics', e.target.checked)}
+                          aria-describedby="analytics-desc"
+                        />
+                        <label htmlFor="analytics-cookies">
+                          <strong>Analytics Cookies</strong>
+                        </label>
+                      </div>
+                      <p id="analytics-desc" className="category-description">
+                        Help us understand how visitors interact with our website, including accessibility feature usage.
+                      </p>
+                    </div>
+                    
+                    <div className="cookie-category">
+                      <div className="category-header">
+                        <input
+                          type="checkbox"
+                          id="marketing-cookies"
+                          checked={preferences.marketing}
+                          onChange={(e) => updatePreference('marketing', e.target.checked)}
+                          aria-describedby="marketing-desc"
+                        />
+                        <label htmlFor="marketing-cookies">
+                          <strong>Marketing Cookies</strong>
+                        </label>
+                      </div>
+                      <p id="marketing-desc" className="category-description">
+                        Used to track visitors across websites for marketing purposes and ad personalization.
+                      </p>
+                    </div>
+                    
+                    <div className="cookie-category">
+                      <div className="category-header">
+                        <input
+                          type="checkbox"
+                          id="functional-cookies"
+                          checked={preferences.functional}
+                          onChange={(e) => updatePreference('functional', e.target.checked)}
+                          aria-describedby="functional-desc"
+                        />
+                        <label htmlFor="functional-cookies">
+                          <strong>Functional Cookies</strong>
+                        </label>
+                      </div>
+                      <p id="functional-desc" className="category-description">
+                        Enable enhanced functionality like language preferences and accessibility settings.
+                      </p>
+                    </div>
+                  </fieldset>
+                  
+                  <div className="preference-actions">
+                    <button type="submit" className="btn-save-preferences">
+                      Save Preferences
+                    </button>
+                    <button 
+                      type="button"
+                      className="btn-back"
+                      onClick={() => setShowPreferences(false)}
+                    >
+                      Back to Simple Options
+                    </button>
+                  </div>
+                </form>
+              )}
+              
+              <div className="cookie-footer">
+                <p>
+                  <a href="/privacy" className="cookie-policy-link">
+                    Read our full Cookie Policy
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+      
+      {/* Settings button for returning users */}
+      {!isVisible && hasSeenConsent && (
+        <button
+          className="cookie-settings-toggle"
+          onClick={() => setIsVisible(true)}
+          aria-label="Open cookie preferences"
+          title="Cookie Settings"
+        >
+          🍪
+        </button>
+      )}
+    </>
+  );
+};
+```
+
+- [ ] Enhanced accessibility features:
+  - Modal dialog pattern with focus trap
+  - Clear keyboard navigation (Tab, Enter, Escape)
+  - Screen reader announcements for preference changes
+  - Descriptive labels and help text for all options
+  - High contrast styling matching navy theme
+- [ ] Advanced functionality:
+  - Granular cookie category control
+  - Persistent preference storage
+  - Integration with analytics consent
+  - GDPR/LGPD compliance features
+  - Clear explanation of each cookie category
+- [ ] Visual design integration:
+  - Navy blue theme with proper contrast ratios
+  - Smooth animations respecting motion preferences
+  - Mobile-optimized layout with large touch targets
+  - Clear visual hierarchy with proper spacing
+  - Professional styling matching brand identity
+- [ ] Technical implementation:
+  - localStorage preference persistence
+  - Dynamic script loading based on consent
+  - Integration with Google Tag Manager
+  - Consent validation and verification
+  - Accessibility testing with screen readers
+
+**Cookie Categories:**
+```typescript
+interface CookieCategory {
+  id: string;
+  name: string;
+  description: string;
+  required: boolean;
+  cookies: {
+    name: string;
+    purpose: string;
+    duration: string;
+  }[];
+}
+
+const cookieCategories = {
+  necessary: {
+    name: "Necesarias",
+    description: "Cookies esenciales para el funcionamiento del sitio",
+    required: true
+  },
+  analytics: {
+    name: "Analíticas", 
+    description: "Nos ayudan a entender cómo usas el sitio",
+    required: false
+  }
+}
+```
+
+**Estimated Hours**: 15-18 hours
+
+---
+
+## 📊 Epic 4 Summary
+
+**Total Estimated Hours**: 62-76 hours
+
+**Key Features:**
+- Comprehensive, accessible SEO optimization
+- Performance optimization with accessibility considerations
+- Privacy-first analytics with accessibility tracking
+- Fully accessible cookie consent management
+- WCAG 2.1 AA compliance throughout
+- Multilingual support for all components
+- Integration with Fly-Fleet's navy blue brand theme
+
+**Dependencies:**
+- BE-1.5 (Analytics Events API)
+- BE-1.10 (SEO Meta Tags API)
+- FE-1.1 (Design System Components)
+
+**Success Metrics:**
+- Lighthouse Accessibility ≥95
+- Lighthouse Performance ≥90 (desktop), ≥80 (mobile)  
+- Core Web Vitals compliance
+- WCAG 2.1 AA accessibility compliance
+- GDPR/LGPD privacy compliance
+- Multi-language SEO optimization
+
+
+Epic 5: Advanced Features & Integrations (P2)
+FE-4.1: Advanced Search & Filter System
+As a user I want sophisticated search and filtering capabilities with full accessibility So that I can find exactly what I need regardless of my abilities
+Acceptance Criteria:
+[ ] Implement accessible advanced search:
+Multi-criteria search with ARIA live regions
+Filter combinations with clear screen reader feedback
+Search result count announcements
+Keyboard shortcut support (Ctrl+K to focus search)
+Search history with accessibility considerations
+[ ] Enhanced filtering interface:
+Accordion-style filter groups with proper ARIA
+Clear filter indicators with removal buttons
+Filter count badges with screen reader context
+Reset filters functionality with confirmation
+Mobile-optimized filter drawer
+Estimated Hours: 18-22 hours
+
+FE-4.2: Interactive Map Integration
+As a user I want to explore routes and airports on an accessible map So that I can visualize flight options regardless of my abilities
+Acceptance Criteria:
+[ ] Implement accessible map integration:
+Google Maps with accessibility enhancements
+Keyboard navigation support
+Screen reader compatible markers and info windows
+Alternative list view for map content
+High contrast mode support
+[ ] Enhanced map features:
+Airport markers with detailed information
+Route visualization with accessibility descriptions
+Popular destination highlighting
+Mobile-optimized map interactions
+Integration with quote form pre-filling
+Estimated Hours: 20-25 hours
+
+FE-4.3: Real-time Chat Integration
+As a user I want accessible real-time chat support So that I can get immediate assistance regardless of my abilities
+Acceptance Criteria:
+[ ] Implement accessible chat widget:
+Screen reader compatible chat interface
+Keyboard navigation for all chat functions
+Message status announcements
+File upload accessibility
+Chat history with proper semantic structure
+[ ] Advanced chat features:
+Typing indicators with screen reader support
+Emoji picker with keyboard navigation
+Message timestamps with accessible formatting
+Offline message queuing
+Integration with WhatsApp handoff
+Estimated Hours: 22-28 hours
+
+Epic 5: Testing & Quality Assurance (P0) 
+TE-1.1: Unit Testing Suite
+As a developer I want comprehensive unit tests So that individual components work correctly
+Acceptance Criteria:
+[ ] Set up testing framework (Jest + React Testing Library)
+[ ] Write unit tests for form validation, utilities, API services
+[ ] Achieve 80%+ code coverage
+[ ] Test all edge cases and error scenarios
+[ ] Mock external dependencies
+Estimated Hours: 16-20 hours
+TE-1.2: Integration Testing
+As a developer I want integration tests for API endpoints So that the full data flow works correctly
+Acceptance Criteria:
+[ ] Set up test database for integration tests
+[ ] Test API endpoints (quote, contact, airport search, email)
+[ ] Test error scenarios and rate limiting
+[ ] Test database operations
+Estimated Hours: 12-16 hours
+TE-1.3: End-to-End Testing
+As a user I want the complete user journey to work So that I can successfully submit requests
+Acceptance Criteria:
+[ ] Set up E2E testing framework (Cypress or Playwright)
+[ ] Test critical user paths (homepage → quote → success)
+[ ] Test error scenarios and mobile responsive behavior
+[ ] Test across multiple browsers
+[ ] Visual regression testing
+Estimated Hours: 20-24 hours
+TE-1.4: Accessibility Testing
+As a user with disabilities I want to access all features So that I can use the service independently
+Acceptance Criteria:
+[ ] WCAG 2.1 AA compliance verified
+[ ] Screen reader testing
+[ ] Keyboard navigation testing
+[ ] Color contrast validation
+[ ] Form accessibility verification
+Estimated Hours: 16-20 hours
+TE-1.5: Performance Testing
+As a user I want fast page loading So that I have a smooth experience
+Acceptance Criteria:
+[ ] Lighthouse CI integration for performance monitoring
+[ ] Core Web Vitals tracking
+[ ] Load testing for API endpoints
+[ ] Database query performance testing
+[ ] Bundle size monitoring
+Estimated Hours: 12-16 hours

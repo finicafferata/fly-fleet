@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '../../../../generated/prisma';
+import { PrismaClient } from '@prisma/client';
 import crypto from 'crypto';
 
 const prisma = new PrismaClient();
@@ -100,8 +100,8 @@ export async function POST(req: NextRequest) {
     const timestamp = new Date(payload.created_at || Date.now());
 
     // Find the email delivery record by Resend message ID
-    const emailDelivery = await prisma.email_deliveries.findFirst({
-      where: { resend_message_id: emailId }
+    const emailDelivery = await prisma.emailDelivery.findFirst({
+      where: { resendMessageId: emailId }
     });
 
     if (!emailDelivery) {
@@ -271,7 +271,7 @@ async function processWebhookEvent(
     }
 
     // Update the email delivery record
-    await prisma.email_deliveries.update({
+    await prisma.emailDelivery.update({
       where: { id: emailDelivery.id },
       data: updateData
     });
@@ -339,12 +339,12 @@ export async function GET(req: NextRequest) {
 
     const stats = {
       totalEvents: webhookEvents.length,
-      processed: webhookEvents.filter(e => (e.event_data as any)?.processed === true).length,
-      failed: webhookEvents.filter(e => (e.event_data as any)?.processed === false).length,
+      processed: webhookEvents.filter((e: any) => (e.event_data as any)?.processed === true).length,
+      failed: webhookEvents.filter((e: any) => (e.event_data as any)?.processed === false).length,
       byEventType: {} as Record<string, number>,
       errors: webhookEvents
-        .filter(e => (e.event_data as any)?.error)
-        .map(e => ({
+        .filter((e: any) => (e.event_data as any)?.error)
+        .map((e: any) => ({
           timestamp: e.timestamp,
           eventType: (e.event_data as any)?.eventType,
           error: (e.event_data as any)?.error,
@@ -354,7 +354,7 @@ export async function GET(req: NextRequest) {
     };
 
     // Count events by type
-    webhookEvents.forEach(event => {
+    webhookEvents.forEach((event: any) => {
       const eventType = (event.event_data as any)?.eventType || 'unknown';
       stats.byEventType[eventType] = (stats.byEventType[eventType] || 0) + 1;
     });

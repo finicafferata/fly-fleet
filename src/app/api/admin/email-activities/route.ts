@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '../../../generated/prisma';
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
     });
 
     const response = {
-      activities: activities.map(activity => ({
+      activities: activities.map((activity: any) => ({
         id: activity.id,
         recipientEmail: activity.recipientEmail,
         subject: activity.subject,

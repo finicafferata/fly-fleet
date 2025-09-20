@@ -71,10 +71,10 @@ export async function GET(req: NextRequest) {
     }
 
     // Default: Return all quotes with basic info (without full status history for performance)
-    const { PrismaClient } = await import('../../../../generated/prisma');
+    const { PrismaClient } = await import('@prisma/client');
     const prisma = new PrismaClient();
 
-    const quotes = await prisma.quote_requests.findMany({
+    const quotes = await prisma.quoteRequest.findMany({
       skip: offset,
       take: limit,
       orderBy: { created_at: 'desc' },
@@ -97,7 +97,7 @@ export async function GET(req: NextRequest) {
 
     // Get current status for each quote (this is expensive - consider caching)
     const quotesWithStatus = await Promise.all(
-      quotes.map(async (quote) => {
+      quotes.map(async (quote: any) => {
         const currentStatus = await QuoteStatusService.getCurrentQuoteStatus(quote.id);
         return {
           id: quote.id,
@@ -118,7 +118,7 @@ export async function GET(req: NextRequest) {
       })
     );
 
-    const totalCount = await prisma.quote_requests.count();
+    const totalCount = await prisma.quoteRequest.count();
 
     return NextResponse.json({
       success: true,

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { PrismaClient } from '../../../generated/prisma';
+import { PrismaClient } from '@prisma/client';
 import { EmailService } from '../../../lib/email/EmailService';
 import { recaptchaService } from '../../../lib/recaptcha/RecaptchaService';
 import {
@@ -59,7 +59,7 @@ const getClientIP = (req: NextRequest): string => {
     return realIP;
   }
 
-  return req.ip || 'unknown';
+  return 'unknown';
 };
 
 // Contact form subjects by locale
@@ -120,7 +120,7 @@ export async function POST(req: NextRequest) {
     if (!validationResult.success) {
       const locale = (body.locale as Locale) || 'en';
       const ariaValidation = generateAriaValidationResponse(
-        validationResult.error.errors,
+        validationResult.error.issues,
         locale,
         'contact'
       );
@@ -128,7 +128,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         {
           error: 'Validation failed',
-          details: validationResult.error.errors,
+          details: validationResult.error.issues,
           accessibility: ariaValidation,
           ariaLiveMessage: ariaValidation.ariaLiveRegion,
           ariaAnnouncement: ariaValidation.globalError?.screenReaderAnnouncement,

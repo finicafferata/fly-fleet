@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { clsx } from 'clsx';
 import { WhatsAppIcon } from './ui/icons/WhatsAppIcon';
 import { Button } from './ui/Button';
+import { trackWhatsAppClick } from '../lib/analytics/accessibleTracking';
 
 export interface WhatsAppWidgetProps {
   variant?: 'floating' | 'inline' | 'header';
@@ -116,15 +117,8 @@ export function WhatsAppWidget({
     // Announce to screen readers
     setAnnouncement(labels.announcement);
 
-    // Track click event (placeholder for analytics)
-    const clickData = {
-      variant,
-      locale,
-      hasFormData: Boolean(formData),
-      deviceType: isMobile ? 'mobile' : 'desktop',
-      position,
-      timestamp: Date.now(),
-    };
+    // Track WhatsApp click with exact GA4 format
+    trackWhatsAppClick(formData);
 
     // Generate WhatsApp URL
     const message = generateAccessibleMessage(locale, formData);

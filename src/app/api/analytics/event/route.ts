@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { PrismaClient } from '../../../../generated/prisma';
+import { PrismaClient } from '@prisma/client';
 import crypto from 'crypto';
 
 const prisma = new PrismaClient();
@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 // Analytics event validation schema
 const AnalyticsEventSchema = z.object({
   eventName: z.string().min(1).max(50),
-  eventData: z.record(z.any()).optional().default({}),
+  eventData: z.record(z.string(), z.any()).optional().default({}),
   userId: z.string().min(1).max(100).optional(),
   sessionId: z.string().min(1).max(100).optional(),
   pagePath: z.string().max(255).optional(),
@@ -40,7 +40,7 @@ const getClientIP = (req: NextRequest): string => {
     return realIP;
   }
 
-  return req.ip || 'unknown';
+  return 'unknown';
 };
 
 // Generate anonymous user ID from IP and user agent
@@ -311,8 +311,8 @@ export async function GET() {
   });
 }
 
-// Cleanup function - can be called periodically
-export const cleanup = () => {
+// Cleanup function - internal only (not exported)
+const cleanup = () => {
   const now = Date.now();
   for (const [key, timestamp] of eventCache.entries()) {
     if (now - timestamp > DEDUP_WINDOW) {
