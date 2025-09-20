@@ -448,6 +448,17 @@ paths:
           schema:
             type: string
           description: Action to perform
+  /api/health:
+    get:
+      summary: List health
+      description: GET operation for health
+      tags:
+        - health
+      responses:
+        '200':
+          description: Success
+        '500':
+          $ref: '#/components/responses/InternalError'
   /api/quote:
     post:
       summary: Create quote

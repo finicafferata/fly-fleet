@@ -45,14 +45,18 @@ export class EmailService {
   private noreplyEmail: string;
 
   constructor() {
-    this.resend = new Resend(process.env.RESEND_API_KEY);
+    // Initialize Resend with fallback for build time when env vars aren't available
+    const apiKey = process.env.RESEND_API_KEY || 're_build_placeholder';
+    this.resend = new Resend(apiKey);
     this.prisma = new PrismaClient();
     this.businessEmail = process.env.BUSINESS_EMAIL || 'contact@fly-fleet.com';
     this.noreplyEmail = process.env.NOREPLY_EMAIL || 'noreply@fly-fleet.com';
   }
 
   private isDevelopment(): boolean {
-    return process.env.RESEND_API_KEY === 're_development_placeholder' || !process.env.RESEND_API_KEY;
+    return process.env.RESEND_API_KEY === 're_development_placeholder' ||
+           process.env.RESEND_API_KEY === 're_build_placeholder' ||
+           !process.env.RESEND_API_KEY;
   }
 
   private async loadTemplate(templateName: string): Promise<string> {
