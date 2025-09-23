@@ -15,14 +15,15 @@ export interface HeroProps {
 const getContent = (locale: string) => {
   const content = {
     en: {
-      headline: 'Fly Private, Without Complications.',
-      subheadline: 'Get your next flight quote in minutes. Certified operators and 24/7 assistance.',
-      primaryCTA: 'Quote Now',
+      headline: 'Fly private, hassle-free.',
+      subheadline: 'Get a quote in minutes. Certified operators and 24/7 support.',
+      primaryCTA: 'Get a quote',
+      secondaryCTA: 'Chat on WhatsApp',
       actionsHeading: 'Available Actions',
       trustIndicators: [
-        'IATA Certified',
+        'ANAC/FAA/EASA Certified',
         '24/7 Support',
-        'Safety First'
+        '+500 Successful Flights'
       ],
       statsLabel: 'Trusted by travelers worldwide',
     },
@@ -30,23 +31,25 @@ const getContent = (locale: string) => {
       headline: 'Volá privado, sin complicaciones.',
       subheadline: 'Cotizá tu próximo vuelo en minutos. Operadores certificados y asistencia 24/7.',
       primaryCTA: 'Cotizar ahora',
+      secondaryCTA: 'Hablar por WhatsApp',
       actionsHeading: 'Acciones Disponibles',
       trustIndicators: [
-        'Certificado IATA',
+        'Certificado ANAC/FAA/EASA',
         'Soporte 24/7',
-        'Seguridad Primero'
+        '+500 Vuelos Exitosos'
       ],
       statsLabel: 'Confianza de viajeros en todo el mundo',
     },
     pt: {
-      headline: 'Voe Privado, Sem Complicações.',
-      subheadline: 'Obtenha sua cotação de voo em minutos. Operadores certificados e assistência 24/7.',
-      primaryCTA: 'Cotar Agora',
+      headline: 'Voe privado, sem complicações.',
+      subheadline: 'Peça sua cotação em minutos. Operadores certificados e suporte 24/7.',
+      primaryCTA: 'Pedir cotação',
+      secondaryCTA: 'Falar no WhatsApp',
       actionsHeading: 'Ações Disponíveis',
       trustIndicators: [
-        'Certificado IATA',
+        'Certificado ANAC/FAA/EASA',
         'Suporte 24/7',
-        'Segurança em Primeiro'
+        '+500 Voos Realizados'
       ],
       statsLabel: 'Confiança de viajantes ao redor do mundo',
     },

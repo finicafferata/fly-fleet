@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { Navigation } from '@/components/Navigation';
 import { Hero } from '@/components/Hero';
 import { ServicesGrid } from '@/components/ServicesGrid';
 import { ProcessSteps } from '@/components/ProcessSteps';
@@ -22,6 +23,9 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Navigation */}
+      <Navigation locale={locale} />
+
       {/* Language Switcher */}
       <div className="fixed top-4 right-4 z-50">
         <LanguageSwitcher
