@@ -59,8 +59,8 @@ interface AirportSearchProps {
 
 export function AirportSearch({
   onSelect,
-  placeholder = 'Search airports...',
-  label = 'Airport',
+  placeholder = 'City or Airport',
+  label = '',
   required = false,
   disabled = false,
   className = '',
@@ -254,17 +254,19 @@ export function AirportSearch({
 
   return (
     <div className={clsx('relative', className)} {...props}>
-      <label
-        htmlFor={inputId}
-        className="block text-sm font-medium text-navy-primary mb-2"
-      >
-        {label}
-        {required && (
-          <span className="text-red-500 ml-1" aria-label="required">
-            *
-          </span>
-        )}
-      </label>
+      {label && (
+        <label
+          htmlFor={inputId}
+          className="block text-sm font-medium text-navy-primary mb-2"
+        >
+          {label}
+          {required && (
+            <span className="text-red-500 ml-1" aria-label="required">
+              *
+            </span>
+          )}
+        </label>
+      )}
 
       <div className="relative">
         <input
@@ -350,34 +352,19 @@ export function AirportSearch({
                 onClick={() => handleSelect(airport)}
                 onMouseEnter={() => setSelectedIndex(index)}
               >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className={clsx(
-                      'font-medium',
-                      index === selectedIndex ? 'text-white' : 'text-navy-primary'
-                    )}>
-                      <span className="font-bold">{airport.code}</span> - {airport.name}
-                    </div>
-                    <div className={clsx(
-                      'text-sm',
-                      index === selectedIndex ? 'text-white/80' : 'text-neutral-medium'
-                    )}>
-                      {airport.city}, {airport.country}
-                    </div>
+                <div>
+                  <div className={clsx(
+                    'text-sm font-medium',
+                    index === selectedIndex ? 'text-white' : 'text-navy-primary'
+                  )}>
+                    <span className="font-bold">{airport.code}</span> - {airport.name}
                   </div>
-                  {airport.isPopular && (
-                    <span
-                      className={clsx(
-                        'text-xs px-2 py-1 rounded',
-                        index === selectedIndex
-                          ? 'bg-white/20 text-white'
-                          : 'bg-accent-blue/10 text-accent-blue'
-                      )}
-                      aria-label="Popular airport"
-                    >
-                      Popular
-                    </span>
-                  )}
+                  <div className={clsx(
+                    'text-xs',
+                    index === selectedIndex ? 'text-white/80' : 'text-neutral-medium'
+                  )}>
+                    {airport.city}, {airport.country}
+                  </div>
                 </div>
               </div>
             ))}

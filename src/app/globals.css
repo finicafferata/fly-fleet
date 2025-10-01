@@ -85,6 +85,65 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.2;
 }
 
+/* Language-consistent typography */
+[lang="en"] h1, [lang="es"] h1, [lang="pt"] h1 {
+  font-size: clamp(2.25rem, 4vw, 4.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+[lang="en"] h2, [lang="es"] h2, [lang="pt"] h2 {
+  font-size: clamp(1.875rem, 3vw, 3rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+[lang="en"] .hero-text, [lang="es"] .hero-text, [lang="pt"] .hero-text {
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  line-height: 1.5;
+  max-width: 42rem;
+}
+
+
+[lang="en"] .nav-text, [lang="es"] .nav-text, [lang="pt"] .nav-text {
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (min-width: 1200px) {
+  [lang="en"] .nav-text, [lang="es"] .nav-text, [lang="pt"] .nav-text {
+    font-size: 0.85rem;
+  }
+}
+
+/* Footer title sizes */
+.footer-title {
+  font-size: 18px !important;
+}
+
+/* Language switcher consistency */
+.language-switcher {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.language-trigger {
+  width: 40px !important;
+  height: 40px !important;
+  flex-shrink: 0;
+}
+
+.language-dropdown {
+  position: absolute;
+  right: 0;
+  left: auto;
+  min-width: 140px;
+}
+
 /* Focus styles */
 *:focus {
   outline: 2px solid var(--accent-blue);

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { WhatsAppWidget } from '@/components/WhatsAppWidget';
@@ -189,6 +189,7 @@ const getContent = (locale: string) => {
 
 export default function FAQsPage() {
   const params = useParams();
+  const router = useRouter();
   const locale = params.locale as 'en' | 'es' | 'pt';
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [openQuestion, setOpenQuestion] = useState<number | null>(null);
@@ -201,10 +202,17 @@ export default function FAQsPage() {
   const categoryKeys = Object.keys(content.categories) as Array<keyof typeof content.categories>;
 
   return (
-    <div className="min-h-screen bg-white">
-      <Navigation locale={locale} />
+    <div className="min-h-screen bg-white" lang={locale}>
+      <Navigation
+        locale={locale}
+        onLanguageChange={(newLocale) => {
+          router.push(`/${newLocale}/faqs`);
+        }}
+      />
 
-      {/* Hero Section */}
+      {/* Main Content - Account for fixed header */}
+      <main className="pt-20">
+        {/* Hero Section */}
       <section className="bg-gradient-to-br from-navy-primary to-navy-primary/90 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl">
@@ -337,6 +345,7 @@ export default function FAQsPage() {
           </div>
         </div>
       </section>
+      </main>
 
       <Footer locale={locale} />
       <WhatsAppWidget locale={locale} />

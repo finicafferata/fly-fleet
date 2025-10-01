@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { WhatsAppWidget } from '@/components/WhatsAppWidget';
@@ -68,7 +68,7 @@ const getContent = (locale: string) => {
       cta: 'Experience the Fly-Fleet Difference'
     },
     es: {
-      title: 'Acerca de Fly-Fleet',
+      title: 'Nosotros',
       mission: {
         title: 'Nuestra Misión',
         text: 'Democratizar el acceso a la aviación privada conectando pasajeros con operadores certificados de manera transparente y eficiente.'
@@ -192,15 +192,23 @@ const getContent = (locale: string) => {
 
 export default function AboutPage() {
   const params = useParams();
+  const router = useRouter();
   const locale = params.locale as 'en' | 'es' | 'pt';
   const content = getContent(locale);
 
   return (
-    <div className="min-h-screen bg-white">
-      <Navigation locale={locale} />
+    <div className="min-h-screen bg-white" lang={locale}>
+      <Navigation
+        locale={locale}
+        onLanguageChange={(newLocale) => {
+          router.push(`/${newLocale}/about`);
+        }}
+      />
 
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-navy-primary to-navy-primary/90 text-white py-20">
+      {/* Main Content - Account for fixed header */}
+      <main className="pt-20">
+        {/* Hero Section */}
+        <section className="bg-gradient-to-br from-navy-primary to-navy-primary/90 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
@@ -310,6 +318,7 @@ export default function AboutPage() {
 
       <Footer locale={locale} />
       <WhatsAppWidget locale={locale} />
+      </main>
     </div>
   );
 }

@@ -110,7 +110,7 @@ export function Hero({
 
       <section
         className={clsx(
-          'hero relative min-h-screen flex items-center justify-center',
+          'hero relative h-[85vh] min-h-[600px] max-h-[900px] flex items-center justify-center',
           'bg-gradient-to-br from-navy-primary via-navy-primary/95 to-navy-primary/80',
           'overflow-hidden',
           className
@@ -136,8 +136,8 @@ export function Hero({
       </div>
 
       {/* Content */}
-      <div className="hero-content relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="max-w-4xl">
+      <div className="hero-content relative z-10 w-full py-20">
+        <div style={{ paddingLeft: 'clamp(2rem, 5vw, 5rem)', paddingRight: 'clamp(2rem, 5vw, 5rem)' }}>
           {/* Main Content */}
           <div
             className={clsx(
@@ -148,8 +148,7 @@ export function Hero({
             <h1
               id="hero-heading"
               className={clsx(
-                'text-4xl md:text-5xl lg:text-6xl xl:text-7xl',
-                'font-bold text-white leading-tight mb-6',
+                'font-bold text-white mb-6',
                 'animate-fade-in-up'
               )}
             >
@@ -158,8 +157,7 @@ export function Hero({
 
             <p
               className={clsx(
-                'text-lg md:text-xl lg:text-2xl',
-                'text-white/90 leading-relaxed mb-8 max-w-3xl',
+                'hero-text text-white/90 mb-8',
                 'animate-fade-in-up animation-delay-200'
               )}
             >
@@ -209,35 +207,6 @@ export function Hero({
               </div>
             </div>
 
-            {/* Trust Indicators */}
-            <div
-              className={clsx(
-                'flex flex-wrap items-center gap-6 md:gap-8',
-                'animate-fade-in-up animation-delay-600'
-              )}
-            >
-              <span className="text-white/70 text-sm font-medium">
-                {content.statsLabel}
-              </span>
-              <div className="flex flex-wrap items-center gap-4 md:gap-6">
-                {content.trustIndicators.map((indicator, index) => (
-                  <div
-                    key={index}
-                    className={clsx(
-                      'flex items-center space-x-2',
-                      'px-3 py-1 rounded-full',
-                      'bg-white/10 backdrop-blur-sm',
-                      'border border-white/20'
-                    )}
-                  >
-                    <div className="w-2 h-2 bg-accent-blue rounded-full" />
-                    <span className="text-white text-sm font-medium">
-                      {indicator}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -245,16 +214,20 @@ export function Hero({
       {/* Scroll Indicator */}
       <div
         className={clsx(
-          'absolute bottom-8 left-1/2 transform -translate-x-1/2',
+          'absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20',
           'animate-bounce',
           'transition-opacity duration-1000 delay-1000',
           isLoaded ? 'opacity-100' : 'opacity-0'
         )}
       >
-        <div className="flex flex-col items-center space-y-2">
-          <span className="text-white/60 text-sm">Scroll to explore</span>
+        <div className="flex flex-col items-center space-y-2 text-center">
+          <span className="text-white/80 text-base font-medium tracking-wide">
+            {locale === 'es' ? 'Desplázate para explorar' :
+             locale === 'pt' ? 'Role para explorar' :
+             'Scroll to explore'}
+          </span>
           <svg
-            className="w-6 h-6 text-white/60"
+            className="w-6 h-6 text-white/80"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

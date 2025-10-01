@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { WhatsAppWidget } from '@/components/WhatsAppWidget';
@@ -10,7 +10,17 @@ const getContent = (locale: string) => {
   const content = {
     en: {
       title: 'What We Do',
-      subtitle: 'We match travelers with the right aircraft and certified operator for each route. We handle negotiations and end-to-end coordination: slots, FBO, handling, documentation and onboard services.',
+      introText: [
+        'At Fly-Fleet we transform your needs into private, secure and exclusive flight experiences.',
+        'Access a global network of certified operators and get instant quotes with complete transparency.',
+        'We handle everything: immigration requirements, customs, gourmet catering, VIP transfers and even pet-friendly flights.'
+      ],
+      advisoryTitle: 'Comprehensive private aviation advisory',
+      advisoryPoints: [
+        'Access a global network of certified operators.',
+        'Get instant and transparent quotes.',
+        'Receive guidance on immigration, customs requirements and additional services (catering, transfers, pet-friendly, etc.)'
+      ],
       processTitle: 'Your journey, step by step',
       step1: {
         title: 'Share your plan',
@@ -43,29 +53,29 @@ const getContent = (locale: string) => {
         ]
       },
       benefitsTitle: 'Why choose Fly-Fleet?',
-      benefits: {
-        access: {
-          title: 'Exclusive access',
-          description: 'We work with a curated network of certified operators, not just the biggest players.'
-        },
-        transparency: {
-          title: 'Total transparency',
-          description: 'Clear pricing, no hidden fees. Know all costs before confirming.'
-        },
-        support: {
-          title: 'Specialized support',
-          description: 'Dedicated team that knows every airport, regulation and procedure.'
-        },
-        response: {
-          title: 'Immediate response',
-          description: 'Quotes in minutes, not days. Quick confirmations for last-minute changes.'
-        }
-      },
+      benefits: [
+        'Absolute flexibility: schedules and routes adapted to your agenda.',
+        'Privacy and security without compromise: operators with international certifications.',
+        'Global coverage: more than 5,000 airports in LATAM, USA and Europe',
+        'Personalized 24/7 support: in Spanish, English and Portuguese.',
+        'Distinctive services: pets on board, exclusive concierge and door-to-door transfers.'
+      ],
+      closingStatement: 'With Fly-Fleet you don\'t just fly, you live the experience of limitless freedom.',
       cta: 'Get Started Today'
     },
     es: {
       title: 'Qué Hacemos',
-      subtitle: 'Conectamos pasajeros con la mejor opción de aeronave y operador certificado para cada ruta. Negociamos, coordinamos y acompañamos todo el proceso: slots, FBO, handling, documentación y servicios a bordo.',
+      introText: [
+        'En Fly-Fleet convertimos tus necesidades en experiencias de vuelo privadas, seguras y exclusivas.',
+        'Accedé a una red global de operadores certificados y obtené cotización inmediata con transparencia total.',
+        'Nos ocupamos de todo: requisitos migratorios, aduaneros, catering gourmet, traslados VIP y hasta vuelos pet-friendly.'
+      ],
+      advisoryTitle: 'Asesoría integral de vuelos privados',
+      advisoryPoints: [
+        'Accedé a una red global de operadores certificados.',
+        'Cotizá de inmediato y transparente.',
+        'Asesorate sobre requisitos migratorios, aduaneros y servicios adicionales (catering, traslados, pet-friendly, etc.)'
+      ],
       processTitle: 'Tu viaje, paso a paso',
       step1: {
         title: 'Contanos tu plan',
@@ -98,29 +108,29 @@ const getContent = (locale: string) => {
         ]
       },
       benefitsTitle: '¿Por qué elegir Fly-Fleet?',
-      benefits: {
-        access: {
-          title: 'Acceso exclusivo',
-          description: 'Trabajamos con una red curada de operadores certificados, no solo con los más grandes del mercado.'
-        },
-        transparency: {
-          title: 'Transparencia total',
-          description: 'Precios claros, sin tarifas ocultas. Conocés todos los costos antes de confirmar.'
-        },
-        support: {
-          title: 'Soporte especializado',
-          description: 'Equipo dedicado que conoce cada aeropuerto, regulación y procedimiento.'
-        },
-        response: {
-          title: 'Respuesta inmediata',
-          description: 'Cotizaciones en minutos, no días. Confirmaciones rápidas para cambios de último momento.'
-        }
-      },
+      benefits: [
+        'Flexibilidad absoluta: horarios y rutas adaptadas a tu agenda.',
+        'Privacidad y seguridad sin compromisos: operadores con certificaciones internacionales.',
+        'Cobertura global: más de 5.000 aeropuertos en LATAM, USA y Europa',
+        'Atención personalizada 24/7: en español, inglés y portugués.',
+        'Servicios diferenciales: mascotas a bordo, concierge exclusivo y traslados puerta a puerta.'
+      ],
+      closingStatement: 'Con Fly-Fleet no solo volás, vivís la experiencia de libertad sin límites.',
       cta: 'Comenzar Hoy'
     },
     pt: {
       title: 'O Que Fazemos',
-      subtitle: 'Conectamos você à aeronave ideal e a operadores certificados para cada rota. Cuidamos de toda a coordenação: slots, FBO, handling, documentação e serviços a bordo.',
+      introText: [
+        'Na Fly-Fleet transformamos suas necessidades em experiências de voo privadas, seguras e exclusivas.',
+        'Acesse uma rede global de operadores certificados e obtenha cotações imediatas com total transparência.',
+        'Cuidamos de tudo: requisitos de imigração, alfândega, catering gourmet, transfers VIP e até voos pet-friendly.'
+      ],
+      advisoryTitle: 'Assessoria integral de aviação privada',
+      advisoryPoints: [
+        'Acesse uma rede global de operadores certificados.',
+        'Obtenha cotações imediatas e transparentes.',
+        'Receba orientação sobre requisitos de imigração, alfândega e serviços adicionais (catering, transfers, pet-friendly, etc.)'
+      ],
       processTitle: 'Sua viagem, passo a passo',
       step1: {
         title: 'Conte seu plano',
@@ -153,24 +163,14 @@ const getContent = (locale: string) => {
         ]
       },
       benefitsTitle: 'Por que escolher a Fly-Fleet?',
-      benefits: {
-        access: {
-          title: 'Acesso exclusivo',
-          description: 'Trabalhamos com uma rede curada de operadores certificados, não apenas os maiores do mercado.'
-        },
-        transparency: {
-          title: 'Transparência total',
-          description: 'Preços claros, sem taxas ocultas. Conheça todos os custos antes de confirmar.'
-        },
-        support: {
-          title: 'Suporte especializado',
-          description: 'Equipe dedicada que conhece cada aeroporto, regulamentação e procedimento.'
-        },
-        response: {
-          title: 'Resposta imediata',
-          description: 'Cotações em minutos, não dias. Confirmações rápidas para mudanças de última hora.'
-        }
-      },
+      benefits: [
+        'Flexibilidade absoluta: horários e rotas adaptadas à sua agenda.',
+        'Privacidade e segurança sem compromissos: operadores com certificações internacionais.',
+        'Cobertura global: mais de 5.000 aeroportos na LATAM, EUA e Europa',
+        'Atendimento personalizado 24/7: em espanhol, inglês e português.',
+        'Serviços diferenciados: pets a bordo, concierge exclusivo e transfers porta a porta.'
+      ],
+      closingStatement: 'Com a Fly-Fleet você não apenas voa, você vive a experiência de liberdade sem limites.',
       cta: 'Começar Hoje'
     }
   };
@@ -180,164 +180,141 @@ const getContent = (locale: string) => {
 
 export default function WhatWeDoPage() {
   const params = useParams();
+  const router = useRouter();
   const locale = params.locale as 'en' | 'es' | 'pt';
   const content = getContent(locale);
 
   return (
-    <div className="min-h-screen bg-white">
-      <Navigation locale={locale} />
+    <div className="min-h-screen bg-white" lang={locale}>
+      <Navigation
+        locale={locale}
+        onLanguageChange={(newLocale) => {
+          router.push(`/${newLocale}/what-we-do`);
+        }}
+      />
 
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-navy-primary to-navy-primary/90 text-white py-20">
+      {/* Main Content - Account for fixed header */}
+      <main className="pt-20">
+        {/* Title Banner */}
+      <section className="bg-gradient-to-br from-navy-primary to-navy-primary/90 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-              {content.title}
-            </h1>
-            <p className="text-lg md:text-xl lg:text-2xl text-white/90 leading-relaxed">
-              {content.subtitle}
-            </p>
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">
+            {content.title}
+          </h1>
+        </div>
+      </section>
+
+      {/* Content Section - White Background */}
+      <section className="bg-white py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="space-y-3">
+            {content.introText.map((paragraph, index) => (
+              <p key={index} className="text-base md:text-lg text-gray-700 leading-relaxed">
+                {paragraph}
+              </p>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Process Steps */}
-      <section className="py-20">
+      {/* Process Steps - Match Homepage Design */}
+      <section className="py-10 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-navy-primary">
-            {content.processTitle}
-          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 relative">
+            {/* Connecting Lines - Desktop Only */}
+            <div className="hidden md:block absolute inset-0 pointer-events-none z-0" aria-hidden="true">
+              <div className="flex items-center justify-center h-12 relative">
+                <div className="absolute left-1/6 right-1/6 h-0.5 bg-accent-blue top-1/2 transform -translate-y-1/2" />
+              </div>
+            </div>
 
-          <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
             {/* Step 1 */}
-            <div className="text-center">
-              <div className="w-16 h-16 bg-accent-blue rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">
+            <div className="text-center relative z-10">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-accent-blue rounded-full flex items-center justify-center text-white text-base md:text-lg font-bold mx-auto mb-3 shadow-large border-4 border-white">
                 1
               </div>
-              <h3 className="text-xl font-semibold mb-4 text-navy-primary">
+              <h3 className="text-sm md:text-base font-bold text-navy-primary leading-tight max-w-32 mx-auto">
                 {content.step1.title}
               </h3>
-              <p className="text-gray-600 mb-6">
-                {content.step1.subtitle}
-              </p>
-              <ul className="text-sm text-gray-500 space-y-2">
-                {content.step1.points.map((point, index) => (
-                  <li key={index} className="flex items-center">
-                    <div className="w-2 h-2 bg-accent-blue rounded-full mr-3" />
-                    {point}
-                  </li>
-                ))}
-              </ul>
             </div>
 
             {/* Step 2 */}
-            <div className="text-center">
-              <div className="w-16 h-16 bg-accent-blue rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">
+            <div className="text-center relative z-10">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-accent-blue rounded-full flex items-center justify-center text-white text-base md:text-lg font-bold mx-auto mb-3 shadow-large border-4 border-white">
                 2
               </div>
-              <h3 className="text-xl font-semibold mb-4 text-navy-primary">
+              <h3 className="text-sm md:text-base font-bold text-navy-primary leading-tight max-w-32 mx-auto">
                 {content.step2.title}
               </h3>
-              <p className="text-gray-600 mb-6">
-                {content.step2.subtitle}
-              </p>
-              <ul className="text-sm text-gray-500 space-y-2">
-                {content.step2.points.map((point, index) => (
-                  <li key={index} className="flex items-center">
-                    <div className="w-2 h-2 bg-accent-blue rounded-full mr-3" />
-                    {point}
-                  </li>
-                ))}
-              </ul>
             </div>
 
             {/* Step 3 */}
-            <div className="text-center">
-              <div className="w-16 h-16 bg-accent-blue rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">
+            <div className="text-center relative z-10">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-accent-blue rounded-full flex items-center justify-center text-white text-base md:text-lg font-bold mx-auto mb-3 shadow-large border-4 border-white">
                 3
               </div>
-              <h3 className="text-xl font-semibold mb-4 text-navy-primary">
+              <h3 className="text-sm md:text-base font-bold text-navy-primary leading-tight max-w-32 mx-auto">
                 {content.step3.title}
               </h3>
-              <p className="text-gray-600 mb-6">
-                {content.step3.subtitle}
-              </p>
-              <ul className="text-sm text-gray-500 space-y-2">
-                {content.step3.points.map((point, index) => (
-                  <li key={index} className="flex items-center">
-                    <div className="w-2 h-2 bg-accent-blue rounded-full mr-3" />
-                    {point}
-                  </li>
-                ))}
-              </ul>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Benefits Section */}
-      <section className="py-20 bg-gray-50">
+      {/* Benefits Section - Restructured */}
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-navy-primary">
+          <h2 className="text-xl md:text-2xl font-bold mb-4 text-navy-primary">
             {content.benefitsTitle}
           </h2>
 
-          <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-            <div className="bg-white p-8 rounded-lg shadow-sm">
-              <h3 className="text-xl font-semibold mb-4 text-navy-primary">
-                {content.benefits.access.title}
-              </h3>
-              <p className="text-gray-600">
-                {content.benefits.access.description}
-              </p>
+          {/* Closing Statement - Below Title */}
+          <p className="text-base md:text-lg font-medium text-navy-primary italic mb-8">
+            {content.closingStatement}
+          </p>
+
+          {/* Cards Grid */}
+          <div className="space-y-6">
+            {/* Top Row - 3 Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {content.benefits.slice(0, 3).map((benefit, index) => {
+                const [title, description] = benefit.split(': ');
+                return (
+                  <div key={index} className="bg-gray-50 p-5 rounded-lg shadow-sm">
+                    <h3 className="text-base font-bold text-navy-primary mb-2 leading-tight">
+                      {title}
+                    </h3>
+                    <p className="text-gray-600 text-sm leading-relaxed">
+                      {description}
+                    </p>
+                  </div>
+                );
+              })}
             </div>
 
-            <div className="bg-white p-8 rounded-lg shadow-sm">
-              <h3 className="text-xl font-semibold mb-4 text-navy-primary">
-                {content.benefits.transparency.title}
-              </h3>
-              <p className="text-gray-600">
-                {content.benefits.transparency.description}
-              </p>
-            </div>
-
-            <div className="bg-white p-8 rounded-lg shadow-sm">
-              <h3 className="text-xl font-semibold mb-4 text-navy-primary">
-                {content.benefits.support.title}
-              </h3>
-              <p className="text-gray-600">
-                {content.benefits.support.description}
-              </p>
-            </div>
-
-            <div className="bg-white p-8 rounded-lg shadow-sm">
-              <h3 className="text-xl font-semibold mb-4 text-navy-primary">
-                {content.benefits.response.title}
-              </h3>
-              <p className="text-gray-600">
-                {content.benefits.response.description}
-              </p>
+            {/* Bottom Row - 2 Cards Centered */}
+            <div className="flex justify-center">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl">
+                {content.benefits.slice(3, 5).map((benefit, index) => {
+                  const [title, description] = benefit.split(': ');
+                  return (
+                    <div key={index + 3} className="bg-gray-50 p-5 rounded-lg shadow-sm">
+                      <h3 className="text-base font-bold text-navy-primary mb-2 leading-tight">
+                        {title}
+                      </h3>
+                      <p className="text-gray-600 text-sm leading-relaxed">
+                        {description}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 bg-navy-primary text-white">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold mb-8">
-            {content.cta}
-          </h2>
-          <a
-            href={`/${locale}/quote`}
-            className="inline-flex items-center justify-center bg-accent-blue hover:bg-accent-blue/90 text-white min-h-[56px] px-8 text-lg font-semibold rounded-lg shadow-large hover:shadow-xl transform hover:scale-105 transition-all duration-200"
-          >
-            {locale === 'es' ? 'Cotizar ahora' :
-             locale === 'pt' ? 'Pedir cotação' :
-             'Get a quote'}
-          </a>
-        </div>
-      </section>
+      </main>
 
       <Footer locale={locale} />
       <WhatsAppWidget locale={locale} />

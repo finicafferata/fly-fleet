@@ -71,8 +71,7 @@ export function TestimonialsComponent({
             rating: 5,
             serviceUsed: 'Private Charter',
             dateOfService: '2024-02-15',
-            isFeatured: true,
-            videoUrl: '/videos/testimonials/carlos-mendoza.mp4'
+            isFeatured: true
           },
           {
             id: 'testimonial-2',
@@ -169,8 +168,7 @@ export function TestimonialsComponent({
             rating: 5,
             serviceUsed: 'Charter Privado',
             dateOfService: '2024-02-15',
-            isFeatured: true,
-            videoUrl: '/videos/testimonials/carlos-mendoza.mp4'
+            isFeatured: true
           },
           {
             id: 'testimonial-2',
@@ -216,8 +214,7 @@ export function TestimonialsComponent({
             rating: 5,
             serviceUsed: 'Charter Privado',
             dateOfService: '2024-02-15',
-            isFeatured: true,
-            videoUrl: '/videos/testimonials/carlos-mendoza.mp4'
+            isFeatured: true
           },
           {
             id: 'testimonial-2',
@@ -323,7 +320,7 @@ export function TestimonialsComponent({
     return (
       <div
         className={clsx(
-          'bg-white rounded-lg shadow-medium p-8 h-full',
+          'bg-white rounded-lg shadow-medium p-2 h-full w-full flex flex-col',
           variant === 'grid' && 'hover:shadow-large transition-shadow duration-300',
           variant === 'carousel' && isActive && 'ring-2 ring-accent-blue/50'
         )}
@@ -372,7 +369,7 @@ export function TestimonialsComponent({
         </div>
 
         {/* Testimonial Text */}
-        <blockquote className="text-neutral-dark mb-6 leading-relaxed">
+        <blockquote className="text-neutral-dark mb-6 leading-relaxed flex-grow">
           <p>"{displayText}"</p>
           {shouldTruncate && (
             <button
@@ -442,18 +439,9 @@ export function TestimonialsComponent({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }}
         />
 
-        <div className="text-center mb-12">
-          <h2 id="testimonials-title" className="text-3xl md:text-4xl font-bold text-navy-primary mb-4">
-            {content.title}
-          </h2>
-          <p className="text-lg text-neutral-medium max-w-2xl mx-auto">
-            {content.subtitle}
-          </p>
-        </div>
-
         <div
           ref={carouselRef}
-          className="testimonials-carousel relative max-w-4xl mx-auto"
+          className="testimonials-carousel relative"
           role="region"
           aria-label="Customer testimonials"
         >
@@ -461,76 +449,88 @@ export function TestimonialsComponent({
           <div aria-live="polite" aria-atomic="true" className="sr-only">
             {announceText}
           </div>
-          {/* Carousel Content */}
-          <div className="carousel-container overflow-hidden" aria-live="polite">
-            <div
-              className="flex transition-transform duration-500 ease-in-out"
-              style={{ transform: `translateX(-${activeIndex * 100}%)` }}
-            >
+
+          {/* Desktop: Three cards side by side */}
+          <div className="hidden md:block">
+            <div className="grid grid-cols-3 gap-4 max-w-full xl:max-w-[1600px] 2xl:max-w-[1800px] mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 2xl:px-12">
               {displayTestimonials.map((testimonial, index) => (
-                <article
-                  key={testimonial.id}
-                  className={clsx(
-                    'testimonial-card w-full flex-shrink-0 px-4',
-                    index === activeIndex ? 'active' : ''
-                  )}
-                  aria-hidden={index !== activeIndex}
-                >
-                  <TestimonialCard testimonial={testimonial} isActive={index === activeIndex} />
+                <article key={testimonial.id} className="testimonial-card flex">
+                  <TestimonialCard testimonial={testimonial} isActive={false} />
                 </article>
               ))}
             </div>
           </div>
 
-          {/* Navigation Controls */}
-          <div className="carousel-controls" role="group" aria-label="Testimonial navigation">
+          {/* Mobile: Single carousel */}
+          <div className="md:hidden">
+            <div className="carousel-container overflow-hidden max-w-sm mx-auto" aria-live="polite">
+              <div
+                className="flex transition-transform duration-500 ease-in-out"
+                style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+              >
+                {displayTestimonials.map((testimonial, index) => (
+                  <article
+                    key={testimonial.id}
+                    className={clsx(
+                      'testimonial-card w-full flex-shrink-0 px-2',
+                      index === activeIndex ? 'active' : ''
+                    )}
+                    aria-hidden={index !== activeIndex}
+                  >
+                    <TestimonialCard testimonial={testimonial} isActive={index === activeIndex} />
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Navigation Controls - Mobile Only */}
+          <div className="carousel-controls md:hidden" role="group" aria-label="Testimonial navigation">
             {displayTestimonials.length > 1 && (
               <>
                 <button
-                  className="carousel-prev absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white rounded-full p-3 shadow-large hover:shadow-xl transition-shadow focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                  className="carousel-prev absolute left-2 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-3 shadow-large hover:shadow-xl transition-shadow focus:outline-none focus:ring-2 focus:ring-accent-blue"
                   onClick={() => {
                     const newIndex = (activeIndex - 1 + displayTestimonials.length) % displayTestimonials.length;
                     setActiveIndex(newIndex);
                     setAnnounceText(`Showing testimonial ${newIndex + 1} of ${displayTestimonials.length}`);
                   }}
                   aria-label={content.prevTestimonial}
-                  disabled={activeIndex === 0}
                 >
                   <span aria-hidden="true">‹</span>
                 </button>
 
                 <button
-                  className="carousel-next absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white rounded-full p-3 shadow-large hover:shadow-xl transition-shadow focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                  className="carousel-next absolute right-2 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-3 shadow-large hover:shadow-xl transition-shadow focus:outline-none focus:ring-2 focus:ring-accent-blue"
                   onClick={() => {
                     const newIndex = (activeIndex + 1) % displayTestimonials.length;
                     setActiveIndex(newIndex);
                     setAnnounceText(`Showing testimonial ${newIndex + 1} of ${displayTestimonials.length}`);
                   }}
                   aria-label={content.nextTestimonial}
-                  disabled={activeIndex === displayTestimonials.length - 1}
                 >
                   <span aria-hidden="true">›</span>
                 </button>
 
-              {/* Auto-play Control */}
-              <button
-                onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-                className="absolute top-4 right-4 bg-white/90 rounded-full p-2 shadow-medium hover:shadow-large transition-shadow focus:outline-none focus:ring-2 focus:ring-accent-blue"
-                aria-label={isAutoPlaying ? content.pauseCarousel : content.playCarousel}
-              >
-                {isAutoPlaying ? (
-                  <svg className="w-4 h-4 text-navy-primary" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M5 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1H6a1 1 0 01-1-1V4zM11 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
-                  </svg>
-                ) : (
-                  <svg className="w-4 h-4 text-navy-primary" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
-                  </svg>
-                )}
-              </button>
+                {/* Auto-play Control */}
+                <button
+                  onClick={() => setIsAutoPlaying(!isAutoPlaying)}
+                  className="absolute top-4 right-4 bg-white/90 rounded-full p-2 shadow-medium hover:shadow-large transition-shadow focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                  aria-label={isAutoPlaying ? content.pauseCarousel : content.playCarousel}
+                >
+                  {isAutoPlaying ? (
+                    <svg className="w-4 h-4 text-navy-primary" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1H6a1 1 0 01-1-1V4zM11 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
+                    </svg>
+                  ) : (
+                    <svg className="w-4 h-4 text-navy-primary" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                    </svg>
+                  )}
+                </button>
 
                 {/* Dots Indicator */}
-                <div className="carousel-indicators flex justify-center mt-8 space-x-2" role="tablist" aria-label="Choose testimonial">
+                <div className="carousel-indicators flex justify-center mt-6 space-x-2" role="tablist" aria-label="Choose testimonial">
                   {displayTestimonials.map((_, index) => (
                     <button
                       key={index}
@@ -584,16 +584,7 @@ export function TestimonialsComponent({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }}
       />
 
-      <div className="text-center mb-12">
-        <h2 id="testimonials-title" className="text-3xl md:text-4xl font-bold text-navy-primary mb-4">
-          {content.title}
-        </h2>
-        <p className="text-lg text-neutral-medium max-w-2xl mx-auto">
-          {content.subtitle}
-        </p>
-      </div>
-
-      <div className="testimonials-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" role="list" aria-label="All testimonials">
+      <div className="testimonials-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" role="list" aria-label="All testimonials">
         {displayTestimonials.map((testimonial) => (
           <article className="testimonial-summary" role="listitem" key={testimonial.id}>
             <TestimonialCard testimonial={testimonial} />

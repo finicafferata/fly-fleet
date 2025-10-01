@@ -2,12 +2,15 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { clsx } from 'clsx';
+import { LanguageSwitcher } from './LanguageSwitcher';
 
 export interface NavigationProps {
   locale: 'en' | 'es' | 'pt';
   className?: string;
+  onLanguageChange?: (locale: string) => void;
 }
 
 const getNavigationContent = (locale: string) => {
@@ -29,7 +32,7 @@ const getNavigationContent = (locale: string) => {
       whatWeDo: 'Qué Hacemos',
       getQuote: 'Cotizar',
       fleetDestinations: 'Flota y Destinos',
-      aboutUs: 'Acerca de',
+      aboutUs: 'Nosotros',
       contact: 'Contacto',
       additionalServices: 'Servicios Adicionales',
       faqs: 'Preguntas Frecuentes',
@@ -53,7 +56,7 @@ const getNavigationContent = (locale: string) => {
   return content[locale as keyof typeof content] || content.en;
 };
 
-export function Navigation({ locale, className }: NavigationProps) {
+export function Navigation({ locale, className, onLanguageChange }: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
@@ -88,11 +91,11 @@ export function Navigation({ locale, className }: NavigationProps) {
     { href: `/${locale}`, label: content.home, key: 'home' },
     { href: `/${locale}/what-we-do`, label: content.whatWeDo, key: 'what-we-do' },
     { href: `/${locale}/quote`, label: content.getQuote, key: 'quote' },
+    { href: `/${locale}/additional-services`, label: content.additionalServices, key: 'additional-services' },
     { href: `/${locale}/fleet-destinations`, label: content.fleetDestinations, key: 'fleet-destinations' },
+    { href: `/${locale}/faqs`, label: content.faqs, key: 'faqs' },
     { href: `/${locale}/about`, label: content.aboutUs, key: 'about' },
     { href: `/${locale}/contact`, label: content.contact, key: 'contact' },
-    { href: `/${locale}/additional-services`, label: content.additionalServices, key: 'additional-services' },
-    { href: `/${locale}/faqs`, label: content.faqs, key: 'faqs' },
   ];
 
   const isActive = (href: string) => {
@@ -103,22 +106,22 @@ export function Navigation({ locale, className }: NavigationProps) {
   };
 
   const getLinkClassName = (href: string) => clsx(
-    'relative text-sm font-medium transition-colors duration-200',
+    'relative nav-text transition-colors duration-200 whitespace-nowrap',
     'hover:text-accent-blue focus:text-accent-blue',
     'focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2 focus:ring-offset-white',
-    'px-3 py-2 rounded-md',
+    'px-2 min-[1200px]:px-4 py-2 min-[1200px]:py-3 rounded-lg',
     isActive(href)
       ? 'text-accent-blue border-b-2 border-accent-blue'
       : 'text-gray-700 hover:text-accent-blue'
   );
 
   const getMobileLinkClassName = (href: string) => clsx(
-    'block px-4 py-3 text-base font-medium transition-colors duration-200',
+    'block px-6 py-4 text-lg font-medium transition-colors duration-200',
     'hover:bg-gray-50 hover:text-accent-blue',
     'focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-inset',
     isActive(href)
-      ? 'text-accent-blue bg-accent-blue/5 border-r-4 border-accent-blue'
-      : 'text-gray-700'
+      ? 'text-accent-blue bg-accent-blue/5 border-l-4 border-accent-blue'
+      : 'text-gray-700 border-l-4 border-transparent'
   );
 
   if (!mounted) {
@@ -127,71 +130,107 @@ export function Navigation({ locale, className }: NavigationProps) {
 
   return (
     <nav
-      className={clsx('bg-white shadow-sm relative z-40', className)}
+      className={clsx('bg-white shadow-sm fixed top-0 left-0 right-0 z-50', className)}
       aria-label={content.menuLabel}
       ref={menuRef}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+      <div className="max-w-full xl:max-w-[1600px] 2xl:max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
+        <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link
             href={`/${locale}`}
-            className="flex items-center space-x-2 text-navy-primary hover:text-accent-blue transition-colors duration-200"
+            className="flex items-center text-navy-primary hover:text-accent-blue transition-colors duration-200"
           >
-            <svg
-              className="h-8 w-8"
-              viewBox="0 0 32 32"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path d="M16 2L3 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-13-5z" />
-            </svg>
-            <span className="font-bold text-xl">Fly-Fleet</span>
+            <div className="flex items-center space-x-3">
+              <svg className="h-7 w-9" viewBox="0 0 32 24" fill="currentColor">
+                <path d="M8 6l8 4-8 4V6zm16 0l-8 4 8 4V6z" />
+                <path d="M0 10h6v4H0zm26 0h6v4h-6z" />
+              </svg>
+              <span className="text-2xl font-bold tracking-tight">FLY-FLEET</span>
+            </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex lg:items-center lg:space-x-1">
-            {navigationItems.map((item) => (
-              <Link
-                key={item.key}
-                href={item.href}
-                className={getLinkClassName(item.href)}
-              >
-                {item.label}
-              </Link>
-            ))}
+          {/* Desktop Navigation and Language Switcher */}
+          <div className="hidden min-[1200px]:flex min-[1200px]:items-center min-[1200px]:justify-end min-[1200px]:flex-1 min-[1200px]:space-x-6 xl:space-x-8">
+            <div className="flex items-center space-x-1 xl:space-x-2">
+              {navigationItems.map((item) => (
+                <Link
+                  key={item.key}
+                  href={item.href}
+                  className={getLinkClassName(item.href)}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+            <LanguageSwitcher
+              currentLocale={locale}
+              onLanguageChange={onLanguageChange}
+              showFlags={true}
+              showNativeNames={false}
+            />
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            type="button"
-            className="lg:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-accent-blue hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-inset"
-            aria-expanded={isOpen}
-            aria-controls="mobile-menu"
-            aria-label={content.toggleMenu}
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            <svg
-              className={clsx('h-6 w-6 transition-transform duration-200', isOpen && 'rotate-90')}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              {isOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          {/* Mobile Menu Button and Language Switcher */}
+          <div className="flex items-center space-x-4">
+            <LanguageSwitcher
+              currentLocale={locale}
+              onLanguageChange={onLanguageChange}
+              showFlags={true}
+              showNativeNames={false}
+              className="max-[1199px]:block min-[1200px]:hidden"
+            />
+
+            {/* Hamburger Menu Button */}
+            <button
+              type="button"
+              className={clsx(
+                'max-[1199px]:inline-flex min-[1200px]:hidden items-center justify-center p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-inset transition-all duration-200',
+                isOpen
+                  ? 'bg-accent-blue hover:bg-accent-blue/90 text-white'
+                  : 'text-navy-primary hover:text-accent-blue hover:bg-gray-50'
               )}
-            </svg>
-          </button>
+              aria-expanded={isOpen}
+              aria-controls="mobile-menu"
+              aria-label={content.toggleMenu}
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              {/* Hamburger Icon with Animation */}
+              <div className="w-6 h-6 flex flex-col justify-center items-center">
+                <span
+                  className={clsx(
+                    'block w-5 h-0.5 transition-all duration-300 ease-in-out',
+                    isOpen
+                      ? 'bg-white rotate-45 translate-y-1.5'
+                      : 'bg-current mb-1'
+                  )}
+                />
+                <span
+                  className={clsx(
+                    'block w-5 h-0.5 transition-all duration-300 ease-in-out',
+                    isOpen
+                      ? 'bg-white opacity-0'
+                      : 'bg-current mb-1'
+                  )}
+                />
+                <span
+                  className={clsx(
+                    'block w-5 h-0.5 transition-all duration-300 ease-in-out',
+                    isOpen
+                      ? 'bg-white -rotate-45 -translate-y-1.5'
+                      : 'bg-current'
+                  )}
+                />
+              </div>
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Mobile Menu Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-25 z-40 lg:hidden"
+          className="fixed inset-0 bg-black bg-opacity-30 z-40 max-[1199px]:block min-[1200px]:hidden"
           aria-hidden="true"
           onClick={() => setIsOpen(false)}
         />
@@ -201,74 +240,42 @@ export function Navigation({ locale, className }: NavigationProps) {
       <div
         id="mobile-menu"
         className={clsx(
-          'lg:hidden fixed top-16 inset-x-0 bg-white shadow-lg z-50 transform transition-transform duration-300 ease-in-out',
-          isOpen ? 'translate-y-0' : '-translate-y-full'
+          'max-[1199px]:block min-[1200px]:hidden fixed top-20 left-0 right-0 bg-white border-t border-gray-100 shadow-xl z-45 transition-all duration-300 ease-in-out',
+          isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
         )}
       >
-        <div className="py-4 space-y-1 max-h-screen overflow-y-auto">
-          {/* Core Services Group */}
-          <div className="px-4 py-2">
-            <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-              {locale === 'es' ? 'Servicios Principales' :
-               locale === 'pt' ? 'Serviços Principais' :
-               'Core Services'}
-            </h3>
+        <div className="py-8 max-h-[calc(100vh-120px)] overflow-y-auto">
+          <div className="space-y-1">
+            {navigationItems.map((item) => (
+              <Link
+                key={item.key}
+                href={item.href}
+                className={getMobileLinkClassName(item.href)}
+                onClick={() => setIsOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
           </div>
-          {navigationItems.slice(1, 4).map((item) => (
-            <Link
-              key={item.key}
-              href={item.href}
-              className={getMobileLinkClassName(item.href)}
-              onClick={() => setIsOpen(false)}
-            >
-              {item.label}
-            </Link>
-          ))}
 
-          {/* Information Group */}
-          <div className="px-4 py-2 mt-4">
-            <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-              {locale === 'es' ? 'Información' :
-               locale === 'pt' ? 'Informação' :
-               'Information'}
-            </h3>
-          </div>
-          {[navigationItems[4], navigationItems[6], navigationItems[7]].map((item) => (
-            <Link
-              key={item.key}
-              href={item.href}
-              className={getMobileLinkClassName(item.href)}
-              onClick={() => setIsOpen(false)}
+          {/* Mobile Menu Footer */}
+          <div className="mt-8 pt-6 border-t border-gray-100 text-center">
+            <p className="text-sm text-gray-500 mb-4">
+              {locale === 'es' ? '¿Listo para volar?' :
+               locale === 'pt' ? 'Pronto para voar?' :
+               'Ready to fly?'}
+            </p>
+            <button
+              onClick={() => {
+                setIsOpen(false);
+                // Trigger quote form - you may need to pass this from parent
+              }}
+              className="inline-flex items-center px-6 py-3 bg-accent-blue text-white font-semibold rounded-lg hover:bg-accent-blue/90 transition-colors duration-200"
             >
-              {item.label}
-            </Link>
-          ))}
-
-          {/* Support Group */}
-          <div className="px-4 py-2 mt-4">
-            <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-              {locale === 'es' ? 'Soporte' :
-               locale === 'pt' ? 'Suporte' :
-               'Support'}
-            </h3>
-          </div>
-          <Link
-            href={navigationItems[5].href}
-            className={getMobileLinkClassName(navigationItems[5].href)}
-            onClick={() => setIsOpen(false)}
-          >
-            {navigationItems[5].label}
-          </Link>
-
-          {/* Home Link */}
-          <div className="border-t border-gray-200 mt-4 pt-4">
-            <Link
-              href={navigationItems[0].href}
-              className={getMobileLinkClassName(navigationItems[0].href)}
-              onClick={() => setIsOpen(false)}
-            >
-              {navigationItems[0].label}
-            </Link>
+              {locale === 'es' ? 'Solicitar Cotización' :
+               locale === 'pt' ? 'Solicitar Cotação' :
+               'Get Quote'}
+            </button>
           </div>
         </div>
       </div>

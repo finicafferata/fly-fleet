@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 
@@ -113,14 +113,22 @@ const getContent = (locale: string) => {
 
 export default function LegalPage() {
   const params = useParams();
+  const router = useRouter();
   const locale = params.locale as 'en' | 'es' | 'pt';
   const content = getContent(locale);
 
   return (
-    <div className="min-h-screen bg-white">
-      <Navigation locale={locale} />
+    <div className="min-h-screen bg-white" lang={locale}>
+      <Navigation
+        locale={locale}
+        onLanguageChange={(newLocale) => {
+          router.push(`/${newLocale}/legal`);
+        }}
+      />
 
-      {/* Hero Section */}
+      {/* Main Content - Account for fixed header */}
+      <main className="pt-20">
+        {/* Hero Section */}
       <section className="bg-gradient-to-br from-navy-primary to-navy-primary/90 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl">
@@ -199,6 +207,7 @@ export default function LegalPage() {
           </div>
         </div>
       </section>
+      </main>
 
       <Footer locale={locale} />
     </div>

@@ -215,7 +215,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
             </span>
             <svg
               className={clsx(
-                'w-5 h-5 transition-transform duration-200',
+                'w-3 h-3 ml-2 transition-transform duration-200',
                 isOpen && 'rotate-180'
               )}
               fill="none"
