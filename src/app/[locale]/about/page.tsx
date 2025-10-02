@@ -12,15 +12,16 @@ const getContent = (locale: string) => {
       title: 'About Fly-Fleet',
       mission: {
         title: 'Our Mission',
-        text: 'Democratize access to private aviation by connecting passengers with certified operators transparently and efficiently.'
+        text: 'At Fly-Fleet, we build trust from the first contact.'
       },
       certifications: {
         title: 'Certifications and Insurance',
         items: [
-          'ANAC, FAA, EASA certified operators',
-          'Comprehensive liability insurance',
-          'Operational safety certifications',
-          'International regulatory compliance'
+          'International regulations (FAA, EASA, ANAC)',
+          'Comprehensive insurance for passengers and aircraft',
+          'Team with experience in private and corporate aviation',
+          'Exclusive 24/7 support',
+          'Total transparency in every quote and operation'
         ]
       },
       commitment: {
@@ -65,21 +66,22 @@ const getContent = (locale: string) => {
           }
         ]
       },
-      cta: 'Experience the Fly-Fleet Difference'
+      cta: 'We are more than a broker: we are your strategic partner in the air'
     },
     es: {
       title: 'Nosotros',
       mission: {
         title: 'Nuestra Misión',
-        text: 'Democratizar el acceso a la aviación privada conectando pasajeros con operadores certificados de manera transparente y eficiente.'
+        text: 'En Fly-Fleet construimos confianza desde el primer contacto.'
       },
       certifications: {
         title: 'Certificaciones y Seguros',
         items: [
-          'Operadores certificados ANAC, FAA, EASA',
-          'Seguro de responsabilidad civil integral',
-          'Certificaciones de seguridad operacional',
-          'Cumplimiento regulatorio internacional'
+          'Normativas internacionales (FAA, EASA, ANAC)',
+          'Seguros integrales para pasajeros y aeronaves',
+          'Equipo con trayectoria en aviación privada y corporativa',
+          'Atención exclusiva 24/7',
+          'Transparencia total en cada cotización y operación'
         ]
       },
       commitment: {
@@ -124,21 +126,22 @@ const getContent = (locale: string) => {
           }
         ]
       },
-      cta: 'Experimentá la Diferencia Fly-Fleet'
+      cta: 'Somos más que un bróker: somos tu socio estratégico en el aire'
     },
     pt: {
       title: 'Sobre a Fly-Fleet',
       mission: {
         title: 'Nossa Missão',
-        text: 'Democratizar o acesso à aviação privada conectando passageiros com operadores certificados de forma transparente e eficiente.'
+        text: 'Na Fly-Fleet, construímos confiança desde o primeiro contato.'
       },
       certifications: {
         title: 'Certificações e Seguros',
         items: [
-          'Operadores certificados ANAC, FAA, EASA',
-          'Seguro de responsabilidade civil integral',
-          'Certificações de segurança operacional',
-          'Conformidade regulatória internacional'
+          'Regulamentações internacionais (FAA, EASA, ANAC)',
+          'Seguros integrais para passageiros e aeronaves',
+          'Equipe com trajetória em aviação privada e corporativa',
+          'Atendimento exclusivo 24/7',
+          'Transparência total em cada cotação e operação'
         ]
       },
       commitment: {
@@ -183,7 +186,7 @@ const getContent = (locale: string) => {
           }
         ]
       },
-      cta: 'Experimente a Diferença Fly-Fleet'
+      cta: 'Somos mais que um corretor: somos seu parceiro estratégico no ar'
     }
   };
 
