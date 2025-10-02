@@ -96,7 +96,6 @@ export default function QuotePage() {
       </main>
 
       <Footer locale={locale} />
-      <WhatsAppWidget locale={locale} />
     </div>
   );
 }

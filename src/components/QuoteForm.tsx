@@ -26,28 +26,28 @@ interface Airport {
   isPopular: boolean;
 }
 
-// Complete country codes list with flags and unique ISO codes
+// Complete country codes list with flags, unique ISO codes, and localized names
 const allCountryCodes = [
-  { code: '+93', country: 'Afghanistan', flag: '🇦🇫', iso: 'AF' },
-  { code: '+355', country: 'Albania', flag: '🇦🇱', iso: 'AL' },
-  { code: '+213', country: 'Algeria', flag: '🇩🇿', iso: 'DZ' },
-  { code: '+1684', country: 'American Samoa', flag: '🇦🇸', iso: 'AS' },
-  { code: '+376', country: 'Andorra', flag: '🇦🇩', iso: 'AD' },
-  { code: '+244', country: 'Angola', flag: '🇦🇴', iso: 'AO' },
-  { code: '+1264', country: 'Anguilla', flag: '🇦🇮', iso: 'AI' },
-  { code: '+1268', country: 'Antigua and Barbuda', flag: '🇦🇬', iso: 'AG' },
-  { code: '+54', country: 'Argentina', flag: '🇦🇷', iso: 'AR' },
+  { code: '+93', country: { en: 'Afghanistan', es: 'Afganistán', pt: 'Afeganistão' }, flag: '🇦🇫', iso: 'AF' },
+  { code: '+355', country: { en: 'Albania', es: 'Albania', pt: 'Albânia' }, flag: '🇦🇱', iso: 'AL' },
+  { code: '+213', country: { en: 'Algeria', es: 'Argelia', pt: 'Argélia' }, flag: '🇩🇿', iso: 'DZ' },
+  { code: '+1684', country: { en: 'American Samoa', es: 'Samoa Americana', pt: 'Samoa Americana' }, flag: '🇦🇸', iso: 'AS' },
+  { code: '+376', country: { en: 'Andorra', es: 'Andorra', pt: 'Andorra' }, flag: '🇦🇩', iso: 'AD' },
+  { code: '+244', country: { en: 'Angola', es: 'Angola', pt: 'Angola' }, flag: '🇦🇴', iso: 'AO' },
+  { code: '+1264', country: { en: 'Anguilla', es: 'Anguila', pt: 'Anguilla' }, flag: '🇦🇮', iso: 'AI' },
+  { code: '+1268', country: { en: 'Antigua and Barbuda', es: 'Antigua y Barbuda', pt: 'Antígua e Barbuda' }, flag: '🇦🇬', iso: 'AG' },
+  { code: '+54', country: { en: 'Argentina', es: 'Argentina', pt: 'Argentina' }, flag: '🇦🇷', iso: 'AR' },
   { code: '+374', country: 'Armenia', flag: '🇦🇲', iso: 'AM' },
   { code: '+297', country: 'Aruba', flag: '🇦🇼', iso: 'AW' },
-  { code: '+61', country: 'Australia', flag: '🇦🇺', iso: 'AU' },
-  { code: '+43', country: 'Austria', flag: '🇦🇹', iso: 'AT' },
-  { code: '+994', country: 'Azerbaijan', flag: '🇦🇿', iso: 'AZ' },
-  { code: '+1242', country: 'Bahamas', flag: '🇧🇸', iso: 'BS' },
-  { code: '+973', country: 'Bahrain', flag: '🇧🇭', iso: 'BH' },
-  { code: '+880', country: 'Bangladesh', flag: '🇧🇩', iso: 'BD' },
-  { code: '+1246', country: 'Barbados', flag: '🇧🇧', iso: 'BB' },
-  { code: '+375', country: 'Belarus', flag: '🇧🇾', iso: 'BY' },
-  { code: '+32', country: 'Belgium', flag: '🇧🇪', iso: 'BE' },
+  { code: '+61', country: { en: 'Australia', es: 'Australia', pt: 'Austrália' }, flag: '🇦🇺', iso: 'AU' },
+  { code: '+43', country: { en: 'Austria', es: 'Austria', pt: 'Áustria' }, flag: '🇦🇹', iso: 'AT' },
+  { code: '+994', country: { en: 'Azerbaijan', es: 'Azerbaiyán', pt: 'Azerbaijão' }, flag: '🇦🇿', iso: 'AZ' },
+  { code: '+1242', country: { en: 'Bahamas', es: 'Bahamas', pt: 'Bahamas' }, flag: '🇧🇸', iso: 'BS' },
+  { code: '+973', country: { en: 'Bahrain', es: 'Baréin', pt: 'Bahrein' }, flag: '🇧🇭', iso: 'BH' },
+  { code: '+880', country: { en: 'Bangladesh', es: 'Bangladés', pt: 'Bangladesh' }, flag: '🇧🇩', iso: 'BD' },
+  { code: '+1246', country: { en: 'Barbados', es: 'Barbados', pt: 'Barbados' }, flag: '🇧🇧', iso: 'BB' },
+  { code: '+375', country: { en: 'Belarus', es: 'Bielorrusia', pt: 'Bielorrússia' }, flag: '🇧🇾', iso: 'BY' },
+  { code: '+32', country: { en: 'Belgium', es: 'Bélgica', pt: 'Bélgica' }, flag: '🇧🇪', iso: 'BE' },
   { code: '+501', country: 'Belize', flag: '🇧🇿', iso: 'BZ' },
   { code: '+229', country: 'Benin', flag: '🇧🇯', iso: 'BJ' },
   { code: '+1441', country: 'Bermuda', flag: '🇧🇲', iso: 'BM' },
@@ -55,21 +55,21 @@ const allCountryCodes = [
   { code: '+591', country: 'Bolivia', flag: '🇧🇴', iso: 'BO' },
   { code: '+387', country: 'Bosnia and Herzegovina', flag: '🇧🇦', iso: 'BA' },
   { code: '+267', country: 'Botswana', flag: '🇧🇼', iso: 'BW' },
-  { code: '+55', country: 'Brazil', flag: '🇧🇷', iso: 'BR' },
+  { code: '+55', country: { en: 'Brazil', es: 'Brasil', pt: 'Brasil' }, flag: '🇧🇷', iso: 'BR' },
   { code: '+673', country: 'Brunei', flag: '🇧🇳', iso: 'BN' },
   { code: '+359', country: 'Bulgaria', flag: '🇧🇬', iso: 'BG' },
   { code: '+226', country: 'Burkina Faso', flag: '🇧🇫', iso: 'BF' },
   { code: '+257', country: 'Burundi', flag: '🇧🇮', iso: 'BI' },
   { code: '+855', country: 'Cambodia', flag: '🇰🇭', iso: 'KH' },
   { code: '+237', country: 'Cameroon', flag: '🇨🇲', iso: 'CM' },
-  { code: '+1', country: 'Canada', flag: '🇨🇦', iso: 'CA' },
+  { code: '+1', country: { en: 'Canada', es: 'Canadá', pt: 'Canadá' }, flag: '🇨🇦', iso: 'CA' },
   { code: '+238', country: 'Cape Verde', flag: '🇨🇻', iso: 'CV' },
   { code: '+1345', country: 'Cayman Islands', flag: '🇰🇾', iso: 'KY' },
   { code: '+236', country: 'Central African Republic', flag: '🇨🇫', iso: 'CF' },
   { code: '+235', country: 'Chad', flag: '🇹🇩', iso: 'TD' },
-  { code: '+56', country: 'Chile', flag: '🇨🇱', iso: 'CL' },
-  { code: '+86', country: 'China', flag: '🇨🇳', iso: 'CN' },
-  { code: '+57', country: 'Colombia', flag: '🇨🇴', iso: 'CO' },
+  { code: '+56', country: { en: 'Chile', es: 'Chile', pt: 'Chile' }, flag: '🇨🇱', iso: 'CL' },
+  { code: '+86', country: { en: 'China', es: 'China', pt: 'China' }, flag: '🇨🇳', iso: 'CN' },
+  { code: '+57', country: { en: 'Colombia', es: 'Colombia', pt: 'Colômbia' }, flag: '🇨🇴', iso: 'CO' },
   { code: '+269', country: 'Comoros', flag: '🇰🇲', iso: 'KM' },
   { code: '+242', country: 'Congo', flag: '🇨🇬', iso: 'CG' },
   { code: '+243', country: 'Congo (Democratic Republic)', flag: '🇨🇩', iso: 'CD' },
@@ -80,11 +80,11 @@ const allCountryCodes = [
   { code: '+53', country: 'Cuba', flag: '🇨🇺', iso: 'CU' },
   { code: '+599', country: 'Curaçao', flag: '🇨🇼', iso: 'CW' },
   { code: '+357', country: 'Cyprus', flag: '🇨🇾', iso: 'CY' },
-  { code: '+420', country: 'Czech Republic', flag: '🇨🇿', iso: 'CZ' },
-  { code: '+45', country: 'Denmark', flag: '🇩🇰', iso: 'DK' },
+  { code: '+420', country: { en: 'Czech Republic', es: 'República Checa', pt: 'República Tcheca' }, flag: '🇨🇿', iso: 'CZ' },
+  { code: '+45', country: { en: 'Denmark', es: 'Dinamarca', pt: 'Dinamarca' }, flag: '🇩🇰', iso: 'DK' },
   { code: '+253', country: 'Djibouti', flag: '🇩🇯', iso: 'DJ' },
   { code: '+1767', country: 'Dominica', flag: '🇩🇲', iso: 'DM' },
-  { code: '+1809', country: 'Dominican Republic', flag: '🇩🇴', iso: 'DO' },
+  { code: '+1809', country: { en: 'Dominican Republic', es: 'República Dominicana', pt: 'República Dominicana' }, flag: '🇩🇴', iso: 'DO' },
   { code: '+593', country: 'Ecuador', flag: '🇪🇨', iso: 'EC' },
   { code: '+20', country: 'Egypt', flag: '🇪🇬', iso: 'EG' },
   { code: '+503', country: 'El Salvador', flag: '🇸🇻', iso: 'SV' },
@@ -95,17 +95,17 @@ const allCountryCodes = [
   { code: '+500', country: 'Falkland Islands', flag: '🇫🇰', iso: 'FK' },
   { code: '+298', country: 'Faroe Islands', flag: '🇫🇴', iso: 'FO' },
   { code: '+679', country: 'Fiji', flag: '🇫🇯', iso: 'FJ' },
-  { code: '+358', country: 'Finland', flag: '🇫🇮', iso: 'FI' },
-  { code: '+33', country: 'France', flag: '🇫🇷', iso: 'FR' },
+  { code: '+358', country: { en: 'Finland', es: 'Finlandia', pt: 'Finlândia' }, flag: '🇫🇮', iso: 'FI' },
+  { code: '+33', country: { en: 'France', es: 'Francia', pt: 'França' }, flag: '🇫🇷', iso: 'FR' },
   { code: '+594', country: 'French Guiana', flag: '🇬🇫', iso: 'GF' },
   { code: '+689', country: 'French Polynesia', flag: '🇵🇫', iso: 'PF' },
   { code: '+241', country: 'Gabon', flag: '🇬🇦', iso: 'GA' },
   { code: '+220', country: 'Gambia', flag: '🇬🇲', iso: 'GM' },
   { code: '+995', country: 'Georgia', flag: '🇬🇪', iso: 'GE' },
-  { code: '+49', country: 'Germany', flag: '🇩🇪', iso: 'DE' },
+  { code: '+49', country: { en: 'Germany', es: 'Alemania', pt: 'Alemanha' }, flag: '🇩🇪', iso: 'DE' },
   { code: '+233', country: 'Ghana', flag: '🇬🇭', iso: 'GH' },
   { code: '+350', country: 'Gibraltar', flag: '🇬🇮', iso: 'GI' },
-  { code: '+30', country: 'Greece', flag: '🇬🇷', iso: 'GR' },
+  { code: '+30', country: { en: 'Greece', es: 'Grecia', pt: 'Grécia' }, flag: '🇬🇷', iso: 'GR' },
   { code: '+299', country: 'Greenland', flag: '🇬🇱', iso: 'GL' },
   { code: '+1473', country: 'Grenada', flag: '🇬🇩', iso: 'GD' },
   { code: '+590', country: 'Guadeloupe', flag: '🇬🇵', iso: 'GP' },
@@ -120,16 +120,16 @@ const allCountryCodes = [
   { code: '+852', country: 'Hong Kong', flag: '🇭🇰', iso: 'HK' },
   { code: '+36', country: 'Hungary', flag: '🇭🇺', iso: 'HU' },
   { code: '+354', country: 'Iceland', flag: '🇮🇸', iso: 'IS' },
-  { code: '+91', country: 'India', flag: '🇮🇳', iso: 'IN' },
+  { code: '+91', country: { en: 'India', es: 'India', pt: 'Índia' }, flag: '🇮🇳', iso: 'IN' },
   { code: '+62', country: 'Indonesia', flag: '🇮🇩', iso: 'ID' },
   { code: '+98', country: 'Iran', flag: '🇮🇷', iso: 'IR' },
   { code: '+964', country: 'Iraq', flag: '🇮🇶', iso: 'IQ' },
   { code: '+353', country: 'Ireland', flag: '🇮🇪', iso: 'IE' },
   { code: '+44', country: 'Isle of Man', flag: '🇮🇲', iso: 'IM' },
   { code: '+972', country: 'Israel', flag: '🇮🇱', iso: 'IL' },
-  { code: '+39', country: 'Italy', flag: '🇮🇹', iso: 'IT' },
+  { code: '+39', country: { en: 'Italy', es: 'Italia', pt: 'Itália' }, flag: '🇮🇹', iso: 'IT' },
   { code: '+1876', country: 'Jamaica', flag: '🇯🇲', iso: 'JM' },
-  { code: '+81', country: 'Japan', flag: '🇯🇵', iso: 'JP' },
+  { code: '+81', country: { en: 'Japan', es: 'Japón', pt: 'Japão' }, flag: '🇯🇵', iso: 'JP' },
   { code: '+44', country: 'Jersey', flag: '🇯🇪', iso: 'JE' },
   { code: '+962', country: 'Jordan', flag: '🇯🇴', iso: 'JO' },
   { code: '+7', country: 'Kazakhstan', flag: '🇰🇿', iso: 'KZ' },
@@ -161,7 +161,7 @@ const allCountryCodes = [
   { code: '+222', country: 'Mauritania', flag: '🇲🇷', iso: 'MR' },
   { code: '+230', country: 'Mauritius', flag: '🇲🇺', iso: 'MU' },
   { code: '+262', country: 'Mayotte', flag: '🇾🇹', iso: 'YT' },
-  { code: '+52', country: 'Mexico', flag: '🇲🇽', iso: 'MX' },
+  { code: '+52', country: { en: 'Mexico', es: 'México', pt: 'México' }, flag: '🇲🇽', iso: 'MX' },
   { code: '+691', country: 'Micronesia', flag: '🇫🇲', iso: 'FM' },
   { code: '+373', country: 'Moldova', flag: '🇲🇩', iso: 'MD' },
   { code: '+377', country: 'Monaco', flag: '🇲🇨', iso: 'MC' },
@@ -174,7 +174,7 @@ const allCountryCodes = [
   { code: '+264', country: 'Namibia', flag: '🇳🇦', iso: 'NA' },
   { code: '+674', country: 'Nauru', flag: '🇳🇷', iso: 'NR' },
   { code: '+977', country: 'Nepal', flag: '🇳🇵', iso: 'NP' },
-  { code: '+31', country: 'Netherlands', flag: '🇳🇱', iso: 'NL' },
+  { code: '+31', country: { en: 'Netherlands', es: 'Países Bajos', pt: 'Países Baixos' }, flag: '🇳🇱', iso: 'NL' },
   { code: '+687', country: 'New Caledonia', flag: '🇳🇨', iso: 'NC' },
   { code: '+64', country: 'New Zealand', flag: '🇳🇿', iso: 'NZ' },
   { code: '+505', country: 'Nicaragua', flag: '🇳🇮', iso: 'NI' },
@@ -188,18 +188,18 @@ const allCountryCodes = [
   { code: '+92', country: 'Pakistan', flag: '🇵🇰', iso: 'PK' },
   { code: '+680', country: 'Palau', flag: '🇵🇼', iso: 'PW' },
   { code: '+970', country: 'Palestine', flag: '🇵🇸', iso: 'PS' },
-  { code: '+507', country: 'Panama', flag: '🇵🇦', iso: 'PA' },
+  { code: '+507', country: { en: 'Panama', es: 'Panamá', pt: 'Panamá' }, flag: '🇵🇦', iso: 'PA' },
   { code: '+675', country: 'Papua New Guinea', flag: '🇵🇬', iso: 'PG' },
   { code: '+595', country: 'Paraguay', flag: '🇵🇾', iso: 'PY' },
   { code: '+51', country: 'Peru', flag: '🇵🇪', iso: 'PE' },
   { code: '+63', country: 'Philippines', flag: '🇵🇭', iso: 'PH' },
   { code: '+48', country: 'Poland', flag: '🇵🇱', iso: 'PL' },
-  { code: '+351', country: 'Portugal', flag: '🇵🇹', iso: 'PT' },
+  { code: '+351', country: { en: 'Portugal', es: 'Portugal', pt: 'Portugal' }, flag: '🇵🇹', iso: 'PT' },
   { code: '+1787', country: 'Puerto Rico', flag: '🇵🇷', iso: 'PR' },
   { code: '+974', country: 'Qatar', flag: '🇶🇦', iso: 'QA' },
   { code: '+262', country: 'Réunion', flag: '🇷🇪', iso: 'RE' },
   { code: '+40', country: 'Romania', flag: '🇷🇴', iso: 'RO' },
-  { code: '+7', country: 'Russia', flag: '🇷🇺', iso: 'RU' },
+  { code: '+7', country: { en: 'Russia', es: 'Rusia', pt: 'Rússia' }, flag: '🇷🇺', iso: 'RU' },
   { code: '+250', country: 'Rwanda', flag: '🇷🇼', iso: 'RW' },
   { code: '+590', country: 'Saint Barthélemy', flag: '🇧🇱', iso: 'BL' },
   { code: '+290', country: 'Saint Helena', flag: '🇸🇭', iso: 'SH' },
@@ -224,14 +224,14 @@ const allCountryCodes = [
   { code: '+252', country: 'Somalia', flag: '🇸🇴', iso: 'SO' },
   { code: '+27', country: 'South Africa', flag: '🇿🇦', iso: 'ZA' },
   { code: '+211', country: 'South Sudan', flag: '🇸🇸', iso: 'SS' },
-  { code: '+34', country: 'Spain', flag: '🇪🇸', iso: 'ES' },
+  { code: '+34', country: { en: 'Spain', es: 'España', pt: 'Espanha' }, flag: '🇪🇸', iso: 'ES' },
   { code: '+94', country: 'Sri Lanka', flag: '🇱🇰', iso: 'LK' },
   { code: '+249', country: 'Sudan', flag: '🇸🇩', iso: 'SD' },
   { code: '+597', country: 'Suriname', flag: '🇸🇷', iso: 'SR' },
   { code: '+47', country: 'Svalbard and Jan Mayen', flag: '🇸🇯', iso: 'SJ' },
   { code: '+268', country: 'Swaziland', flag: '🇸🇿', iso: 'SZ' },
-  { code: '+46', country: 'Sweden', flag: '🇸🇪', iso: 'SE' },
-  { code: '+41', country: 'Switzerland', flag: '🇨🇭', iso: 'CH' },
+  { code: '+46', country: { en: 'Sweden', es: 'Suecia', pt: 'Suécia' }, flag: '🇸🇪', iso: 'SE' },
+  { code: '+41', country: { en: 'Switzerland', es: 'Suiza', pt: 'Suíça' }, flag: '🇨🇭', iso: 'CH' },
   { code: '+963', country: 'Syria', flag: '🇸🇾', iso: 'SY' },
   { code: '+886', country: 'Taiwan', flag: '🇹🇼', iso: 'TW' },
   { code: '+992', country: 'Tajikistan', flag: '🇹🇯', iso: 'TJ' },
@@ -250,9 +250,9 @@ const allCountryCodes = [
   { code: '+256', country: 'Uganda', flag: '🇺🇬', iso: 'UG' },
   { code: '+380', country: 'Ukraine', flag: '🇺🇦', iso: 'UA' },
   { code: '+971', country: 'United Arab Emirates', flag: '🇦🇪', iso: 'AE' },
-  { code: '+44', country: 'United Kingdom', flag: '🇬🇧', iso: 'GB' },
-  { code: '+1', country: 'United States', flag: '🇺🇸', iso: 'US' },
-  { code: '+598', country: 'Uruguay', flag: '🇺🇾', iso: 'UY' },
+  { code: '+44', country: { en: 'United Kingdom', es: 'Reino Unido', pt: 'Reino Unido' }, flag: '🇬🇧', iso: 'GB' },
+  { code: '+1', country: { en: 'United States', es: 'Estados Unidos', pt: 'Estados Unidos' }, flag: '🇺🇸', iso: 'US' },
+  { code: '+598', country: { en: 'Uruguay', es: 'Uruguay', pt: 'Uruguai' }, flag: '🇺🇾', iso: 'UY' },
   { code: '+998', country: 'Uzbekistan', flag: '🇺🇿', iso: 'UZ' },
   { code: '+678', country: 'Vanuatu', flag: '🇻🇺', iso: 'VU' },
   { code: '+39', country: 'Vatican City', flag: '🇻🇦', iso: 'VA' },
@@ -267,25 +267,37 @@ const allCountryCodes = [
   { code: '+263', country: 'Zimbabwe', flag: '🇿🇼', iso: 'ZW' },
 ];
 
-// Function to get ordered country codes with priority countries first
-const getOrderedCountryCodes = () => {
+// Helper function to get localized country name
+const getLocalizedCountryName = (country: any, locale: string = 'en') => {
+  if (typeof country === 'string') {
+    return country;
+  }
+  return country[locale as keyof typeof country] || country.en || country;
+};
+
+// Function to get country codes with priority countries first, then alphabetical
+const getOrderedCountryCodes = (locale: string = 'en') => {
   // Priority countries in the specified order
-  const priorityIsos = ['AR', 'BR', 'UY', 'CL', 'PA', 'US', 'CO', 'MX'];
+  const priorityIsos = ['AR', 'BR', 'CL', 'CO', 'MX', 'PA', 'UY', 'US'];
 
   // Find priority countries
   const priorityCountries = priorityIsos.map(iso =>
     allCountryCodes.find(country => country.iso === iso)
   ).filter(Boolean);
 
-  // Get remaining countries (exclude priority countries)
+  // Get remaining countries (exclude priority countries) and sort alphabetically by localized name
   const remainingCountries = allCountryCodes.filter(
     country => !priorityIsos.includes(country.iso)
-  ).sort((a, b) => a.country.localeCompare(b.country));
+  ).sort((a, b) => {
+    const nameA = getLocalizedCountryName(a.country, locale);
+    const nameB = getLocalizedCountryName(b.country, locale);
+    return nameA.localeCompare(nameB);
+  });
 
   // Create separator object
   const separator = {
     code: '',
-    country: '─────────────────',
+    country: '────────────────────────',
     flag: '',
     iso: 'SEPARATOR',
     isSeparator: true
@@ -295,8 +307,7 @@ const getOrderedCountryCodes = () => {
   return [...priorityCountries, separator, ...remainingCountries];
 };
 
-// Get the ordered country codes
-const countryCodes = getOrderedCountryCodes();
+// countryCodes will be defined inside the component to access locale
 
 // Generate time options (full hours and half hours only)
 const generateTimeOptions = () => {
@@ -313,12 +324,22 @@ const timeOptions = generateTimeOptions();
 
 // Step validation schemas
 const step1Schema = z.object({
+  serviceType: z.string().min(1, 'Service type is required'),
+  serviceTypeOther: z.string().optional(),
   firstName: z.string().min(1, 'First name is required'),
   lastName: z.string().min(1, 'Last name is required'),
   email: z.string().email('Invalid email address'),
   countryCode: z.string().min(1, 'Country code is required'),
   phone: z.string().min(6, 'Phone number must be at least 6 digits').regex(/^[0-9]+$/, 'Phone number must contain only digits'),
   contactWhatsApp: z.boolean().optional(),
+}).refine((data) => {
+  if (data.serviceType === 'other') {
+    return data.serviceTypeOther && data.serviceTypeOther.trim().length > 0;
+  }
+  return true;
+}, {
+  message: 'Please specify the service type',
+  path: ['serviceTypeOther']
 });
 
 const step2Schema = z.object({
@@ -336,15 +357,16 @@ const step2Schema = z.object({
   }),
   departureDate: z.string().min(1, 'Departure date is required'),
   departureTime: z.string().optional().refine(
-    (val) => !val || /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(val),
-    'Invalid time format. Use HH:MM (e.g., 14:30)'
+    (val) => !val || /^([0-1]?[0-9]|2[0-3]):(00|30)$/.test(val),
+    'Please enter full or half hour (e.g., 14:00 or 14:30)'
   ),
   passengers: z.number().min(1, 'At least 1 passenger required').max(50, 'Maximum 50 passengers'),
 });
 
 const step3Schema = z.object({
-  baggageSize: z.enum(['light', 'medium', 'large']).optional(),
-  baggagePieces: z.number().min(0).max(20).default(0),
+  lightBaggage: z.number().min(0).max(20).default(0),
+  mediumBaggage: z.number().min(0).max(20).default(0),
+  largeBaggage: z.number().min(0).max(20).default(0),
   specialItems: z.string().optional(),
   pets: z.boolean().default(false),
   petSpecies: z.string().optional(),
@@ -423,12 +445,27 @@ const getPetSizeOptions = (locale: string) => [
   }
 ];
 
-const additionalServicesOptions = [
-  { value: 'ground_transport', label: 'Ground Transportation' },
-  { value: 'catering', label: 'In-flight Catering' },
-  { value: 'wifi', label: 'Wi-Fi Access' },
-  { value: 'concierge', label: 'Concierge Services' },
-  { value: 'customs', label: 'Customs Assistance' }
+const getAdditionalServicesOptions = (locale: string) => [
+  {
+    value: 'ground_transport',
+    label: locale === 'es' ? 'Transporte terrestre' : locale === 'pt' ? 'Transporte terrestre' : 'Ground Transportation'
+  },
+  {
+    value: 'catering',
+    label: locale === 'es' ? 'Catering a bordo' : locale === 'pt' ? 'Catering a bordo' : 'In-flight Catering'
+  },
+  {
+    value: 'wifi',
+    label: locale === 'es' ? 'Acceso Wi-Fi' : locale === 'pt' ? 'Acesso Wi-Fi' : 'Wi-Fi Access'
+  },
+  {
+    value: 'concierge',
+    label: locale === 'es' ? 'Servicios de concierge' : locale === 'pt' ? 'Serviços de concierge' : 'Concierge Services'
+  },
+  {
+    value: 'customs',
+    label: locale === 'es' ? 'Asistencia aduanera' : locale === 'pt' ? 'Assistência alfandegária' : 'Customs Assistance'
+  }
 ];
 
 // Auto-detect country code based on IP (mock function)
@@ -447,6 +484,8 @@ const getContent = (locale: string) => {
       nextButton: 'Next',
       prevButton: 'Previous',
       submitButton: 'Request Quote',
+      serviceType: 'Service Type',
+      serviceTypeOther: 'Please specify',
       firstName: 'First Name',
       lastName: 'Last Name',
       email: 'Email Address',
@@ -461,13 +500,15 @@ const getContent = (locale: string) => {
       departureTime: 'Departure Time',
       serviceType: 'Service Type',
       passengers: 'Number of Passengers',
-      baggageSize: 'Baggage Size',
-      baggagePieces: 'Number of Pieces',
+      carryOnBags: 'Carry-on bags',
+      checkedBags: 'Checked bags',
+      oversizedBags: 'Oversized/Special bags',
       specialItems: 'Special Items',
       pets: 'Travel with pets?',
       petSpecies: 'Pet Type/Species',
       petSize: 'Pet Size',
       petDocumentation: 'I have required pet travel documents',
+      additionalServices: 'Additional Services',
       message: 'Additional Comments or Special Requests',
       privacyConsent: 'I agree to the Privacy Policy and consent to the processing of my personal data for quote purposes.',
     },
@@ -491,14 +532,17 @@ const getContent = (locale: string) => {
       departureDate: 'Fecha de Salida',
       departureTime: 'Hora de Salida',
       serviceType: 'Tipo de Servicio',
+      serviceTypeOther: 'Por favor especificar',
       passengers: 'Número de Pasajeros',
-      baggageSize: 'Tamaño de Equipaje',
-      baggagePieces: 'Número de Piezas',
+      carryOnBags: 'Equipaje de mano',
+      checkedBags: 'Equipaje facturado',
+      oversizedBags: 'Equipaje especial/Sobredimensionado',
       specialItems: 'Artículos Especiales',
       pets: '¿Viajar con mascotas?',
       petSpecies: 'Tipo/Especie de Mascota',
       petSize: 'Tamaño de Mascota',
       petDocumentation: 'Tengo documentación requerida para viaje de mascotas',
+      additionalServices: 'Servicios Adicionales',
       message: 'Comentarios Adicionales o Solicitudes Especiales',
       privacyConsent: 'Acepto la Política de Privacidad y consiento el procesamiento de mis datos personales para fines de cotización.',
     },
@@ -522,14 +566,17 @@ const getContent = (locale: string) => {
       departureDate: 'Data de Partida',
       departureTime: 'Hora de Partida',
       serviceType: 'Tipo de Serviço',
+      serviceTypeOther: 'Por favor especificar',
       passengers: 'Número de Passageiros',
-      baggageSize: 'Tamanho da Bagagem',
-      baggagePieces: 'Número de Peças',
+      carryOnBags: 'Bagagem de mão',
+      checkedBags: 'Bagagem despachada',
+      oversizedBags: 'Bagagem especial/Grande',
       specialItems: 'Itens Especiais',
       pets: 'Viajar com animais de estimação?',
       petSpecies: 'Tipo/Espécie do Animal',
       petSize: 'Tamanho do Animal',
       petDocumentation: 'Tenho documentação necessária para viagem de animais',
+      additionalServices: 'Serviços Adicionais',
       message: 'Comentários Adicionais ou Solicitações Especiais',
       privacyConsent: 'Concordo com a Política de Privacidade e consinto com o processamento dos meus dados pessoais para fins de cotação.',
     }
@@ -555,6 +602,7 @@ export function QuoteForm({
   const [autoDetectedCountryCode, setAutoDetectedCountryCode] = useState('');
 
   const content = getContent(locale);
+  const countryCodes = getOrderedCountryCodes(locale);
   const { announce, announceAssertive } = useAnnouncer();
   const { focusElement } = useFocusManagement();
 
@@ -712,6 +760,9 @@ export function QuoteForm({
         },
         body: JSON.stringify({
           ...data,
+          // Mark custom airports for identification
+          departureAirportCustom: data.departureAirport?.name?.includes('(Custom Airport)') || false,
+          arrivalAirportCustom: data.arrivalAirport?.name?.includes('(Custom Airport)') || false,
           recaptchaToken,
           locale
         }),
@@ -801,6 +852,44 @@ export function QuoteForm({
           {/* Step 1: Personal Information */}
           {currentStep === 1 && (
             <div className="space-y-6">
+              {/* Service Type Dropdown */}
+              <div>
+                <label className="block text-sm font-medium text-navy-primary mb-2">
+                  {content.serviceType} <span className="text-red-500">*</span>
+                </label>
+                <select
+                  {...register('serviceType')}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                  required
+                >
+                  <option value="">-- {locale === 'es' ? 'Seleccionar' : locale === 'pt' ? 'Selecionar' : 'Select'} --</option>
+                  <option value="charter">{locale === 'es' ? 'Charter punto a punto' : locale === 'pt' ? 'Charter ponto a ponto' : 'Charter point-to-point'}</option>
+                  <option value="empty_legs">{locale === 'es' ? 'Empty legs' : locale === 'pt' ? 'Empty legs' : 'Empty legs'}</option>
+                  <option value="multicity">{locale === 'es' ? 'Multi-ciudad' : locale === 'pt' ? 'Multi-cidade' : 'Multi-city'}</option>
+                  <option value="helicopter">{locale === 'es' ? 'Helicóptero' : locale === 'pt' ? 'Helicóptero' : 'Helicopter'}</option>
+                  <option value="medical">{locale === 'es' ? 'Médico' : locale === 'pt' ? 'Médico' : 'Medical'}</option>
+                  <option value="cargo">{locale === 'es' ? 'Carga' : locale === 'pt' ? 'Carga' : 'Cargo'}</option>
+                  <option value="other">{locale === 'es' ? 'Otros' : locale === 'pt' ? 'Outros' : 'Other'}</option>
+                </select>
+                {errors.serviceType && (
+                  <p className="mt-1 text-sm text-red-600">{errors.serviceType.message}</p>
+                )}
+              </div>
+
+              {/* Show "Other" text input when "Other" is selected */}
+              {watch('serviceType') === 'other' && (
+                <div>
+                  <Input
+                    {...register('serviceTypeOther')}
+                    label={content.serviceTypeOther}
+                    error={errors.serviceTypeOther?.message}
+                    type="text"
+                    placeholder=""
+                    required
+                  />
+                </div>
+              )}
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Input
                   {...register('firstName')}
@@ -841,8 +930,18 @@ export function QuoteForm({
                     required
                   >
                     {countryCodes.map((country) => (
-                      <option key={country.iso} value={country.code}>
-                        {country.flag} {country.code}
+                      <option
+                        key={country.iso}
+                        value={country.code}
+                        disabled={country.isSeparator}
+                        style={country.isSeparator ? {
+                          color: '#9CA3AF',
+                          fontWeight: 'normal',
+                          fontSize: '12px',
+                          textAlign: 'center' as const
+                        } : undefined}
+                      >
+                        {country.isSeparator ? country.country : `${country.flag} ${country.code} - ${getLocalizedCountryName(country.country, locale)}`}
                       </option>
                     ))}
                   </select>
@@ -918,11 +1017,18 @@ export function QuoteForm({
                     {...register('departureDate')}
                     type="date"
                     min={new Date().toISOString().split('T')[0]}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue cursor-pointer"
+                    className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue cursor-pointer min-h-[44px]"
                     required
                     style={{
                       colorScheme: 'light',
-                      position: 'relative'
+                      position: 'relative',
+                      WebkitAppearance: 'none',
+                      appearance: 'none'
+                    }}
+                    onClick={(e) => {
+                      // Ensure the date picker opens when clicking anywhere on the field
+                      const input = e.target as HTMLInputElement;
+                      input.showPicker?.();
                     }}
                   />
                   {errors.departureDate && (
@@ -934,88 +1040,82 @@ export function QuoteForm({
                   <label className="block text-sm font-medium text-navy-primary mb-2">
                     {content.departureTime}
                   </label>
-                  <div className="relative">
-                    <input
-                      {...register('departureTime')}
-                      type="text"
-                      placeholder="HH:MM or select"
-                      pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$"
-                      className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue"
-                      onInput={(e) => {
-                        const target = e.target as HTMLInputElement;
-                        let value = target.value.replace(/[^0-9:]/g, '');
-                        if (value.length === 2 && !value.includes(':')) {
-                          value = value + ':';
-                        }
-                        if (value.length > 5) {
-                          value = value.slice(0, 5);
-                        }
-                        target.value = value;
-                        setValue('departureTime', value);
-                      }}
-                    />
-                    <div className="absolute inset-y-0 right-0 flex items-center">
-                      <select
-                        onChange={(e) => {
-                          if (e.target.value) {
-                            setValue('departureTime', e.target.value);
-                          }
-                        }}
-                        className="h-full py-0 pl-2 pr-7 border-0 bg-transparent text-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue rounded-r-lg"
-                        value=""
-                      >
-                        <option value="">⏰</option>
-                        {timeOptions.map((time) => (
-                          <option key={time.value} value={time.value}>
-                            {time.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
+                  <input
+                    {...register('departureTime')}
+                    type="text"
+                    placeholder={locale === 'es' ? 'Ej: 14:00 o 14:30' : locale === 'pt' ? 'Ex: 14:00 ou 14:30' : 'e.g., 14:00 or 14:30'}
+                    className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue min-h-[44px]"
+                    pattern="^([0-1]?[0-9]|2[0-3]):(00|30)$"
+                    onInput={(e) => {
+                      const target = e.target as HTMLInputElement;
+                      let value = target.value.replace(/[^0-9:]/g, '');
+
+                      // Auto-add colon after 2 digits
+                      if (value.length === 2 && !value.includes(':')) {
+                        value = value + ':';
+                      }
+
+                      // Limit length to 5 characters (HH:MM)
+                      if (value.length > 5) {
+                        value = value.slice(0, 5);
+                      }
+
+                      target.value = value;
+                      setValue('departureTime', value);
+                    }}
+                  />
                   {errors.departureTime && (
-                    <p className="mt-1 text-sm text-red-600">{errors.departureTime.message}</p>
+                    <p className="mt-1 text-sm text-red-600">
+                      {locale === 'es' ? 'Por favor ingrese hora completa o media hora (ej: 14:00 o 14:30)' :
+                       locale === 'pt' ? 'Por favor digite hora cheia ou meia hora (ex: 14:00 ou 14:30)' :
+                       'Please enter full or half hour (e.g., 14:00 or 14:30)'}
+                    </p>
                   )}
                 </div>
               </div>
 
               {/* Number of Passengers */}
               <div className="mt-6">
-                <FormField
-                  label={content.passengers}
-                  required
-                  error={errors.passengers?.message}
-                >
-                  <div className="flex items-center space-x-3">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const current = watchedValues.passengers || 1;
-                        const newValue = Math.max(current - 1, 1);
-                        setValue('passengers', newValue, { shouldValidate: true });
-                      }}
-                      disabled={watchedValues.passengers <= 1}
-                      className="w-10 h-10 rounded-full border-2 border-accent-blue flex items-center justify-center disabled:opacity-50"
-                    >
-                      −
-                    </button>
-                    <div className="flex-1 text-center font-medium text-lg py-2 px-4 border rounded-md">
-                      {watchedValues.passengers || 1} Passenger{(watchedValues.passengers || 1) !== 1 ? 's' : ''}
+                <label className="block text-sm font-medium text-navy-primary mb-2">
+                  {content.passengers} <span className="text-red-500">*</span>
+                </label>
+                <div className="flex items-center justify-center space-x-3 bg-gray-50 rounded-lg p-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const current = watchedValues.passengers || 1;
+                      const newValue = Math.max(current - 1, 1);
+                      setValue('passengers', newValue, { shouldValidate: true });
+                    }}
+                    disabled={watchedValues.passengers <= 1}
+                    className="w-8 h-8 rounded-full bg-white border-2 border-accent-blue text-accent-blue font-bold text-sm hover:bg-accent-blue hover:text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-1"
+                  >
+                    −
+                  </button>
+                  <div className="min-w-[80px] text-center">
+                    <div className="text-lg font-bold text-navy-primary">
+                      {watchedValues.passengers || 1}
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const current = watchedValues.passengers || 1;
-                        const newValue = Math.min(current + 1, 50);
-                        setValue('passengers', newValue, { shouldValidate: true });
-                      }}
-                      disabled={watchedValues.passengers >= 50}
-                      className="w-10 h-10 rounded-full border-2 border-accent-blue flex items-center justify-center disabled:opacity-50"
-                    >
-                      +
-                    </button>
+                    <div className="text-xs text-gray-600">
+                      {locale === 'es' ? 'Pasajero' : locale === 'pt' ? 'Passageiro' : 'Passenger'}{(watchedValues.passengers || 1) !== 1 ? (locale === 'es' ? 's' : locale === 'pt' ? 's' : 's') : ''}
+                    </div>
                   </div>
-                </FormField>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const current = watchedValues.passengers || 1;
+                      const newValue = Math.min(current + 1, 50);
+                      setValue('passengers', newValue, { shouldValidate: true });
+                    }}
+                    disabled={watchedValues.passengers >= 50}
+                    className="w-8 h-8 rounded-full bg-white border-2 border-accent-blue text-accent-blue font-bold text-sm hover:bg-accent-blue hover:text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-1"
+                  >
+                    +
+                  </button>
+                </div>
+                {errors.passengers && (
+                  <p className="mt-1 text-sm text-red-600">{errors.passengers.message}</p>
+                )}
               </div>
 
             </div>
@@ -1025,79 +1125,143 @@ export function QuoteForm({
           {currentStep === 3 && (
             <div className="space-y-6">
               {/* Baggage Section */}
-              <div className="space-y-4">
-                <h4 className="text-base font-medium text-navy-primary">
+              <div className="space-y-6">
+                <h4 className="text-lg font-semibold text-navy-primary">
                   {locale === 'es' ? 'Equipaje' : locale === 'pt' ? 'Bagagem' : 'Baggage'}
                 </h4>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Baggage Size */}
-                  <FormField
-                    label={content.baggageSize}
-                    error={errors.baggageSize?.message}
-                  >
-                    <div className="space-y-3">
-                      {getBaggageSizeOptions(locale).map((option) => (
-                        <label
-                          key={option.value}
-                          className={clsx(
-                            'flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition-all',
-                            'hover:border-blue-300 hover:bg-blue-50',
-                            watchedValues.baggageSize === option.value
-                              ? 'border-blue-500 bg-blue-50'
-                              : 'border-gray-300'
-                          )}
-                        >
-                          <input
-                            {...register('baggageSize')}
-                            type="radio"
-                            value={option.value}
-                            className="sr-only"
-                          />
-                          <span className="font-medium text-gray-900">
-                            {option.label}
-                          </span>
-                        </label>
-                      ))}
-                    </div>
-                  </FormField>
-
-                  {/* Number of Pieces */}
-                  <FormField
-                    label={content.baggagePieces}
-                    error={errors.baggagePieces?.message}
-                  >
-                    <div className="flex items-center space-x-3">
+                <div className="space-y-4">
+                  {/* Carry-on Bags */}
+                  <div>
+                    <label className="block text-sm font-medium text-navy-primary mb-2">
+                      {content.carryOnBags}
+                    </label>
+                    <div className="flex items-center justify-center space-x-4 bg-blue-50 rounded-lg p-4">
                       <button
                         type="button"
                         onClick={() => {
-                          const current = watchedValues.baggagePieces || 0;
+                          const current = watchedValues.carryOnBags || 0;
                           const newValue = Math.max(current - 1, 0);
-                          setValue('baggagePieces', newValue, { shouldValidate: true });
+                          setValue('carryOnBags', newValue, { shouldValidate: true });
                         }}
-                        disabled={watchedValues.baggagePieces <= 0}
-                        className="w-10 h-10 rounded-full border-2 border-accent-blue flex items-center justify-center disabled:opacity-50"
+                        disabled={watchedValues.carryOnBags <= 0}
+                        className="w-10 h-10 rounded-full bg-white border-2 border-blue-500 text-blue-500 font-bold text-lg hover:bg-blue-500 hover:text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         −
                       </button>
-                      <div className="flex-1 text-center font-medium text-lg py-2 px-4 border rounded-md">
-                        {watchedValues.baggagePieces || 0}
-                        {locale === 'es' ? ' Piezas' : locale === 'pt' ? ' Peças' : ' Pieces'}
+                      <div className="min-w-[100px] text-center">
+                        <div className="text-xl font-bold text-navy-primary">
+                          {watchedValues.carryOnBags || 0}
+                        </div>
+                        <div className="text-xs text-gray-600">
+                          {locale === 'es' ? 'Piezas' : locale === 'pt' ? 'Peças' : 'Pieces'}
+                        </div>
                       </div>
                       <button
                         type="button"
                         onClick={() => {
-                          const current = watchedValues.baggagePieces || 0;
-                          const newValue = Math.min(current + 1, 20);
-                          setValue('baggagePieces', newValue, { shouldValidate: true });
+                          const current = watchedValues.carryOnBags || 0;
+                          const newValue = Math.min(current + 1, 10);
+                          setValue('carryOnBags', newValue, { shouldValidate: true });
                         }}
-                        disabled={watchedValues.baggagePieces >= 20}
-                        className="w-10 h-10 rounded-full border-2 border-accent-blue flex items-center justify-center disabled:opacity-50"
+                        disabled={watchedValues.carryOnBags >= 10}
+                        className="w-10 h-10 rounded-full bg-white border-2 border-blue-500 text-blue-500 font-bold text-lg hover:bg-blue-500 hover:text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         +
                       </button>
                     </div>
-                  </FormField>
+                    {errors.carryOnBags && (
+                      <p className="mt-1 text-sm text-red-600">{errors.carryOnBags.message}</p>
+                    )}
+                  </div>
+
+                  {/* Checked Bags */}
+                  <div>
+                    <label className="block text-sm font-medium text-navy-primary mb-2">
+                      {content.checkedBags}
+                    </label>
+                    <div className="flex items-center justify-center space-x-4 bg-green-50 rounded-lg p-4">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const current = watchedValues.checkedBags || 0;
+                          const newValue = Math.max(current - 1, 0);
+                          setValue('checkedBags', newValue, { shouldValidate: true });
+                        }}
+                        disabled={watchedValues.checkedBags <= 0}
+                        className="w-10 h-10 rounded-full bg-white border-2 border-green-500 text-green-500 font-bold text-lg hover:bg-green-500 hover:text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        −
+                      </button>
+                      <div className="min-w-[100px] text-center">
+                        <div className="text-xl font-bold text-navy-primary">
+                          {watchedValues.checkedBags || 0}
+                        </div>
+                        <div className="text-xs text-gray-600">
+                          {locale === 'es' ? 'Piezas' : locale === 'pt' ? 'Peças' : 'Pieces'}
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const current = watchedValues.checkedBags || 0;
+                          const newValue = Math.min(current + 1, 20);
+                          setValue('checkedBags', newValue, { shouldValidate: true });
+                        }}
+                        disabled={watchedValues.checkedBags >= 20}
+                        className="w-10 h-10 rounded-full bg-white border-2 border-green-500 text-green-500 font-bold text-lg hover:bg-green-500 hover:text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        +
+                      </button>
+                    </div>
+                    {errors.checkedBags && (
+                      <p className="mt-1 text-sm text-red-600">{errors.checkedBags.message}</p>
+                    )}
+                  </div>
+
+                  {/* Oversized/Special Bags */}
+                  <div>
+                    <label className="block text-sm font-medium text-navy-primary mb-2">
+                      {content.oversizedBags}
+                    </label>
+                    <div className="flex items-center justify-center space-x-4 bg-orange-50 rounded-lg p-4">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const current = watchedValues.oversizedBags || 0;
+                          const newValue = Math.max(current - 1, 0);
+                          setValue('oversizedBags', newValue, { shouldValidate: true });
+                        }}
+                        disabled={watchedValues.oversizedBags <= 0}
+                        className="w-10 h-10 rounded-full bg-white border-2 border-orange-500 text-orange-500 font-bold text-lg hover:bg-orange-500 hover:text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        −
+                      </button>
+                      <div className="min-w-[100px] text-center">
+                        <div className="text-xl font-bold text-navy-primary">
+                          {watchedValues.oversizedBags || 0}
+                        </div>
+                        <div className="text-xs text-gray-600">
+                          {locale === 'es' ? 'Piezas' : locale === 'pt' ? 'Peças' : 'Pieces'}
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const current = watchedValues.oversizedBags || 0;
+                          const newValue = Math.min(current + 1, 10);
+                          setValue('oversizedBags', newValue, { shouldValidate: true });
+                        }}
+                        disabled={watchedValues.oversizedBags >= 10}
+                        className="w-10 h-10 rounded-full bg-white border-2 border-orange-500 text-orange-500 font-bold text-lg hover:bg-orange-500 hover:text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        +
+                      </button>
+                    </div>
+                    {errors.oversizedBags && (
+                      <p className="mt-1 text-sm text-red-600">{errors.oversizedBags.message}</p>
+                    )}
+                  </div>
                 </div>
 
                 {/* Special Items */}
@@ -1220,28 +1384,29 @@ export function QuoteForm({
               </div>
 
               {/* Comments Section */}
-              <FormField
-                label={content.message}
-                error={errors.message?.message}
-              >
+              <div className="space-y-4">
+                <h4 className="text-lg font-semibold text-navy-primary">{content.message}</h4>
                 <textarea
                   {...register('message')}
-                  rows={4}
+                  rows={6}
                   placeholder={locale === 'es' ? 'Escriba aquí cualquier comentario adicional o solicitud especial...' :
                               locale === 'pt' ? 'Escreva aqui quaisquer comentários adicionais ou solicitações especiais...' :
                               'Write any additional comments or special requests here...'}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue resize-none"
+                  className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue resize-none min-h-[120px]"
                 />
-              </FormField>
+                {errors.message && (
+                  <p className="mt-1 text-sm text-red-600">{errors.message.message}</p>
+                )}
+              </div>
 
               {/* Additional Services */}
               <div className="space-y-4">
-                <h4 className="text-base font-medium text-navy-primary">Additional Services</h4>
+                <h4 className="text-lg font-semibold text-navy-primary">{content.additionalServices}</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {additionalServicesOptions.map((service) => (
+                  {getAdditionalServicesOptions(locale).map((service) => (
                     <label
                       key={service.value}
-                      className="flex items-center space-x-3 p-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer"
+                      className="flex items-center space-x-3 p-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors duration-200"
                     >
                       <input
                         type="checkbox"
@@ -1264,42 +1429,6 @@ export function QuoteForm({
                 </div>
               </div>
 
-              {/* Pet Section */}
-              <div className="space-y-4">
-                <label className="flex items-center space-x-3 p-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
-                  <input
-                    {...register('pets')}
-                    type="checkbox"
-                    className="w-4 h-4 text-accent-blue border-gray-300 rounded focus:ring-2 focus:ring-accent-blue"
-                  />
-                  <span className="text-sm font-medium text-navy-primary">
-                    {content.pets}
-                  </span>
-                </label>
-
-                {showPetSection && (
-                  <div className="ml-6 space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <Input
-                        {...register('petSpecies')}
-                        label="Species/Type"
-                        placeholder="Dog, cat, bird, etc."
-                      />
-                      <Select
-                        options={[
-                          { value: 'small', label: 'Small (under 20 lbs)' },
-                          { value: 'medium', label: 'Medium (20-60 lbs)' },
-                          { value: 'large', label: 'Large (over 60 lbs)' }
-                        ]}
-                        value={watchedValues.petSize || ''}
-                        onChange={(value) => setValue('petSize', value)}
-                        label="Size"
-                        placeholder="Select pet size"
-                      />
-                    </div>
-                  </div>
-                )}
-              </div>
 
               {/* Privacy Consent */}
               <div className="space-y-2">
@@ -1339,9 +1468,8 @@ export function QuoteForm({
               type="button"
               onClick={prevStep}
               disabled={currentStep === 1}
-              variant="outline"
               className={clsx(
-                'border-2 border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:border-gray-400 px-6 py-2 rounded-lg font-medium transition-colors duration-200',
+                'border-2 border-gray-600 bg-white text-gray-900 hover:bg-gray-50 hover:border-gray-700 hover:text-black px-6 py-2 rounded-lg font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-accent-blue',
                 currentStep === 1 && 'invisible'
               )}
             >
