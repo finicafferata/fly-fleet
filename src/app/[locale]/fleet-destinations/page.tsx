@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
@@ -19,31 +19,31 @@ const getContent = (locale: string) => {
         charter: {
           title: 'Point-to-Point Charter',
           lightJets: {
-            title: 'Light Jets',
-            passengers: '4-8 passengers',
-            range: 'Range: 1,500-2,500 nm',
-            ideal: 'Ideal for: Regional and domestic flights'
+            title: 'Light Jets (Learjet 45, Citation CJ2)',
+            passengers: 'Up to 6 passengers',
+            range: '',
+            ideal: 'Short and medium flights'
           },
           midJets: {
-            title: 'Midsize Jets',
-            passengers: '6-9 passengers',
-            range: 'Range: 2,000-3,500 nm',
-            ideal: 'Ideal for: Continental flights'
+            title: 'Midsize Jets (Hawker 800, Learjet 60)',
+            passengers: '6–8 passengers',
+            range: '',
+            ideal: 'Executive comfort'
           },
           heavyJets: {
-            title: 'Heavy Jets',
-            passengers: '8-16 passengers',
-            range: 'Range: 3,500-6,000 nm',
-            ideal: 'Ideal for: Intercontinental flights'
+            title: 'Heavy Jets (Challenger 605, Gulfstream G450)',
+            passengers: '10–14 passengers',
+            range: '',
+            ideal: 'Long flights'
           }
         },
         specialized: {
           title: 'Specialized Services',
           helicopter: {
             title: 'Helicopters',
-            passengers: '2-6 passengers',
-            description: 'Urban executive transfers',
-            feature: 'Exclusive heliport access'
+            passengers: '',
+            description: 'Short transfers, executive or tourist',
+            feature: ''
           },
           medical: {
             title: 'Medical',
@@ -74,6 +74,37 @@ const getContent = (locale: string) => {
           'Bogotá ↔ Panama'
         ]
       },
+      popularDestinations: {
+        title: 'Popular Destinations',
+        subtitle: 'Save time, avoid waits and experience the freedom to choose your destination without limitations.',
+        destinations: [
+          {
+            title: 'Argentina ↔ Brazil',
+            routes: 'Buenos Aires – São Paulo / Rio de Janeiro',
+            image: '/images/destinations/brazil.jpg'
+          },
+          {
+            title: 'Argentina ↔ Uruguay',
+            routes: 'Buenos Aires – Punta del Este / Montevideo',
+            image: '/images/destinations/uruguay.jpg'
+          },
+          {
+            title: 'Argentina ↔ Chile',
+            routes: 'Buenos Aires – Santiago',
+            image: '/images/destinations/chile.jpg'
+          },
+          {
+            title: 'Panama Hub',
+            routes: 'Connections to Miami, Bogotá, Mexico City',
+            image: '/images/destinations/panama.jpg'
+          },
+          {
+            title: 'Caribbean',
+            routes: 'Flights to Cancún, Punta Cana, Bahamas',
+            image: '/images/destinations/caribbean.jpg'
+          }
+        ]
+      },
       cta: 'Get Quote for Your Route'
     },
     es: {
@@ -87,31 +118,31 @@ const getContent = (locale: string) => {
         charter: {
           title: 'Charter Point-to-Point',
           lightJets: {
-            title: 'Jets Ligeros',
-            passengers: '4-8 pasajeros',
-            range: 'Alcance: 1,500-2,500 nm',
-            ideal: 'Ideal para: Vuelos regionales y domésticos'
+            title: 'Jets Ligeros (Learjet 45, Citation CJ2)',
+            passengers: 'Hasta 6 pasajeros',
+            range: '',
+            ideal: 'Vuelos cortos y medianos'
           },
           midJets: {
-            title: 'Jets Medianos',
-            passengers: '6-9 pasajeros',
-            range: 'Alcance: 2,000-3,500 nm',
-            ideal: 'Ideal para: Vuelos continentales'
+            title: 'Jets Medianos (Hawker 800, Learjet 60)',
+            passengers: '6–8 pasajeros',
+            range: '',
+            ideal: 'Confort ejecutivo'
           },
           heavyJets: {
-            title: 'Jets Pesados',
-            passengers: '8-16 pasajeros',
-            range: 'Alcance: 3,500-6,000 nm',
-            ideal: 'Ideal para: Vuelos intercontinentales'
+            title: 'Jets Pesados (Challenger 605, Gulfstream G450)',
+            passengers: '10–14 pasajeros',
+            range: '',
+            ideal: 'Vuelos largos'
           }
         },
         specialized: {
           title: 'Servicios Especializados',
           helicopter: {
             title: 'Helicópteros',
-            passengers: '2-6 pasajeros',
-            description: 'Traslados ejecutivos urbanos',
-            feature: 'Acceso a helipuertos exclusivos'
+            passengers: '',
+            description: 'Traslados cortos, ejecutivos o turísticos',
+            feature: ''
           },
           medical: {
             title: 'Medical',
@@ -142,6 +173,37 @@ const getContent = (locale: string) => {
           'Bogotá ↔ Panamá'
         ]
       },
+      popularDestinations: {
+        title: 'Destinos Populares',
+        subtitle: 'Ganá tiempo, evitá esperas y viví la libertad de elegir tu destino sin limitaciones.',
+        destinations: [
+          {
+            title: 'Argentina ↔ Brasil',
+            routes: 'Buenos Aires – São Paulo / Río de Janeiro',
+            image: '/images/destinations/brazil.jpg'
+          },
+          {
+            title: 'Argentina ↔ Uruguay',
+            routes: 'Buenos Aires – Punta del Este / Montevideo',
+            image: '/images/destinations/uruguay.jpg'
+          },
+          {
+            title: 'Argentina ↔ Chile',
+            routes: 'Buenos Aires – Santiago',
+            image: '/images/destinations/chile.jpg'
+          },
+          {
+            title: 'Panamá Hub',
+            routes: 'Conexiones a Miami, Bogotá, Ciudad de México',
+            image: '/images/destinations/panama.jpg'
+          },
+          {
+            title: 'Caribe',
+            routes: 'Vuelos a Cancún, Punta Cana, Bahamas',
+            image: '/images/destinations/caribbean.jpg'
+          }
+        ]
+      },
       cta: 'Cotizar para Tu Ruta'
     },
     pt: {
@@ -155,31 +217,31 @@ const getContent = (locale: string) => {
         charter: {
           title: 'Charter Ponto-a-Ponto',
           lightJets: {
-            title: 'Jets Leves',
-            passengers: '4-8 passageiros',
-            range: 'Alcance: 1,500-2,500 nm',
-            ideal: 'Ideal para: Voos regionais e domésticos'
+            title: 'Jets Leves (Learjet 45, Citation CJ2)',
+            passengers: 'Até 6 passageiros',
+            range: '',
+            ideal: 'Voos curtos e médios'
           },
           midJets: {
-            title: 'Jets Médios',
-            passengers: '6-9 passageiros',
-            range: 'Alcance: 2,000-3,500 nm',
-            ideal: 'Ideal para: Voos continentais'
+            title: 'Jets Médios (Hawker 800, Learjet 60)',
+            passengers: '6–8 passageiros',
+            range: '',
+            ideal: 'Conforto executivo'
           },
           heavyJets: {
-            title: 'Jets Pesados',
-            passengers: '8-16 passageiros',
-            range: 'Alcance: 3,500-6,000 nm',
-            ideal: 'Ideal para: Voos intercontinentais'
+            title: 'Jets Pesados (Challenger 605, Gulfstream G450)',
+            passengers: '10–14 passageiros',
+            range: '',
+            ideal: 'Voos longos'
           }
         },
         specialized: {
           title: 'Serviços Especializados',
           helicopter: {
             title: 'Helicópteros',
-            passengers: '2-6 passageiros',
-            description: 'Transfers executivos urbanos',
-            feature: 'Acesso a heliportos exclusivos'
+            passengers: '',
+            description: 'Transfers curtos, executivos ou turísticos',
+            feature: ''
           },
           medical: {
             title: 'Medical',
@@ -210,6 +272,37 @@ const getContent = (locale: string) => {
           'Bogotá ↔ Panamá'
         ]
       },
+      popularDestinations: {
+        title: 'Destinos Populares',
+        subtitle: 'Ganhe tempo, evite esperas e viva a liberdade de escolher seu destino sem limitações.',
+        destinations: [
+          {
+            title: 'Argentina ↔ Brasil',
+            routes: 'Buenos Aires – São Paulo / Rio de Janeiro',
+            image: '/images/destinations/brazil.jpg'
+          },
+          {
+            title: 'Argentina ↔ Uruguai',
+            routes: 'Buenos Aires – Punta del Este / Montevidéu',
+            image: '/images/destinations/uruguay.jpg'
+          },
+          {
+            title: 'Argentina ↔ Chile',
+            routes: 'Buenos Aires – Santiago',
+            image: '/images/destinations/chile.jpg'
+          },
+          {
+            title: 'Hub Panamá',
+            routes: 'Conexões para Miami, Bogotá, Cidade do México',
+            image: '/images/destinations/panama.jpg'
+          },
+          {
+            title: 'Caribe',
+            routes: 'Voos para Cancún, Punta Cana, Bahamas',
+            image: '/images/destinations/caribbean.jpg'
+          }
+        ]
+      },
       cta: 'Cotação para Sua Rota'
     }
   };
@@ -221,7 +314,6 @@ export default function FleetDestinationsPage() {
   const params = useParams();
   const router = useRouter();
   const locale = params.locale as 'en' | 'es' | 'pt';
-  const [activeTab, setActiveTab] = useState<'fleet' | 'destinations'>('fleet');
   const content = getContent(locale);
 
   return (
@@ -249,37 +341,8 @@ export default function FleetDestinationsPage() {
         </div>
       </section>
 
-      {/* Tab Navigation */}
-      <section className="bg-gray-50 border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex space-x-8">
-            <button
-              onClick={() => setActiveTab('fleet')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200 ${
-                activeTab === 'fleet'
-                  ? 'border-accent-blue text-accent-blue'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              {content.fleetTitle}
-            </button>
-            <button
-              onClick={() => setActiveTab('destinations')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200 ${
-                activeTab === 'destinations'
-                  ? 'border-accent-blue text-accent-blue'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              {content.destinationsTitle}
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Fleet Tab Content */}
-      {activeTab === 'fleet' && (
-        <section className="py-20">
+      {/* Fleet Content */}
+      <section className="py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Charter Aircraft */}
             <div className="mb-16">
@@ -383,45 +446,194 @@ export default function FleetDestinationsPage() {
               </div>
             </div>
           </div>
-        </section>
-      )}
+      </section>
 
-      {/* Destinations Tab Content */}
-      {activeTab === 'destinations' && (
-        <section className="py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid md:grid-cols-2 gap-12">
-              {/* Domestic Routes */}
-              <div>
-                <h2 className="text-3xl font-bold mb-8 text-navy-primary">
-                  {content.domesticRoutes}
-                </h2>
-                <div className="space-y-4">
-                  {content.routes.domestic.map((route, index) => (
-                    <div key={index} className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                      <p className="text-lg font-medium text-gray-800">{route}</p>
-                    </div>
-                  ))}
+      {/* Destinations Content */}
+      <section className="py-20 bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-[0.03]">
+          <svg width="100%" height="100%">
+            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="1"/>
+            </pattern>
+            <rect width="100%" height="100%" fill="url(#grid)" />
+          </svg>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid md:grid-cols-2 gap-16">
+            {/* Domestic Routes */}
+            <div>
+              <div className="mb-10">
+                <div className="inline-flex items-center bg-gradient-to-r from-accent-blue to-blue-600 text-white px-6 py-3 rounded-full shadow-lg mb-2">
+                  <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                  </svg>
+                  <span className="font-bold text-sm uppercase tracking-wider">{content.domesticRoutes}</span>
                 </div>
               </div>
+              <div className="space-y-4">
+                {content.routes.domestic.map((route, index) => {
+                  const [origin, destination] = route.split(' ↔ ');
+                  return (
+                    <div
+                      key={index}
+                      className="group relative bg-white rounded-2xl p-6 shadow-md hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 hover:border-accent-blue/50 overflow-hidden"
+                    >
+                      {/* Gradient overlay on hover */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-accent-blue/0 to-accent-blue/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-              {/* International Routes */}
-              <div>
-                <h2 className="text-3xl font-bold mb-8 text-navy-primary">
-                  {content.internationalRoutes}
-                </h2>
-                <div className="space-y-4">
-                  {content.routes.international.map((route, index) => (
-                    <div key={index} className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                      <p className="text-lg font-medium text-gray-800">{route}</p>
+                      <div className="relative flex items-center justify-between">
+                        {/* Origin */}
+                        <div className="flex-1">
+                          <p className="text-lg font-bold text-navy-primary group-hover:text-accent-blue transition-colors duration-300">
+                            {origin}
+                          </p>
+                        </div>
+
+                        {/* Plane Icon with Animation */}
+                        <div className="px-6 flex-shrink-0 relative">
+                          <svg className="w-8 h-8 text-accent-blue transform rotate-90 group-hover:translate-x-20 transition-transform duration-1000 ease-in-out" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                          </svg>
+                          {/* Dashed line */}
+                          <div className="absolute top-1/2 left-0 right-0 w-full border-t-2 border-dashed border-accent-blue/30 group-hover:border-accent-blue/60 transition-colors duration-300 -z-10"></div>
+                        </div>
+
+                        {/* Destination */}
+                        <div className="flex-1 text-right">
+                          <p className="text-lg font-bold text-navy-primary group-hover:text-accent-blue transition-colors duration-300">
+                            {destination}
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                  ))}
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* International Routes */}
+            <div>
+              <div className="mb-10">
+                <div className="inline-flex items-center bg-gradient-to-r from-blue-600 to-accent-blue text-white px-6 py-3 rounded-full shadow-lg mb-2">
+                  <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clipRule="evenodd" />
+                  </svg>
+                  <span className="font-bold text-sm uppercase tracking-wider">{content.internationalRoutes}</span>
                 </div>
+              </div>
+              <div className="space-y-4">
+                {content.routes.international.map((route, index) => {
+                  const [origin, destination] = route.split(' ↔ ');
+                  return (
+                    <div
+                      key={index}
+                      className="group relative bg-white rounded-2xl p-6 shadow-md hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 hover:border-accent-blue/50 overflow-hidden"
+                    >
+                      {/* Gradient overlay on hover */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-600/0 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                      <div className="relative flex items-center justify-between">
+                        {/* Origin */}
+                        <div className="flex-1">
+                          <p className="text-lg font-bold text-navy-primary group-hover:text-blue-600 transition-colors duration-300">
+                            {origin}
+                          </p>
+                        </div>
+
+                        {/* Plane Icon with Animation */}
+                        <div className="px-6 flex-shrink-0 relative">
+                          <svg className="w-8 h-8 text-blue-600 transform rotate-90 group-hover:translate-x-20 transition-transform duration-1000 ease-in-out" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                          </svg>
+                          {/* Dashed line */}
+                          <div className="absolute top-1/2 left-0 right-0 w-full border-t-2 border-dashed border-blue-600/30 group-hover:border-blue-600/60 transition-colors duration-300 -z-10"></div>
+                        </div>
+
+                        {/* Destination */}
+                        <div className="flex-1 text-right">
+                          <p className="text-lg font-bold text-navy-primary group-hover:text-blue-600 transition-colors duration-300">
+                            {destination}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
+
+      {/* Popular Destinations Section - NEW DESIGN */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-navy-primary mb-6">
+              {content.popularDestinations.title}
+            </h2>
+            <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              {content.popularDestinations.subtitle}
+            </p>
+          </div>
+
+          {/* Destinations Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {content.popularDestinations.destinations.map((destination, index) => (
+              <div
+                key={index}
+                className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
+              >
+                {/* Image Container */}
+                <div className="relative h-64 bg-gradient-to-br from-accent-blue/20 to-blue-600/20 overflow-hidden">
+                  {/* Placeholder gradient - replace with actual image */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/40 to-blue-600/60 group-hover:scale-110 transition-transform duration-700"></div>
+
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy-primary/90 via-navy-primary/50 to-transparent"></div>
+
+                  {/* Content */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                    <h3 className="text-2xl font-bold mb-2 transform group-hover:translate-x-2 transition-transform duration-300">
+                      {destination.title}
+                    </h3>
+                    <div className="flex items-start">
+                      <svg className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5 text-accent-blue" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                      </svg>
+                      <p className="text-sm text-white/90 leading-relaxed">
+                        {destination.routes}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Hover effect - Plane icon */}
+                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="bg-white/20 backdrop-blur-sm rounded-full p-3">
+                      <svg className="w-6 h-6 text-white transform rotate-45" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bottom CTA */}
+                <div className="bg-white p-4 border-t-2 border-accent-blue/20">
+                  <button className="w-full text-center text-accent-blue font-semibold group-hover:text-blue-600 transition-colors duration-300 flex items-center justify-center">
+                    <span>{locale === 'es' ? 'Ver más' : locale === 'pt' ? 'Ver mais' : 'See more'}</span>
+                    <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-2 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* CTA Section */}
       <section className="py-16 bg-navy-primary text-white">
