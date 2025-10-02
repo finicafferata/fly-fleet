@@ -184,65 +184,37 @@ export function Navigation({ locale, className, onLanguageChange }: NavigationPr
             {/* Hamburger Menu Button */}
             <button
               type="button"
-              className={clsx(
-                'max-[1199px]:inline-flex min-[1200px]:hidden items-center justify-center p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-inset transition-all duration-200',
-                isOpen
-                  ? 'bg-accent-blue hover:bg-accent-blue/90 text-white'
-                  : 'text-navy-primary hover:text-accent-blue hover:bg-gray-50'
-              )}
+              className="max-[1199px]:inline-flex min-[1200px]:hidden items-center justify-center p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-inset"
+              style={{
+                backgroundColor: isOpen ? '#2F6AEF' : 'transparent',
+              }}
               aria-expanded={isOpen}
               aria-controls="mobile-menu"
               aria-label={content.toggleMenu}
               onClick={() => setIsOpen(!isOpen)}
             >
-              {/* Hamburger Icon with Animation */}
-              <div className="w-6 h-6 flex flex-col justify-center items-center">
-                <span
-                  className={clsx(
-                    'block w-5 h-0.5 transition-all duration-300 ease-in-out',
-                    isOpen
-                      ? 'bg-white rotate-45 translate-y-1.5'
-                      : 'bg-current mb-1'
-                  )}
-                />
-                <span
-                  className={clsx(
-                    'block w-5 h-0.5 transition-all duration-300 ease-in-out',
-                    isOpen
-                      ? 'bg-white opacity-0'
-                      : 'bg-current mb-1'
-                  )}
-                />
-                <span
-                  className={clsx(
-                    'block w-5 h-0.5 transition-all duration-300 ease-in-out',
-                    isOpen
-                      ? 'bg-white -rotate-45 -translate-y-1.5'
-                      : 'bg-current'
-                  )}
-                />
-              </div>
+              {isOpen ? (
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="#FFFFFF" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="#0B1E3C" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-30 z-40 max-[1199px]:block min-[1200px]:hidden"
-          aria-hidden="true"
-          onClick={() => setIsOpen(false)}
-        />
-      )}
-
       {/* Mobile Menu */}
       <div
         id="mobile-menu"
         className={clsx(
-          'max-[1199px]:block min-[1200px]:hidden fixed top-20 left-0 right-0 bg-white border-t border-gray-100 shadow-xl z-45 transition-all duration-300 ease-in-out',
+          'max-[1199px]:block min-[1200px]:hidden fixed top-20 left-0 right-0 bg-white border-t border-gray-100 shadow-xl transition-all duration-300 ease-in-out',
           isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
         )}
+        style={{ zIndex: 45 }}
       >
         <div className="py-8 max-h-[calc(100vh-120px)] overflow-y-auto">
           <div className="space-y-1">
