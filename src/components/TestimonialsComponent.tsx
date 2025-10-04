@@ -62,41 +62,40 @@ export function TestimonialsComponent({
         testimonials: [
           {
             id: 'testimonial-1',
-            customerName: 'Carlos Mendoza',
-            customerTitle: 'CEO',
-            customerCompany: 'TechCorp Latin America',
+            customerName: 'Eduardo Martinez',
+            customerTitle: 'Business Director',
+            customerCompany: 'Import/Export Corp',
             customerLocation: 'São Paulo, Brazil',
-            customerPhoto: '/images/testimonials/carlos-mendoza.jpg',
-            testimonialText: 'Fly-Fleet exceeded all expectations. The booking process was seamless, the aircraft was immaculate, and the crew was incredibly professional. As someone who travels frequently for business, I can confidently say this was the best private aviation experience I\'ve ever had. The attention to detail and customer service is simply outstanding.',
+            customerPhoto: '/images/testimonials/eduardo-martinez.jpg',
+            testimonialText: 'Thanks to Fly-Fleet\'s service we were able to organize a lightning business trip to São Paulo without wasting time at airports. Everything impeccable and safe.',
             rating: 5,
             serviceUsed: 'Private Charter',
             dateOfService: '2024-02-15',
-            isFeatured: true,
-            videoUrl: '/videos/testimonials/carlos-mendoza.mp4'
+            isFeatured: true
           },
           {
             id: 'testimonial-2',
-            customerName: 'Maria Rodriguez',
-            customerTitle: 'Investment Director',
-            customerCompany: 'Global Capital Partners',
-            customerLocation: 'Mexico City, Mexico',
-            customerPhoto: '/images/testimonials/maria-rodriguez.jpg',
-            testimonialText: 'When we needed to get our team to Buenos Aires for a critical deal, Fly-Fleet made it happen with just 6 hours notice. The professionalism and efficiency were remarkable. They coordinated everything perfectly, from ground transportation to catering. This level of service is exactly what you need when business can\'t wait.',
+            customerName: 'Sofia & Family',
+            customerTitle: 'Family Vacation',
+            customerCompany: '',
+            customerLocation: 'Punta Cana, Dominican Republic',
+            customerPhoto: '/images/testimonials/sofia-family.jpg',
+            testimonialText: 'We chose Fly-Fleet for a family flight to Punta Cana and the experience was perfect: 24/7 support, comfort, and the peace of mind of traveling with our pet.',
             rating: 5,
-            serviceUsed: 'Emergency Charter',
+            serviceUsed: 'Family Charter',
             dateOfService: '2024-01-28',
             isFeatured: true
           },
           {
             id: 'testimonial-3',
-            customerName: 'Roberto Silva',
-            customerTitle: 'Managing Partner',
-            customerCompany: 'Silva & Associates',
-            customerLocation: 'Buenos Aires, Argentina',
-            customerPhoto: '/images/testimonials/roberto-silva.jpg',
-            testimonialText: 'Flying with Fly-Fleet for our multi-city Latin American tour was extraordinary. They handled complex logistics across six countries seamlessly. Each flight was perfectly timed, the aircraft were top-tier, and the local support was exceptional. It allowed us to focus on business while they handled every detail of our travel.',
+            customerName: 'Ricardo & Ana',
+            customerTitle: 'Leisure Travel',
+            customerCompany: '',
+            customerLocation: 'Punta del Este, Uruguay',
+            customerPhoto: '/images/testimonials/ricardo-ana.jpg',
+            testimonialText: 'We flew to Punta del Este with Fly-Fleet and everything was spectacular: fast, comfortable and stress-free, just as we wanted.',
             rating: 5,
-            serviceUsed: 'Multi-City Charter',
+            serviceUsed: 'Private Charter',
             dateOfService: '2024-03-10',
             isFeatured: true
           },
@@ -160,32 +159,43 @@ export function TestimonialsComponent({
         testimonials: [
           {
             id: 'testimonial-1',
-            customerName: 'Carlos Mendoza',
-            customerTitle: 'CEO',
-            customerCompany: 'TechCorp Latin America',
+            customerName: 'Eduardo Martinez',
+            customerTitle: 'Director de Negocios',
+            customerCompany: 'Import/Export Corp',
             customerLocation: 'São Paulo, Brasil',
-            customerPhoto: '/images/testimonials/carlos-mendoza.jpg',
-            testimonialText: 'Fly-Fleet superó todas las expectativas. El proceso de reserva fue perfecto, la aeronave estaba impecable y la tripulación fue increíblemente profesional. Como alguien que viaja frecuentemente por negocios, puedo decir con confianza que esta fue la mejor experiencia de aviación privada que he tenido. La atención al detalle y el servicio al cliente es simplemente excepcional.',
+            customerPhoto: '/images/testimonials/eduardo-martinez.jpg',
+            testimonialText: 'Gracias al servicio de Fly-Fleet pudimos organizar un viaje relámpago de negocios a São Paulo sin perder tiempo en aeropuertos. Todo impecable y seguro.',
             rating: 5,
             serviceUsed: 'Charter Privado',
             dateOfService: '2024-02-15',
-            isFeatured: true,
-            videoUrl: '/videos/testimonials/carlos-mendoza.mp4'
+            isFeatured: true
           },
           {
             id: 'testimonial-2',
-            customerName: 'Maria Rodriguez',
-            customerTitle: 'Directora de Inversiones',
-            customerCompany: 'Global Capital Partners',
-            customerLocation: 'Ciudad de México, México',
-            customerPhoto: '/images/testimonials/maria-rodriguez.jpg',
-            testimonialText: 'Cuando necesitamos llevar a nuestro equipo a Buenos Aires para un negocio crítico, Fly-Fleet lo hizo posible con solo 6 horas de aviso. El profesionalismo y la eficiencia fueron notables. Coordinaron todo perfectamente, desde el transporte terrestre hasta el catering. Este nivel de servicio es exactamente lo que necesitas cuando los negocios no pueden esperar.',
+            customerName: 'Sofia & Familia',
+            customerTitle: 'Vacaciones Familiares',
+            customerCompany: '',
+            customerLocation: 'Punta Cana, República Dominicana',
+            customerPhoto: '/images/testimonials/sofia-family.jpg',
+            testimonialText: 'Elegimos Fly-Fleet para un vuelo familiar a Punta Cana y la experiencia fue perfecta: atención 24/7, comodidad y la tranquilidad de viajar con nuestra mascota.',
             rating: 5,
-            serviceUsed: 'Charter de Emergencia',
+            serviceUsed: 'Charter Familiar',
             dateOfService: '2024-01-28',
             isFeatured: true
+          },
+          {
+            id: 'testimonial-3',
+            customerName: 'Ricardo & Ana',
+            customerTitle: 'Viaje de Placer',
+            customerCompany: '',
+            customerLocation: 'Punta del Este, Uruguay',
+            customerPhoto: '/images/testimonials/ricardo-ana.jpg',
+            testimonialText: 'Volamos a Punta del Este con Fly-Fleet y todo salió espectacular: rápido, cómodo y sin estrés, justo como queríamos.',
+            rating: 5,
+            serviceUsed: 'Charter Privado',
+            dateOfService: '2024-03-10',
+            isFeatured: true
           }
-          // Additional Spanish testimonials...
         ]
       },
       pt: {
@@ -207,32 +217,43 @@ export function TestimonialsComponent({
         testimonials: [
           {
             id: 'testimonial-1',
-            customerName: 'Carlos Mendoza',
-            customerTitle: 'CEO',
-            customerCompany: 'TechCorp Latin America',
+            customerName: 'Eduardo Martinez',
+            customerTitle: 'Diretor de Negócios',
+            customerCompany: 'Import/Export Corp',
             customerLocation: 'São Paulo, Brasil',
-            customerPhoto: '/images/testimonials/carlos-mendoza.jpg',
-            testimonialText: 'A Fly-Fleet superou todas as expectativas. O processo de reserva foi perfeito, a aeronave estava impecável e a tripulação foi incrivelmente profissional. Como alguém que viaja frequentemente a negócios, posso dizer com confiança que esta foi a melhor experiência de aviação privada que já tive. A atenção aos detalhes e o atendimento ao cliente é simplesmente excepcional.',
+            customerPhoto: '/images/testimonials/eduardo-martinez.jpg',
+            testimonialText: 'Graças ao serviço da Fly-Fleet pudemos organizar uma viagem relâmpago de negócios a São Paulo sem perder tempo em aeroportos. Tudo impecável e seguro.',
             rating: 5,
             serviceUsed: 'Charter Privado',
             dateOfService: '2024-02-15',
-            isFeatured: true,
-            videoUrl: '/videos/testimonials/carlos-mendoza.mp4'
+            isFeatured: true
           },
           {
             id: 'testimonial-2',
-            customerName: 'Maria Rodriguez',
-            customerTitle: 'Diretora de Investimentos',
-            customerCompany: 'Global Capital Partners',
-            customerLocation: 'Cidade do México, México',
-            customerPhoto: '/images/testimonials/maria-rodriguez.jpg',
-            testimonialText: 'Quando precisamos levar nossa equipe a Buenos Aires para um negócio crítico, a Fly-Fleet tornou isso possível com apenas 6 horas de aviso. O profissionalismo e a eficiência foram notáveis. Eles coordenaram tudo perfeitamente, desde o transporte terrestre até o catering. Este nível de serviço é exatamente o que você precisa quando os negócios não podem esperar.',
+            customerName: 'Sofia & Família',
+            customerTitle: 'Férias em Família',
+            customerCompany: '',
+            customerLocation: 'Punta Cana, República Dominicana',
+            customerPhoto: '/images/testimonials/sofia-family.jpg',
+            testimonialText: 'Escolhemos a Fly-Fleet para um voo familiar a Punta Cana e a experiência foi perfeita: atendimento 24/7, conforto e a tranquilidade de viajar com nosso animal de estimação.',
             rating: 5,
-            serviceUsed: 'Charter de Emergência',
+            serviceUsed: 'Charter Familiar',
             dateOfService: '2024-01-28',
             isFeatured: true
+          },
+          {
+            id: 'testimonial-3',
+            customerName: 'Ricardo & Ana',
+            customerTitle: 'Viagem de Lazer',
+            customerCompany: '',
+            customerLocation: 'Punta del Este, Uruguai',
+            customerPhoto: '/images/testimonials/ricardo-ana.jpg',
+            testimonialText: 'Voamos para Punta del Este com a Fly-Fleet e tudo foi espetacular: rápido, confortável e sem estresse, exatamente como queríamos.',
+            rating: 5,
+            serviceUsed: 'Charter Privado',
+            dateOfService: '2024-03-10',
+            isFeatured: true
           }
-          // Additional Portuguese testimonials...
         ]
       }
     };
@@ -323,7 +344,7 @@ export function TestimonialsComponent({
     return (
       <div
         className={clsx(
-          'bg-white rounded-lg shadow-medium p-8 h-full',
+          'bg-white rounded-lg shadow-medium p-2 h-full w-full flex flex-col',
           variant === 'grid' && 'hover:shadow-large transition-shadow duration-300',
           variant === 'carousel' && isActive && 'ring-2 ring-accent-blue/50'
         )}
@@ -372,7 +393,7 @@ export function TestimonialsComponent({
         </div>
 
         {/* Testimonial Text */}
-        <blockquote className="text-neutral-dark mb-6 leading-relaxed">
+        <blockquote className="text-neutral-dark mb-6 leading-relaxed flex-grow">
           <p>"{displayText}"</p>
           {shouldTruncate && (
             <button
@@ -442,18 +463,9 @@ export function TestimonialsComponent({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }}
         />
 
-        <div className="text-center mb-12">
-          <h2 id="testimonials-title" className="text-3xl md:text-4xl font-bold text-navy-primary mb-4">
-            {content.title}
-          </h2>
-          <p className="text-lg text-neutral-medium max-w-2xl mx-auto">
-            {content.subtitle}
-          </p>
-        </div>
-
         <div
           ref={carouselRef}
-          className="testimonials-carousel relative max-w-4xl mx-auto"
+          className="testimonials-carousel relative"
           role="region"
           aria-label="Customer testimonials"
         >
@@ -461,76 +473,88 @@ export function TestimonialsComponent({
           <div aria-live="polite" aria-atomic="true" className="sr-only">
             {announceText}
           </div>
-          {/* Carousel Content */}
-          <div className="carousel-container overflow-hidden" aria-live="polite">
-            <div
-              className="flex transition-transform duration-500 ease-in-out"
-              style={{ transform: `translateX(-${activeIndex * 100}%)` }}
-            >
+
+          {/* Desktop: Three cards side by side */}
+          <div className="hidden md:block">
+            <div className="grid grid-cols-3 gap-4 max-w-full xl:max-w-[1600px] 2xl:max-w-[1800px] mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 2xl:px-12">
               {displayTestimonials.map((testimonial, index) => (
-                <article
-                  key={testimonial.id}
-                  className={clsx(
-                    'testimonial-card w-full flex-shrink-0 px-4',
-                    index === activeIndex ? 'active' : ''
-                  )}
-                  aria-hidden={index !== activeIndex}
-                >
-                  <TestimonialCard testimonial={testimonial} isActive={index === activeIndex} />
+                <article key={testimonial.id} className="testimonial-card flex">
+                  <TestimonialCard testimonial={testimonial} isActive={false} />
                 </article>
               ))}
             </div>
           </div>
 
-          {/* Navigation Controls */}
-          <div className="carousel-controls" role="group" aria-label="Testimonial navigation">
+          {/* Mobile: Single carousel */}
+          <div className="md:hidden">
+            <div className="carousel-container overflow-hidden max-w-sm mx-auto" aria-live="polite">
+              <div
+                className="flex transition-transform duration-500 ease-in-out"
+                style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+              >
+                {displayTestimonials.map((testimonial, index) => (
+                  <article
+                    key={testimonial.id}
+                    className={clsx(
+                      'testimonial-card w-full flex-shrink-0 px-2',
+                      index === activeIndex ? 'active' : ''
+                    )}
+                    aria-hidden={index !== activeIndex}
+                  >
+                    <TestimonialCard testimonial={testimonial} isActive={index === activeIndex} />
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Navigation Controls - Mobile Only */}
+          <div className="carousel-controls md:hidden" role="group" aria-label="Testimonial navigation">
             {displayTestimonials.length > 1 && (
               <>
                 <button
-                  className="carousel-prev absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white rounded-full p-3 shadow-large hover:shadow-xl transition-shadow focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                  className="carousel-prev absolute left-2 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-3 shadow-large hover:shadow-xl transition-shadow focus:outline-none focus:ring-2 focus:ring-accent-blue"
                   onClick={() => {
                     const newIndex = (activeIndex - 1 + displayTestimonials.length) % displayTestimonials.length;
                     setActiveIndex(newIndex);
                     setAnnounceText(`Showing testimonial ${newIndex + 1} of ${displayTestimonials.length}`);
                   }}
                   aria-label={content.prevTestimonial}
-                  disabled={activeIndex === 0}
                 >
                   <span aria-hidden="true">‹</span>
                 </button>
 
                 <button
-                  className="carousel-next absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white rounded-full p-3 shadow-large hover:shadow-xl transition-shadow focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                  className="carousel-next absolute right-2 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-3 shadow-large hover:shadow-xl transition-shadow focus:outline-none focus:ring-2 focus:ring-accent-blue"
                   onClick={() => {
                     const newIndex = (activeIndex + 1) % displayTestimonials.length;
                     setActiveIndex(newIndex);
                     setAnnounceText(`Showing testimonial ${newIndex + 1} of ${displayTestimonials.length}`);
                   }}
                   aria-label={content.nextTestimonial}
-                  disabled={activeIndex === displayTestimonials.length - 1}
                 >
                   <span aria-hidden="true">›</span>
                 </button>
 
-              {/* Auto-play Control */}
-              <button
-                onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-                className="absolute top-4 right-4 bg-white/90 rounded-full p-2 shadow-medium hover:shadow-large transition-shadow focus:outline-none focus:ring-2 focus:ring-accent-blue"
-                aria-label={isAutoPlaying ? content.pauseCarousel : content.playCarousel}
-              >
-                {isAutoPlaying ? (
-                  <svg className="w-4 h-4 text-navy-primary" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M5 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1H6a1 1 0 01-1-1V4zM11 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
-                  </svg>
-                ) : (
-                  <svg className="w-4 h-4 text-navy-primary" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
-                  </svg>
-                )}
-              </button>
+                {/* Auto-play Control */}
+                <button
+                  onClick={() => setIsAutoPlaying(!isAutoPlaying)}
+                  className="absolute top-4 right-4 bg-white/90 rounded-full p-2 shadow-medium hover:shadow-large transition-shadow focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                  aria-label={isAutoPlaying ? content.pauseCarousel : content.playCarousel}
+                >
+                  {isAutoPlaying ? (
+                    <svg className="w-4 h-4 text-navy-primary" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M5 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1H6a1 1 0 01-1-1V4zM11 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
+                    </svg>
+                  ) : (
+                    <svg className="w-4 h-4 text-navy-primary" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                    </svg>
+                  )}
+                </button>
 
                 {/* Dots Indicator */}
-                <div className="carousel-indicators flex justify-center mt-8 space-x-2" role="tablist" aria-label="Choose testimonial">
+                <div className="carousel-indicators flex justify-center mt-6 space-x-2" role="tablist" aria-label="Choose testimonial">
                   {displayTestimonials.map((_, index) => (
                     <button
                       key={index}
@@ -584,16 +608,7 @@ export function TestimonialsComponent({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }}
       />
 
-      <div className="text-center mb-12">
-        <h2 id="testimonials-title" className="text-3xl md:text-4xl font-bold text-navy-primary mb-4">
-          {content.title}
-        </h2>
-        <p className="text-lg text-neutral-medium max-w-2xl mx-auto">
-          {content.subtitle}
-        </p>
-      </div>
-
-      <div className="testimonials-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" role="list" aria-label="All testimonials">
+      <div className="testimonials-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" role="list" aria-label="All testimonials">
         {displayTestimonials.map((testimonial) => (
           <article className="testimonial-summary" role="listitem" key={testimonial.id}>
             <TestimonialCard testimonial={testimonial} />
