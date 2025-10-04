@@ -68,9 +68,7 @@ model Airport {
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @default(now()) @updatedAt @map("updated_at")
 
-  // Relations
-  originQuotes      QuoteRequest[] @relation("OriginAirport")
-  destinationQuotes QuoteRequest[] @relation("DestinationAirport")
+  // Relations removed - QuoteRequest now stores airport codes as strings
 
   @@index([iataCode])
   @@index([cityName])
@@ -102,8 +100,8 @@ model QuoteRequest {
   email                 String              @db.VarChar(255)
   phone                 String?             @db.VarChar(20)
   passengers            Int
-  origin                String              @db.VarChar(3)
-  destination           String              @db.VarChar(3)
+  origin                String              @db.VarChar(100)
+  destination           String              @db.VarChar(100)
   departureDate         DateTime            @map("departure_date") @db.Date
   departureTime         DateTime            @map("departure_time") @db.Time
   standardBagsCount     Int                 @default(0) @map("standard_bags_count")
@@ -116,6 +114,7 @@ model QuoteRequest {
   comments              String?             @db.Text
   locale                String              @db.VarChar(5)
   privacyConsent        Boolean             @default(true) @map("privacy_consent")
+  contactWhatsApp       Boolean?            @default(false) @map("contact_whatsapp")
   ipAddress             String?             @map("ip_address") @db.VarChar(45)
   userAgent             String?             @map("user_agent") @db.Text
   utmSource             String?             @map("utm_source") @db.VarChar(50)
@@ -125,8 +124,6 @@ model QuoteRequest {
   updatedAt             DateTime            @default(now()) @updatedAt @map("updated_at")
 
   // Relations
-  originAirport      Airport           @relation("OriginAirport", fields: [origin], references: [iataCode])
-  destinationAirport Airport           @relation("DestinationAirport", fields: [destination], references: [iataCode])
   emailDeliveries    EmailDelivery[]
 
   @@index([email])
@@ -146,6 +143,7 @@ model ContactForm {
   subject       String?   @db.VarChar(200)
   message       String    @db.Text
   locale        String    @db.VarChar(5)
+  contactViaWhatsApp Boolean? @default(false) @map("contact_via_whatsapp")
   ipAddress     String?   @map("ip_address") @db.VarChar(45)
   userAgent     String?   @map("user_agent") @db.Text
   utmSource     String?   @map("utm_source") @db.VarChar(50)

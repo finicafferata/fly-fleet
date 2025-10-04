@@ -599,16 +599,24 @@ export class EmailService {
         }
       });
 
-      // For now, send a simple notification (template can be added later)
-      const html = `
-        <h2>Nueva consulta de contacto</h2>
-        <p><strong>Nombre:</strong> ${data.contactData.fullName}</p>
-        <p><strong>Email:</strong> ${data.contactData.email}</p>
-        <p><strong>Teléfono:</strong> ${data.contactData.phone || 'No proporcionado'}</p>
-        <p><strong>Asunto:</strong> ${data.contactData.subject || 'Sin asunto'}</p>
-        <p><strong>Mensaje:</strong></p>
-        <p>${data.contactData.message}</p>
-      `;
+      // Load template
+      const template = await this.loadTemplate('contact-notification-internal');
+
+      const templateData = {
+        fullName: data.contactData.fullName,
+        email: data.contactData.email,
+        phone: data.contactData.phone || 'No proporcionado',
+        phoneClean: (data.contactData.phone || '').replace(/[^0-9]/g, ''),
+        subject: data.contactData.subject,
+        message: data.contactData.message,
+        contactViaWhatsApp: data.contactData.contactViaWhatsApp,
+        utmSource: data.contactData.utmSource || 'Directo',
+        utmMedium: data.contactData.utmMedium || 'N/A',
+        utmCampaign: data.contactData.utmCampaign || 'N/A',
+        localeDisplay: data.locale === 'es' ? 'Español' : data.locale === 'en' ? 'English' : 'Português'
+      };
+
+      const html = this.replaceTemplateVariables(template, templateData);
 
       const response = await this.resend.emails.send({
         from: this.noreplyEmail,
@@ -669,12 +677,20 @@ export class EmailService {
         }
       });
 
-      // Simple auto-response (can be templated later)
-      const html = `
-        <h2>Gracias por contactarnos, ${data.fullName}</h2>
-        <p>Hemos recibido tu mensaje y nos pondremos en contacto contigo pronto.</p>
-        <p>Equipo Fly-Fleet</p>
-      `;
+      // Load template
+      const template = await this.loadTemplate('contact-autoresponse');
+
+      // Get translations based on locale
+      const translations = this.getContactAutoResponseTranslations(data.locale);
+
+      const templateData = {
+        fullName: data.fullName,
+        subject: data.contactData.subject,
+        message: data.contactData.message,
+        ...translations
+      };
+
+      const html = this.replaceTemplateVariables(template, templateData);
 
       const response = await this.resend.emails.send({
         from: this.noreplyEmail,
@@ -732,5 +748,62 @@ export class EmailService {
       pt: 'Mensagem recebida - Fly-Fleet'
     };
     return subjects[locale as keyof typeof subjects] || subjects.es;
+  }
+
+  private getContactAutoResponseTranslations(locale: string) {
+    const translations = {
+      es: {
+        confirmationTitle: 'Mensaje Recibido',
+        thankYouMessage: 'Gracias por contactarnos',
+        confirmationMessage: 'Hemos recibido tu mensaje y nuestro equipo se pondrá en contacto contigo lo antes posible.',
+        summaryTitle: 'Resumen de tu Mensaje',
+        subjectLabel: 'Asunto',
+        messageLabel: 'Mensaje',
+        nextStepsTitle: '¿Qué sigue?',
+        nextStep1: 'Nuestro equipo revisará tu consulta',
+        nextStep2: 'Te responderemos por email o teléfono según tu preferencia',
+        nextStep3: 'Tiempo estimado de respuesta: 2-4 horas hábiles',
+        urgentContactText: '¿Necesitas contactarnos urgentemente?',
+        callButtonText: 'Llamar',
+        footer24x7: 'Operamos 24/7 para tu tranquilidad',
+        privacyPolicy: 'Política de Privacidad',
+        termsConditions: 'Términos y Condiciones'
+      },
+      en: {
+        confirmationTitle: 'Message Received',
+        thankYouMessage: 'Thank you for contacting us',
+        confirmationMessage: 'We have received your message and our team will get back to you as soon as possible.',
+        summaryTitle: 'Your Message Summary',
+        subjectLabel: 'Subject',
+        messageLabel: 'Message',
+        nextStepsTitle: 'What\'s next?',
+        nextStep1: 'Our team will review your inquiry',
+        nextStep2: 'We\'ll respond via email or phone based on your preference',
+        nextStep3: 'Estimated response time: 2-4 business hours',
+        urgentContactText: 'Need to contact us urgently?',
+        callButtonText: 'Call',
+        footer24x7: 'We operate 24/7 for your peace of mind',
+        privacyPolicy: 'Privacy Policy',
+        termsConditions: 'Terms and Conditions'
+      },
+      pt: {
+        confirmationTitle: 'Mensagem Recebida',
+        thankYouMessage: 'Obrigado por nos contatar',
+        confirmationMessage: 'Recebemos sua mensagem e nossa equipe entrará em contato com você o mais breve possível.',
+        summaryTitle: 'Resumo da Sua Mensagem',
+        subjectLabel: 'Assunto',
+        messageLabel: 'Mensagem',
+        nextStepsTitle: 'O que vem a seguir?',
+        nextStep1: 'Nossa equipe revisará sua consulta',
+        nextStep2: 'Responderemos por e-mail ou telefone conforme sua preferência',
+        nextStep3: 'Tempo estimado de resposta: 2-4 horas úteis',
+        urgentContactText: 'Precisa nos contatar urgentemente?',
+        callButtonText: 'Ligar',
+        footer24x7: 'Operamos 24/7 para sua tranquilidade',
+        privacyPolicy: 'Política de Privacidade',
+        termsConditions: 'Termos e Condições'
+      }
+    };
+    return translations[locale as keyof typeof translations] || translations.es;
   }
 }
