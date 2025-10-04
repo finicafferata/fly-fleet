@@ -15,14 +15,15 @@ export interface HeroProps {
 const getContent = (locale: string) => {
   const content = {
     en: {
-      headline: 'Fly Private, Without Complications.',
-      subheadline: 'Get your next flight quote in minutes. Certified operators and 24/7 assistance.',
-      primaryCTA: 'Quote Now',
+      headline: 'Fly private, hassle-free.',
+      subheadline: 'Get a quote in minutes. Certified operators and 24/7 support.',
+      primaryCTA: 'Get a quote',
+      secondaryCTA: 'Chat on WhatsApp',
       actionsHeading: 'Available Actions',
       trustIndicators: [
-        'IATA Certified',
+        'ANAC/FAA/EASA Certified',
         '24/7 Support',
-        'Safety First'
+        '+500 Successful Flights'
       ],
       statsLabel: 'Trusted by travelers worldwide',
     },
@@ -30,23 +31,25 @@ const getContent = (locale: string) => {
       headline: 'Volá privado, sin complicaciones.',
       subheadline: 'Cotizá tu próximo vuelo en minutos. Operadores certificados y asistencia 24/7.',
       primaryCTA: 'Cotizar ahora',
+      secondaryCTA: 'Hablar por WhatsApp',
       actionsHeading: 'Acciones Disponibles',
       trustIndicators: [
-        'Certificado IATA',
+        'Certificado ANAC/FAA/EASA',
         'Soporte 24/7',
-        'Seguridad Primero'
+        '+500 Vuelos Exitosos'
       ],
       statsLabel: 'Confianza de viajeros en todo el mundo',
     },
     pt: {
-      headline: 'Voe Privado, Sem Complicações.',
-      subheadline: 'Obtenha sua cotação de voo em minutos. Operadores certificados e assistência 24/7.',
-      primaryCTA: 'Cotar Agora',
+      headline: 'Voe privado, sem complicações.',
+      subheadline: 'Peça sua cotação em minutos. Operadores certificados e suporte 24/7.',
+      primaryCTA: 'Pedir cotação',
+      secondaryCTA: 'Falar no WhatsApp',
       actionsHeading: 'Ações Disponíveis',
       trustIndicators: [
-        'Certificado IATA',
+        'Certificado ANAC/FAA/EASA',
         'Suporte 24/7',
-        'Segurança em Primeiro'
+        '+500 Voos Realizados'
       ],
       statsLabel: 'Confiança de viajantes ao redor do mundo',
     },
@@ -107,7 +110,7 @@ export function Hero({
 
       <section
         className={clsx(
-          'hero relative min-h-screen flex items-center justify-center',
+          'hero relative h-[85vh] min-h-[600px] max-h-[900px] flex items-center justify-center',
           'bg-gradient-to-br from-navy-primary via-navy-primary/95 to-navy-primary/80',
           'overflow-hidden',
           className
@@ -133,8 +136,8 @@ export function Hero({
       </div>
 
       {/* Content */}
-      <div className="hero-content relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="max-w-4xl">
+      <div className="hero-content relative z-10 w-full py-20">
+        <div style={{ paddingLeft: 'clamp(2rem, 5vw, 5rem)', paddingRight: 'clamp(2rem, 5vw, 5rem)' }}>
           {/* Main Content */}
           <div
             className={clsx(
@@ -145,8 +148,7 @@ export function Hero({
             <h1
               id="hero-heading"
               className={clsx(
-                'text-4xl md:text-5xl lg:text-6xl xl:text-7xl',
-                'font-bold text-white leading-tight mb-6',
+                'font-bold text-white mb-6',
                 'animate-fade-in-up'
               )}
             >
@@ -155,8 +157,7 @@ export function Hero({
 
             <p
               className={clsx(
-                'text-lg md:text-xl lg:text-2xl',
-                'text-white/90 leading-relaxed mb-8 max-w-3xl',
+                'hero-text text-white/90 mb-8',
                 'animate-fade-in-up animation-delay-200'
               )}
             >
@@ -206,33 +207,52 @@ export function Hero({
               </div>
             </div>
 
-            {/* Trust Indicators */}
+            {/* Trust Badges */}
             <div
               className={clsx(
-                'flex flex-wrap items-center gap-6 md:gap-8',
+                'flex flex-wrap gap-6 items-center',
                 'animate-fade-in-up animation-delay-600'
               )}
             >
-              <span className="text-white/70 text-sm font-medium">
-                {content.statsLabel}
-              </span>
-              <div className="flex flex-wrap items-center gap-4 md:gap-6">
-                {content.trustIndicators.map((indicator, index) => (
-                  <div
-                    key={index}
-                    className={clsx(
-                      'flex items-center space-x-2',
-                      'px-3 py-1 rounded-full',
-                      'bg-white/10 backdrop-blur-sm',
-                      'border border-white/20'
-                    )}
-                  >
-                    <div className="w-2 h-2 bg-accent-blue rounded-full" />
-                    <span className="text-white text-sm font-medium">
-                      {indicator}
-                    </span>
-                  </div>
-                ))}
+              {content.trustIndicators.map((indicator, index) => (
+                <div key={index} className="flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 border border-white/20">
+                  <svg className="w-5 h-5 text-accent-blue" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span className="text-white text-sm font-medium">{indicator}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Stats Bar */}
+      <div className="absolute bottom-0 left-0 right-0 z-20 bg-white/95 backdrop-blur-md border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="text-3xl md:text-4xl font-bold text-navy-primary mb-1">500+</div>
+              <div className="text-sm text-gray-600">
+                {locale === 'es' ? 'Vuelos Completados' : locale === 'pt' ? 'Voos Completados' : 'Flights Completed'}
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl md:text-4xl font-bold text-navy-primary mb-1">24/7</div>
+              <div className="text-sm text-gray-600">
+                {locale === 'es' ? 'Soporte Activo' : locale === 'pt' ? 'Suporte Ativo' : 'Active Support'}
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl md:text-4xl font-bold text-navy-primary mb-1">50+</div>
+              <div className="text-sm text-gray-600">
+                {locale === 'es' ? 'Aeronaves Disponibles' : locale === 'pt' ? 'Aeronaves Disponíveis' : 'Aircraft Available'}
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl md:text-4xl font-bold text-navy-primary mb-1">100%</div>
+              <div className="text-sm text-gray-600">
+                {locale === 'es' ? 'Certificado & Seguro' : locale === 'pt' ? 'Certificado & Seguro' : 'Certified & Insured'}
               </div>
             </div>
           </div>
@@ -242,16 +262,20 @@ export function Hero({
       {/* Scroll Indicator */}
       <div
         className={clsx(
-          'absolute bottom-8 left-1/2 transform -translate-x-1/2',
+          'absolute bottom-32 left-1/2 transform -translate-x-1/2 z-20',
           'animate-bounce',
           'transition-opacity duration-1000 delay-1000',
           isLoaded ? 'opacity-100' : 'opacity-0'
         )}
       >
-        <div className="flex flex-col items-center space-y-2">
-          <span className="text-white/60 text-sm">Scroll to explore</span>
+        <div className="flex flex-col items-center space-y-2 text-center">
+          <span className="text-white/80 text-base font-medium tracking-wide">
+            {locale === 'es' ? 'Desplázate para explorar' :
+             locale === 'pt' ? 'Role para explorar' :
+             'Scroll to explore'}
+          </span>
           <svg
-            className="w-6 h-6 text-white/60"
+            className="w-6 h-6 text-white/80"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

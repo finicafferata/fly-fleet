@@ -57,10 +57,31 @@ interface AirportSearchProps {
   error?: string;
 }
 
+const getLocalizedText = (locale: string) => {
+  const texts = {
+    en: {
+      otherAirport: 'Other Airport',
+      airportPrefix: 'Airport',
+      customAirportSelected: 'Selected custom airport'
+    },
+    es: {
+      otherAirport: 'Otro Aeropuerto',
+      airportPrefix: 'Aeropuerto',
+      customAirportSelected: 'Aeropuerto personalizado seleccionado'
+    },
+    pt: {
+      otherAirport: 'Outro Aeroporto',
+      airportPrefix: 'Aeroporto',
+      customAirportSelected: 'Aeroporto personalizado selecionado'
+    }
+  };
+  return texts[locale as keyof typeof texts] || texts.en;
+};
+
 export function AirportSearch({
   onSelect,
-  placeholder = 'Search airports...',
-  label = 'Airport',
+  placeholder = 'City or Airport',
+  label = '',
   required = false,
   disabled = false,
   className = '',
@@ -84,6 +105,7 @@ export function AirportSearch({
 
   const { announce, announceAssertive } = useAnnouncer();
   const { focusElement } = useFocusManagement();
+  const localizedText = getLocalizedText(locale);
 
   // Keyboard navigation for dropdown
   useKeyboardNavigation({
@@ -136,7 +158,7 @@ export function AirportSearch({
       if (data.results.length > 0) {
         announce(data.accessibility.screenReaderSummary, { priority: 'polite' });
       } else {
-        announce(data.accessibility.emptyStateMessage || 'No airports found', { priority: 'polite' });
+        announce(`No airports found for "${searchQuery}". Custom airport option available.`, { priority: 'polite' });
       }
 
     } catch (error) {
@@ -179,9 +201,40 @@ export function AirportSearch({
     );
   };
 
+  const handleCustomAirport = (customText: string) => {
+    // Create a custom airport object
+    const customAirport: Airport = {
+      code: customText.toUpperCase(),
+      name: `${customText.toUpperCase()} (Custom Airport)`,
+      city: 'Custom Location',
+      country: 'User Specified',
+      region: 'Custom',
+      isPopular: false,
+      accessibility: {
+        ariaLabel: `Custom airport: ${customText}`,
+        ariaDescription: 'User-specified custom airport',
+        ariaRole: 'option'
+      }
+    };
+
+    // Set the display format without "(Custom Airport)" text
+    setQuery(`${localizedText.airportPrefix}: ${customText.toUpperCase()}`);
+    setIsOpen(false);
+    setSelectedIndex(-1);
+    onSelect(customAirport);
+
+    // Announce custom selection
+    announce(
+      `${localizedText.customAirportSelected}: ${customText}`,
+      { priority: 'assertive' }
+    );
+  };
+
   const handleKeyDown = (event: React.KeyboardEvent) => {
+    const totalOptions = results.length + (results.length === 0 && query.trim() ? 1 : 0);
+
     if (!isOpen) {
-      if (event.key === 'ArrowDown' && results.length > 0) {
+      if (event.key === 'ArrowDown' && (results.length > 0 || query.trim())) {
         event.preventDefault();
         setIsOpen(true);
         setSelectedIndex(0);
@@ -193,7 +246,7 @@ export function AirportSearch({
       case 'ArrowDown':
         event.preventDefault();
         setSelectedIndex(prev => {
-          const newIndex = prev < results.length - 1 ? prev + 1 : 0;
+          const newIndex = prev < totalOptions - 1 ? prev + 1 : 0;
           const element = listRef.current?.querySelector(`[data-index="${newIndex}"]`) as HTMLElement;
           element?.focus();
           return newIndex;
@@ -203,7 +256,7 @@ export function AirportSearch({
       case 'ArrowUp':
         event.preventDefault();
         setSelectedIndex(prev => {
-          const newIndex = prev > 0 ? prev - 1 : results.length - 1;
+          const newIndex = prev > 0 ? prev - 1 : totalOptions - 1;
           const element = listRef.current?.querySelector(`[data-index="${newIndex}"]`) as HTMLElement;
           element?.focus();
           return newIndex;
@@ -212,8 +265,14 @@ export function AirportSearch({
 
       case 'Enter':
         event.preventDefault();
-        if (selectedIndex >= 0 && results[selectedIndex]) {
-          handleSelect(results[selectedIndex]);
+        if (selectedIndex >= 0) {
+          if (selectedIndex < results.length && results[selectedIndex]) {
+            // Regular airport selection
+            handleSelect(results[selectedIndex]);
+          } else if (selectedIndex === results.length && results.length === 0 && query.trim()) {
+            // Custom airport selection
+            handleCustomAirport(query.trim());
+          }
         }
         break;
 
@@ -227,7 +286,7 @@ export function AirportSearch({
   };
 
   const handleFocus = () => {
-    if (query && results.length > 0) {
+    if (query && (results.length > 0 || query.trim())) {
       setIsOpen(true);
     }
   };
@@ -254,17 +313,19 @@ export function AirportSearch({
 
   return (
     <div className={clsx('relative', className)} {...props}>
-      <label
-        htmlFor={inputId}
-        className="block text-sm font-medium text-navy-primary mb-2"
-      >
-        {label}
-        {required && (
-          <span className="text-red-500 ml-1" aria-label="required">
-            *
-          </span>
-        )}
-      </label>
+      {label && (
+        <label
+          htmlFor={inputId}
+          className="block text-sm font-medium text-navy-primary mb-2"
+        >
+          {label}
+          {required && (
+            <span className="text-red-500 ml-1" aria-label="required">
+              *
+            </span>
+          )}
+        </label>
+      )}
 
       <div className="relative">
         <input
@@ -312,7 +373,7 @@ export function AirportSearch({
           </div>
         )}
 
-        {isOpen && results.length > 0 && (
+        {isOpen && query.trim() && (
           <div
             ref={listRef}
             id={listId}
@@ -326,10 +387,14 @@ export function AirportSearch({
             )}
           >
             <VisuallyHidden aria-live="polite">
-              {results.length} airport{results.length !== 1 ? 's' : ''} found.
+              {results.length > 0
+                ? `${results.length} airport${results.length !== 1 ? 's' : ''} found.`
+                : 'No airports found. Custom airport option available.'
+              }
               Use arrow keys to navigate, Enter to select, Escape to close.
             </VisuallyHidden>
 
+            {/* Show regular airport results */}
             {results.map((airport, index) => (
               <div
                 key={airport.code}
@@ -350,37 +415,55 @@ export function AirportSearch({
                 onClick={() => handleSelect(airport)}
                 onMouseEnter={() => setSelectedIndex(index)}
               >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className={clsx(
-                      'font-medium',
-                      index === selectedIndex ? 'text-white' : 'text-navy-primary'
-                    )}>
-                      <span className="font-bold">{airport.code}</span> - {airport.name}
-                    </div>
-                    <div className={clsx(
-                      'text-sm',
-                      index === selectedIndex ? 'text-white/80' : 'text-neutral-medium'
-                    )}>
-                      {airport.city}, {airport.country}
-                    </div>
+                <div>
+                  <div className={clsx(
+                    'text-sm font-medium',
+                    index === selectedIndex ? 'text-white' : 'text-navy-primary'
+                  )}>
+                    <span className="font-bold">{airport.code}</span> - {airport.name}
                   </div>
-                  {airport.isPopular && (
-                    <span
-                      className={clsx(
-                        'text-xs px-2 py-1 rounded',
-                        index === selectedIndex
-                          ? 'bg-white/20 text-white'
-                          : 'bg-accent-blue/10 text-accent-blue'
-                      )}
-                      aria-label="Popular airport"
-                    >
-                      Popular
-                    </span>
-                  )}
+                  <div className={clsx(
+                    'text-xs',
+                    index === selectedIndex ? 'text-white/80' : 'text-neutral-medium'
+                  )}>
+                    {airport.city}, {airport.country}
+                  </div>
                 </div>
               </div>
             ))}
+
+            {/* Show custom airport option when no results found */}
+            {results.length === 0 && query.trim() && (
+              <div
+                data-index={results.length}
+                role="option"
+                aria-selected={results.length === selectedIndex}
+                aria-label={`Use custom airport: ${query}`}
+                tabIndex={-1}
+                className={clsx(
+                  'px-3 py-3 cursor-pointer transition-colors duration-150',
+                  'hover:bg-accent-blue hover:text-white',
+                  'focus:bg-accent-blue focus:text-white',
+                  'focus:outline-none min-h-[44px] flex items-center',
+                  'border-t border-neutral-light',
+                  results.length === selectedIndex && 'bg-accent-blue text-white'
+                )}
+                onClick={() => handleCustomAirport(query.trim())}
+                onMouseEnter={() => setSelectedIndex(results.length)}
+              >
+                <div className="flex items-center w-full">
+                  <div className="mr-3 text-lg">✈️</div>
+                  <div>
+                    <div className={clsx(
+                      'text-sm font-medium',
+                      results.length === selectedIndex ? 'text-white' : 'text-navy-primary'
+                    )}>
+                      {localizedText.otherAirport}: <span className="font-bold">{query.trim().toUpperCase()}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>

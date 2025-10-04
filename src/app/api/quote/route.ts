@@ -31,8 +31,8 @@ const QuoteRequestSchema = z.object({
   email: z.string().email(),
   phone: z.string().min(10).max(20).optional(),
   passengers: z.number().int().min(1).max(50),
-  origin: z.string().length(3), // IATA code - validated against airports table
-  destination: z.string().length(3), // IATA code - validated against airports table
+  origin: z.string().min(3).max(100), // IATA code or custom airport name
+  destination: z.string().min(3).max(100), // IATA code or custom airport name
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/), // YYYY-MM-DD format
   time: z.string().regex(/^\d{2}:\d{2}$/),
 
@@ -50,6 +50,7 @@ const QuoteRequestSchema = z.object({
   additionalServices: z.array(AdditionalService).optional().default([]),
   comments: z.string().max(1000).optional(),
   privacyConsent: z.boolean().refine(val => val === true),
+  contactWhatsApp: z.boolean().optional().default(false),
   locale: z.enum(['es', 'en', 'pt']),
   recaptchaToken: z.string()
 });
@@ -211,59 +212,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Validate IATA codes against airports table
-    const [originAirport, destinationAirport] = await Promise.all([
-      prisma.airport.findUnique({ where: { iataCode: formData.origin } }),
-      prisma.airport.findUnique({ where: { iataCode: formData.destination } })
-    ]);
-
-    if (!originAirport) {
-      const ariaError = generateAriaErrorResponse('validation', formData.locale);
-      return NextResponse.json(
-        {
-          ...ariaError,
-          error: `Origin airport code '${formData.origin}' is not valid`,
-          fieldErrors: {
-            origin: {
-              ariaLabel: `Origin airport - Invalid airport code ${formData.origin}`,
-              ariaDescribedBy: 'origin-error',
-              ariaInvalid: true,
-              ariaErrorMessage: `Airport code ${formData.origin} is not valid`,
-              screenReaderAnnouncement: `Error in origin field: Airport code ${formData.origin} is not valid`
-            }
-          },
-          accessibility: {
-            ...ariaError.accessibility,
-            fieldTarget: '#origin-field'
-          }
-        },
-        { status: 400 }
-      );
-    }
-
-    if (!destinationAirport) {
-      const ariaError = generateAriaErrorResponse('validation', formData.locale);
-      return NextResponse.json(
-        {
-          ...ariaError,
-          error: `Destination airport code '${formData.destination}' is not valid`,
-          fieldErrors: {
-            destination: {
-              ariaLabel: `Destination airport - Invalid airport code ${formData.destination}`,
-              ariaDescribedBy: 'destination-error',
-              ariaInvalid: true,
-              ariaErrorMessage: `Airport code ${formData.destination} is not valid`,
-              screenReaderAnnouncement: `Error in destination field: Airport code ${formData.destination} is not valid`
-            }
-          },
-          accessibility: {
-            ...ariaError.accessibility,
-            fieldTarget: '#destination-field'
-          }
-        },
-        { status: 400 }
-      );
-    }
+    // Airport validation is disabled - accept all airport codes
+    // TODO: Enable database validation once airport data is seeded
+    console.log(`Accepting airports: origin=${formData.origin}, destination=${formData.destination}`);
 
     // Extract UTM parameters
     const utmParams = extractUTMParams(req, body);
@@ -294,6 +245,7 @@ export async function POST(req: NextRequest) {
         comments: formData.comments,
         locale: formData.locale,
         privacyConsent: formData.privacyConsent,
+        contactWhatsApp: formData.contactWhatsApp,
         ipAddress: clientIP,
         userAgent: req.headers.get('user-agent'),
         // UTM parameters properly extracted
@@ -349,17 +301,23 @@ export async function POST(req: NextRequest) {
         date: formData.date,
         passengers: formData.passengers,
         service: formData.service,
-        ariaDescription: `Quote request for ${formData.service} service from ${originAirport.cityName} to ${destinationAirport.cityName} on ${formData.date} for ${formData.passengers} passengers`
+        ariaDescription: `Quote request for ${formData.service} service from ${formData.origin} to ${formData.destination} on ${formData.date} for ${formData.passengers} passengers`
       }
     }, { status: 201 });
 
   } catch (error) {
     console.error('Quote API error:', error);
 
+    // Log detailed error information for debugging
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const errorStack = error instanceof Error ? error.stack : undefined;
+    console.error('Error details:', { message: errorMessage, stack: errorStack });
+
     const ariaError = generateAriaErrorResponse('server', 'en'); // Default locale for server errors
     return NextResponse.json(
       {
         ...ariaError,
+        message: errorMessage, // Include error message in response
         accessibility: {
           ...ariaError.accessibility,
           formStatus: 'error',
