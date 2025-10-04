@@ -377,9 +377,7 @@ const step3Schema = z.object({
   privacyConsent: z.boolean().refine(val => val === true, 'Privacy consent is required'),
 });
 
-const fullFormSchema = step1Schema.merge(step2Schema).merge(step3Schema).extend({
-  recaptchaToken: z.string().min(1, 'Please complete the verification')
-});
+const fullFormSchema = step1Schema.merge(step2Schema).merge(step3Schema);
 
 type QuoteFormData = z.infer<typeof fullFormSchema>;
 
@@ -447,24 +445,32 @@ const getPetSizeOptions = (locale: string) => [
 
 const getAdditionalServicesOptions = (locale: string) => [
   {
-    value: 'ground_transport',
-    label: locale === 'es' ? 'Transporte terrestre' : locale === 'pt' ? 'Transporte terrestre' : 'Ground Transportation'
+    value: 'international_support',
+    label: locale === 'es' ? 'Apoyo vuelos internacionales' : locale === 'pt' ? 'Suporte voos internacionais' : 'International Flight Support'
   },
   {
-    value: 'catering',
-    label: locale === 'es' ? 'Catering a bordo' : locale === 'pt' ? 'Catering a bordo' : 'In-flight Catering'
+    value: 'country_documentation',
+    label: locale === 'es' ? 'Documentación por país' : locale === 'pt' ? 'Documentação por país' : 'Country Documentation'
   },
   {
-    value: 'wifi',
-    label: locale === 'es' ? 'Acceso Wi-Fi' : locale === 'pt' ? 'Acesso Wi-Fi' : 'Wi-Fi Access'
+    value: 'pet_friendly_transport',
+    label: locale === 'es' ? 'Transporte pet-friendly' : locale === 'pt' ? 'Transporte pet-friendly' : 'Pet-Friendly Transport'
   },
   {
-    value: 'concierge',
-    label: locale === 'es' ? 'Servicios de concierge' : locale === 'pt' ? 'Serviços de concierge' : 'Concierge Services'
+    value: 'ground_transfer_driver',
+    label: locale === 'es' ? 'Transfer terrestre / chofer' : locale === 'pt' ? 'Transfer terrestre / motorista' : 'Ground Transfer / Driver'
   },
   {
-    value: 'customs',
-    label: locale === 'es' ? 'Asistencia aduanera' : locale === 'pt' ? 'Assistência alfandegária' : 'Customs Assistance'
+    value: 'premium_catering',
+    label: locale === 'es' ? 'Catering premium' : locale === 'pt' ? 'Catering premium' : 'Premium Catering'
+  },
+  {
+    value: 'vip_lounge_fbo',
+    label: locale === 'es' ? 'Sala VIP / FBO específico' : locale === 'pt' ? 'Sala VIP / FBO específico' : 'VIP Lounge / Specific FBO'
+  },
+  {
+    value: 'customs_immigration_assist',
+    label: locale === 'es' ? 'Asistencia migraciones/aduana' : locale === 'pt' ? 'Assistência migração/alfândega' : 'Customs/Immigration Assistance'
   }
 ];
 
@@ -603,7 +609,7 @@ export function QuoteForm({
 
   const content = getContent(locale);
   const countryCodes = getOrderedCountryCodes(locale);
-  const { announce, announceAssertive } = useAnnouncer();
+  const { announce } = useAnnouncer();
   const { focusElement } = useFocusManagement();
 
   const {
@@ -620,10 +626,13 @@ export function QuoteForm({
     defaultValues: {
       serviceType: 'charter',
       passengers: 1,
-      baggagePieces: 0,
+      lightBaggage: 0,
+      mediumBaggage: 0,
+      largeBaggage: 0,
       pets: false,
       privacyConsent: false,
       contactWhatsApp: false,
+      petDocumentation: false,
       countryCode: detectedCountryCode || detectCountryCode()
     }
   });
@@ -743,37 +752,68 @@ export function QuoteForm({
   }, [setValue, announce]);
 
   const onSubmit = useCallback(async (data: QuoteFormData) => {
+    console.log('=== FORM SUBMIT TRIGGERED ===');
+    console.log('Form Data:', data);
+    console.log('reCAPTCHA Token:', recaptchaToken);
+
     if (!recaptchaToken) {
-      announceAssertive('Please complete the verification before submitting');
+      console.log('ERROR: No reCAPTCHA token');
+      announce('Please complete the verification before submitting', 'assertive');
       return;
     }
 
+    console.log('Proceeding with submission...');
     setIsSubmitting(true);
     setSubmitStatus('idle');
     setAnnouncement('Submitting quote request...');
 
     try {
+      console.log('Sending POST to /api/quote');
+
+      // Transform form data to match API schema
+      const apiPayload = {
+        service: data.serviceType,
+        fullName: `${data.firstName} ${data.lastName}`,
+        email: data.email,
+        phone: data.countryCode + data.phone,
+        passengers: data.passengers,
+        origin: data.departureAirport.code,
+        destination: data.arrivalAirport.code,
+        date: data.departureDate,
+        time: data.departureTime || '00:00',
+        standardBagsCount: (data.lightBaggage || 0) + (data.mediumBaggage || 0) + (data.largeBaggage || 0),
+        specialItems: data.specialItems,
+        pets: data.pets,
+        petSpecies: data.petSpecies,
+        petSize: data.petSize,
+        petDocuments: data.petDocumentation,
+        additionalServices: data.additionalServices || [],
+        comments: data.message,
+        privacyConsent: data.privacyConsent,
+        contactWhatsApp: data.contactWhatsApp || false,
+        recaptchaToken,
+        locale
+      };
+
+      console.log('Transformed API Payload:', apiPayload);
+
       const response = await fetch('/api/quote', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          ...data,
-          // Mark custom airports for identification
-          departureAirportCustom: data.departureAirport?.name?.includes('(Custom Airport)') || false,
-          arrivalAirportCustom: data.arrivalAirport?.name?.includes('(Custom Airport)') || false,
-          recaptchaToken,
-          locale
-        }),
+        body: JSON.stringify(apiPayload),
       });
 
       const result = await response.json();
+      console.log('API Response:', result);
 
       if (!response.ok) {
+        console.error('API Error Response:', result);
         throw new Error(result.message || 'Submission failed');
       }
 
+      console.log('SUCCESS: Quote submitted');
       setSubmitStatus('success');
       setAnnouncement('Quote request submitted successfully');
       reset();
@@ -785,12 +825,12 @@ export function QuoteForm({
       setSubmitStatus('error');
       const errorMessage = error instanceof Error ? error.message : 'Failed to submit quote request';
       setAnnouncement(`Error: ${errorMessage}`);
-      announceAssertive(errorMessage);
+      announce(errorMessage, 'assertive');
       onSubmitError?.(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
-  }, [recaptchaToken, locale, reset, announce, announceAssertive, onSubmitSuccess, onSubmitError]);
+  }, [recaptchaToken, locale, reset, announce, onSubmitSuccess, onSubmitError]);
 
   return (
     <div className={clsx('max-w-4xl mx-auto', className)}>
@@ -845,7 +885,10 @@ export function QuoteForm({
         </div>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+      <form onSubmit={handleSubmit(onSubmit, (errors) => {
+        console.log('=== VALIDATION ERRORS ===');
+        console.log('Form validation failed:', errors);
+      })} noValidate>
         <fieldset disabled={isSubmitting}>
           <legend className="sr-only">Quote Request Form - Step {currentStep}</legend>
 
@@ -1140,18 +1183,18 @@ export function QuoteForm({
                       <button
                         type="button"
                         onClick={() => {
-                          const current = watchedValues.carryOnBags || 0;
+                          const current = watchedValues.lightBaggage || 0;
                           const newValue = Math.max(current - 1, 0);
-                          setValue('carryOnBags', newValue, { shouldValidate: true });
+                          setValue('lightBaggage', newValue, { shouldValidate: true });
                         }}
-                        disabled={watchedValues.carryOnBags <= 0}
+                        disabled={watchedValues.lightBaggage <= 0}
                         className="w-10 h-10 rounded-full bg-white border-2 border-blue-500 text-blue-500 font-bold text-lg hover:bg-blue-500 hover:text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         −
                       </button>
                       <div className="min-w-[100px] text-center">
                         <div className="text-xl font-bold text-navy-primary">
-                          {watchedValues.carryOnBags || 0}
+                          {watchedValues.lightBaggage || 0}
                         </div>
                         <div className="text-xs text-gray-600">
                           {locale === 'es' ? 'Piezas' : locale === 'pt' ? 'Peças' : 'Pieces'}
@@ -1160,18 +1203,18 @@ export function QuoteForm({
                       <button
                         type="button"
                         onClick={() => {
-                          const current = watchedValues.carryOnBags || 0;
+                          const current = watchedValues.lightBaggage || 0;
                           const newValue = Math.min(current + 1, 10);
-                          setValue('carryOnBags', newValue, { shouldValidate: true });
+                          setValue('lightBaggage', newValue, { shouldValidate: true });
                         }}
-                        disabled={watchedValues.carryOnBags >= 10}
+                        disabled={watchedValues.lightBaggage >= 10}
                         className="w-10 h-10 rounded-full bg-white border-2 border-blue-500 text-blue-500 font-bold text-lg hover:bg-blue-500 hover:text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         +
                       </button>
                     </div>
-                    {errors.carryOnBags && (
-                      <p className="mt-1 text-sm text-red-600">{errors.carryOnBags.message}</p>
+                    {errors.lightBaggage && (
+                      <p className="mt-1 text-sm text-red-600">{errors.lightBaggage.message}</p>
                     )}
                   </div>
 
@@ -1184,18 +1227,18 @@ export function QuoteForm({
                       <button
                         type="button"
                         onClick={() => {
-                          const current = watchedValues.checkedBags || 0;
+                          const current = watchedValues.mediumBaggage || 0;
                           const newValue = Math.max(current - 1, 0);
-                          setValue('checkedBags', newValue, { shouldValidate: true });
+                          setValue('mediumBaggage', newValue, { shouldValidate: true });
                         }}
-                        disabled={watchedValues.checkedBags <= 0}
+                        disabled={watchedValues.mediumBaggage <= 0}
                         className="w-10 h-10 rounded-full bg-white border-2 border-green-500 text-green-500 font-bold text-lg hover:bg-green-500 hover:text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         −
                       </button>
                       <div className="min-w-[100px] text-center">
                         <div className="text-xl font-bold text-navy-primary">
-                          {watchedValues.checkedBags || 0}
+                          {watchedValues.mediumBaggage || 0}
                         </div>
                         <div className="text-xs text-gray-600">
                           {locale === 'es' ? 'Piezas' : locale === 'pt' ? 'Peças' : 'Pieces'}
@@ -1204,18 +1247,18 @@ export function QuoteForm({
                       <button
                         type="button"
                         onClick={() => {
-                          const current = watchedValues.checkedBags || 0;
+                          const current = watchedValues.mediumBaggage || 0;
                           const newValue = Math.min(current + 1, 20);
-                          setValue('checkedBags', newValue, { shouldValidate: true });
+                          setValue('mediumBaggage', newValue, { shouldValidate: true });
                         }}
-                        disabled={watchedValues.checkedBags >= 20}
+                        disabled={watchedValues.mediumBaggage >= 20}
                         className="w-10 h-10 rounded-full bg-white border-2 border-green-500 text-green-500 font-bold text-lg hover:bg-green-500 hover:text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         +
                       </button>
                     </div>
-                    {errors.checkedBags && (
-                      <p className="mt-1 text-sm text-red-600">{errors.checkedBags.message}</p>
+                    {errors.mediumBaggage && (
+                      <p className="mt-1 text-sm text-red-600">{errors.mediumBaggage.message}</p>
                     )}
                   </div>
 
@@ -1228,18 +1271,18 @@ export function QuoteForm({
                       <button
                         type="button"
                         onClick={() => {
-                          const current = watchedValues.oversizedBags || 0;
+                          const current = watchedValues.largeBaggage || 0;
                           const newValue = Math.max(current - 1, 0);
-                          setValue('oversizedBags', newValue, { shouldValidate: true });
+                          setValue('largeBaggage', newValue, { shouldValidate: true });
                         }}
-                        disabled={watchedValues.oversizedBags <= 0}
+                        disabled={watchedValues.largeBaggage <= 0}
                         className="w-10 h-10 rounded-full bg-white border-2 border-orange-500 text-orange-500 font-bold text-lg hover:bg-orange-500 hover:text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         −
                       </button>
                       <div className="min-w-[100px] text-center">
                         <div className="text-xl font-bold text-navy-primary">
-                          {watchedValues.oversizedBags || 0}
+                          {watchedValues.largeBaggage || 0}
                         </div>
                         <div className="text-xs text-gray-600">
                           {locale === 'es' ? 'Piezas' : locale === 'pt' ? 'Peças' : 'Pieces'}
@@ -1248,18 +1291,18 @@ export function QuoteForm({
                       <button
                         type="button"
                         onClick={() => {
-                          const current = watchedValues.oversizedBags || 0;
+                          const current = watchedValues.largeBaggage || 0;
                           const newValue = Math.min(current + 1, 10);
-                          setValue('oversizedBags', newValue, { shouldValidate: true });
+                          setValue('largeBaggage', newValue, { shouldValidate: true });
                         }}
-                        disabled={watchedValues.oversizedBags >= 10}
+                        disabled={watchedValues.largeBaggage >= 10}
                         className="w-10 h-10 rounded-full bg-white border-2 border-orange-500 text-orange-500 font-bold text-lg hover:bg-orange-500 hover:text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         +
                       </button>
                     </div>
-                    {errors.oversizedBags && (
-                      <p className="mt-1 text-sm text-red-600">{errors.oversizedBags.message}</p>
+                    {errors.largeBaggage && (
+                      <p className="mt-1 text-sm text-red-600">{errors.largeBaggage.message}</p>
                     )}
                   </div>
                 </div>
@@ -1294,9 +1337,8 @@ export function QuoteForm({
                   <div className="flex items-center space-x-4">
                     <label className="flex items-center space-x-2 cursor-pointer">
                       <input
-                        {...register('pets')}
                         type="radio"
-                        value="true"
+                        name="pets"
                         checked={watchedValues.pets === true}
                         onChange={() => setValue('pets', true, { shouldValidate: true })}
                         className="w-4 h-4 text-accent-blue border-gray-300 focus:ring-2 focus:ring-accent-blue"
@@ -1307,9 +1349,8 @@ export function QuoteForm({
                     </label>
                     <label className="flex items-center space-x-2 cursor-pointer">
                       <input
-                        {...register('pets')}
                         type="radio"
-                        value="false"
+                        name="pets"
                         checked={watchedValues.pets === false}
                         onChange={() => setValue('pets', false, { shouldValidate: true })}
                         className="w-4 h-4 text-accent-blue border-gray-300 focus:ring-2 focus:ring-accent-blue"
@@ -1449,15 +1490,56 @@ export function QuoteForm({
               </div>
 
               {/* reCAPTCHA Mock */}
-              <div className="p-4 border-2 border-dashed border-gray-300 rounded-lg text-center">
-                <p className="text-gray-600 mb-2">reCAPTCHA component will be integrated here</p>
-                <button
-                  type="button"
-                  onClick={() => setRecaptchaToken('mock-token-' + Date.now())}
-                  className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-                >
-                  Mock Verify
-                </button>
+              <div className={clsx(
+                "p-6 border-2 rounded-lg text-center transition-all duration-200",
+                recaptchaToken
+                  ? "border-green-500 bg-green-50"
+                  : "border-orange-400 bg-orange-50 animate-pulse"
+              )}>
+                {!recaptchaToken ? (
+                  <>
+                    <div className="flex items-center justify-center mb-3">
+                      <svg className="w-6 h-6 text-orange-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                      </svg>
+                      <span className="text-orange-800 font-semibold text-lg">
+                        {locale === 'es' ? 'Verificación Requerida' :
+                         locale === 'pt' ? 'Verificação Necessária' :
+                         'Verification Required'}
+                      </span>
+                    </div>
+                    <p className="text-orange-700 mb-4">
+                      {locale === 'es' ? 'Por favor complete la verificación para continuar' :
+                       locale === 'pt' ? 'Por favor complete a verificação para continuar' :
+                       'Please complete the verification to continue'}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => setRecaptchaToken('mock-token-' + Date.now())}
+                      className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                    >
+                      <span className="flex items-center justify-center">
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        {locale === 'es' ? 'Verificar Ahora' :
+                         locale === 'pt' ? 'Verificar Agora' :
+                         'Verify Now'}
+                      </span>
+                    </button>
+                  </>
+                ) : (
+                  <div className="flex items-center justify-center">
+                    <svg className="w-8 h-8 text-green-600 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-green-800 font-semibold text-lg">
+                      {locale === 'es' ? '✓ Verificado correctamente' :
+                       locale === 'pt' ? '✓ Verificado com sucesso' :
+                       '✓ Verified successfully'}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -1490,18 +1572,29 @@ export function QuoteForm({
                 {content.nextButton}
               </Button>
             ) : (
-              <Button
-                type="submit"
-                disabled={isSubmitting || !isCurrentStepValid() || !recaptchaToken}
-                loading={isSubmitting}
-                className={clsx(
-                  (!isCurrentStepValid() || !recaptchaToken)
-                    ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-accent-blue hover:bg-accent-blue/90'
+              <div className="relative group">
+                <Button
+                  type="submit"
+                  disabled={isSubmitting || !isCurrentStepValid() || !recaptchaToken}
+                  loading={isSubmitting}
+                  className={clsx(
+                    (!isCurrentStepValid() || !recaptchaToken)
+                      ? 'bg-gray-400 cursor-not-allowed'
+                      : 'bg-accent-blue hover:bg-accent-blue/90'
+                  )}
+                >
+                  {content.submitButton}
+                </Button>
+                {/* Tooltip when disabled due to missing verification */}
+                {!recaptchaToken && isCurrentStepValid() && !isSubmitting && (
+                  <div className="absolute bottom-full right-0 mb-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
+                    {locale === 'es' ? 'Complete la verificación primero' :
+                     locale === 'pt' ? 'Complete a verificação primeiro' :
+                     'Complete verification first'}
+                    <div className="absolute top-full right-4 -mt-1 border-4 border-transparent border-t-gray-900"></div>
+                  </div>
                 )}
-              >
-                {content.submitButton}
-              </Button>
+              </div>
             )}
           </div>
 

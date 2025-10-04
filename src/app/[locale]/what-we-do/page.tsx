@@ -217,6 +217,37 @@ export default function WhatWeDoPage() {
         </div>
       </section>
 
+      {/* Advisory Section - Highlighted */}
+      <section className="bg-gradient-to-br from-accent-blue/5 to-accent-blue/10 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-navy-primary mb-6">
+            {content.advisoryTitle}
+          </h2>
+          <ul className="space-y-4">
+            {content.advisoryPoints.map((point, index) => (
+              <li key={index} className="flex items-start">
+                <svg
+                  className="w-6 h-6 text-accent-blue flex-shrink-0 mt-0.5 mr-3"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span className="text-base md:text-lg text-gray-700 leading-relaxed">
+                  {point}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       {/* Process Steps - Match Homepage Design */}
       <section className="py-10 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

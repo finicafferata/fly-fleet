@@ -96,83 +96,15 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Contact Methods */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-navy-primary">
-            {content.methods.title}
-          </h2>
-
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
-            {/* WhatsApp */}
-            <div className="bg-gray-50 p-8 rounded-lg text-center">
-              <h3 className="text-xl font-semibold mb-4 text-navy-primary">
-                {content.methods.whatsapp.title}
-              </h3>
-              <p className="text-gray-600 mb-6">
-                {content.methods.whatsapp.description}
-              </p>
-              <WhatsAppWidget
-                variant="inline"
-                locale={locale}
-                className="inline-flex justify-center"
-              />
-            </div>
-
-            {/* Form */}
-            <div className="bg-gray-50 p-8 rounded-lg text-center">
-              <h3 className="text-xl font-semibold mb-4 text-navy-primary">
-                {content.methods.form.title}
-              </h3>
-              <p className="text-gray-600 mb-6">
-                {content.methods.form.description}
-              </p>
-              <button
-                onClick={() => {
-                  document.getElementById('contact-form')?.scrollIntoView({
-                    behavior: 'smooth'
-                  });
-                }}
-                className="inline-flex items-center justify-center bg-accent-blue hover:bg-accent-blue/90 text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-200"
-              >
-                {locale === 'es' ? 'Ir al formulario' :
-                 locale === 'pt' ? 'Ir ao formulário' :
-                 'Go to form'}
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Contact Form Section */}
-      <section id="contact-form" className="py-16 bg-gray-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-            <h2 className="text-2xl md:text-3xl font-bold mb-6 text-navy-primary text-center">
-              {content.formTitle}
-            </h2>
-
-            <div className="mb-6 p-4 bg-blue-50 rounded-lg">
-              <p className="text-sm text-blue-800">
-                {content.helpText}{' '}
-                <a
-                  href={`/${locale}/quote`}
-                  className="font-semibold text-accent-blue hover:underline"
-                >
-                  {locale === 'es' ? 'Formulario de Cotización' :
-                   locale === 'pt' ? 'Formulário de Cotação' :
-                   'Quote Form'}
-                </a>
-              </p>
-            </div>
-
-            <ContactForm
-              locale={locale}
-              onSubmitSuccess={() => {
-                console.log('Contact form submitted successfully');
-              }}
-            />
-          </div>
+      <section className="py-12 bg-white">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ContactForm
+            locale={locale}
+            onSubmitSuccess={() => {
+              console.log('Contact form submitted successfully');
+            }}
+          />
         </div>
       </section>
       </main>

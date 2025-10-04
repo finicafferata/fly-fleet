@@ -5,26 +5,14 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { clsx } from 'clsx';
-import { FormField } from './ui/FormField';
-import { FocusRing } from './ui/FocusRing';
-import { LiveRegion } from './ui/LiveRegion';
-import { VisuallyHidden } from './ui/VisuallyHidden';
-import { useAnnouncer } from '../hooks/useAnnouncer';
-import { useFocusManagement } from '../hooks/useFocusManagement';
-import { trackContactSuccess } from '../lib/analytics/accessibleTracking';
 
 const contactFormSchema = z.object({
-  inquiryType: z.enum(['general', 'quote', 'support', 'partnership', 'media']),
   firstName: z.string().min(1, 'First name is required'),
   lastName: z.string().min(1, 'Last name is required'),
   email: z.string().email('Invalid email address'),
   phone: z.string().optional(),
-  company: z.string().optional(),
-  subject: z.string().min(1, 'Subject is required'),
+  contactViaWhatsApp: z.boolean().optional(),
   message: z.string().min(10, 'Message must be at least 10 characters'),
-  preferredContact: z.enum(['email', 'phone', 'either']),
-  urgency: z.enum(['low', 'medium', 'high']),
-  recaptchaToken: z.string().min(1, 'Please complete the verification')
 });
 
 type ContactFormData = z.infer<typeof contactFormSchema>;
@@ -36,25 +24,63 @@ interface ContactFormProps {
   onSubmitError?: (error: string) => void;
 }
 
-const inquiryTypeOptions = [
-  { value: 'general', label: 'General Inquiry', description: 'General questions about our services' },
-  { value: 'quote', label: 'Quote Request', description: 'Request a flight quote' },
-  { value: 'support', label: 'Customer Support', description: 'Existing booking support' },
-  { value: 'partnership', label: 'Partnership', description: 'Business partnership opportunities' },
-  { value: 'media', label: 'Media & Press', description: 'Media inquiries and press requests' }
-];
+const getContent = (locale: string) => {
+  const content = {
+    en: {
+      firstName: 'First Name',
+      lastName: 'Last Name',
+      email: 'Email',
+      phone: 'Phone Number',
+      phoneOptional: 'Optional',
+      contactWhatsApp: 'Contact via WhatsApp',
+      message: 'Message',
+      messageHelp: 'Please provide details about your inquiry (minimum 10 characters)',
+      submit: 'Send Message',
+      submitting: 'Sending...',
+      successMessage: 'Thank you! We have received your request. We will contact you shortly.',
+      errorMessage: 'There was an error sending your message. Please try again.',
+      requiredField: 'This field is required',
+      invalidEmail: 'Invalid email address',
+      messageMinLength: 'Message must be at least 10 characters'
+    },
+    es: {
+      firstName: 'Nombre',
+      lastName: 'Apellido',
+      email: 'Correo Electrónico',
+      phone: 'Teléfono',
+      phoneOptional: 'Opcional',
+      contactWhatsApp: 'Contactar por WhatsApp',
+      message: 'Mensaje',
+      messageHelp: 'Por favor proporcione detalles sobre su consulta (mínimo 10 caracteres)',
+      submit: 'Enviar Mensaje',
+      submitting: 'Enviando...',
+      successMessage: '¡Gracias! Hemos recibido tu solicitud. Te contactaremos pronto.',
+      errorMessage: 'Hubo un error al enviar tu mensaje. Por favor intenta nuevamente.',
+      requiredField: 'Este campo es obligatorio',
+      invalidEmail: 'Correo electrónico inválido',
+      messageMinLength: 'El mensaje debe tener al menos 10 caracteres'
+    },
+    pt: {
+      firstName: 'Nome',
+      lastName: 'Sobrenome',
+      email: 'E-mail',
+      phone: 'Telefone',
+      phoneOptional: 'Opcional',
+      contactWhatsApp: 'Contato via WhatsApp',
+      message: 'Mensagem',
+      messageHelp: 'Por favor forneça detalhes sobre sua consulta (mínimo 10 caracteres)',
+      submit: 'Enviar Mensagem',
+      submitting: 'Enviando...',
+      successMessage: 'Obrigado! Recebemos sua solicitação. Entraremos em contato em breve.',
+      errorMessage: 'Houve um erro ao enviar sua mensagem. Por favor tente novamente.',
+      requiredField: 'Este campo é obrigatório',
+      invalidEmail: 'E-mail inválido',
+      messageMinLength: 'A mensagem deve ter pelo menos 10 caracteres'
+    }
+  };
 
-const urgencyOptions = [
-  { value: 'low', label: 'Low', description: 'Response within 48-72 hours' },
-  { value: 'medium', label: 'Medium', description: 'Response within 24 hours' },
-  { value: 'high', label: 'High', description: 'Response within 4-6 hours' }
-];
-
-const contactMethodOptions = [
-  { value: 'email', label: 'Email', description: 'Prefer email communication' },
-  { value: 'phone', label: 'Phone', description: 'Prefer phone communication' },
-  { value: 'either', label: 'Either', description: 'Either email or phone is fine' }
-];
+  return content[locale as keyof typeof content] || content.en;
+};
 
 export function ContactForm({
   locale = 'en',
@@ -64,41 +90,24 @@ export function ContactForm({
 }: ContactFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [announcement, setAnnouncement] = useState('');
-  const [recaptchaToken, setRecaptchaToken] = useState('');
-
-  const { announce, announceAssertive } = useAnnouncer();
-  const { focusElement } = useFocusManagement();
+  const content = getContent(locale);
 
   const {
     register,
     handleSubmit,
-    watch,
-    formState: { errors, isValid },
+    formState: { errors },
     reset
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactFormSchema),
     mode: 'onBlur',
     defaultValues: {
-      inquiryType: 'general',
-      preferredContact: 'either',
-      urgency: 'medium'
+      contactViaWhatsApp: false
     }
   });
 
-  const inquiryType = watch('inquiryType');
-  const urgency = watch('urgency');
-  const preferredContact = watch('preferredContact');
-
   const onSubmit = useCallback(async (data: ContactFormData) => {
-    if (!recaptchaToken) {
-      announceAssertive('Please complete the verification before submitting');
-      return;
-    }
-
     setIsSubmitting(true);
     setSubmitStatus('idle');
-    setAnnouncement('Submitting contact form...');
 
     try {
       const response = await fetch('/api/contact', {
@@ -108,7 +117,7 @@ export function ContactForm({
         },
         body: JSON.stringify({
           ...data,
-          recaptchaToken,
+          inquiryType: 'general',
           locale
         }),
       });
@@ -120,432 +129,165 @@ export function ContactForm({
       }
 
       setSubmitStatus('success');
-      setAnnouncement(result.accessibility?.ariaLiveMessage || 'Message sent successfully');
-
-      // Track contact success with exact GA4 format
-      trackContactSuccess('form_submission');
-
-      // Focus management for success state
-      if (result.accessibility?.focusTarget) {
-        setTimeout(() => {
-          focusElement(result.accessibility.focusTarget);
-        }, 100);
-      }
-
       reset();
-      setRecaptchaToken('');
       onSubmitSuccess?.(result);
 
     } catch (error) {
       console.error('Contact submission error:', error);
       setSubmitStatus('error');
-      const errorMessage = error instanceof Error ? error.message : 'Failed to send message';
-      setAnnouncement(`Error: ${errorMessage}`);
-      announceAssertive(errorMessage);
+      const errorMessage = error instanceof Error ? error.message : content.errorMessage;
       onSubmitError?.(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
-  }, [recaptchaToken, locale, reset, announce, announceAssertive, focusElement, onSubmitSuccess, onSubmitError]);
+  }, [locale, reset, onSubmitSuccess, onSubmitError, content.errorMessage]);
+
+  if (submitStatus === 'success') {
+    return (
+      <div className="text-center py-12">
+        <div className="mb-6">
+          <svg className="w-16 h-16 mx-auto text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <p className="text-lg text-gray-700 leading-relaxed">
+          {content.successMessage}
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className={clsx('max-w-2xl mx-auto', className)}>
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <fieldset disabled={isSubmitting} className="space-y-6">
-          <legend className="sr-only">Contact Form</legend>
-
-          {/* Inquiry Type Selection */}
-          <FormField
-            label="Type of Inquiry"
-            required
-            error={errors.inquiryType?.message}
-            description="Select the category that best describes your inquiry"
-          >
-            <div
-              role="radiogroup"
-              aria-labelledby="inquiry-type-label"
-              aria-describedby="inquiry-type-description"
-              className="space-y-3"
-            >
-              {inquiryTypeOptions.map((option) => (
-                <FocusRing key={option.value}>
-                  <label
-                    className={clsx(
-                      'relative flex items-start p-4 border rounded-lg cursor-pointer transition-all',
-                      'hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20',
-                      inquiryType === option.value
-                        ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
-                        : 'border-gray-300 dark:border-gray-600'
-                    )}
-                  >
-                    <input
-                      {...register('inquiryType')}
-                      type="radio"
-                      value={option.value}
-                      className="mt-1 mr-3 h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-                      aria-describedby={`${option.value}-description`}
-                    />
-                    <div className="flex-1">
-                      <span className="font-medium text-gray-900 dark:text-gray-100">
-                        {option.label}
-                      </span>
-                      <p
-                        id={`${option.value}-description`}
-                        className="text-sm text-gray-600 dark:text-gray-400 mt-1"
-                      >
-                        {option.description}
-                      </p>
-                    </div>
-                  </label>
-                </FocusRing>
-              ))}
-            </div>
-          </FormField>
-
-          {/* Personal Information */}
-          <fieldset className="space-y-6">
-            <legend className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
-              Contact Information
-            </legend>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <FormField
-                label="First Name"
-                required
-                error={errors.firstName?.message}
-              >
-                <input
-                  {...register('firstName')}
-                  type="text"
-                  autoComplete="given-name"
-                  placeholder="Enter your first name"
-                />
-              </FormField>
-
-              <FormField
-                label="Last Name"
-                required
-                error={errors.lastName?.message}
-              >
-                <input
-                  {...register('lastName')}
-                  type="text"
-                  autoComplete="family-name"
-                  placeholder="Enter your last name"
-                />
-              </FormField>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <FormField
-                label="Email Address"
-                required
-                error={errors.email?.message}
-              >
-                <input
-                  {...register('email')}
-                  type="email"
-                  autoComplete="email"
-                  placeholder="Enter your email address"
-                />
-              </FormField>
-
-              <FormField
-                label="Phone Number"
-                error={errors.phone?.message}
-                description="Optional - include if you prefer phone contact"
-              >
-                <input
-                  {...register('phone')}
-                  type="tel"
-                  autoComplete="tel"
-                  placeholder="Enter your phone number"
-                />
-              </FormField>
-            </div>
-
-            <FormField
-              label="Company"
-              error={errors.company?.message}
-              description="Optional - if contacting on behalf of a company"
-            >
-              <input
-                {...register('company')}
-                type="text"
-                autoComplete="organization"
-                placeholder="Enter your company name"
-              />
-            </FormField>
-          </fieldset>
-
-          {/* Message Details */}
-          <fieldset className="space-y-6">
-            <legend className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
-              Message Details
-            </legend>
-
-            <FormField
-              label="Subject"
-              required
-              error={errors.subject?.message}
-            >
-              <input
-                {...register('subject')}
-                type="text"
-                placeholder="Brief subject line for your inquiry"
-              />
-            </FormField>
-
-            <FormField
-              label="Message"
-              required
-              error={errors.message?.message}
-              description="Please provide details about your inquiry (minimum 10 characters)"
-            >
-              <textarea
-                {...register('message')}
-                rows={6}
-                placeholder="Please provide details about your inquiry, requirements, or questions..."
-                className="resize-vertical"
-              />
-            </FormField>
-          </fieldset>
-
-          {/* Communication Preferences */}
-          <fieldset className="space-y-6">
-            <legend className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
-              Communication Preferences
-            </legend>
-
-            <FormField
-              label="Preferred Contact Method"
-              required
-              error={errors.preferredContact?.message}
-            >
-              <div
-                role="radiogroup"
-                aria-labelledby="contact-method-label"
-                className="flex flex-wrap gap-4"
-              >
-                {contactMethodOptions.map((option) => (
-                  <FocusRing key={option.value}>
-                    <label
-                      className={clsx(
-                        'flex items-center p-3 border rounded-lg cursor-pointer transition-all',
-                        'hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20',
-                        preferredContact === option.value
-                          ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
-                          : 'border-gray-300 dark:border-gray-600'
-                      )}
-                    >
-                      <input
-                        {...register('preferredContact')}
-                        type="radio"
-                        value={option.value}
-                        className="mr-3 h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-                        aria-describedby={`contact-${option.value}-description`}
-                      />
-                      <div>
-                        <span className="font-medium text-gray-900 dark:text-gray-100">
-                          {option.label}
-                        </span>
-                        <p
-                          id={`contact-${option.value}-description`}
-                          className="text-xs text-gray-600 dark:text-gray-400 mt-1"
-                        >
-                          {option.description}
-                        </p>
-                      </div>
-                    </label>
-                  </FocusRing>
-                ))}
-              </div>
-            </FormField>
-
-            <FormField
-              label="Urgency Level"
-              required
-              error={errors.urgency?.message}
-              description="Help us prioritize your request"
-            >
-              <div
-                role="radiogroup"
-                aria-labelledby="urgency-label"
-                className="flex flex-wrap gap-4"
-              >
-                {urgencyOptions.map((option) => (
-                  <FocusRing key={option.value}>
-                    <label
-                      className={clsx(
-                        'flex items-center p-3 border rounded-lg cursor-pointer transition-all',
-                        'hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20',
-                        urgency === option.value
-                          ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
-                          : 'border-gray-300 dark:border-gray-600'
-                      )}
-                    >
-                      <input
-                        {...register('urgency')}
-                        type="radio"
-                        value={option.value}
-                        className="mr-3 h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-                        aria-describedby={`urgency-${option.value}-description`}
-                      />
-                      <div>
-                        <span
-                          className={clsx(
-                            'font-medium',
-                            option.value === 'high' && 'text-red-600 dark:text-red-400',
-                            option.value === 'medium' && 'text-yellow-600 dark:text-yellow-400',
-                            option.value === 'low' && 'text-green-600 dark:text-green-400'
-                          )}
-                        >
-                          {option.label}
-                        </span>
-                        <p
-                          id={`urgency-${option.value}-description`}
-                          className="text-xs text-gray-600 dark:text-gray-400 mt-1"
-                        >
-                          {option.description}
-                        </p>
-                      </div>
-                    </label>
-                  </FocusRing>
-                ))}
-              </div>
-            </FormField>
-          </fieldset>
-
-          {/* reCAPTCHA Placeholder */}
-          <FormField
-            label="Verification"
-            required
-            error={errors.recaptchaToken?.message}
-            description="Please complete the verification to submit your message"
-          >
-            <div className="p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg text-center">
-              <p className="text-gray-600 dark:text-gray-400">
-                reCAPTCHA component will be integrated here
-              </p>
-              <button
-                type="button"
-                onClick={() => setRecaptchaToken('mock-token-' + Date.now())}
-                className="mt-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-              >
-                Mock Verify
-              </button>
-            </div>
-          </FormField>
-
-          {/* Submit Button */}
-          <div className="pt-6">
-            <FocusRing>
-              <button
-                type="submit"
-                disabled={isSubmitting || !isValid || !recaptchaToken}
-                className={clsx(
-                  'w-full py-3 px-6 rounded-lg font-medium transition-all',
-                  'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
-                  isSubmitting || !isValid || !recaptchaToken
-                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                    : 'bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800'
-                )}
-                aria-describedby="submit-status"
-              >
-                {isSubmitting ? (
-                  <span className="flex items-center justify-center space-x-2">
-                    <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
-                    <span>Sending Message...</span>
-                  </span>
-                ) : (
-                  'Send Message'
-                )}
-              </button>
-            </FocusRing>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
+        {/* Name Fields */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">
+              {content.firstName} <span className="text-red-500">*</span>
+            </label>
+            <input
+              {...register('firstName')}
+              id="firstName"
+              type="text"
+              autoComplete="given-name"
+              className={clsx(
+                'w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-accent-blue focus:border-accent-blue transition-colors',
+                errors.firstName ? 'border-red-500' : 'border-gray-300'
+              )}
+            />
+            {errors.firstName && (
+              <p className="mt-1 text-sm text-red-600">{errors.firstName.message}</p>
+            )}
           </div>
 
-          {/* Status Messages */}
-          {submitStatus === 'success' && (
-            <div
-              role="alert"
-              aria-live="polite"
-              className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg"
-            >
-              <div className="flex items-start space-x-3">
-                <svg
-                  className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  aria-hidden="true"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <div>
-                  <h3 className="font-medium text-green-800 dark:text-green-200">
-                    Message Sent Successfully
-                  </h3>
-                  <p className="text-green-700 dark:text-green-300 mt-1">
-                    Thank you for contacting us. We&apos;ll respond according to your urgency level.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {submitStatus === 'error' && (
-            <div
-              role="alert"
-              aria-live="assertive"
-              className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg"
-            >
-              <div className="flex items-start space-x-3">
-                <svg
-                  className="w-5 h-5 text-red-600 dark:text-red-400 mt-0.5 flex-shrink-0"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  aria-hidden="true"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <div>
-                  <h3 className="font-medium text-red-800 dark:text-red-200">
-                    Failed to Send Message
-                  </h3>
-                  <p className="text-red-700 dark:text-red-300 mt-1">
-                    Please check your information and try again.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-        </fieldset>
-      </form>
-
-      {/* Live Region for Announcements */}
-      <LiveRegion
-        message={announcement}
-        priority="polite"
-        clearAfter={5000}
-        onMessageCleared={() => setAnnouncement('')}
-      />
-
-      {/* Screen Reader Instructions */}
-      <VisuallyHidden>
-        <div role="region" aria-label="Form instructions">
-          Contact form: Fill out all required fields marked with an asterisk.
-          Use Tab to navigate between fields, arrow keys for radio buttons, and Enter to submit.
-          Form validation will announce any errors when you move between fields.
-          Your urgency selection determines our response time commitment.
+          <div>
+            <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-2">
+              {content.lastName} <span className="text-red-500">*</span>
+            </label>
+            <input
+              {...register('lastName')}
+              id="lastName"
+              type="text"
+              autoComplete="family-name"
+              className={clsx(
+                'w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-accent-blue focus:border-accent-blue transition-colors',
+                errors.lastName ? 'border-red-500' : 'border-gray-300'
+              )}
+            />
+            {errors.lastName && (
+              <p className="mt-1 text-sm text-red-600">{errors.lastName.message}</p>
+            )}
+          </div>
         </div>
-      </VisuallyHidden>
+
+        {/* Email */}
+        <div>
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+            {content.email} <span className="text-red-500">*</span>
+          </label>
+          <input
+            {...register('email')}
+            id="email"
+            type="email"
+            autoComplete="email"
+            className={clsx(
+              'w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-accent-blue focus:border-accent-blue transition-colors',
+              errors.email ? 'border-red-500' : 'border-gray-300'
+            )}
+          />
+          {errors.email && (
+            <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+          )}
+        </div>
+
+        {/* Phone */}
+        <div>
+          <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+            {content.phone} <span className="text-gray-500 text-xs">({content.phoneOptional})</span>
+          </label>
+          <input
+            {...register('phone')}
+            id="phone"
+            type="tel"
+            autoComplete="tel"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-blue focus:border-accent-blue transition-colors"
+          />
+
+          {/* WhatsApp Checkbox */}
+          <div className="mt-3">
+            <label className="flex items-center cursor-pointer">
+              <input
+                {...register('contactViaWhatsApp')}
+                type="checkbox"
+                className="w-4 h-4 text-accent-blue border-gray-300 rounded focus:ring-2 focus:ring-accent-blue"
+              />
+              <span className="ml-2 text-sm text-gray-700">{content.contactWhatsApp}</span>
+            </label>
+          </div>
+        </div>
+
+        {/* Message */}
+        <div>
+          <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+            {content.message} <span className="text-red-500">*</span>
+          </label>
+          <textarea
+            {...register('message')}
+            id="message"
+            rows={6}
+            className={clsx(
+              'w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-accent-blue focus:border-accent-blue transition-colors resize-vertical',
+              errors.message ? 'border-red-500' : 'border-gray-300'
+            )}
+          />
+          {errors.message && (
+            <p className="mt-1 text-sm text-red-600">{errors.message.message}</p>
+          )}
+          <p className="mt-1 text-xs text-gray-500">{content.messageHelp}</p>
+        </div>
+
+        {/* Error Message */}
+        {submitStatus === 'error' && (
+          <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+            <p className="text-sm text-red-800">{content.errorMessage}</p>
+          </div>
+        )}
+
+        {/* Submit Button */}
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className={clsx(
+            'w-full py-3 px-6 rounded-lg font-semibold text-white transition-all duration-200',
+            isSubmitting
+              ? 'bg-gray-400 cursor-not-allowed'
+              : 'bg-accent-blue hover:bg-accent-blue/90 hover:shadow-lg transform hover:scale-105'
+          )}
+        >
+          {isSubmitting ? content.submitting : content.submit}
+        </button>
+      </form>
     </div>
   );
 }

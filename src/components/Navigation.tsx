@@ -141,13 +141,11 @@ export function Navigation({ locale, className, onLanguageChange }: NavigationPr
             href={`/${locale}`}
             className="flex items-center text-navy-primary hover:text-accent-blue transition-colors duration-200"
           >
-            <div className="flex items-center space-x-3">
-              <svg className="h-7 w-9" viewBox="0 0 32 24" fill="currentColor">
-                <path d="M8 6l8 4-8 4V6zm16 0l-8 4 8 4V6z" />
-                <path d="M0 10h6v4H0zm26 0h6v4h-6z" />
-              </svg>
-              <span className="text-2xl font-bold tracking-tight">FLY-FLEET</span>
-            </div>
+            <img
+              src="/images/flyfleet_logo.png"
+              alt="Fly-Fleet"
+              className="h-10 w-auto"
+            />
           </Link>
 
           {/* Desktop Navigation and Language Switcher */}
