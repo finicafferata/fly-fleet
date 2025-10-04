@@ -51,26 +51,26 @@ const generateAccessibleMessage = (locale: string, formData?: WhatsAppWidgetProp
   return encodeURIComponent(messages[locale as keyof typeof messages] || messages.en);
 };
 
-const getLanguageLabels = (locale: string) => {
+const getLanguageLabels = (locale: string, variant?: string) => {
   const labels = {
     en: {
       contactLabel: 'Contact us on WhatsApp in English',
       helpText: 'Opens WhatsApp with pre-filled message for immediate assistance',
-      buttonText: 'WhatsApp',
+      buttonText: variant === 'inline' ? 'Contact Us' : 'WhatsApp',
       openChat: 'Open WhatsApp chat',
       announcement: 'Opening WhatsApp messenger',
     },
     es: {
       contactLabel: 'Contáctanos por WhatsApp en Español',
       helpText: 'Abre WhatsApp con un mensaje predeterminado para asistencia inmediata',
-      buttonText: 'WhatsApp',
+      buttonText: variant === 'inline' ? 'Contáctanos' : 'WhatsApp',
       openChat: 'Abrir chat de WhatsApp',
       announcement: 'Abriendo WhatsApp messenger',
     },
     pt: {
       contactLabel: 'Entre em contato conosco pelo WhatsApp em Português',
       helpText: 'Abre o WhatsApp com mensagem pré-definida para assistência imediata',
-      buttonText: 'WhatsApp',
+      buttonText: variant === 'inline' ? 'Entre em Contato' : 'WhatsApp',
       openChat: 'Abrir chat do WhatsApp',
       announcement: 'Abrindo WhatsApp messenger',
     },
@@ -85,7 +85,7 @@ export function WhatsAppWidget({
   className,
   formData,
   position = 'bottom-right',
-  phoneNumber = '+5491123456789', // Default number - should be configurable
+  phoneNumber = '+5491166601927', // Default number - should be configurable
   disabled = false,
   showOnMobile = true,
   showOnDesktop = true,
@@ -94,7 +94,7 @@ export function WhatsAppWidget({
   const [announcement, setAnnouncement] = useState('');
   const [isMobile, setIsMobile] = useState(false);
 
-  const labels = getLanguageLabels(locale);
+  const labels = getLanguageLabels(locale, variant);
 
   // Detect mobile device
   useEffect(() => {

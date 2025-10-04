@@ -72,7 +72,7 @@ export function LanguageSwitcher({
   // Detect mobile device and high contrast mode
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
+      setIsMobile(window.innerWidth < 1280);
     };
 
     checkMobile();
@@ -247,11 +247,7 @@ export function LanguageSwitcher({
   if (isMobile || variant === 'dropdown') {
     const selectOptions = languages.map(lang => ({
       value: lang.code,
-      label: showFlags
-        ? `${lang.flag} ${showNativeNames ? lang.nativeName : lang.name}`
-        : showNativeNames
-        ? lang.nativeName
-        : lang.name,
+      label: showFlags ? lang.flag : (showNativeNames ? lang.nativeName : lang.name),
     }));
 
     return (
@@ -262,7 +258,7 @@ export function LanguageSwitcher({
           onChange={(value) => switchLanguage(value)}
           placeholder="Select language"
           aria-label="Choose language"
-          className="min-w-[120px]"
+          className="min-w-[60px]"
         />
 
         {/* Live region for announcements */}
@@ -296,13 +292,13 @@ export function LanguageSwitcher({
         }}
         onKeyDown={handleTriggerKeyDown}
         className={clsx(
-          'language-trigger inline-flex items-center space-x-2 px-3 py-2',
+          'language-trigger inline-flex items-center justify-center',
           'text-sm font-medium text-navy-primary',
           'border border-neutral-medium rounded-lg',
           'hover:bg-neutral-light hover:border-accent-blue',
           'focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2',
           'transition-colors duration-200',
-          'min-h-[44px]',
+          'h-10 w-10',
           // Navy blue active states
           isOpen && 'bg-accent-blue text-white border-accent-blue',
           // High contrast mode compatibility
@@ -317,34 +313,10 @@ export function LanguageSwitcher({
         </span>
 
         {showFlags && (
-          <span aria-hidden="true" className="text-lg">
+          <span aria-hidden="true" className="text-lg leading-none">
             {selectedLanguage.flag}
           </span>
         )}
-
-        <span aria-hidden="true">
-          {(showNativeNames ? selectedLanguage.nativeName : selectedLanguage.name).toUpperCase()}
-        </span>
-
-        <svg
-          className={clsx(
-            'w-4 h-4 transition-transform duration-200',
-            isOpen && 'rotate-180',
-            // Respect motion preferences
-            'motion-reduce:transition-none'
-          )}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
       </button>
 
       {isOpen && (
@@ -388,20 +360,6 @@ export function LanguageSwitcher({
                     {language.flag}
                   </span>
                 )}
-
-                <div className="flex flex-col">
-                  <span className="font-medium">
-                    {language.label}
-                  </span>
-                  {showNativeNames && language.name !== language.nativeName && (
-                    <span className={clsx(
-                      'text-xs',
-                      activeIndex === index ? 'text-white/80' : 'text-neutral-medium'
-                    )}>
-                      {language.nativeName}
-                    </span>
-                  )}
-                </div>
 
                 {currentLocale === language.code && (
                   <>

@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Nueva Cotización - Fly-Fleet</title>
+  <title>Nueva Consulta - Fly-Fleet</title>
 </head>
 <body style="font-family: 'Poppins', sans-serif; background-color: #f4f6f8; margin: 0; padding: 20px;">
   <!-- Header with Logo -->
@@ -13,50 +13,38 @@
 
     <!-- Content -->
     <div style="padding: 30px;">
-      <h1 style="color: #0B1E3C; margin: 0 0 20px 0;">Nueva Cotización Recibida</h1>
+      <h1 style="color: #0B1E3C; margin: 0 0 20px 0;">Nueva Consulta de Contacto</h1>
 
       <!-- Customer Info -->
       <div style="background: #f8f9fa; padding: 20px; border-radius: 6px; margin-bottom: 20px;">
         <h3 style="margin: 0 0 15px 0; color: #0B1E3C;">Información del Cliente</h3>
         <p><strong>Nombre:</strong> {{fullName}}</p>
-        <p><strong>Email:</strong> {{email}}</p>
+        <p><strong>Email:</strong> <a href="mailto:{{email}}">{{email}}</a></p>
         <p><strong>Teléfono:</strong> {{phone}}</p>
-        {{#if contactWhatsApp}}<p style="color: #25D366;"><strong>✓ Acepta contacto por WhatsApp</strong></p>{{/if}}
+        {{#if contactViaWhatsApp}}<p style="color: #25D366;"><strong>✓ Acepta contacto por WhatsApp</strong></p>{{/if}}
       </div>
 
-      <!-- Flight Details -->
+      <!-- Message Details -->
       <div style="background: #f8f9fa; padding: 20px; border-radius: 6px; margin-bottom: 20px;">
-        <h3 style="margin: 0 0 15px 0; color: #0B1E3C;">Detalles del Vuelo</h3>
-        <p><strong>Servicio:</strong> {{serviceType}}</p>
-        <p><strong>Ruta:</strong> {{origin}} → {{destination}}</p>
-        <p><strong>Fecha:</strong> {{departureDate}}</p>
-        <p><strong>Hora:</strong> {{departureTime}}</p>
-        <p><strong>Pasajeros:</strong> {{passengers}}</p>
-        <p><strong>Equipaje estándar:</strong> {{standardBagsCount}} piezas</p>
-        {{#if specialItems}}<p><strong>Artículos especiales:</strong> {{specialItems}}</p>{{/if}}
+        <h3 style="margin: 0 0 15px 0; color: #0B1E3C;">Detalles del Mensaje</h3>
+        {{#if subject}}<p><strong>Asunto:</strong> {{subject}}</p>{{/if}}
+        <p><strong>Mensaje:</strong></p>
+        <div style="background: white; padding: 15px; border-left: 4px solid #2F6AEF; margin-top: 10px;">
+          {{message}}
+        </div>
       </div>
-
-      <!-- Additional Services -->
-      {{#if additionalServices}}
-      <div style="background: #f8f9fa; padding: 20px; border-radius: 6px; margin-bottom: 20px;">
-        <h3 style="margin: 0 0 15px 0; color: #0B1E3C;">Servicios Adicionales</h3>
-        <ul>
-          {{#each additionalServices}}
-          <li>{{this}}</li>
-          {{/each}}
-        </ul>
-      </div>
-      {{/if}}
 
       <!-- UTM Attribution -->
       <div style="background: #e8f4fd; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
         <h4 style="margin: 0 0 10px 0; color: #0B1E3C;">Atribución de Marketing</h4>
         <p style="font-size: 12px; margin: 0;"><strong>Fuente:</strong> {{utmSource}} | <strong>Medio:</strong> {{utmMedium}} | <strong>Campaña:</strong> {{utmCampaign}}</p>
+        <p style="font-size: 12px; margin: 5px 0 0 0;"><strong>Idioma:</strong> {{localeDisplay}}</p>
       </div>
 
       <!-- CTA -->
       <div style="text-align: center; margin: 30px 0;">
-        <a href="mailto:{{email}}" style="background: #2F6AEF; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">Responder al Cliente</a>
+        <a href="mailto:{{email}}" style="background: #2F6AEF; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block; margin-right: 10px;">Responder por Email</a>
+        {{#if contactViaWhatsApp}}<a href="https://wa.me/{{phoneClean}}?text=Hola%20{{fullName}}%2C%20gracias%20por%20contactarnos" style="background: #25D366; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">Contactar por WhatsApp</a>{{/if}}
       </div>
     </div>
 
