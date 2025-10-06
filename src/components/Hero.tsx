@@ -137,14 +137,15 @@ export function Hero({
 
       {/* Content */}
       <div className="hero-content relative z-10 w-full py-20">
-        <div style={{ paddingLeft: 'clamp(2rem, 5vw, 5rem)', paddingRight: 'clamp(2rem, 5vw, 5rem)' }}>
-          {/* Main Content */}
-          <div
-            className={clsx(
-              'transform transition-all duration-1000 ease-out',
-              isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-            )}
-          >
+        <div className="flex items-center justify-between gap-8" style={{ paddingLeft: 'clamp(2rem, 5vw, 5rem)', paddingRight: 'clamp(2rem, 5vw, 5rem)' }}>
+          <div className="flex-1">
+            {/* Main Content */}
+            <div
+              className={clsx(
+                'transform transition-all duration-1000 ease-out',
+                isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+              )}
+            >
             <h1
               id="hero-heading"
               className={clsx(
@@ -167,7 +168,7 @@ export function Hero({
             {/* CTA Buttons */}
             <div
               className={clsx(
-                'hero-ctas flex flex-col sm:flex-row gap-4 mb-12',
+                'hero-ctas flex flex-col sm:flex-row gap-4',
                 'animate-fade-in-up animation-delay-400'
               )}
               role="group"
@@ -206,55 +207,25 @@ export function Hero({
                 Contact us immediately via WhatsApp
               </div>
             </div>
-
-            {/* Trust Badges */}
-            <div
-              className={clsx(
-                'flex flex-wrap gap-6 items-center',
-                'animate-fade-in-up animation-delay-600'
-              )}
-            >
-              {content.trustIndicators.map((indicator, index) => (
-                <div key={index} className="flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 border border-white/20">
-                  <svg className="w-5 h-5 text-accent-blue" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  <span className="text-white text-sm font-medium">{indicator}</span>
-                </div>
-              ))}
-            </div>
           </div>
-        </div>
-      </div>
+          </div>
 
-      {/* Stats Bar */}
-      <div className="absolute bottom-0 left-0 right-0 z-20 bg-white/95 backdrop-blur-md border-t border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-navy-primary mb-1">500+</div>
-              <div className="text-sm text-gray-600">
-                {locale === 'es' ? 'Vuelos Completados' : locale === 'pt' ? 'Voos Completados' : 'Flights Completed'}
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-navy-primary mb-1">24/7</div>
-              <div className="text-sm text-gray-600">
-                {locale === 'es' ? 'Soporte Activo' : locale === 'pt' ? 'Suporte Ativo' : 'Active Support'}
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-navy-primary mb-1">50+</div>
-              <div className="text-sm text-gray-600">
-                {locale === 'es' ? 'Aeronaves Disponibles' : locale === 'pt' ? 'Aeronaves Disponíveis' : 'Aircraft Available'}
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-navy-primary mb-1">100%</div>
-              <div className="text-sm text-gray-600">
-                {locale === 'es' ? 'Certificado & Seguro' : locale === 'pt' ? 'Certificado & Seguro' : 'Certified & Insured'}
-              </div>
-            </div>
+          {/* Logo on the right side */}
+          <div
+            className={clsx(
+              'hidden lg:block flex-shrink-0',
+              'transform transition-all duration-1000 ease-out',
+              isLoaded ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'
+            )}
+          >
+            <img
+              src="/logo.svg"
+              alt="Fly-Fleet Logo"
+              className="w-48 h-auto"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+              }}
+            />
           </div>
         </div>
       </div>
@@ -262,7 +233,7 @@ export function Hero({
       {/* Scroll Indicator */}
       <div
         className={clsx(
-          'absolute bottom-32 left-1/2 transform -translate-x-1/2 z-20',
+          'absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20',
           'animate-bounce',
           'transition-opacity duration-1000 delay-1000',
           isLoaded ? 'opacity-100' : 'opacity-0'
