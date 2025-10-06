@@ -341,12 +341,14 @@ export default function AdditionalServicesPage() {
                'Quote with services'}
             </a>
             <a
-              href={`/${locale}/contact`}
+              href="https://wa.me/5491166601927"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center bg-white hover:bg-gray-50 text-navy-primary border-2 border-navy-primary min-h-[56px] px-8 text-lg font-semibold rounded-lg transition-all duration-200"
             >
-              {locale === 'es' ? 'Consultar directamente' :
-               locale === 'pt' ? 'Consultar diretamente' :
-               'Contact directly'}
+              {locale === 'es' ? 'Consultar por WhatsApp' :
+               locale === 'pt' ? 'Consultar via WhatsApp' :
+               'Contact via WhatsApp'}
             </a>
           </div>
         </div>

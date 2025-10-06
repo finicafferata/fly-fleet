@@ -499,32 +499,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Contact CTA Banner */}
-      <section className="bg-accent-blue py-20">
-        <div className="flex items-center justify-center px-4">
-          <div className="text-center">
-            <h3 className="text-2xl font-semibold text-white mb-4">
-              {locale === 'es' ? '¿Aún tienes preguntas?' :
-               locale === 'pt' ? 'Ainda tem dúvidas?' :
-               'Still have questions?'}
-            </h3>
-            <p className="text-white/90 mb-6 max-w-lg mx-auto">
-              {locale === 'es' ? 'Nuestro equipo está aquí para ayudarte con cualquier consulta específica' :
-               locale === 'pt' ? 'Nossa equipe está aqui para ajudar com qualquer pergunta específica' :
-               'Our team is here to help with any specific inquiries'}
-            </p>
-            <button
-              onClick={() => setShowContactForm(true)}
-              className="bg-white text-accent-blue hover:bg-gray-50 px-8 py-3 rounded-lg font-semibold transition-colors duration-200"
-            >
-              {locale === 'es' ? 'Contáctanos' :
-               locale === 'pt' ? 'Entre em Contato' :
-               'Contact Us'}
-            </button>
-          </div>
-        </div>
-      </section>
-
       {/* Footer */}
       <Footer locale={locale} />
 
