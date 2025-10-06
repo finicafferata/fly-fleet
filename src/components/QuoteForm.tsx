@@ -430,16 +430,16 @@ const getPetSpeciesOptions = (locale: string) => [
 
 const getPetSizeOptions = (locale: string) => [
   {
-    value: 'small',
-    label: locale === 'es' ? 'Pequeño' : locale === 'pt' ? 'Pequeno' : 'Small'
+    value: 'light',
+    label: locale === 'es' ? 'Liviano' : locale === 'pt' ? 'Leve' : 'Light'
   },
   {
     value: 'medium',
     label: locale === 'es' ? 'Mediano' : locale === 'pt' ? 'Médio' : 'Medium'
   },
   {
-    value: 'large',
-    label: locale === 'es' ? 'Grande' : locale === 'pt' ? 'Grande' : 'Large'
+    value: 'heavy',
+    label: locale === 'es' ? 'Pesado' : locale === 'pt' ? 'Pesado' : 'Heavy'
   }
 ];
 

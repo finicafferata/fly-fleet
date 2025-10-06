@@ -23,7 +23,7 @@ const getContent = (locale: string) => {
   const content = {
     en: {
       heading: 'Our Services',
-      subheading: 'Comprehensive private aviation solutions tailored to your needs',
+      subheading: 'Private aviation solutions tailored to your needs',
       services: [
         {
           id: 'charter',
@@ -102,7 +102,7 @@ const getContent = (locale: string) => {
     },
     es: {
       heading: 'Nuestros Servicios',
-      subheading: 'Soluciones integrales de aviación privada adaptadas a sus necesidades',
+      subheading: 'Soluciones de aviación privada adaptadas a sus necesidades',
       services: [
         {
           id: 'charter',
@@ -181,7 +181,7 @@ const getContent = (locale: string) => {
     },
     pt: {
       heading: 'Nossos Serviços',
-      subheading: 'Soluções abrangentes de aviação privada adaptadas às suas necessidades',
+      subheading: 'Soluções de aviação privada adaptadas às suas necessidades',
       services: [
         {
           id: 'charter',
