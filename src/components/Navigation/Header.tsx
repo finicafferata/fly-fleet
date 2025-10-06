@@ -37,7 +37,7 @@ const getNavigationItems = (locale: string): NavigationItem[] => {
       { href: '/', label: 'Inicio', description: 'Volver al inicio' },
       { href: '/services', label: 'Servicios', description: 'Nuestros servicios de aviación' },
       { href: '/fleet', label: 'Flota', description: 'Información de la flota' },
-      { href: '/about', label: 'Nosotros', description: 'Acerca de Fly-Fleet' },
+      { href: '/about', label: 'Nosotros', description: 'Nosotros - Fly-Fleet' },
       { href: '/contact', label: 'Contacto', description: 'Información de contacto' },
     ],
     pt: [

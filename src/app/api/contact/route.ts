@@ -14,13 +14,20 @@ const prisma = new PrismaClient();
 const emailService = new EmailService();
 
 const ContactFormSchema = z.object({
-  fullName: z.string().min(2).max(100),
+  // Support both old and new formats
+  fullName: z.string().min(2).max(100).optional(),
+  firstName: z.string().min(1).max(50).optional(),
+  lastName: z.string().min(1).max(50).optional(),
   email: z.string().email(),
-  phone: z.string().min(10).max(20).optional(),
+  phone: z.string().optional(),
+  contactViaWhatsApp: z.boolean().optional(),
   subject: z.string().max(200).optional(),
   message: z.string().min(10).max(1000),
   locale: z.enum(['es', 'en', 'pt']),
-  recaptchaToken: z.string()
+  recaptchaToken: z.string().optional(),
+  inquiryType: z.string().optional()
+}).refine(data => data.fullName || (data.firstName && data.lastName), {
+  message: "Either fullName or both firstName and lastName are required"
 });
 
 // Extract UTM from headers, query params, and request body
@@ -141,34 +148,39 @@ export async function POST(req: NextRequest) {
 
     const formData = validationResult.data;
 
-    // Verify reCAPTCHA token
-    const recaptchaResult = await recaptchaService.verifyToken(
-      formData.recaptchaToken,
-      'contact_form',
-      clientIP
-    );
+    // Combine firstName and lastName if they exist separately
+    const fullName = formData.fullName || `${formData.firstName} ${formData.lastName}`;
 
-    if (!recaptchaResult.success) {
-      console.warn('reCAPTCHA verification failed for contact form:', {
-        ip: clientIP,
-        errors: recaptchaResult.errors,
-        score: recaptchaResult.score
-      });
-
-      const ariaError = generateAriaErrorResponse('recaptcha', formData.locale);
-      return NextResponse.json(
-        {
-          ...ariaError,
-          details: recaptchaResult.errors,
-          accessibility: {
-            ...ariaError.accessibility,
-            formStatus: 'error',
-            nextSteps: 'Please refresh the page and try again',
-            fieldTarget: '#recaptcha-field'
-          }
-        },
-        { status: 400 }
+    // Verify reCAPTCHA token (optional for simplified form)
+    if (formData.recaptchaToken) {
+      const recaptchaResult = await recaptchaService.verifyToken(
+        formData.recaptchaToken,
+        'contact_form',
+        clientIP
       );
+
+      if (!recaptchaResult.success) {
+        console.warn('reCAPTCHA verification failed for contact form:', {
+          ip: clientIP,
+          errors: recaptchaResult.errors,
+          score: recaptchaResult.score
+        });
+
+        const ariaError = generateAriaErrorResponse('recaptcha', formData.locale);
+        return NextResponse.json(
+          {
+            ...ariaError,
+            details: recaptchaResult.errors,
+            accessibility: {
+              ...ariaError.accessibility,
+              formStatus: 'error',
+              nextSteps: 'Please refresh the page and try again',
+              fieldTarget: '#recaptcha-field'
+            }
+          },
+          { status: 400 }
+        );
+      }
     }
 
     // Extract UTM parameters
@@ -177,12 +189,13 @@ export async function POST(req: NextRequest) {
     // Create contact form submission
     const contactForm = await prisma.contactForm.create({
       data: {
-        fullName: formData.fullName,
+        fullName: fullName,
         email: formData.email,
         phone: formData.phone,
         subject: formData.subject,
         message: formData.message,
         locale: formData.locale,
+        contactViaWhatsApp: formData.contactViaWhatsApp || false,
         ipAddress: clientIP,
         userAgent: req.headers.get('user-agent'),
         // UTM parameters properly extracted
@@ -196,14 +209,14 @@ export async function POST(req: NextRequest) {
     try {
       await emailService.sendContactNotification({
         contactData: contactForm,
-        subject: contactSubjects[formData.locale](formData.fullName),
+        subject: contactSubjects[formData.locale](fullName),
         locale: formData.locale
       });
 
       // Send auto-response to customer
       await emailService.sendContactAutoResponse({
         email: formData.email,
-        fullName: formData.fullName,
+        fullName: fullName,
         locale: formData.locale,
         contactData: contactForm
       });

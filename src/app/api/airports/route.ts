@@ -1,15 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { PrismaClient } from '@prisma/client';
-import {
-  generateAirportAriaLabel,
-  generateAriaSuccessInfo,
-  generateAriaErrorResponse,
-  generateKeyboardInstructions,
-  type Locale
-} from '../../../lib/accessibility/aria-helpers';
-
-const prisma = new PrismaClient();
 
 // Request validation schema
 const AirportSearchSchema = z.object({
@@ -25,237 +15,71 @@ interface AirportSearchResult {
   country: string;     // Country name in requested locale
   region: string;      // Region name in requested locale
   isPopular: boolean;  // For boosting popular airports
-  accessibility?: {    // ARIA accessibility information
-    ariaLabel: string;
-    ariaDescription: string;
-    ariaRole: string;
-    ariaPosInSet?: number;
-    ariaSetSize?: number;
-  };
 }
 
-// In-memory cache with 1 hour TTL
-interface CacheItem {
-  data: AirportSearchResult[];
-  timestamp: number;
-}
+// Custom airport list as specified
+const mockAirports: AirportSearchResult[] = [
+  { code: 'EZE', name: 'Aeropuerto Internacional Ministro Pistarini – Ezeiza', city: 'Buenos Aires', country: 'Argentina', region: 'South America', isPopular: true },
+  { code: 'AEP', name: 'Aeroparque Jorge Newbery', city: 'Buenos Aires', country: 'Argentina', region: 'South America', isPopular: true },
+  { code: 'FDO', name: 'Aeropuerto de San Fernando', city: 'Buenos Aires / San Fernando', country: 'Argentina', region: 'South America', isPopular: false },
+  { code: 'GRU', name: 'Aeroporto Internacional de São Paulo-Guarulhos', city: 'São Paulo', country: 'Brazil', region: 'South America', isPopular: true },
+  { code: 'CGH', name: 'Aeroporto de Congonhas', city: 'São Paulo', country: 'Brazil', region: 'South America', isPopular: true },
+  { code: 'VCP', name: 'Aeroporto Internacional de Viracopos – Campinas', city: 'São Paulo', country: 'Brazil', region: 'South America', isPopular: false },
+  { code: 'GIG', name: 'Aeroporto Internacional Tom Jobim – Galeão', city: 'Río de Janeiro', country: 'Brazil', region: 'South America', isPopular: true },
+  { code: 'SDU', name: 'Aeroporto Santos Dumont', city: 'Río de Janeiro', country: 'Brazil', region: 'South America', isPopular: true },
+  { code: 'PDP', name: 'Aeropuerto Internacional de Laguna del Sauce', city: 'Punta del Este', country: 'Uruguay', region: 'South America', isPopular: true },
+  { code: 'MVD', name: 'Aeropuerto Internacional de Carrasco', city: 'Montevideo', country: 'Uruguay', region: 'South America', isPopular: false },
+  { code: 'SCL', name: 'Aeropuerto Internacional Arturo Merino Benítez', city: 'Santiago de Chile', country: 'Chile', region: 'South America', isPopular: true },
+  { code: 'PTY', name: 'Aeropuerto Internacional de Tocumen', city: 'Ciudad de Panamá', country: 'Panama', region: 'Central America', isPopular: true },
+  { code: 'MIA', name: 'Miami International Airport', city: 'Miami', country: 'United States', region: 'North America', isPopular: true },
+  { code: 'BOG', name: 'Aeropuerto Internacional El Dorado', city: 'Bogotá', country: 'Colombia', region: 'South America', isPopular: true },
+  { code: 'MEX', name: 'Aeropuerto Internacional Benito Juárez', city: 'Ciudad de México', country: 'Mexico', region: 'North America', isPopular: true },
+  { code: 'CUN', name: 'Aeropuerto Internacional de Cancún', city: 'Cancún', country: 'Mexico', region: 'North America', isPopular: true },
+  { code: 'PUJ', name: 'Aeropuerto Internacional de Punta Cana', city: 'Punta Cana', country: 'Dominican Republic', region: 'Caribbean', isPopular: true },
+  { code: 'NAS', name: 'Aeropuerto Internacional Lynden Pindling', city: 'Nassau', country: 'Bahamas', region: 'Caribbean', isPopular: false },
+];
 
-const searchCache = new Map<string, CacheItem>();
-const CACHE_TTL = 60 * 60 * 1000; // 1 hour in milliseconds
-
-// Simple fuzzy matching function for typos
-const fuzzyMatch = (query: string, text: string): number => {
-  const queryLower = query.toLowerCase();
-  const textLower = text.toLowerCase();
-
-  // Exact match gets highest score
-  if (textLower.includes(queryLower)) {
-    return textLower.startsWith(queryLower) ? 10 : 8;
-  }
-
-  // Simple character distance for fuzzy matching
-  let matches = 0;
-  for (const char of queryLower) {
-    if (textLower.includes(char)) {
-      matches++;
-    }
-  }
-
-  // Return score based on character match ratio
-  return (matches / queryLower.length) * 5;
-};
-
-// Clean cache entries older than TTL
-const cleanCache = () => {
-  const now = Date.now();
-  for (const [key, value] of searchCache.entries()) {
-    if (now - value.timestamp > CACHE_TTL) {
-      searchCache.delete(key);
-    }
-  }
-};
-
-// Main search function with database query and joins
+// Simple search function without database dependency
 const searchAirports = async (query: string, locale: string): Promise<AirportSearchResult[]> => {
-  // Generate cache key
-  const cacheKey = `${query.toLowerCase()}_${locale}`;
+  const queryLower = query.toLowerCase();
 
-  // Check cache first
-  cleanCache();
-  const cached = searchCache.get(cacheKey);
-  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-    return cached.data;
-  }
+  // Filter airports based on search query
+  const matchingAirports = mockAirports.filter(airport => {
+    return (
+      airport.code.toLowerCase().includes(queryLower) ||
+      airport.name.toLowerCase().includes(queryLower) ||
+      airport.city.toLowerCase().includes(queryLower) ||
+      airport.country.toLowerCase().includes(queryLower)
+    );
+  });
 
-  // Get locale field name for translations
-  const localeField = locale === 'en' ? 'entityNameEn' :
-                      locale === 'es' ? 'entityNameEs' : 'entityNamePt';
+  // Score and sort results
+  const scoredResults = matchingAirports.map(airport => {
+    const queryUpper = query.toUpperCase();
+    const codeUpper = airport.code.toUpperCase();
+    const cityUpper = airport.city.toUpperCase();
+    const nameUpper = airport.name.toUpperCase();
 
-  try {
-    // Use Prisma's more reliable findMany with includes for multilingual support
-    const airports = await prisma.airport.findMany({
-      where: {
-        isActive: true,
-        OR: [
-          { iataCode: { contains: query, mode: 'insensitive' } },
-          { cityName: { contains: query, mode: 'insensitive' } },
-          { airportName: { contains: query, mode: 'insensitive' } }
-        ]
-      },
-      select: {
-        iataCode: true,
-        airportName: true,
-        cityName: true,
-        countryCode: true,
-        regionCode: true,
-        isPopular: true
-      },
-      take: 20, // Get more results for scoring
-      orderBy: [
-        { isPopular: 'desc' },
-        { cityName: 'asc' }
-      ]
-    });
+    // Calculate relevance score
+    let score = 0;
+    if (codeUpper === queryUpper) score = 100;
+    else if (codeUpper.startsWith(queryUpper)) score = 90;
+    else if (cityUpper.startsWith(queryUpper)) score = 80;
+    else if (nameUpper.startsWith(queryUpper)) score = 70;
+    else if (cityUpper.includes(queryUpper)) score = 60;
+    else if (nameUpper.includes(queryUpper)) score = 50;
+    else score = 40;
 
-    // Get translations for countries and regions
-    const countryTranslations = await prisma.airportTranslation.findMany({
-      where: {
-        entityType: 'country',
-        entityCode: { in: [...new Set(airports.map(a => a.countryCode))] }
-      }
-    });
+    // Boost popular airports
+    if (airport.isPopular) score += 15;
 
-    const regionTranslations = await prisma.airportTranslation.findMany({
-      where: {
-        entityType: 'region',
-        entityCode: { in: [...new Set(airports.map(a => a.regionCode))] }
-      }
-    });
+    return { ...airport, score };
+  });
 
-    // Create lookup maps for translations
-    const countryMap = new Map();
-    const regionMap = new Map();
-
-    countryTranslations.forEach(t => {
-      const name = locale === 'en' ? t.entityNameEn :
-                   locale === 'es' ? t.entityNameEs : t.entityNamePt;
-      countryMap.set(t.entityCode, name);
-    });
-
-    regionTranslations.forEach(t => {
-      const name = locale === 'en' ? t.entityNameEn :
-                   locale === 'es' ? t.entityNameEs : t.entityNamePt;
-      regionMap.set(t.entityCode, name);
-    });
-
-    // Score and sort results
-    const scoredResults = airports.map(airport => {
-      const queryUpper = query.toUpperCase();
-      const codeUpper = airport.iataCode.toUpperCase();
-      const cityUpper = airport.cityName.toUpperCase();
-      const nameUpper = airport.airportName.toUpperCase();
-
-      // Calculate relevance score
-      let score = 0;
-      if (codeUpper === queryUpper) score = 100;
-      else if (codeUpper.startsWith(queryUpper)) score = 90;
-      else if (cityUpper.startsWith(queryUpper)) score = 80;
-      else if (nameUpper.startsWith(queryUpper)) score = 70;
-      else if (cityUpper.includes(queryUpper)) score = 60;
-      else if (nameUpper.includes(queryUpper)) score = 50;
-      else score = 40;
-
-      // Boost popular airports (especially in Latin America)
-      if (airport.isPopular && airport.regionCode === 'SA') score += 20;
-      else if (airport.isPopular) score += 15;
-
-      return {
-        ...airport,
-        score,
-        country: countryMap.get(airport.countryCode) || airport.countryCode,
-        region: regionMap.get(airport.regionCode) || airport.regionCode
-      };
-    });
-
-    // Sort by score and take top 10
-    const sortedResults = scoredResults
-      .sort((a, b) => b.score - a.score || (b.isPopular ? 1 : 0) - (a.isPopular ? 1 : 0))
-      .slice(0, 10);
-
-    // Format results with accessibility information
-    const airportResults: AirportSearchResult[] = sortedResults.map((airport, index) => {
-      const ariaInfo = generateAirportAriaLabel(
-        {
-          code: airport.iataCode,
-          name: airport.airportName,
-          city: airport.cityName,
-          country: airport.country,
-          isPopular: airport.isPopular
-        },
-        index + 1,
-        sortedResults.length,
-        locale as any
-      );
-
-      return {
-        code: airport.iataCode,
-        name: airport.airportName,
-        city: airport.cityName,
-        country: airport.country,
-        region: airport.region,
-        isPopular: airport.isPopular,
-        accessibility: ariaInfo
-      };
-    });
-
-    // Cache the results
-    searchCache.set(cacheKey, {
-      data: airportResults,
-      timestamp: Date.now()
-    });
-
-    return airportResults;
-
-  } catch (error) {
-    console.error('Airport search error:', error);
-
-    // Fallback search using Prisma if raw SQL fails
-    const airports = await prisma.airport.findMany({
-      where: {
-        isActive: true,
-        OR: [
-          { iataCode: { contains: query, mode: 'insensitive' } },
-          { cityName: { contains: query, mode: 'insensitive' } },
-          { airportName: { contains: query, mode: 'insensitive' } }
-        ]
-      },
-      select: {
-        iataCode: true,
-        airportName: true,
-        cityName: true,
-        countryCode: true,
-        regionCode: true,
-        isPopular: true
-      },
-      take: 10,
-      orderBy: [
-        { isPopular: 'desc' },
-        { cityName: 'asc' }
-      ]
-    });
-
-    // Simple mapping for fallback results
-    const fallbackResults: AirportSearchResult[] = airports.map(airport => ({
-      code: airport.iataCode,
-      name: airport.airportName,
-      city: airport.cityName,
-      country: airport.countryCode,
-      region: airport.regionCode,
-      isPopular: airport.isPopular
-    }));
-
-    return fallbackResults;
-  }
+  // Sort by score and take top 10
+  return scoredResults
+    .sort((a, b) => b.score - a.score || (b.isPopular ? 1 : 0) - (a.isPopular ? 1 : 0))
+    .slice(0, 10);
 };
 
 export async function GET(req: NextRequest) {
@@ -269,14 +93,12 @@ export async function GET(req: NextRequest) {
     });
 
     if (!validationResult.success) {
-      const ariaError = generateAriaErrorResponse('validation', 'en'); // Default to English for param validation
       return NextResponse.json(
         {
-          ...ariaError,
+          error: 'Invalid parameters',
           details: validationResult.error.issues,
           accessibility: {
-            ...ariaError.accessibility,
-            fieldTarget: '#airport-search-input',
+            ariaLiveMessage: 'Search parameters are invalid',
             searchStatus: 'error'
           }
         },
@@ -289,40 +111,35 @@ export async function GET(req: NextRequest) {
     // Perform search
     const results = await searchAirports(query, locale);
 
-    // Generate success response with accessibility information
-    const ariaSuccess = generateAriaSuccessInfo('search', locale, { count: results.length });
-    const keyboardInstructions = generateKeyboardInstructions('results', locale);
-
     return NextResponse.json({
       query,
       locale,
       results,
       count: results.length,
-      cached: searchCache.has(`${query.toLowerCase()}_${locale}`),
+      cached: false,
       accessibility: {
-        ariaLiveMessage: ariaSuccess.ariaLiveMessage,
-        ariaAnnouncement: ariaSuccess.ariaAnnouncement,
+        ariaLiveMessage: `${results.length} airport${results.length !== 1 ? 's' : ''} found for "${query}"`,
+        ariaAnnouncement: `Search completed. ${results.length} results found.`,
         searchStatus: 'completed',
         resultsDescription: `${results.length} airport${results.length !== 1 ? 's' : ''} found for "${query}"`,
-        keyboardInstructions: keyboardInstructions.instructions,
+        keyboardInstructions: 'Use arrow keys to navigate results, Enter to select, Escape to close.',
         listRole: 'listbox',
         listLabel: `Airport search results for ${query}`,
         hasResults: results.length > 0,
         emptyStateMessage: results.length === 0 ?
           `No airports found for "${query}". Try a different search term.` : undefined,
-        screenReaderSummary: `Search for "${query}" returned ${results.length} results. ${keyboardInstructions.instructions}`
+        screenReaderSummary: `Search for "${query}" returned ${results.length} results. Use arrow keys to navigate.`
       }
     });
 
   } catch (error) {
     console.error('Airport search API error:', error);
 
-    const ariaError = generateAriaErrorResponse('server', 'en');
     return NextResponse.json(
       {
-        ...ariaError,
+        error: 'Search failed',
         accessibility: {
-          ...ariaError.accessibility,
+          ariaLiveMessage: 'Search failed. Please try again.',
           searchStatus: 'error',
           retryInstructions: 'Please try your search again'
         }
@@ -330,10 +147,4 @@ export async function GET(req: NextRequest) {
       { status: 500 }
     );
   }
-}
-
-// Optional: Clear cache endpoint for development
-export async function DELETE() {
-  searchCache.clear();
-  return NextResponse.json({ message: 'Cache cleared' });
 }

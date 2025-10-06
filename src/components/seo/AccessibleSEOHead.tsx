@@ -66,7 +66,7 @@ export function AccessibleSEOHead({
           path: "/about"
         },
         es: {
-          title: "Acerca de Fly-Fleet | Excelencia en Aviación Privada desde 2020",
+          title: "Nosotros | Excelencia en Aviación Privada desde 2020",
           description: "Conoce la misión de Fly-Fleet de proporcionar servicios premium de aviación privada en América Latina con seguridad, confiabilidad y servicio excepcional.",
           keywords: ["acerca fly-fleet", "empresa aviación privada", "bróker charter", "seguridad aviación", "américa latina"],
           path: "/about"

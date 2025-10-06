@@ -15,14 +15,15 @@ export interface HeroProps {
 const getContent = (locale: string) => {
   const content = {
     en: {
-      headline: 'Fly Private, Without Complications.',
-      subheadline: 'Get your next flight quote in minutes. Certified operators and 24/7 assistance.',
-      primaryCTA: 'Quote Now',
+      headline: 'Fly private, hassle-free.',
+      subheadline: 'Get a quote in minutes. Certified operators and 24/7 support.',
+      primaryCTA: 'Get a quote',
+      secondaryCTA: 'Chat on WhatsApp',
       actionsHeading: 'Available Actions',
       trustIndicators: [
-        'IATA Certified',
+        'ANAC/FAA/EASA Certified',
         '24/7 Support',
-        'Safety First'
+        '+500 Successful Flights'
       ],
       statsLabel: 'Trusted by travelers worldwide',
     },
@@ -30,23 +31,25 @@ const getContent = (locale: string) => {
       headline: 'Volá privado, sin complicaciones.',
       subheadline: 'Cotizá tu próximo vuelo en minutos. Operadores certificados y asistencia 24/7.',
       primaryCTA: 'Cotizar ahora',
+      secondaryCTA: 'Hablar por WhatsApp',
       actionsHeading: 'Acciones Disponibles',
       trustIndicators: [
-        'Certificado IATA',
+        'Certificado ANAC/FAA/EASA',
         'Soporte 24/7',
-        'Seguridad Primero'
+        '+500 Vuelos Exitosos'
       ],
       statsLabel: 'Confianza de viajeros en todo el mundo',
     },
     pt: {
-      headline: 'Voe Privado, Sem Complicações.',
-      subheadline: 'Obtenha sua cotação de voo em minutos. Operadores certificados e assistência 24/7.',
-      primaryCTA: 'Cotar Agora',
+      headline: 'Voe privado, sem complicações.',
+      subheadline: 'Peça sua cotação em minutos. Operadores certificados e suporte 24/7.',
+      primaryCTA: 'Pedir cotação',
+      secondaryCTA: 'Falar no WhatsApp',
       actionsHeading: 'Ações Disponíveis',
       trustIndicators: [
-        'Certificado IATA',
+        'Certificado ANAC/FAA/EASA',
         'Suporte 24/7',
-        'Segurança em Primeiro'
+        '+500 Voos Realizados'
       ],
       statsLabel: 'Confiança de viajantes ao redor do mundo',
     },
@@ -107,7 +110,7 @@ export function Hero({
 
       <section
         className={clsx(
-          'hero relative min-h-screen flex items-center justify-center',
+          'hero relative h-[85vh] min-h-[600px] max-h-[900px] flex items-center justify-center',
           'bg-gradient-to-br from-navy-primary via-navy-primary/95 to-navy-primary/80',
           'overflow-hidden',
           className
@@ -133,9 +136,9 @@ export function Hero({
       </div>
 
       {/* Content */}
-      <div className="hero-content relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="flex items-center justify-between gap-8">
-          <div className="max-w-4xl flex-1">
+      <div className="hero-content relative z-10 w-full py-20">
+        <div className="flex items-center justify-between gap-8" style={{ paddingLeft: 'clamp(2rem, 5vw, 5rem)', paddingRight: 'clamp(2rem, 5vw, 5rem)' }}>
+          <div className="flex-1">
             {/* Main Content */}
             <div
               className={clsx(
@@ -146,8 +149,7 @@ export function Hero({
             <h1
               id="hero-heading"
               className={clsx(
-                'text-4xl md:text-5xl lg:text-6xl xl:text-7xl',
-                'font-bold text-white leading-tight mb-6',
+                'font-bold text-white mb-6',
                 'animate-fade-in-up'
               )}
             >
@@ -156,8 +158,7 @@ export function Hero({
 
             <p
               className={clsx(
-                'text-lg md:text-xl lg:text-2xl',
-                'text-white/90 leading-relaxed mb-8 max-w-3xl',
+                'hero-text text-white/90 mb-8',
                 'animate-fade-in-up animation-delay-200'
               )}
             >
@@ -207,6 +208,7 @@ export function Hero({
               </div>
             </div>
           </div>
+          </div>
 
           {/* Logo on the right side */}
           <div
@@ -231,16 +233,20 @@ export function Hero({
       {/* Scroll Indicator */}
       <div
         className={clsx(
-          'absolute bottom-8 left-1/2 transform -translate-x-1/2',
+          'absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20',
           'animate-bounce',
           'transition-opacity duration-1000 delay-1000',
           isLoaded ? 'opacity-100' : 'opacity-0'
         )}
       >
-        <div className="flex flex-col items-center space-y-2">
-          <span className="text-white/60 text-sm">Scroll to explore</span>
+        <div className="flex flex-col items-center space-y-2 text-center">
+          <span className="text-white/80 text-base font-medium tracking-wide">
+            {locale === 'es' ? 'Desplázate para explorar' :
+             locale === 'pt' ? 'Role para explorar' :
+             'Scroll to explore'}
+          </span>
           <svg
-            className="w-6 h-6 text-white/60"
+            className="w-6 h-6 text-white/80"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
