@@ -622,12 +622,15 @@ export default function FleetDestinationsPage() {
 
                 {/* Bottom CTA */}
                 <div className="bg-white p-4 border-t-2 border-accent-blue/20">
-                  <button className="w-full text-center text-accent-blue font-semibold group-hover:text-blue-600 transition-colors duration-300 flex items-center justify-center">
-                    <span>{locale === 'es' ? 'Ver más' : locale === 'pt' ? 'Ver mais' : 'See more'}</span>
+                  <a
+                    href={`/${locale}/quote`}
+                    className="w-full text-center text-accent-blue font-semibold group-hover:text-blue-600 transition-colors duration-300 flex items-center justify-center"
+                  >
+                    <span>{locale === 'es' ? 'Cotizar ahora' : locale === 'pt' ? 'Pedir cotação' : 'Get a quote'}</span>
                     <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-2 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
-                  </button>
+                  </a>
                 </div>
               </div>
             ))}
