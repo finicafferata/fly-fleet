@@ -134,14 +134,15 @@ export function Hero({
 
       {/* Content */}
       <div className="hero-content relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="max-w-4xl">
-          {/* Main Content */}
-          <div
-            className={clsx(
-              'transform transition-all duration-1000 ease-out',
-              isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-            )}
-          >
+        <div className="flex items-center justify-between gap-8">
+          <div className="max-w-4xl flex-1">
+            {/* Main Content */}
+            <div
+              className={clsx(
+                'transform transition-all duration-1000 ease-out',
+                isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+              )}
+            >
             <h1
               id="hero-heading"
               className={clsx(
@@ -166,7 +167,7 @@ export function Hero({
             {/* CTA Buttons */}
             <div
               className={clsx(
-                'hero-ctas flex flex-col sm:flex-row gap-4 mb-12',
+                'hero-ctas flex flex-col sm:flex-row gap-4',
                 'animate-fade-in-up animation-delay-400'
               )}
               role="group"
@@ -205,36 +206,24 @@ export function Hero({
                 Contact us immediately via WhatsApp
               </div>
             </div>
+          </div>
 
-            {/* Trust Indicators */}
-            <div
-              className={clsx(
-                'flex flex-wrap items-center gap-6 md:gap-8',
-                'animate-fade-in-up animation-delay-600'
-              )}
-            >
-              <span className="text-white/70 text-sm font-medium">
-                {content.statsLabel}
-              </span>
-              <div className="flex flex-wrap items-center gap-4 md:gap-6">
-                {content.trustIndicators.map((indicator, index) => (
-                  <div
-                    key={index}
-                    className={clsx(
-                      'flex items-center space-x-2',
-                      'px-3 py-1 rounded-full',
-                      'bg-white/10 backdrop-blur-sm',
-                      'border border-white/20'
-                    )}
-                  >
-                    <div className="w-2 h-2 bg-accent-blue rounded-full" />
-                    <span className="text-white text-sm font-medium">
-                      {indicator}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
+          {/* Logo on the right side */}
+          <div
+            className={clsx(
+              'hidden lg:block flex-shrink-0',
+              'transform transition-all duration-1000 ease-out',
+              isLoaded ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'
+            )}
+          >
+            <img
+              src="/logo.svg"
+              alt="Fly-Fleet Logo"
+              className="w-48 h-auto"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+              }}
+            />
           </div>
         </div>
       </div>

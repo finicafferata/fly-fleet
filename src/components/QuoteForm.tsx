@@ -686,9 +686,9 @@ export function QuoteForm({
                     />
                     <Select
                       options={[
-                        { value: 'small', label: 'Small (under 20 lbs)' },
+                        { value: 'light', label: 'Light (under 20 lbs)' },
                         { value: 'medium', label: 'Medium (20-60 lbs)' },
-                        { value: 'large', label: 'Large (over 60 lbs)' }
+                        { value: 'heavy', label: 'Heavy (over 60 lbs)' }
                       ]}
                       value={watch('petSize') || ''}
                       onChange={(value) => setValue('petSize', value)}
