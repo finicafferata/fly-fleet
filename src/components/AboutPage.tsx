@@ -126,7 +126,7 @@ export function AboutPage({
         }
       },
       es: {
-        title: 'Acerca de Fly-Fleet',
+        title: 'Nosotros',
         subtitle: 'Excelencia en Aviación Privada desde 2020',
         story: {
           title: 'Nuestra Historia',

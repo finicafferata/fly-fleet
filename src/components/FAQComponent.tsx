@@ -338,196 +338,87 @@ export function FAQComponent({
     }))
   };
 
+  const simpleContent = {
+    en: {
+      title: 'Frequently Asked Questions',
+      questions: [
+        { question: 'How far in advance should I book a private jet?', answer: 'While we can accommodate last-minute requests (as little as 4 hours notice), we recommend booking at least 24-48 hours in advance for the best aircraft availability and pricing.' },
+        { question: 'What types of aircraft do you offer?', answer: 'We offer Light Jets (6-8 passengers), Midsize Jets (8-10 passengers), Heavy Jets (10-16 passengers), and specialized aircraft for cargo or medical transport.' },
+        { question: 'How is private jet charter pricing calculated?', answer: 'Pricing is based on aircraft type, flight distance, departure/arrival airports, time of year, and additional services. We provide transparent, all-inclusive quotes with no hidden fees.' }
+      ]
+    },
+    es: {
+      title: 'Preguntas Frecuentes',
+      questions: [
+        { question: '¿Con cuánta anticipación debo reservar un jet privado?', answer: 'Aunque podemos acomodar solicitudes de último momento (hasta 4 horas de aviso), recomendamos reservar con al menos 24-48 horas de anticipación para la mejor disponibilidad y precios.' },
+        { question: '¿Qué tipos de aeronaves ofrecen?', answer: 'Ofrecemos Jets Ligeros (6-8 pasajeros), Jets Medianos (8-10 pasajeros), Jets Pesados (10-16 pasajeros), y aeronaves especializadas para transporte de carga o médico.' },
+        { question: '¿Cómo se calcula el precio del chárter?', answer: 'El precio se basa en el tipo de aeronave, distancia de vuelo, aeropuertos de salida/llegada, época del año y servicios adicionales. Proporcionamos cotizaciones transparentes sin tarifas ocultas.' }
+      ]
+    },
+    pt: {
+      title: 'Perguntas Frequentes',
+      questions: [
+        { question: 'Com que antecedência devo reservar um jato privado?', answer: 'Embora possamos acomodar solicitações de última hora (até 4 horas de aviso), recomendamos reservar com pelo menos 24-48 horas de antecedência para melhor disponibilidade e preços.' },
+        { question: 'Que tipos de aeronaves vocês oferecem?', answer: 'Oferecemos Jets Leves (6-8 passageiros), Jets Médios (8-10 passageiros), Jets Pesados (10-16 passageiros), e aeronaves especializadas para transporte de carga ou médico.' },
+        { question: 'Como é calculado o preço do charter?', answer: 'O preço é baseado no tipo de aeronave, distância do voo, aeroportos de partida/chegada, época do ano e serviços adicionais. Fornecemos cotações transparentes sem taxas ocultas.' }
+      ]
+    }
+  };
+
+  const currentContent = simpleContent[locale as keyof typeof simpleContent] || simpleContent.en;
+
   return (
-    <section className={clsx('faq-section', className)} aria-labelledby="faq-title">
-      {/* Schema.org structured data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
-
-      {/* Hero Section */}
-      <div className="bg-gradient-to-br from-navy-primary to-navy-primary/90 text-white py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 id="faq-title" className="text-4xl md:text-5xl font-bold mb-6">
-            {content.title}
+    <section className="py-0">
+      <div className="max-w-5xl xl:max-w-6xl 2xl:max-w-7xl mx-auto">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-navy-primary mb-6">
+            {currentContent.title}
           </h2>
-          <p className="text-xl text-neutral-light">
-            {content.subtitle}
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            {locale === 'es' ? 'Respuestas a las preguntas más frecuentes sobre nuestros servicios de aviación privada.' :
+             locale === 'pt' ? 'Respostas para as perguntas mais frequentes sobre nossos serviços de aviação privada.' :
+             'Answers to the most frequently asked questions about our private aviation services.'}
           </p>
         </div>
-      </div>
-
-      {/* Search and Filters */}
-      <div className="py-12 bg-neutral-light">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Search Bar */}
-          <div className="faq-search max-w-2xl mx-auto mb-8" role="search">
-            <div className="relative">
-              <label htmlFor="faq-search-input" className="sr-only">
-                {content.searchLabel}
-              </label>
-              <input
-                ref={searchInputRef}
-                id="faq-search-input"
-                type="search"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={content.searchPlaceholder}
-                className="w-full px-6 py-4 pl-12 pr-12 text-lg rounded-lg border border-neutral-medium/30 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent"
-                aria-describedby="search-help"
-              />
-              <div id="search-help" className="sr-only">
-                Type to search through frequently asked questions
-              </div>
-              <svg
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-medium"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-              {searchQuery && (
+        <div className="space-y-4 max-w-4xl mx-auto">
+          {currentContent.questions.map((faq, index) => {
+            const isExpanded = expandedItems.has(index.toString());
+            return (
+              <div key={index} className="group bg-white rounded-xl border border-gray-100 hover:border-accent-blue hover:shadow-lg transition-all duration-300">
                 <button
-                  onClick={handleClearSearch}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-neutral-medium hover:text-navy-primary transition-colors"
-                  aria-label="Clear search"
+                  className="w-full px-6 py-5 text-left focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-inset rounded-xl hover:bg-gray-50/50 transition-colors"
+                  onClick={() => toggleExpanded(index.toString())}
+                  aria-expanded={isExpanded}
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* Category Filters */}
-          <div className="faq-filters" role="group" aria-labelledby="filter-heading">
-            <h3 id="filter-heading" className="sr-only">Filter by Category</h3>
-            <div className="filter-tabs flex flex-wrap justify-center gap-3 mb-8" role="tablist" aria-label="FAQ categories">
-              {categoriesWithCounts.map((category) => (
-                <button
-                  key={category.id}
-                  role="tab"
-                  aria-selected={activeCategory === category.id}
-                  aria-controls={`faq-panel-${category.id}`}
-                  id={`faq-tab-${category.id}`}
-                  onClick={() => setActiveCategory(category.id)}
-                  className={clsx(
-                    'filter-tab px-4 py-2 rounded-lg font-medium transition-all duration-200 text-sm',
-                    'focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2',
-                    activeCategory === category.id
-                      ? 'bg-accent-blue text-white active'
-                      : 'bg-white text-navy-primary hover:bg-accent-blue/10 border border-neutral-medium/30'
-                  )}
-                >
-                  {category.name}
-                  <span className="ml-2 text-xs opacity-75">
-                    ({category.count})
-                  </span>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* FAQ List */}
-      <div className="faq-content py-16 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {filteredFAQs.length === 0 ? (
-            <div className="text-center py-12">
-              <svg
-                className="mx-auto h-12 w-12 text-neutral-medium mb-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-3-3v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <h3 className="text-lg font-semibold text-navy-primary mb-2">
-                {content.noResults}
-              </h3>
-              <p className="text-neutral-medium mb-6">
-                {content.noResultsDescription}
-              </p>
-              <Button
-                onClick={handleClearSearch}
-                variant="secondary"
-                className="border-accent-blue text-accent-blue hover:bg-accent-blue hover:text-white"
-              >
-                Clear Search
-              </Button>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {filteredFAQs.map((faq) => {
-                const isExpanded = expandedItems.has(faq.id);
-                return (
-                  <article key={faq.id} className="faq-item border border-neutral-medium/20 rounded-lg bg-white shadow-small hover:shadow-medium transition-shadow duration-200">
-                    <h3>
-                      <button
-                        className="faq-question w-full px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-inset"
-                        aria-expanded={isExpanded}
-                        aria-controls={`faq-answer-${faq.id}`}
-                        onClick={() => toggleExpanded(faq.id)}
-                      >
-                        <div className="flex justify-between items-start">
-                          <span className="text-lg font-semibold text-navy-primary pr-4 leading-relaxed">
-                            {highlightSearchTerm(faq.question, searchQuery)}
-                          </span>
-                          <span className={clsx(
-                            'faq-icon w-5 h-5 text-accent-blue transition-transform duration-200 flex-shrink-0 mt-1',
-                            isExpanded && 'transform rotate-180'
-                          )} aria-hidden="true">
-                            {isExpanded ? '−' : '+'}
-                          </span>
-                        </div>
-                      </button>
-                    </h3>
-                    <div
-                      id={`faq-answer-${faq.id}`}
+                  <div className="flex justify-between items-center">
+                    <span className="text-lg font-semibold text-navy-primary pr-4 leading-snug">{faq.question}</span>
+                    <svg
                       className={clsx(
-                        'faq-answer transition-all duration-200 overflow-hidden',
-                        isExpanded ? 'expanded max-h-none opacity-100' : 'max-h-0 opacity-0'
+                        'w-6 h-6 text-accent-blue transform transition-transform duration-300 flex-shrink-0',
+                        isExpanded ? 'rotate-180' : 'rotate-0'
                       )}
-                      aria-hidden={!isExpanded}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
                     >
-                      <div className="faq-content px-6 pb-6 text-neutral-dark leading-relaxed">
-                        <div className="border-t border-neutral-medium/10 pt-4">
-                          {highlightSearchTerm(faq.answer, searchQuery)}
-                        </div>
-                      </div>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </button>
+                {isExpanded && (
+                  <div className="px-6 pb-5">
+                    <div className="border-t border-gray-100 pt-4">
+                      <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
                     </div>
-                  </article>
-                );
-              })}
-            </div>
-          )}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
-      </div>
 
-      {/* Contact CTA */}
-      <section className="py-16 bg-gradient-to-r from-accent-blue to-navy-primary text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">
-            {content.contactCTA.title}
-          </h2>
-          <p className="text-lg text-neutral-light mb-8">
-            {content.contactCTA.subtitle}
-          </p>
-          <Button
-            onClick={onContactClick}
-            size="lg"
-            className="bg-white text-navy-primary hover:bg-neutral-light transition-colors duration-200"
-          >
-            {content.contactCTA.button}
-          </Button>
-        </div>
-      </section>
+      </div>
     </section>
   );
 }
