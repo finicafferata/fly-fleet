@@ -1,24 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Fly-Fleet 🛩️
 
-## Getting Started
+A modern private jet charter platform built with Next.js, featuring multi-language support, real-time quotes, and seamless user experience.
 
-First, run the development server:
+## ✨ Features
 
+- 🌍 **Multi-language Support**: English, Spanish, Portuguese
+- 🛩️ **Private Jet Charter**: Complete booking system
+- 📱 **Responsive Design**: Works on all devices
+- 🔒 **Secure Forms**: reCAPTCHA protection
+- 📊 **Analytics**: Google Analytics integration
+- 💬 **WhatsApp Integration**: Direct customer communication
+- 🎨 **Modern UI**: TailwindCSS with beautiful components
+
+## 🚀 Quick Start
+
+### **Option 1: Local Development (macOS/Linux)**
 ```bash
+npm install --legacy-peer-deps
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### **Option 2: Docker Development (Windows/All Platforms)**
+```bash
+npm run dev:docker:build
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### **Option 3: Railway Deployment (Production-like)**
+```bash
+npm install -g @railway/cli
+railway login
+railway up
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open [http://localhost:3000](http://localhost:3000) to see the application.
+
+## 🛠️ Development
+
+See [DEVELOPMENT.md](./DEVELOPMENT.md) for detailed development setup and troubleshooting.
 
 ## Learn More
 

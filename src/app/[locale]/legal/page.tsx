@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { Navigation } from '@/components/Navigation';
+import { Header } from '@/components/Navigation/Header';
 import { Footer } from '@/components/Footer';
 
 const getContent = (locale: string) => {
@@ -119,7 +119,7 @@ export default function LegalPage() {
 
   return (
     <div className="min-h-screen bg-white" lang={locale}>
-      <Navigation
+      <Header
         locale={locale}
         onLanguageChange={(newLocale) => {
           router.push(`/${newLocale}/legal`);

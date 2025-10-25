@@ -69,21 +69,21 @@ export function AboutPage({
               name: 'Carlos Rodriguez',
               role: 'CEO & Founder',
               bio: 'With over 15 years in aviation, Carlos brings extensive experience in aircraft operations and luxury travel services.',
-              image: '/images/team/carlos-rodriguez.jpg',
+              image: '/images/flyfleet_logo.png',
               linkedin: 'https://linkedin.com/in/carlos-rodriguez'
             },
             {
               name: 'Maria Gonzalez',
               role: 'Head of Operations',
               bio: 'Maria ensures every flight meets our exacting standards, coordinating complex logistics with precision and care.',
-              image: '/images/team/maria-gonzalez.jpg',
+              image: '/images/flyfleet_logo.png',
               linkedin: 'https://linkedin.com/in/maria-gonzalez'
             },
             {
               name: 'Roberto Silva',
               role: 'Safety Director',
               bio: 'Roberto oversees all safety protocols and compliance, ensuring every journey exceeds international aviation standards.',
-              image: '/images/team/roberto-silva.jpg',
+              image: '/images/flyfleet_logo.png',
               linkedin: 'https://linkedin.com/in/roberto-silva'
             }
           ]
@@ -148,21 +148,21 @@ export function AboutPage({
               name: 'Carlos Rodriguez',
               role: 'CEO y Fundador',
               bio: 'Con más de 15 años en aviación, Carlos aporta amplia experiencia en operaciones de aeronaves y servicios de viajes de lujo.',
-              image: '/images/team/carlos-rodriguez.jpg',
+              image: '/images/flyfleet_logo.png',
               linkedin: 'https://linkedin.com/in/carlos-rodriguez'
             },
             {
               name: 'Maria Gonzalez',
               role: 'Jefa de Operaciones',
               bio: 'Maria asegura que cada vuelo cumpla nuestros estándares exigentes, coordinando logística compleja con precisión y cuidado.',
-              image: '/images/team/maria-gonzalez.jpg',
+              image: '/images/flyfleet_logo.png',
               linkedin: 'https://linkedin.com/in/maria-gonzalez'
             },
             {
               name: 'Roberto Silva',
               role: 'Director de Seguridad',
               bio: 'Roberto supervisa todos los protocolos de seguridad y cumplimiento, asegurando que cada viaje supere los estándares internacionales de aviación.',
-              image: '/images/team/roberto-silva.jpg',
+              image: '/images/flyfleet_logo.png',
               linkedin: 'https://linkedin.com/in/roberto-silva'
             }
           ]
@@ -227,21 +227,21 @@ export function AboutPage({
               name: 'Carlos Rodriguez',
               role: 'CEO e Fundador',
               bio: 'Com mais de 15 anos em aviação, Carlos traz vasta experiência em operações de aeronaves e serviços de viagens de luxo.',
-              image: '/images/team/carlos-rodriguez.jpg',
+              image: '/images/flyfleet_logo.png',
               linkedin: 'https://linkedin.com/in/carlos-rodriguez'
             },
             {
               name: 'Maria Gonzalez',
               role: 'Chefe de Operações',
               bio: 'Maria garante que cada voo atenda nossos padrões exigentes, coordenando logística complexa com precisão e cuidado.',
-              image: '/images/team/maria-gonzalez.jpg',
+              image: '/images/flyfleet_logo.png',
               linkedin: 'https://linkedin.com/in/maria-gonzalez'
             },
             {
               name: 'Roberto Silva',
               role: 'Diretor de Segurança',
               bio: 'Roberto supervisiona todos os protocolos de segurança e conformidade, garantindo que cada viagem supere os padrões internacionais de aviação.',
-              image: '/images/team/roberto-silva.jpg',
+              image: '/images/flyfleet_logo.png',
               linkedin: 'https://linkedin.com/in/roberto-silva'
             }
           ]
@@ -396,7 +396,7 @@ export function AboutPage({
             </div>
             <div className="relative">
               <img
-                src="/images/about/company-story.jpg"
+                src="/images/flyfleet_logo.png"
                 alt="Fly-Fleet private jet on tarmac"
                 className="rounded-lg shadow-xl w-full h-96 object-cover"
                 loading="lazy"

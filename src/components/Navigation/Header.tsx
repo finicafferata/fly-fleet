@@ -58,8 +58,9 @@ export function Header({
   className,
   sticky = true,
   shrinkOnScroll = true,
-  logoSrc = '/logo.svg',
+  logoSrc = '/images/flyfleet_logo.png',
 }: HeaderProps) {
+  console.log('Header component rendering for locale:', locale);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isScrollingUp, setIsScrollingUp] = useState(true);

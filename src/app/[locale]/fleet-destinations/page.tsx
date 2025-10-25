@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { Navigation } from '@/components/Navigation';
+import { Header } from '@/components/Navigation/Header';
 import { Footer } from '@/components/Footer';
 import { WhatsAppWidget } from '@/components/WhatsAppWidget';
 
@@ -96,12 +96,12 @@ const getContent = (locale: string) => {
           {
             title: 'Panama Hub',
             routes: 'Connections to Miami, Bogotá, Mexico City',
-            image: '/images/destinations/panama.jpg'
+            image: '/images/destinations/cancun.jpg'
           },
           {
             title: 'Caribbean',
             routes: 'Flights to Cancún, Punta Cana, Bahamas',
-            image: '/images/destinations/caribbean.jpg'
+            image: '/images/destinations/miami.jpg'
           }
         ]
       },
@@ -195,12 +195,12 @@ const getContent = (locale: string) => {
           {
             title: 'Panamá Hub',
             routes: 'Conexiones a Miami, Bogotá, Ciudad de México',
-            image: '/images/destinations/panama.jpg'
+            image: '/images/destinations/cancun.jpg'
           },
           {
             title: 'Caribe',
             routes: 'Vuelos a Cancún, Punta Cana, Bahamas',
-            image: '/images/destinations/caribbean.jpg'
+            image: '/images/destinations/miami.jpg'
           }
         ]
       },
@@ -294,12 +294,12 @@ const getContent = (locale: string) => {
           {
             title: 'Hub Panamá',
             routes: 'Conexões para Miami, Bogotá, Cidade do México',
-            image: '/images/destinations/panama.jpg'
+            image: '/images/destinations/cancun.jpg'
           },
           {
             title: 'Caribe',
             routes: 'Voos para Cancún, Punta Cana, Bahamas',
-            image: '/images/destinations/caribbean.jpg'
+            image: '/images/destinations/miami.jpg'
           }
         ]
       },
@@ -318,7 +318,7 @@ export default function FleetDestinationsPage() {
 
   return (
     <div className="min-h-screen bg-white" lang={locale}>
-      <Navigation
+      <Header
         locale={locale}
         onLanguageChange={(newLocale) => {
           router.push(`/${newLocale}/fleet-destinations`);
