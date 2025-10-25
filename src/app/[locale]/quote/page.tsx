@@ -48,7 +48,7 @@ export default function QuotePage() {
       />
 
       {/* Main Content - Account for fixed header */}
-      <main className="pt-20">
+      <main className="pt-14">
         {/* Hero Section */}
       <section className="bg-gradient-to-br from-navy-primary to-navy-primary/90 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

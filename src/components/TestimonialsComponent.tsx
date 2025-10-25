@@ -64,7 +64,7 @@ export function TestimonialsComponent({
             id: 'testimonial-1',
             customerName: 'Eduardo Martinez',
             customerTitle: 'Business Director',
-            customerCompany: 'Import/Export Corp',
+            customerCompany: '',
             customerLocation: 'São Paulo, Brazil',
             customerPhoto: null,
             testimonialText: 'Thanks to Fly-Fleet\'s service we were able to organize a lightning business trip to São Paulo without wasting time at airports. Everything impeccable and safe.',
@@ -161,7 +161,7 @@ export function TestimonialsComponent({
             id: 'testimonial-1',
             customerName: 'Eduardo Martinez',
             customerTitle: 'Director de Negocios',
-            customerCompany: 'Import/Export Corp',
+            customerCompany: '',
             customerLocation: 'São Paulo, Brasil',
             customerPhoto: null,
             testimonialText: 'Gracias al servicio de Fly-Fleet pudimos organizar un viaje relámpago de negocios a São Paulo sin perder tiempo en aeropuertos. Todo impecable y seguro.',
@@ -177,7 +177,7 @@ export function TestimonialsComponent({
             customerCompany: '',
             customerLocation: 'Punta Cana, República Dominicana',
             customerPhoto: null,
-            testimonialText: 'Elegimos Fly-Fleet para un vuelo familiar a Punta Cana y la experiencia fue perfecta: atención 24/7, comodidad y la tranquilidad de viajar con nuestra mascota.',
+            testimonialText: 'Elegimos Fly-Fleet para un vuelo familiar a Punta Cana y la experiencia fue perfecta: atención 24/7, la comodidad y poder llevar nuestra mascota.',
             rating: 5,
             serviceUsed: 'Charter Familiar',
             dateOfService: '2024-01-28',
@@ -219,7 +219,7 @@ export function TestimonialsComponent({
             id: 'testimonial-1',
             customerName: 'Eduardo Martinez',
             customerTitle: 'Diretor de Negócios',
-            customerCompany: 'Import/Export Corp',
+            customerCompany: '',
             customerLocation: 'São Paulo, Brasil',
             customerPhoto: null,
             testimonialText: 'Graças ao serviço da Fly-Fleet pudemos organizar uma viagem relâmpago de negócios a São Paulo sem perder tempo em aeroportos. Tudo impecável e seguro.',
@@ -341,10 +341,19 @@ export function TestimonialsComponent({
       ? `${testimonial.testimonialText.substring(0, 200)}...`
       : testimonial.testimonialText;
 
+    // Helper function to generate initials from customer name
+    const getInitials = (name: string) => {
+      return name
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase())
+        .join('')
+        .slice(0, 2); // Limit to 2 initials
+    };
+
     return (
       <div
         className={clsx(
-          'bg-white rounded-lg shadow-medium p-2 h-full w-full flex flex-col',
+          'bg-white rounded-lg shadow-medium p-6 h-full w-full flex flex-col',
           variant === 'grid' && 'hover:shadow-large transition-shadow duration-300',
           variant === 'carousel' && isActive && 'ring-2 ring-accent-blue/50'
         )}
@@ -354,12 +363,11 @@ export function TestimonialsComponent({
           <div className="mb-6">
             {!showVideo ? (
               <div className="relative">
-                <img
-                  src={testimonial.customerPhoto}
-                  alt={testimonial.customerName}
-                  className="w-full h-48 object-cover rounded-lg"
-                  loading="lazy"
-                />
+                <div className="w-full h-48 bg-gradient-to-br from-accent-blue to-navy-primary rounded-lg flex items-center justify-center">
+                  <span className="text-white text-4xl font-bold">
+                    {getInitials(testimonial.customerName)}
+                  </span>
+                </div>
                 <button
                   onClick={() => setShowVideo(true)}
                   className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-lg hover:bg-black/60 transition-colors"
@@ -375,7 +383,6 @@ export function TestimonialsComponent({
                 controls
                 autoPlay
                 className="w-full h-48 rounded-lg"
-                poster={testimonial.customerPhoto}
               >
                 <source src={testimonial.videoUrl} type="video/mp4" />
                 Your browser does not support the video tag.
@@ -408,12 +415,11 @@ export function TestimonialsComponent({
         {/* Customer Info */}
         <div className="flex items-start space-x-4">
           {!testimonial.videoUrl && (
-            <img
-              src={testimonial.customerPhoto}
-              alt={testimonial.customerName}
-              className="w-16 h-16 rounded-full object-cover border-2 border-neutral-light"
-              loading="lazy"
-            />
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-accent-blue to-navy-primary flex items-center justify-center border-2 border-neutral-light">
+              <span className="text-white text-lg font-bold">
+                {getInitials(testimonial.customerName)}
+              </span>
+            </div>
           )}
           <div className="flex-1">
             <div className="font-semibold text-navy-primary">{testimonial.customerName}</div>

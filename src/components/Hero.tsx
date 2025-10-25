@@ -28,9 +28,14 @@ const getContent = (locale: string) => {
       statsLabel: 'Trusted by travelers worldwide',
     },
     es: {
-      headline: 'Volá privado, sin complicaciones.',
+      headline: (
+        <>
+          Volá privado,<br />
+          sin complicaciones.
+        </>
+      ),
       subheadline: 'Cotizá tu próximo vuelo en minutos. Operadores certificados y asistencia 24/7.',
-      primaryCTA: 'Cotizar ahora',
+      primaryCTA: 'Cotizá tu vuelo',
       secondaryCTA: 'Hablar por WhatsApp',
       actionsHeading: 'Acciones Disponibles',
       trustIndicators: [
@@ -66,10 +71,22 @@ export function Hero({
 }: HeroProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const content = getContent(locale);
 
   useEffect(() => {
     setIsLoaded(true);
+  }, []);
+
+  // Scroll detection to hide scroll indicator
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      setIsScrolled(scrollTop > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const handlePrimaryCTA = () => {
@@ -111,10 +128,10 @@ export function Hero({
       <section
         className={clsx(
           'hero relative h-[85vh] min-h-[600px] max-h-[900px] flex items-center justify-center',
-          'bg-gradient-to-br from-navy-primary via-navy-primary/95 to-navy-primary/80',
           'overflow-hidden',
           className
         )}
+        style={{ backgroundColor: '#060408' }}
         role="banner"
         aria-labelledby="hero-heading"
       >
@@ -203,15 +220,6 @@ export function Hero({
                 Start your private charter quote request
               </div>
 
-              <WhatsAppWidget
-                variant="inline"
-                locale={locale}
-                className="inline-flex"
-                aria-describedby="cta-whatsapp-desc"
-              />
-              <div id="cta-whatsapp-desc" className="sr-only">
-                Contact us immediately via WhatsApp
-              </div>
             </div>
           </div>
           </div>
@@ -225,9 +233,9 @@ export function Hero({
             )}
           >
             <img
-              src="/images/flyfleet_logo.png"
+              src="/images/flyfleet_logo_white.png"
               alt="Fly-Fleet Logo"
-              className="w-48 h-auto"
+              className="w-96 h-auto"
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
               }}
@@ -239,13 +247,14 @@ export function Hero({
       {/* Scroll Indicator */}
       <div
         className={clsx(
-          'absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20',
+          'absolute bottom-8 left-0 right-0 z-20',
           'animate-bounce',
-          'transition-opacity duration-1000 delay-1000',
-          isLoaded ? 'opacity-100' : 'opacity-0'
+          'transition-opacity duration-500',
+          'pointer-events-none',
+          isLoaded && !isScrolled ? 'opacity-100' : 'opacity-0'
         )}
       >
-        <div className="flex flex-col items-center space-y-2 text-center">
+        <div className="flex flex-col items-center justify-center space-y-2 text-center mx-auto">
           <span className="text-white/80 text-base font-medium tracking-wide">
             {locale === 'es' ? 'Desplázate para explorar' :
              locale === 'pt' ? 'Role para explorar' :

@@ -41,7 +41,7 @@ const getContent = (locale: string) => {
           },
           {
             title: 'Fast response',
-            description: 'Quotes in minutes, not days'
+            description: 'Quotes in minutes'
           }
         ]
       },
@@ -101,7 +101,7 @@ const getContent = (locale: string) => {
           },
           {
             title: 'Respuesta rápida',
-            description: 'Cotizaciones en minutos, no días'
+            description: 'Cotizaciones en minutos'
           }
         ]
       },
@@ -161,7 +161,7 @@ const getContent = (locale: string) => {
           },
           {
             title: 'Resposta rápida',
-            description: 'Cotações em minutos, não dias'
+            description: 'Cotações em minutos'
           }
         ]
       },
@@ -209,7 +209,7 @@ export default function AboutPage() {
       />
 
       {/* Main Content - Account for fixed header */}
-      <main className="pt-20">
+      <main className="pt-14">
         {/* Hero Section */}
         <section className="bg-gradient-to-br from-navy-primary to-navy-primary/90 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -311,17 +311,9 @@ export default function AboutPage() {
               href={`/${locale}/quote`}
               className="inline-flex items-center justify-center bg-accent-blue hover:bg-accent-blue/90 text-white min-h-[56px] px-8 text-lg font-semibold rounded-lg shadow-large hover:shadow-xl transform hover:scale-105 transition-all duration-200"
             >
-              {locale === 'es' ? 'Cotizar ahora' :
+              {locale === 'es' ? 'Cotizá tu vuelo' :
                locale === 'pt' ? 'Pedir cotação' :
                'Get a quote'}
-            </a>
-            <a
-              href={`/${locale}/contact`}
-              className="inline-flex items-center justify-center bg-white hover:bg-gray-50 text-navy-primary border-2 border-white min-h-[56px] px-8 text-lg font-semibold rounded-lg transition-all duration-200"
-            >
-              {locale === 'es' ? 'Contactar' :
-               locale === 'pt' ? 'Contatar' :
-               'Contact us'}
             </a>
           </div>
         </div>
