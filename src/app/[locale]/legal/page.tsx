@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { Navigation } from '@/components/Navigation';
+import { Header } from '@/components/Navigation/Header';
 import { Footer } from '@/components/Footer';
 
 const getContent = (locale: string) => {
@@ -119,7 +119,7 @@ export default function LegalPage() {
 
   return (
     <div className="min-h-screen bg-white" lang={locale}>
-      <Navigation
+      <Header
         locale={locale}
         onLanguageChange={(newLocale) => {
           router.push(`/${newLocale}/legal`);
@@ -127,7 +127,7 @@ export default function LegalPage() {
       />
 
       {/* Main Content - Account for fixed header */}
-      <main className="pt-20">
+      <main className="pt-14">
         {/* Hero Section */}
       <section className="bg-gradient-to-br from-navy-primary to-navy-primary/90 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -204,7 +204,7 @@ export function ServicesPage({
               capacity: '6-8 passengers',
               range: '2,040 nm',
               speed: '478 mph',
-              image: '/images/aircraft/citation-cj3.jpg',
+              image: '/images/aircrafts/light_jets/CJ 2.pdf',
               description: 'Perfect for short to medium-range flights with exceptional efficiency'
             },
             {
@@ -213,7 +213,7 @@ export function ServicesPage({
               capacity: '8-9 passengers',
               range: '2,642 nm',
               speed: '447 mph',
-              image: '/images/aircraft/hawker-850xp.jpg',
+              image: '/images/aircrafts/medium_jets/Sovereing.pdf',
               description: 'Ideal balance of range, comfort, and performance for business travel'
             },
             {
@@ -222,7 +222,7 @@ export function ServicesPage({
               capacity: '12-16 passengers',
               range: '5,950 nm',
               speed: '559 mph',
-              image: '/images/aircraft/falcon-7x.jpg',
+              image: '/images/aircrafts/heavy_jets/Falcón 900.pdf',
               description: 'Long-range luxury with spacious cabin and advanced avionics'
             },
             {
@@ -231,7 +231,7 @@ export function ServicesPage({
               capacity: '14-19 passengers',
               range: '7,000 nm',
               speed: '610 mph',
-              image: '/images/aircraft/gulfstream-g650.jpg',
+              image: '/images/aircrafts/heavy_jets/Gulfstream 550.pdf',
               description: 'The pinnacle of private aviation with unmatched range and luxury'
             }
           ]
@@ -438,7 +438,7 @@ export function ServicesPage({
               capacity: '6-8 pasajeros',
               range: '2,040 mn',
               speed: '478 mph',
-              image: '/images/aircraft/citation-cj3.jpg',
+              image: '/images/aircrafts/light_jets/CJ 2.pdf',
               description: 'Perfecto para vuelos de corto a mediano alcance con eficiencia excepcional'
             },
             {
@@ -447,7 +447,7 @@ export function ServicesPage({
               capacity: '8-9 pasajeros',
               range: '2,642 mn',
               speed: '447 mph',
-              image: '/images/aircraft/hawker-850xp.jpg',
+              image: '/images/aircrafts/medium_jets/Sovereing.pdf',
               description: 'Balance ideal de alcance, comodidad y rendimiento para viajes de negocios'
             },
             {
@@ -456,7 +456,7 @@ export function ServicesPage({
               capacity: '12-16 pasajeros',
               range: '5,950 mn',
               speed: '559 mph',
-              image: '/images/aircraft/falcon-7x.jpg',
+              image: '/images/aircrafts/heavy_jets/Falcón 900.pdf',
               description: 'Lujo de largo alcance con cabina espaciosa y aviónica avanzada'
             },
             {
@@ -465,7 +465,7 @@ export function ServicesPage({
               capacity: '14-19 pasajeros',
               range: '7,000 mn',
               speed: '610 mph',
-              image: '/images/aircraft/gulfstream-g650.jpg',
+              image: '/images/aircrafts/heavy_jets/Gulfstream 550.pdf',
               description: 'El pináculo de la aviación privada con alcance y lujo incomparables'
             }
           ]
@@ -672,7 +672,7 @@ export function ServicesPage({
               capacity: '6-8 passageiros',
               range: '2,040 mn',
               speed: '478 mph',
-              image: '/images/aircraft/citation-cj3.jpg',
+              image: '/images/aircrafts/light_jets/CJ 2.pdf',
               description: 'Perfeito para voos de curto a médio alcance com eficiência excepcional'
             },
             {
@@ -681,7 +681,7 @@ export function ServicesPage({
               capacity: '8-9 passageiros',
               range: '2,642 mn',
               speed: '447 mph',
-              image: '/images/aircraft/hawker-850xp.jpg',
+              image: '/images/aircrafts/medium_jets/Sovereing.pdf',
               description: 'Equilíbrio ideal de alcance, conforto e desempenho para viagens de negócios'
             },
             {
@@ -690,7 +690,7 @@ export function ServicesPage({
               capacity: '12-16 passageiros',
               range: '5,950 mn',
               speed: '559 mph',
-              image: '/images/aircraft/falcon-7x.jpg',
+              image: '/images/aircrafts/heavy_jets/Falcón 900.pdf',
               description: 'Luxo de longo alcance com cabine espaçosa e aviônicos avançados'
             },
             {
@@ -699,7 +699,7 @@ export function ServicesPage({
               capacity: '14-19 passageiros',
               range: '7,000 mn',
               speed: '610 mph',
-              image: '/images/aircraft/gulfstream-g650.jpg',
+              image: '/images/aircrafts/heavy_jets/Gulfstream 550.pdf',
               description: 'O auge da aviação privada com alcance e luxo incomparáveis'
             }
           ]

@@ -37,11 +37,10 @@ tags:
 paths:
   /api/admin/email-activities:
     get:
-      summary: List admin
-      description: Administrative operations requiring authentication
+      summary: List admin\email-activities\route.ts
+      description: GET operation for admin\email-activities\route.ts
       tags:
-        - admin
-        - admin
+        - admin\email-activities\route.ts
       responses:
         '200':
           description: Success
@@ -65,11 +64,10 @@ paths:
           description: Filter by status
   /api/admin/email-stats:
     get:
-      summary: List admin
-      description: Administrative operations requiring authentication
+      summary: List admin\email-stats\route.ts
+      description: GET operation for admin\email-stats\route.ts
       tags:
-        - admin
-        - admin
+        - admin\email-stats\route.ts
       responses:
         '200':
           description: Success
@@ -77,11 +75,10 @@ paths:
           $ref: '#/components/responses/InternalError'
   /api/admin/quotes:
     get:
-      summary: List admin
-      description: Administrative operations requiring authentication
+      summary: List admin\quotes\route.ts
+      description: GET operation for admin\quotes\route.ts
       tags:
-        - admin
-        - admin
+        - admin\quotes\route.ts
       responses:
         '200':
           description: Success
@@ -112,11 +109,10 @@ paths:
             type: string
           description: Filter by status
     post:
-      summary: Create admin
-      description: Administrative operations requiring authentication
+      summary: Create admin\quotes\route.ts
+      description: POST operation for admin\quotes\route.ts
       tags:
-        - admin
-        - admin
+        - admin\quotes\route.ts
       responses:
         '200':
           description: Success
@@ -148,10 +144,10 @@ paths:
           description: Filter by status
   /api/airports:
     get:
-      summary: List airports
-      description: Search and retrieve airport information
+      summary: List airports\route.ts
+      description: GET operation for airports\route.ts
       tags:
-        - airports
+        - airports\route.ts
       responses:
         '200':
           description: Success
@@ -174,101 +170,12 @@ paths:
               - en
               - pt
           description: Language locale
-        - name: search
-          in: query
-          schema:
-            type: string
-          description: Search term
-    delete:
-      summary: Delete airports
-      description: Search and retrieve airport information
-      tags:
-        - airports
-      responses:
-        '200':
-          description: Success
-        '400':
-          $ref: '#/components/responses/ValidationError'
-        '500':
-          $ref: '#/components/responses/InternalError'
-      parameters:
-        - name: q
-          in: query
-          schema:
-            type: string
-          description: Search query
-        - name: locale
-          in: query
-          schema:
-            type: string
-            enum:
-              - es
-              - en
-              - pt
-          description: Language locale
-        - name: search
-          in: query
-          schema:
-            type: string
-          description: Search term
-  /api/analytics/event:
-    get:
-      summary: List analytics
-      description: Track user events and analytics
-      tags:
-        - analytics
-      responses:
-        '200':
-          description: Success
-        '400':
-          $ref: '#/components/responses/ValidationError'
-        '500':
-          $ref: '#/components/responses/InternalError'
-    post:
-      summary: Create analytics
-      description: Track user events and analytics
-      tags:
-        - analytics
-      responses:
-        '200':
-          description: Success
-        '400':
-          $ref: '#/components/responses/ValidationError'
-        '500':
-          $ref: '#/components/responses/InternalError'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AnalyticsEventSchema'
-  /api/analytics/internal:
-    get:
-      summary: List analytics
-      description: Track user events and analytics
-      tags:
-        - analytics
-      responses:
-        '200':
-          description: Success
-        '500':
-          $ref: '#/components/responses/InternalError'
-    post:
-      summary: Create analytics
-      description: Track user events and analytics
-      tags:
-        - analytics
-      responses:
-        '200':
-          description: Success
-        '500':
-          $ref: '#/components/responses/InternalError'
   /api/contact:
     post:
-      summary: Create contact
-      description: Handle contact form submissions and inquiries
+      summary: Create contact\route.ts
+      description: POST operation for contact\route.ts
       tags:
-        - contact
+        - contact\route.ts
       responses:
         '200':
           description: Success
@@ -284,36 +191,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ContactFormSchema'
-  /api/content/{page}/{locale}:
-    get:
-      summary: List content
-      description: Manage CMS content with multilingual support
-      tags:
-        - content
-      responses:
-        '200':
-          description: Success
-        '500':
-          $ref: '#/components/responses/InternalError'
-      parameters:
-        - name: page
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Page parameter
-        - name: locale
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Locale parameter
   /api/content:
     get:
-      summary: List content
-      description: Manage CMS content with multilingual support
+      summary: List content\route.ts
+      description: GET operation for content\route.ts
       tags:
-        - content
+        - content\route.ts
       responses:
         '200':
           description: Success
@@ -335,10 +218,85 @@ paths:
             type: string
           description: Action to perform
     post:
-      summary: Create content
-      description: Manage CMS content with multilingual support
+      summary: Create content\route.ts
+      description: POST operation for content\route.ts
       tags:
-        - content
+        - content\route.ts
+      responses:
+        '200':
+          description: Success
+        '500':
+          $ref: '#/components/responses/InternalError'
+      parameters:
+        - name: locale
+          in: query
+          schema:
+            type: string
+            enum:
+              - es
+              - en
+              - pt
+          description: Language locale
+        - name: action
+          in: query
+          schema:
+            type: string
+          description: Action to perform
+  /api/content/{page}/{locale}:
+    get:
+      summary: List content\[page]\[locale]\route.ts
+      description: GET operation for content\[page]\[locale]\route.ts
+      tags:
+        - content\[page]\[locale]\route.ts
+      responses:
+        '200':
+          description: Success
+        '500':
+          $ref: '#/components/responses/InternalError'
+      parameters:
+        - name: page
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Page parameter
+        - name: locale
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Locale parameter
+  /api/faqs:
+    get:
+      summary: List faqs\route.ts
+      description: GET operation for faqs\route.ts
+      tags:
+        - faqs\route.ts
+      responses:
+        '200':
+          description: Success
+        '500':
+          $ref: '#/components/responses/InternalError'
+      parameters:
+        - name: locale
+          in: query
+          schema:
+            type: string
+            enum:
+              - es
+              - en
+              - pt
+          description: Language locale
+        - name: action
+          in: query
+          schema:
+            type: string
+          description: Action to perform
+    post:
+      summary: Create faqs\route.ts
+      description: POST operation for faqs\route.ts
+      tags:
+        - faqs\route.ts
       responses:
         '200':
           description: Success
@@ -361,10 +319,10 @@ paths:
           description: Action to perform
   /api/faqs/{locale}:
     get:
-      summary: List faqs
-      description: Manage frequently asked questions
+      summary: List faqs\[locale]\route.ts
+      description: GET operation for faqs\[locale]\route.ts
       tags:
-        - faqs
+        - faqs\[locale]\route.ts
       responses:
         '200':
           description: Success
@@ -397,63 +355,12 @@ paths:
           schema:
             type: string
           description: Locale parameter
-  /api/faqs:
-    get:
-      summary: List faqs
-      description: Manage frequently asked questions
-      tags:
-        - faqs
-      responses:
-        '200':
-          description: Success
-        '500':
-          $ref: '#/components/responses/InternalError'
-      parameters:
-        - name: locale
-          in: query
-          schema:
-            type: string
-            enum:
-              - es
-              - en
-              - pt
-          description: Language locale
-        - name: action
-          in: query
-          schema:
-            type: string
-          description: Action to perform
-    post:
-      summary: Create faqs
-      description: Manage frequently asked questions
-      tags:
-        - faqs
-      responses:
-        '200':
-          description: Success
-        '500':
-          $ref: '#/components/responses/InternalError'
-      parameters:
-        - name: locale
-          in: query
-          schema:
-            type: string
-            enum:
-              - es
-              - en
-              - pt
-          description: Language locale
-        - name: action
-          in: query
-          schema:
-            type: string
-          description: Action to perform
   /api/health:
     get:
-      summary: List health
-      description: GET operation for health
+      summary: List health\route.ts
+      description: GET operation for health\route.ts
       tags:
-        - health
+        - health\route.ts
       responses:
         '200':
           description: Success
@@ -461,10 +368,10 @@ paths:
           $ref: '#/components/responses/InternalError'
   /api/quote:
     post:
-      summary: Create quote
-      description: POST operation for quote
+      summary: Create quote\route.ts
+      description: POST operation for quote\route.ts
       tags:
-        - quote
+        - quote\route.ts
       responses:
         '200':
           description: Success
@@ -483,10 +390,10 @@ paths:
               description: Request body schema (auto-detected)
   /api/quotes/{id}/status:
     get:
-      summary: Get quotes
-      description: Manage quote requests for private jet charter services
+      summary: List quotes\[id]\status\route.ts
+      description: GET operation for quotes\[id]\status\route.ts
       tags:
-        - quotes
+        - quotes\[id]\status\route.ts
       responses:
         '200':
           description: Success
@@ -509,10 +416,10 @@ paths:
             format: uuid
           description: Id parameter
     patch:
-      summary: Partially update quotes
-      description: Manage quote requests for private jet charter services
+      summary: Partially update quotes\[id]\status\route.ts
+      description: PATCH operation for quotes\[id]\status\route.ts
       tags:
-        - quotes
+        - quotes\[id]\status\route.ts
       responses:
         '200':
           description: Success
@@ -542,10 +449,10 @@ paths:
           description: Id parameter
   /api/recaptcha/verify:
     get:
-      summary: List recaptcha
-      description: Verify reCAPTCHA tokens for security
+      summary: List recaptcha\verify\route.ts
+      description: GET operation for recaptcha\verify\route.ts
       tags:
-        - recaptcha
+        - recaptcha\verify\route.ts
       responses:
         '200':
           description: Success
@@ -554,10 +461,10 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
     post:
-      summary: Create recaptcha
-      description: Verify reCAPTCHA tokens for security
+      summary: Create recaptcha\verify\route.ts
+      description: POST operation for recaptcha\verify\route.ts
       tags:
-        - recaptcha
+        - recaptcha\verify\route.ts
       responses:
         '200':
           description: Success
@@ -567,10 +474,10 @@ paths:
           $ref: '#/components/responses/InternalError'
   /api/seo/{page}/{locale}:
     get:
-      summary: List seo
-      description: Generate SEO metadata for pages
+      summary: List seo\[page]\[locale]\route.ts
+      description: GET operation for seo\[page]\[locale]\route.ts
       tags:
-        - seo
+        - seo\[page]\[locale]\route.ts
       responses:
         '200':
           description: Success
@@ -591,20 +498,20 @@ paths:
           description: Locale parameter
   /api/webhooks/resend:
     get:
-      summary: List webhooks
-      description: Handle external service webhooks
+      summary: List webhooks\resend\route.ts
+      description: GET operation for webhooks\resend\route.ts
       tags:
-        - webhooks
+        - webhooks\resend\route.ts
       responses:
         '200':
           description: Success
         '500':
           $ref: '#/components/responses/InternalError'
     post:
-      summary: Create webhooks
-      description: Handle external service webhooks
+      summary: Create webhooks\resend\route.ts
+      description: POST operation for webhooks\resend\route.ts
       tags:
-        - webhooks
+        - webhooks\resend\route.ts
       responses:
         '200':
           description: Success
@@ -612,20 +519,20 @@ paths:
           $ref: '#/components/responses/InternalError'
   /api/webhooks/resend/test:
     get:
-      summary: List webhooks
-      description: Handle external service webhooks
+      summary: List webhooks\resend\test\route.ts
+      description: GET operation for webhooks\resend\test\route.ts
       tags:
-        - webhooks
+        - webhooks\resend\test\route.ts
       responses:
         '200':
           description: Success
         '500':
           $ref: '#/components/responses/InternalError'
     post:
-      summary: Create webhooks
-      description: Handle external service webhooks
+      summary: Create webhooks\resend\test\route.ts
+      description: POST operation for webhooks\resend\test\route.ts
       tags:
-        - webhooks
+        - webhooks\resend\test\route.ts
       responses:
         '200':
           description: Success
@@ -633,10 +540,10 @@ paths:
           $ref: '#/components/responses/InternalError'
   /api/whatsapp/link:
     get:
-      summary: List whatsapp
-      description: Generate WhatsApp communication links
+      summary: List whatsapp\link\route.ts
+      description: GET operation for whatsapp\link\route.ts
       tags:
-        - whatsapp
+        - whatsapp\link\route.ts
       responses:
         '200':
           description: Success
@@ -647,10 +554,10 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
     post:
-      summary: Create whatsapp
-      description: Generate WhatsApp communication links
+      summary: Create whatsapp\link\route.ts
+      description: POST operation for whatsapp\link\route.ts
       tags:
-        - whatsapp
+        - whatsapp\link\route.ts
       responses:
         '200':
           description: Success
