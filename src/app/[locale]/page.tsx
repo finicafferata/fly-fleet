@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Navigation } from '@/components/Navigation';
+import { Header } from '@/components/Navigation/Header';
 import { Hero } from '@/components/Hero';
 import { ServicesGrid } from '@/components/ServicesGrid';
 import { ProcessSteps } from '@/components/ProcessSteps';
@@ -23,7 +23,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-white" lang={locale}>
       {/* Navigation */}
-      <Navigation
+      <Header
         locale={locale}
         onLanguageChange={(newLocale) => {
           router.push(`/${newLocale}`);
@@ -37,6 +37,13 @@ export default function HomePage() {
           locale={locale}
           onQuoteRequest={() => setShowQuoteForm(true)}
         />
+
+        {/* Services Section */}
+        <section className="py-20 bg-white">
+          <div className="max-w-full xl:max-w-[1600px] 2xl:max-w-[1800px] mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 2xl:px-12">
+            <ServicesGrid locale={locale} />
+          </div>
+        </section>
 
       {/* Process Steps Section */}
       <section className="py-20 bg-gray-50">

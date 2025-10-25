@@ -122,13 +122,19 @@ export function Hero({
       <div className="hero-media absolute inset-0 z-0" aria-hidden="true">
         <img
           src="/images/hero-jet.jpg"
-          alt=""
+          alt="Hero Background"
           className={clsx(
-            'hero-background w-full h-full object-cover',
-            'transition-opacity duration-1000',
+            'hero-background w-full h-full object-cover transition-opacity duration-1000',
             imageLoaded ? 'opacity-30' : 'opacity-0'
           )}
-          onLoad={() => setImageLoaded(true)}
+          onLoad={() => {
+            console.log('Hero background image loaded successfully');
+            setImageLoaded(true);
+          }}
+          onError={() => {
+            console.error('Hero background image failed to load');
+            setImageLoaded(false);
+          }}
           loading="eager"
           decoding="async"
         />
@@ -219,7 +225,7 @@ export function Hero({
             )}
           >
             <img
-              src="/logo.svg"
+              src="/images/flyfleet_logo.png"
               alt="Fly-Fleet Logo"
               className="w-48 h-auto"
               onError={(e) => {

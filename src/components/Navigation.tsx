@@ -58,14 +58,9 @@ const getNavigationContent = (locale: string) => {
 
 export function Navigation({ locale, className, onLanguageChange }: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const content = getNavigationContent(locale);
   const menuRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -124,9 +119,6 @@ export function Navigation({ locale, className, onLanguageChange }: NavigationPr
       : 'text-gray-700 border-l-4 border-transparent'
   );
 
-  if (!mounted) {
-    return null;
-  }
 
   return (
     <nav
