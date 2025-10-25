@@ -211,7 +211,7 @@ export default function FAQsPage() {
       />
 
       {/* Main Content - Account for fixed header */}
-      <main className="pt-20">
+      <main className="pt-14">
         {/* Hero Section */}
       <section className="bg-gradient-to-br from-navy-primary to-navy-primary/90 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -299,17 +299,9 @@ export default function FAQsPage() {
                       ) : (
                         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
                           <p className="text-yellow-800 text-sm">
-                            {locale === 'es' ? 'Respuesta en desarrollo. Para más información, ' :
-                             locale === 'pt' ? 'Resposta em desenvolvimento. Para mais informações, ' :
-                             'Answer in development. For more information, '}
-                            <a
-                              href={`/${locale}/contact`}
-                              className="font-semibold text-accent-blue hover:underline"
-                            >
-                              {locale === 'es' ? 'contactanos directamente' :
-                               locale === 'pt' ? 'entre em contato conosco' :
-                               'contact us directly'}
-                            </a>.
+                            {locale === 'es' ? 'Respuesta en desarrollo. Contáctanos por WhatsApp para más información.' :
+                             locale === 'pt' ? 'Resposta em desenvolvimento. Entre em contato pelo WhatsApp para mais informações.' :
+                             'Answer in development. Contact us via WhatsApp for more information.'}
                           </p>
                         </div>
                       )}
@@ -328,15 +320,7 @@ export default function FAQsPage() {
           <h2 className="text-3xl md:text-4xl font-bold mb-8 text-navy-primary">
             {content.cta}
           </h2>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href={`/${locale}/contact`}
-              className="inline-flex items-center justify-center bg-accent-blue hover:bg-accent-blue/90 text-white min-h-[56px] px-8 text-lg font-semibold rounded-lg shadow-large hover:shadow-xl transform hover:scale-105 transition-all duration-200"
-            >
-              {locale === 'es' ? 'Contactar' :
-               locale === 'pt' ? 'Contatar' :
-               'Contact us'}
-            </a>
+          <div className="flex justify-center">
             <WhatsAppWidget
               variant="inline"
               locale={locale}

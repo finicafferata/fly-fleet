@@ -13,28 +13,37 @@ const getContent = (locale: string) => {
       subtitle: 'Discover our aircraft categories and popular destinations',
       fleetTitle: 'Aircraft Categories',
       destinationsTitle: 'Popular Destinations',
-      domesticRoutes: 'Domestic Routes',
       internationalRoutes: 'International Routes',
       aircraft: {
         charter: {
-          title: 'Point-to-Point Charter',
+          title: '',
           lightJets: {
-            title: 'Light Jets (Learjet 45, Citation CJ2)',
+            title: 'Light Jets',
+            models: 'Learjet 45, Citation CJ2',
             passengers: 'Up to 6 passengers',
             range: '',
             ideal: 'Short and medium flights'
           },
           midJets: {
-            title: 'Midsize Jets (Hawker 800, Learjet 60)',
+            title: 'Midsize Jets',
+            models: 'Hawker 800, Learjet 60',
             passengers: '6–8 passengers',
             range: '',
             ideal: 'Executive comfort'
           },
           heavyJets: {
-            title: 'Heavy Jets (Challenger 605, Gulfstream G450)',
+            title: 'Heavy Jets',
+            models: 'Challenger 605, Gulfstream G450',
             passengers: '10–14 passengers',
             range: '',
             ideal: 'Long flights'
+          },
+          turboprop: {
+            title: 'Turboprop / Piston',
+            models: 'Sovereign, Metroliner',
+            passengers: '9–19 passengers',
+            range: '',
+            ideal: 'Regional flights'
           }
         },
         specialized: {
@@ -60,13 +69,6 @@ const getContent = (locale: string) => {
         }
       },
       routes: {
-        domestic: [
-          'Buenos Aires ↔ Bariloche',
-          'Buenos Aires ↔ Mendoza',
-          'Buenos Aires ↔ Salta',
-          'São Paulo ↔ Rio de Janeiro',
-          'São Paulo ↔ Florianópolis'
-        ],
         international: [
           'Buenos Aires ↔ Miami',
           'São Paulo ↔ New York',
@@ -79,27 +81,27 @@ const getContent = (locale: string) => {
         subtitle: 'Save time, avoid waits and experience the freedom to choose your destination without limitations.',
         destinations: [
           {
-            title: 'Argentina ↔ Brazil',
+            title: 'Rio de Janeiro',
             routes: 'Buenos Aires – São Paulo / Rio de Janeiro',
             image: '/images/destinations/brazil.jpg'
           },
           {
-            title: 'Argentina ↔ Uruguay',
+            title: 'Montevideo',
             routes: 'Buenos Aires – Punta del Este / Montevideo',
             image: '/images/destinations/uruguay.jpg'
           },
           {
-            title: 'Argentina ↔ Chile',
+            title: 'Santiago de Chile',
             routes: 'Buenos Aires – Santiago',
             image: '/images/destinations/chile.jpg'
           },
           {
-            title: 'Panama Hub',
+            title: 'Miami',
             routes: 'Connections to Miami, Bogotá, Mexico City',
             image: '/images/destinations/cancun.jpg'
           },
           {
-            title: 'Caribbean',
+            title: 'Cancun',
             routes: 'Flights to Cancún, Punta Cana, Bahamas',
             image: '/images/destinations/miami.jpg'
           }
@@ -112,28 +114,37 @@ const getContent = (locale: string) => {
       subtitle: 'Descubrí nuestras categorías de aeronaves y destinos populares',
       fleetTitle: 'Categorías de Aeronaves',
       destinationsTitle: 'Destinos Populares',
-      domesticRoutes: 'Rutas Domésticas',
       internationalRoutes: 'Rutas Internacionales',
       aircraft: {
         charter: {
-          title: 'Charter Point-to-Point',
+          title: '',
           lightJets: {
-            title: 'Jets Ligeros (Learjet 45, Citation CJ2)',
+            title: 'Jets Ligeros',
+            models: 'Learjet 45, Citation CJ2',
             passengers: 'Hasta 6 pasajeros',
             range: '',
             ideal: 'Vuelos cortos y medianos'
           },
           midJets: {
-            title: 'Jets Medianos (Hawker 800, Learjet 60)',
+            title: 'Jets Medianos',
+            models: 'Hawker 800, Learjet 60',
             passengers: '6–8 pasajeros',
             range: '',
             ideal: 'Confort ejecutivo'
           },
           heavyJets: {
-            title: 'Jets Pesados (Challenger 605, Gulfstream G450)',
+            title: 'Jets Pesados',
+            models: 'Challenger 605, Gulfstream G450',
             passengers: '10–14 pasajeros',
             range: '',
             ideal: 'Vuelos largos'
+          },
+          turboprop: {
+            title: 'Turbo / Pistón',
+            models: 'Sovereign, Metroliner',
+            passengers: '9–19 pasajeros',
+            range: '',
+            ideal: 'Vuelos regionales'
           }
         },
         specialized: {
@@ -159,13 +170,6 @@ const getContent = (locale: string) => {
         }
       },
       routes: {
-        domestic: [
-          'Buenos Aires ↔ Bariloche',
-          'Buenos Aires ↔ Mendoza',
-          'Buenos Aires ↔ Salta',
-          'São Paulo ↔ Rio de Janeiro',
-          'São Paulo ↔ Florianópolis'
-        ],
         international: [
           'Buenos Aires ↔ Miami',
           'São Paulo ↔ Nueva York',
@@ -178,61 +182,70 @@ const getContent = (locale: string) => {
         subtitle: 'Ganá tiempo, evitá esperas y viví la libertad de elegir tu destino sin limitaciones.',
         destinations: [
           {
-            title: 'Argentina ↔ Brasil',
+            title: 'Rio de Janeiro',
             routes: 'Buenos Aires – São Paulo / Río de Janeiro',
             image: '/images/destinations/brazil.jpg'
           },
           {
-            title: 'Argentina ↔ Uruguay',
+            title: 'Montevideo',
             routes: 'Buenos Aires – Punta del Este / Montevideo',
             image: '/images/destinations/uruguay.jpg'
           },
           {
-            title: 'Argentina ↔ Chile',
+            title: 'Santiago de Chile',
             routes: 'Buenos Aires – Santiago',
             image: '/images/destinations/chile.jpg'
           },
           {
-            title: 'Panamá Hub',
+            title: 'Miami',
             routes: 'Conexiones a Miami, Bogotá, Ciudad de México',
             image: '/images/destinations/cancun.jpg'
           },
           {
-            title: 'Caribe',
+            title: 'Cancun',
             routes: 'Vuelos a Cancún, Punta Cana, Bahamas',
             image: '/images/destinations/miami.jpg'
           }
         ]
       },
-      cta: 'Cotizar para Tu Ruta'
+      cta: 'Cotizá tu vuelo'
     },
     pt: {
       title: 'Frota e Destinos',
       subtitle: 'Descubra nossas categorias de aeronaves e destinos populares',
       fleetTitle: 'Categorias de Aeronaves',
       destinationsTitle: 'Destinos Populares',
-      domesticRoutes: 'Rotas Domésticas',
       internationalRoutes: 'Rotas Internacionais',
       aircraft: {
         charter: {
-          title: 'Charter Ponto-a-Ponto',
+          title: '',
           lightJets: {
-            title: 'Jets Leves (Learjet 45, Citation CJ2)',
+            title: 'Jets Leves',
+            models: 'Learjet 45, Citation CJ2',
             passengers: 'Até 6 passageiros',
             range: '',
             ideal: 'Voos curtos e médios'
           },
           midJets: {
-            title: 'Jets Médios (Hawker 800, Learjet 60)',
+            title: 'Jets Médios',
+            models: 'Hawker 800, Learjet 60',
             passengers: '6–8 passageiros',
             range: '',
             ideal: 'Conforto executivo'
           },
           heavyJets: {
-            title: 'Jets Pesados (Challenger 605, Gulfstream G450)',
+            title: 'Jets Pesados',
+            models: 'Challenger 605, Gulfstream G450',
             passengers: '10–14 passageiros',
             range: '',
             ideal: 'Voos longos'
+          },
+          turboprop: {
+            title: 'Turboélice / Pistão',
+            models: 'Sovereign, Metroliner',
+            passengers: '9–19 passageiros',
+            range: '',
+            ideal: 'Voos regionais'
           }
         },
         specialized: {
@@ -258,13 +271,6 @@ const getContent = (locale: string) => {
         }
       },
       routes: {
-        domestic: [
-          'Buenos Aires ↔ Bariloche',
-          'Buenos Aires ↔ Mendoza',
-          'Buenos Aires ↔ Salta',
-          'São Paulo ↔ Rio de Janeiro',
-          'São Paulo ↔ Florianópolis'
-        ],
         international: [
           'Buenos Aires ↔ Miami',
           'São Paulo ↔ Nova York',
@@ -277,27 +283,27 @@ const getContent = (locale: string) => {
         subtitle: 'Ganhe tempo, evite esperas e viva a liberdade de escolher seu destino sem limitações.',
         destinations: [
           {
-            title: 'Argentina ↔ Brasil',
+            title: 'Rio de Janeiro',
             routes: 'Buenos Aires – São Paulo / Rio de Janeiro',
             image: '/images/destinations/brazil.jpg'
           },
           {
-            title: 'Argentina ↔ Uruguai',
+            title: 'Montevideo',
             routes: 'Buenos Aires – Punta del Este / Montevidéu',
             image: '/images/destinations/uruguay.jpg'
           },
           {
-            title: 'Argentina ↔ Chile',
+            title: 'Santiago de Chile',
             routes: 'Buenos Aires – Santiago',
             image: '/images/destinations/chile.jpg'
           },
           {
-            title: 'Hub Panamá',
+            title: 'Miami',
             routes: 'Conexões para Miami, Bogotá, Cidade do México',
             image: '/images/destinations/cancun.jpg'
           },
           {
-            title: 'Caribe',
+            title: 'Cancun',
             routes: 'Voos para Cancún, Punta Cana, Bahamas',
             image: '/images/destinations/miami.jpg'
           }
@@ -326,7 +332,7 @@ export default function FleetDestinationsPage() {
       />
 
       {/* Main Content - Account for fixed header */}
-      <main className="pt-20">
+      <main className="pt-14">
         {/* Hero Section */}
       <section className="bg-gradient-to-br from-navy-primary to-navy-primary/90 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -346,50 +352,232 @@ export default function FleetDestinationsPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Charter Aircraft */}
             <div className="mb-16">
-              <h2 className="text-3xl font-bold mb-12 text-navy-primary">
-                {content.aircraft.charter.title}
-              </h2>
-
-              <div className="grid md:grid-cols-3 gap-8">
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {/* Light Jets */}
-                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                  <h3 className="text-xl font-semibold mb-4 text-navy-primary">
-                    {content.aircraft.charter.lightJets.title}
-                  </h3>
-                  <div className="space-y-2 text-gray-600">
-                    <p>{content.aircraft.charter.lightJets.passengers}</p>
-                    <p>{content.aircraft.charter.lightJets.range}</p>
-                    <p className="text-sm font-medium text-accent-blue">
-                      {content.aircraft.charter.lightJets.ideal}
-                    </p>
+                <div className="group relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 flex flex-col">
+                  {/* Hero Image */}
+                  <div className="relative h-56 overflow-hidden">
+                    <img
+                      src="/images/aircrafts/light_jets.png"
+                      alt="Light Jets"
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-navy-primary/90 via-navy-primary/50 to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                      <h3 className="text-2xl font-bold">
+                        {content.aircraft.charter.lightJets.title}
+                      </h3>
+                    </div>
+                  </div>
+
+                  {/* Specs Section */}
+                  <div className="p-6 flex-grow">
+                    <div className="space-y-3">
+                      <div className="flex items-center text-gray-700">
+                        <svg className="w-5 h-5 mr-3 text-accent-blue flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                        </svg>
+                        <span className="font-semibold text-sm">{content.aircraft.charter.lightJets.models}</span>
+                      </div>
+                      <div className="flex items-center text-gray-600">
+                        <svg className="w-5 h-5 mr-3 text-accent-blue flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span className="text-sm">{content.aircraft.charter.lightJets.passengers}</span>
+                      </div>
+                      <div className="flex items-center text-accent-blue">
+                        <svg className="w-5 h-5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clipRule="evenodd" />
+                        </svg>
+                        <span className="text-sm font-medium">{content.aircraft.charter.lightJets.ideal}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Mini Gallery - Stuck to bottom */}
+                  <div className="px-6 pb-6 pt-4 border-t border-gray-100">
+                    <div className="grid grid-cols-3 gap-2">
+                      <div className="relative h-16 rounded overflow-hidden group/img">
+                        <img src="/images/aircrafts/light_jets.png" alt="" className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-300" />
+                      </div>
+                      <div className="relative h-16 rounded overflow-hidden group/img">
+                        <img src="/images/aircrafts/light_jets.png" alt="" className="w-full h-full object-cover opacity-80 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
+                      </div>
+                      <div className="relative h-16 rounded overflow-hidden group/img">
+                        <img src="/images/aircrafts/light_jets.png" alt="" className="w-full h-full object-cover opacity-60 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
+                      </div>
+                    </div>
                   </div>
                 </div>
 
                 {/* Midsize Jets */}
-                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                  <h3 className="text-xl font-semibold mb-4 text-navy-primary">
-                    {content.aircraft.charter.midJets.title}
-                  </h3>
-                  <div className="space-y-2 text-gray-600">
-                    <p>{content.aircraft.charter.midJets.passengers}</p>
-                    <p>{content.aircraft.charter.midJets.range}</p>
-                    <p className="text-sm font-medium text-accent-blue">
-                      {content.aircraft.charter.midJets.ideal}
-                    </p>
+                <div className="group relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 flex flex-col">
+                  {/* Hero Image */}
+                  <div className="relative h-56 overflow-hidden">
+                    <img
+                      src="/images/aircrafts/medium_jets.png"
+                      alt="Midsize Jets"
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-navy-primary/90 via-navy-primary/50 to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                      <h3 className="text-2xl font-bold">
+                        {content.aircraft.charter.midJets.title}
+                      </h3>
+                    </div>
+                  </div>
+
+                  {/* Specs Section */}
+                  <div className="p-6 flex-grow">
+                    <div className="space-y-3">
+                      <div className="flex items-center text-gray-700">
+                        <svg className="w-5 h-5 mr-3 text-accent-blue flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                        </svg>
+                        <span className="font-semibold text-sm">{content.aircraft.charter.midJets.models}</span>
+                      </div>
+                      <div className="flex items-center text-gray-600">
+                        <svg className="w-5 h-5 mr-3 text-accent-blue flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span className="text-sm">{content.aircraft.charter.midJets.passengers}</span>
+                      </div>
+                      <div className="flex items-center text-accent-blue">
+                        <svg className="w-5 h-5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clipRule="evenodd" />
+                        </svg>
+                        <span className="text-sm font-medium">{content.aircraft.charter.midJets.ideal}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Mini Gallery - Stuck to bottom */}
+                  <div className="px-6 pb-6 pt-4 border-t border-gray-100">
+                    <div className="grid grid-cols-3 gap-2">
+                      <div className="relative h-16 rounded overflow-hidden group/img">
+                        <img src="/images/aircrafts/medium_jets.png" alt="" className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-300" />
+                      </div>
+                      <div className="relative h-16 rounded overflow-hidden group/img">
+                        <img src="/images/aircrafts/medium_jets.png" alt="" className="w-full h-full object-cover opacity-80 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
+                      </div>
+                      <div className="relative h-16 rounded overflow-hidden group/img">
+                        <img src="/images/aircrafts/medium_jets.png" alt="" className="w-full h-full object-cover opacity-60 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
+                      </div>
+                    </div>
                   </div>
                 </div>
 
                 {/* Heavy Jets */}
-                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                  <h3 className="text-xl font-semibold mb-4 text-navy-primary">
-                    {content.aircraft.charter.heavyJets.title}
-                  </h3>
-                  <div className="space-y-2 text-gray-600">
-                    <p>{content.aircraft.charter.heavyJets.passengers}</p>
-                    <p>{content.aircraft.charter.heavyJets.range}</p>
-                    <p className="text-sm font-medium text-accent-blue">
-                      {content.aircraft.charter.heavyJets.ideal}
-                    </p>
+                <div className="group relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 flex flex-col">
+                  {/* Hero Image */}
+                  <div className="relative h-56 overflow-hidden">
+                    <img
+                      src="/images/aircrafts/heavy_jets.png"
+                      alt="Heavy Jets"
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-navy-primary/90 via-navy-primary/50 to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                      <h3 className="text-2xl font-bold">
+                        {content.aircraft.charter.heavyJets.title}
+                      </h3>
+                    </div>
+                  </div>
+
+                  {/* Specs Section */}
+                  <div className="p-6 flex-grow">
+                    <div className="space-y-3">
+                      <div className="flex items-center text-gray-700">
+                        <svg className="w-5 h-5 mr-3 text-accent-blue flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                        </svg>
+                        <span className="font-semibold text-sm">{content.aircraft.charter.heavyJets.models}</span>
+                      </div>
+                      <div className="flex items-center text-gray-600">
+                        <svg className="w-5 h-5 mr-3 text-accent-blue flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span className="text-sm">{content.aircraft.charter.heavyJets.passengers}</span>
+                      </div>
+                      <div className="flex items-center text-accent-blue">
+                        <svg className="w-5 h-5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clipRule="evenodd" />
+                        </svg>
+                        <span className="text-sm font-medium">{content.aircraft.charter.heavyJets.ideal}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Mini Gallery - Stuck to bottom */}
+                  <div className="px-6 pb-6 pt-4 border-t border-gray-100">
+                    <div className="grid grid-cols-3 gap-2">
+                      <div className="relative h-16 rounded overflow-hidden group/img">
+                        <img src="/images/aircrafts/heavy_jets.png" alt="" className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-300" />
+                      </div>
+                      <div className="relative h-16 rounded overflow-hidden group/img">
+                        <img src="/images/aircrafts/heavy_jets.png" alt="" className="w-full h-full object-cover opacity-80 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
+                      </div>
+                      <div className="relative h-16 rounded overflow-hidden group/img">
+                        <img src="/images/aircrafts/heavy_jets.png" alt="" className="w-full h-full object-cover opacity-60 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Turboprop / Piston */}
+                <div className="group relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 flex flex-col">
+                  {/* Hero Image */}
+                  <div className="relative h-56 overflow-hidden">
+                    <img
+                      src="/images/aircrafts/turbo_jets.png"
+                      alt="Turboprop / Piston"
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-navy-primary/90 via-navy-primary/50 to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                      <h3 className="text-2xl font-bold">
+                        {content.aircraft.charter.turboprop.title}
+                      </h3>
+                    </div>
+                  </div>
+
+                  {/* Specs Section */}
+                  <div className="p-6 flex-grow">
+                    <div className="space-y-3">
+                      <div className="flex items-center text-gray-700">
+                        <svg className="w-5 h-5 mr-3 text-accent-blue flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                        </svg>
+                        <span className="font-semibold text-sm">{content.aircraft.charter.turboprop.models}</span>
+                      </div>
+                      <div className="flex items-center text-gray-600">
+                        <svg className="w-5 h-5 mr-3 text-accent-blue flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span className="text-sm">{content.aircraft.charter.turboprop.passengers}</span>
+                      </div>
+                      <div className="flex items-center text-accent-blue">
+                        <svg className="w-5 h-5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clipRule="evenodd" />
+                        </svg>
+                        <span className="text-sm font-medium">{content.aircraft.charter.turboprop.ideal}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Mini Gallery - Stuck to bottom */}
+                  <div className="px-6 pb-6 pt-4 border-t border-gray-100">
+                    <div className="grid grid-cols-3 gap-2">
+                      <div className="relative h-16 rounded overflow-hidden group/img">
+                        <img src="/images/aircrafts/turbo_jets.png" alt="" className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-300" />
+                      </div>
+                      <div className="relative h-16 rounded overflow-hidden group/img">
+                        <img src="/images/aircrafts/turbo_jets.png" alt="" className="w-full h-full object-cover opacity-80 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
+                      </div>
+                      <div className="relative h-16 rounded overflow-hidden group/img">
+                        <img src="/images/aircrafts/turbo_jets.png" alt="" className="w-full h-full object-cover opacity-60 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -460,61 +648,9 @@ export default function FleetDestinationsPage() {
           </svg>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid md:grid-cols-2 gap-16">
-            {/* Domestic Routes */}
-            <div>
-              <div className="mb-10">
-                <div className="inline-flex items-center bg-gradient-to-r from-accent-blue to-blue-600 text-white px-6 py-3 rounded-full shadow-lg mb-2">
-                  <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                  </svg>
-                  <span className="font-bold text-sm uppercase tracking-wider">{content.domesticRoutes}</span>
-                </div>
-              </div>
-              <div className="space-y-4">
-                {content.routes.domestic.map((route, index) => {
-                  const [origin, destination] = route.split(' ↔ ');
-                  return (
-                    <div
-                      key={index}
-                      className="group relative bg-white rounded-2xl p-6 shadow-md hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 hover:border-accent-blue/50 overflow-hidden"
-                    >
-                      {/* Gradient overlay on hover */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-accent-blue/0 to-accent-blue/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-                      <div className="relative flex items-center justify-between">
-                        {/* Origin */}
-                        <div className="flex-1">
-                          <p className="text-lg font-bold text-navy-primary group-hover:text-accent-blue transition-colors duration-300">
-                            {origin}
-                          </p>
-                        </div>
-
-                        {/* Plane Icon with Animation */}
-                        <div className="px-6 flex-shrink-0 relative">
-                          <svg className="w-8 h-8 text-accent-blue transform rotate-90 group-hover:translate-x-20 transition-transform duration-1000 ease-in-out" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-                          </svg>
-                          {/* Dashed line */}
-                          <div className="absolute top-1/2 left-0 right-0 w-full border-t-2 border-dashed border-accent-blue/30 group-hover:border-accent-blue/60 transition-colors duration-300 -z-10"></div>
-                        </div>
-
-                        {/* Destination */}
-                        <div className="flex-1 text-right">
-                          <p className="text-lg font-bold text-navy-primary group-hover:text-accent-blue transition-colors duration-300">
-                            {destination}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* International Routes */}
-            <div>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* International Routes */}
+          <div>
               <div className="mb-10">
                 <div className="inline-flex items-center bg-gradient-to-r from-blue-600 to-accent-blue text-white px-6 py-3 rounded-full shadow-lg mb-2">
                   <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -562,7 +698,6 @@ export default function FleetDestinationsPage() {
                   );
                 })}
               </div>
-            </div>
           </div>
         </div>
       </section>
@@ -588,26 +723,22 @@ export default function FleetDestinationsPage() {
                 className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
               >
                 {/* Image Container */}
-                <div className="relative h-64 bg-gradient-to-br from-accent-blue/20 to-blue-600/20 overflow-hidden">
-                  {/* Placeholder gradient - replace with actual image */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/40 to-blue-600/60 group-hover:scale-110 transition-transform duration-700"></div>
+                <div className="relative h-64 overflow-hidden">
+                  {/* Background Image */}
+                  <img
+                    src={destination.image}
+                    alt={destination.title}
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
 
                   {/* Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-navy-primary/90 via-navy-primary/50 to-transparent"></div>
 
                   {/* Content */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                    <h3 className="text-2xl font-bold mb-2 transform group-hover:translate-x-2 transition-transform duration-300">
+                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white text-center">
+                    <h3 className="text-2xl font-bold mb-2 transform group-hover:translate-y-[-4px] transition-transform duration-300">
                       {destination.title}
                     </h3>
-                    <div className="flex items-start">
-                      <svg className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5 text-accent-blue" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-                      </svg>
-                      <p className="text-sm text-white/90 leading-relaxed">
-                        {destination.routes}
-                      </p>
-                    </div>
                   </div>
 
                   {/* Hover effect - Plane icon */}
@@ -626,7 +757,7 @@ export default function FleetDestinationsPage() {
                     href={`/${locale}/quote`}
                     className="w-full text-center text-accent-blue font-semibold group-hover:text-blue-600 transition-colors duration-300 flex items-center justify-center"
                   >
-                    <span>{locale === 'es' ? 'Cotizar ahora' : locale === 'pt' ? 'Pedir cotação' : 'Get a quote'}</span>
+                    <span>{locale === 'es' ? 'Cotizá tu vuelo' : locale === 'pt' ? 'Pedir cotação' : 'Get a quote'}</span>
                     <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-2 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
@@ -641,14 +772,11 @@ export default function FleetDestinationsPage() {
       {/* CTA Section */}
       <section className="py-16 bg-navy-primary text-white">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold mb-8">
-            {content.cta}
-          </h2>
           <a
             href={`/${locale}/quote`}
             className="inline-flex items-center justify-center bg-accent-blue hover:bg-accent-blue/90 text-white min-h-[56px] px-8 text-lg font-semibold rounded-lg shadow-large hover:shadow-xl transform hover:scale-105 transition-all duration-200"
           >
-            {locale === 'es' ? 'Cotizar ahora' :
+            {locale === 'es' ? 'Cotizá tu vuelo' :
              locale === 'pt' ? 'Pedir cotação' :
              'Get a quote'}
           </a>

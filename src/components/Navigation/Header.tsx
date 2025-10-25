@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation';
 import { clsx } from 'clsx';
 import { Button } from '../ui/Button';
 import { LanguageSwitcher } from '../LanguageSwitcher';
-import { WhatsAppWidget } from '../WhatsAppWidget';
 
 export interface NavigationItem {
   href: string;
@@ -28,24 +27,30 @@ const getNavigationItems = (locale: string): NavigationItem[] => {
   const items = {
     en: [
       { href: '/', label: 'Home', description: 'Return to homepage' },
-      { href: '/services', label: 'Services', description: 'Our aviation services' },
-      { href: '/fleet', label: 'Fleet', description: 'Aircraft fleet information' },
-      { href: '/about', label: 'About', description: 'About Fly-Fleet' },
-      { href: '/contact', label: 'Contact', description: 'Contact information' },
+      { href: '/what-we-do', label: 'What We Do', description: 'Our aviation services' },
+      { href: '/quote', label: 'Get a Quote', description: 'Request a quote' },
+      { href: '/additional-services', label: 'Additional Services', description: 'Extra services' },
+      { href: '/fleet-destinations', label: 'Fleet & Destinations', description: 'Aircraft fleet information' },
+      { href: '/faqs', label: 'FAQs', description: 'Frequently asked questions' },
+      { href: '/about', label: 'About Us', description: 'About Fly-Fleet' },
     ],
     es: [
       { href: '/', label: 'Inicio', description: 'Volver al inicio' },
-      { href: '/services', label: 'Servicios', description: 'Nuestros servicios de aviación' },
-      { href: '/fleet', label: 'Flota', description: 'Información de la flota' },
+      { href: '/what-we-do', label: 'Qué Hacemos', description: 'Nuestros servicios de aviación' },
+      { href: '/quote', label: 'Cotizar', description: 'Solicitar cotización' },
+      { href: '/additional-services', label: 'Servicios Adicionales', description: 'Servicios extra' },
+      { href: '/fleet-destinations', label: 'Flota y Destinos', description: 'Información de la flota' },
+      { href: '/faqs', label: 'FAQs', description: 'Preguntas frecuentes' },
       { href: '/about', label: 'Nosotros', description: 'Nosotros - Fly-Fleet' },
-      { href: '/contact', label: 'Contacto', description: 'Información de contacto' },
     ],
     pt: [
       { href: '/', label: 'Início', description: 'Voltar ao início' },
-      { href: '/services', label: 'Serviços', description: 'Nossos serviços de aviação' },
-      { href: '/fleet', label: 'Frota', description: 'Informações da frota' },
-      { href: '/about', label: 'Sobre', description: 'Sobre a Fly-Fleet' },
-      { href: '/contact', label: 'Contato', description: 'Informações de contato' },
+      { href: '/what-we-do', label: 'O Que Fazemos', description: 'Nossos serviços de aviação' },
+      { href: '/quote', label: 'Cotar', description: 'Solicitar cotação' },
+      { href: '/additional-services', label: 'Serviços Adicionais', description: 'Serviços extras' },
+      { href: '/fleet-destinations', label: 'Frota e Destinos', description: 'Informações da frota' },
+      { href: '/faqs', label: 'FAQs', description: 'Perguntas frequentes' },
+      { href: '/about', label: 'Sobre Nós', description: 'Sobre a Fly-Fleet' },
     ],
   };
 
@@ -237,97 +242,235 @@ export function Header({
       'relative': !sticky,
       'transform -translate-y-full': sticky && !isScrollingUp && isScrolled,
       'transform translate-y-0': sticky && (isScrollingUp || !isScrolled),
-      'py-2': isScrolled && shrinkOnScroll,
-      'py-4': !isScrolled || !shrinkOnScroll,
     },
     className
   );
 
-  const navContainerClasses = clsx(
-    'transition-all duration-300 ease-in-out backdrop-blur-sm border-b shadow-sm',
+  const navWrapperClasses = clsx(
+    'w-full transition-all duration-300 ease-in-out backdrop-blur-sm border-b shadow-sm',
     'motion-reduce:transition-none',
-    // Navy blue theme with transparency effects
-    isScrolled
-      ? 'bg-navy-primary/95 border-navy-primary/20 text-white'
-      : 'bg-white/95 border-neutral-light text-navy-primary'
+    // White background theme
+    'bg-white border-neutral-light text-navy-primary'
   );
+
+  const navClasses = 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14';
 
   return (
     <header className={headerClasses} role="banner">
-      <div className={navContainerClasses}>
-        <div className="nav-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav
-            className="flex items-center justify-between"
-            role="navigation"
-            aria-label="Main navigation"
-          >
-            {/* Logo */}
-            <div className="flex-shrink-0">
-              <Link
-                href="/"
+      <div className={navWrapperClasses}>
+        <nav
+          className={navClasses}
+          role="navigation"
+          aria-label="Main navigation"
+        >
+          {/* Logo */}
+          <div className="flex-shrink-0">
+            <Link
+              href="/"
+              className={clsx(
+                'flex items-center focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2 rounded-lg',
+                'transition-all duration-200',
+                'motion-reduce:transition-none'
+              )}
+              aria-label="Fly-Fleet homepage"
+            >
+              {/* Logo Image */}
+              <img
+                src={logoSrc}
+                alt="Fly-Fleet"
                 className={clsx(
-                  'logo-link flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2 rounded-lg',
                   'transition-all duration-200',
                   'motion-reduce:transition-none',
-                  isScrolled && shrinkOnScroll ? 'text-xl' : 'text-2xl'
+                  isScrolled && shrinkOnScroll ? 'h-8 w-auto' : 'h-10 w-auto'
                 )}
-                aria-label="Fly-Fleet homepage"
+                onError={(e) => {
+                  // Fallback to text logo if image fails to load
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+              {/* Text fallback */}
+              <div
+                className="font-bold text-xl text-navy-primary"
+                style={{ display: logoSrc ? 'none' : 'block' }}
               >
-                {/* Logo Image */}
-                <img
-                  src={logoSrc}
-                  alt="Fly-Fleet"
-                  className={clsx(
-                    'transition-all duration-200',
-                    'motion-reduce:transition-none',
-                    isScrolled && shrinkOnScroll ? 'h-8 w-auto' : 'h-10 w-auto'
-                  )}
-                  onError={(e) => {
-                    // Fallback to text logo if image fails to load
-                    e.currentTarget.style.display = 'none';
-                  }}
-                />
-                {/* Text fallback */}
-                <div
-                  className={clsx(
-                    'font-bold',
-                    isScrolled ? 'text-white' : 'text-navy-primary'
-                  )}
-                  style={{ display: logoSrc ? 'none' : 'block' }}
-                >
-                  Fly-Fleet
-                </div>
-              </Link>
-            </div>
+                Fly-Fleet
+              </div>
+            </Link>
+          </div>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex md:items-center md:space-x-8">
-              <ul className="desktop-nav flex items-center space-x-6" role="menubar">
-                {navigationItems.map((item) => (
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex lg:items-center lg:gap-1">
+            {navigationItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={clsx(
+                  'px-3 py-2 text-sm font-medium transition-colors duration-200',
+                  'focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2',
+                  'motion-reduce:transition-none whitespace-nowrap',
+                  // Navy text on white background
+                  'text-navy-primary hover:text-accent-blue hover:bg-neutral-light',
+                  isActiveRoute(item.href)
+                    ? 'text-accent-blue bg-accent-blue/10 border-b-2 border-accent-blue'
+                    : 'rounded-lg'
+                )}
+                aria-current={isActiveRoute(item.href) ? 'page' : 'false'}
+                aria-label={item.description}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+
+          {/* Desktop Actions */}
+          <div className="hidden lg:flex lg:items-center lg:gap-3">
+            <Link
+              href="/quote"
+              className="inline-flex items-center px-4 py-2 rounded-lg font-medium text-sm transition-colors whitespace-nowrap bg-accent-blue text-white hover:bg-accent-blue/80"
+            >
+              Get Quote
+            </Link>
+
+            <LanguageSwitcher
+              currentLocale={locale}
+              onLanguageChange={onLanguageChange}
+              variant="inline"
+            />
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="lg:hidden flex items-center gap-3">
+            <LanguageSwitcher
+              currentLocale={locale}
+              onLanguageChange={onLanguageChange}
+              variant="dropdown"
+            />
+
+            <button
+              ref={menuToggleRef}
+              type="button"
+              onClick={toggleMenu}
+              className={clsx(
+                'p-2 rounded-lg transition-colors duration-200',
+                'focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2',
+                'motion-reduce:transition-none',
+                'text-navy-primary hover:bg-neutral-light hover:text-accent-blue'
+              )}
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-menu"
+              aria-label="Toggle navigation menu"
+            >
+              <span className="sr-only">
+                {isMenuOpen ? 'Close' : 'Open'} navigation menu
+              </span>
+              {/* Menu Icon */}
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                {isMenuOpen ? (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                ) : (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                )}
+              </svg>
+            </button>
+          </div>
+        </nav>
+      </div>
+
+      {/* Mobile Menu Backdrop */}
+      {isMenuOpen && (
+        <div
+          ref={backdropRef}
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={handleBackdropClick}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Mobile Slide-out Menu */}
+      <div
+        ref={menuRef}
+        id="mobile-menu"
+        className={clsx(
+          'mobile-menu fixed top-0 right-0 h-full w-80 max-w-sm z-50 md:hidden',
+          'bg-white shadow-2xl transform transition-transform duration-300 ease-in-out',
+          'motion-reduce:transition-none',
+          isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        )}
+        aria-hidden={!isMenuOpen}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        <div className="flex flex-col h-full">
+          {/* Mobile Menu Header */}
+          <div className="flex items-center justify-between p-4 border-b border-neutral-light">
+            <span className="text-lg font-semibold text-navy-primary">Menu</span>
+            <button
+              ref={mobileMenuLastFocusableRef}
+              type="button"
+              onClick={closeMobileMenu}
+              className="p-2 rounded-lg text-navy-primary hover:bg-neutral-light focus:outline-none focus:ring-2 focus:ring-accent-blue"
+              aria-label="Close navigation menu"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+
+          {/* Mobile Menu Content */}
+          <div className="flex-1 overflow-y-auto p-4">
+            <nav role="navigation" aria-label="Mobile navigation">
+              <ul className="space-y-1" role="menu">
+                {navigationItems.map((item, index) => (
                   <li key={item.href} role="none">
                     <Link
+                      ref={index === 0 ? mobileMenuFirstFocusableRef : undefined}
                       href={item.href}
                       className={clsx(
-                        'px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200',
+                        'mobile-nav-item block px-4 py-3 text-base font-medium transition-colors duration-200',
                         'focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2',
+                        'hover:bg-neutral-light hover:text-accent-blue',
+                        'min-h-[44px] flex items-center',
                         'motion-reduce:transition-none',
-                        // Dynamic colors based on scroll state
-                        isScrolled
-                          ? 'text-white hover:text-accent-blue hover:bg-white/10'
-                          : 'text-navy-primary hover:text-accent-blue hover:bg-neutral-light',
                         isActiveRoute(item.href)
-                          ? isScrolled
-                            ? 'text-accent-blue bg-white/10 border-b-2 border-accent-blue'
-                            : 'text-accent-blue bg-accent-blue/10 border-b-2 border-accent-blue'
-                          : ''
+                          ? 'text-accent-blue bg-accent-blue/10 border-l-4 border-accent-blue'
+                          : 'text-navy-primary rounded-lg'
                       )}
                       role="menuitem"
-                      aria-current={isActiveRoute(item.href) ? 'page' : 'false'}
-                      aria-describedby={`nav-desc-${item.href.replace('/', '')}`}
+                      aria-current={isActiveRoute(item.href) ? 'page' : undefined}
+                      aria-describedby={`mobile-nav-desc-${item.href.replace('/', '')}`}
+                      onClick={closeMobileMenu}
                     >
                       {item.label}
                       <span
-                        id={`nav-desc-${item.href.replace('/', '')}`}
+                        id={`mobile-nav-desc-${item.href.replace('/', '')}`}
                         className="sr-only"
                       >
                         {item.description}
@@ -337,191 +480,16 @@ export function Header({
                 ))}
               </ul>
 
-              {/* Desktop Actions */}
-              <div className="flex items-center space-x-4">
-                <LanguageSwitcher
-                  currentLocale={locale}
-                  onLanguageChange={onLanguageChange}
-                  variant="inline"
-                />
-
-                {/* Desktop WhatsApp CTA */}
-                <WhatsAppWidget
-                  variant="header"
-                  locale={locale}
-                  showOnMobile={false}
-                  showOnDesktop={true}
-                />
-
+              <div className="pt-4 mt-4 border-t border-neutral-light">
                 <Link
                   href="/quote"
-                  className={clsx(
-                    "hidden lg:inline-flex px-4 py-2 rounded-md font-medium text-sm transition-colors",
-                    isScrolled
-                      ? "bg-neutral-200 text-navy-primary hover:bg-neutral-300"
-                      : "bg-accent-blue text-white hover:bg-accent-blue-dark"
-                  )}
+                  className="w-full inline-flex items-center justify-center px-6 py-3 bg-accent-blue text-white font-medium rounded-md hover:bg-accent-blue-dark transition-colors"
+                  onClick={closeMobileMenu}
                 >
                   Get Quote
                 </Link>
               </div>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <div className="md:hidden flex items-center space-x-3">
-              <LanguageSwitcher
-                currentLocale={locale}
-                onLanguageChange={onLanguageChange}
-                variant="dropdown"
-              />
-
-              <button
-                ref={menuToggleRef}
-                type="button"
-                onClick={toggleMenu}
-                className={clsx(
-                  'mobile-menu-toggle p-2 rounded-lg transition-colors duration-200',
-                  'focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2',
-                  'motion-reduce:transition-none',
-                  isScrolled
-                    ? 'text-white hover:bg-white/10 hover:text-accent-blue'
-                    : 'text-navy-primary hover:bg-neutral-light hover:text-accent-blue'
-                )}
-                aria-expanded={isMenuOpen}
-                aria-controls="mobile-menu"
-                aria-label="Toggle navigation menu"
-              >
-                <span className="sr-only">
-                  {isMenuOpen ? 'Close' : 'Open'} navigation menu
-                </span>
-                {/* Menu Icon */}
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  {isMenuOpen ? (
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  ) : (
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 6h16M4 12h16M4 18h16"
-                    />
-                  )}
-                </svg>
-              </button>
-            </div>
-          </nav>
-        </div>
-
-        {/* Mobile Menu Backdrop */}
-        {isMenuOpen && (
-          <div
-            ref={backdropRef}
-            className="fixed inset-0 bg-black/50 z-40 md:hidden"
-            onClick={handleBackdropClick}
-            aria-hidden="true"
-          />
-        )}
-
-        {/* Mobile Slide-out Menu */}
-        <div
-          ref={menuRef}
-          id="mobile-menu"
-          className={clsx(
-            'mobile-menu fixed top-0 right-0 h-full w-80 max-w-sm z-50 md:hidden',
-            'bg-white shadow-2xl transform transition-transform duration-300 ease-in-out',
-            'motion-reduce:transition-none',
-            isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-          )}
-          aria-hidden={!isMenuOpen}
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-        >
-          <div className="flex flex-col h-full">
-            {/* Mobile Menu Header */}
-            <div className="flex items-center justify-between p-4 border-b border-neutral-light">
-              <span className="text-lg font-semibold text-navy-primary">Menu</span>
-              <button
-                ref={mobileMenuLastFocusableRef}
-                type="button"
-                onClick={closeMobileMenu}
-                className="p-2 rounded-lg text-navy-primary hover:bg-neutral-light focus:outline-none focus:ring-2 focus:ring-accent-blue"
-                aria-label="Close navigation menu"
-              >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-
-            {/* Mobile Menu Content */}
-            <div className="flex-1 overflow-y-auto p-4">
-              <nav role="navigation" aria-label="Mobile navigation">
-                <ul className="space-y-1" role="menu">
-                  {navigationItems.map((item, index) => (
-                    <li key={item.href} role="none">
-                      <Link
-                        ref={index === 0 ? mobileMenuFirstFocusableRef : undefined}
-                        href={item.href}
-                        className={clsx(
-                          'mobile-nav-item block px-4 py-3 rounded-lg text-base font-medium transition-colors duration-200',
-                          'focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2',
-                          'hover:bg-neutral-light hover:text-accent-blue',
-                          'min-h-[44px] flex items-center',
-                          'motion-reduce:transition-none',
-                          isActiveRoute(item.href)
-                            ? 'text-accent-blue bg-accent-blue/10 border-l-4 border-accent-blue'
-                            : 'text-navy-primary'
-                        )}
-                        role="menuitem"
-                        aria-current={isActiveRoute(item.href) ? 'page' : undefined}
-                        aria-describedby={`mobile-nav-desc-${item.href.replace('/', '')}`}
-                        onClick={closeMobileMenu}
-                      >
-                        {item.label}
-                        <span
-                          id={`mobile-nav-desc-${item.href.replace('/', '')}`}
-                          className="sr-only"
-                        >
-                          {item.description}
-                        </span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="pt-4 mt-4 border-t border-neutral-light">
-                  <Link
-                    href="/quote"
-                    className="w-full inline-flex items-center justify-center px-6 py-3 bg-accent-blue text-white font-medium rounded-md hover:bg-accent-blue-dark transition-colors"
-                    onClick={closeMobileMenu}
-                  >
-                    Get Quote
-                  </Link>
-                </div>
-              </nav>
-            </div>
+            </nav>
           </div>
         </div>
       </div>
