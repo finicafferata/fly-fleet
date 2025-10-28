@@ -64,9 +64,9 @@ export function TestimonialsComponent({
             id: 'testimonial-1',
             customerName: 'Eduardo Martinez',
             customerTitle: 'Business Director',
-            customerCompany: 'Import/Export Corp',
+            customerCompany: '',
             customerLocation: 'São Paulo, Brazil',
-            customerPhoto: '/images/testimonials/eduardo-martinez.jpg',
+            customerPhoto: null,
             testimonialText: 'Thanks to Fly-Fleet\'s service we were able to organize a lightning business trip to São Paulo without wasting time at airports. Everything impeccable and safe.',
             rating: 5,
             serviceUsed: 'Private Charter',
@@ -79,7 +79,7 @@ export function TestimonialsComponent({
             customerTitle: 'Family Vacation',
             customerCompany: '',
             customerLocation: 'Punta Cana, Dominican Republic',
-            customerPhoto: '/images/testimonials/sofia-family.jpg',
+            customerPhoto: null,
             testimonialText: 'We chose Fly-Fleet for a family flight to Punta Cana and the experience was perfect: 24/7 support, comfort, and the peace of mind of traveling with our pet.',
             rating: 5,
             serviceUsed: 'Family Charter',
@@ -92,7 +92,7 @@ export function TestimonialsComponent({
             customerTitle: 'Leisure Travel',
             customerCompany: '',
             customerLocation: 'Punta del Este, Uruguay',
-            customerPhoto: '/images/testimonials/ricardo-ana.jpg',
+            customerPhoto: null,
             testimonialText: 'We flew to Punta del Este with Fly-Fleet and everything was spectacular: fast, comfortable and stress-free, just as we wanted.',
             rating: 5,
             serviceUsed: 'Private Charter',
@@ -105,7 +105,7 @@ export function TestimonialsComponent({
             customerTitle: 'Family Office Director',
             customerCompany: 'Private Family Office',
             customerLocation: 'Santiago, Chile',
-            customerPhoto: '/images/testimonials/ana-gutierrez.jpg',
+            customerPhoto: null,
             testimonialText: 'Safety and reliability are paramount when traveling with family. Fly-Fleet\'s commitment to both is evident in every aspect of their service. From the pilot briefings to the aircraft maintenance standards, everything exceeds commercial aviation. My family and I always feel secure and well-cared for.',
             rating: 5,
             serviceUsed: 'Family Charter',
@@ -118,7 +118,7 @@ export function TestimonialsComponent({
             customerTitle: 'Board Member',
             customerCompany: 'International Mining Corp',
             customerLocation: 'Miami, USA',
-            customerPhoto: '/images/testimonials/james-patterson.jpg',
+            customerPhoto: null,
             testimonialText: 'Fly-Fleet\'s empty leg program offers incredible value without compromising on quality. I\'ve saved thousands while maintaining the luxury and convenience I expect. The team proactively notifies me of opportunities that match my travel patterns. It\'s smart, efficient, and cost-effective.',
             rating: 5,
             serviceUsed: 'Empty Leg Flights',
@@ -131,7 +131,7 @@ export function TestimonialsComponent({
             customerTitle: 'Marketing Director',
             customerCompany: 'Costa Enterprises',
             customerLocation: 'Rio de Janeiro, Brazil',
-            customerPhoto: '/images/testimonials/isabella-costa.jpg',
+            customerPhoto: null,
             testimonialText: 'The helicopter transfer from Santos Dumont to our resort was breathtaking and incredibly convenient. Fly-Fleet arranged everything perfectly, including ground coordination and luggage handling. It transformed what would have been a stressful commute into a memorable experience. Highly recommend their helicopter services.',
             rating: 5,
             serviceUsed: 'Helicopter Transfer',
@@ -161,9 +161,9 @@ export function TestimonialsComponent({
             id: 'testimonial-1',
             customerName: 'Eduardo Martinez',
             customerTitle: 'Director de Negocios',
-            customerCompany: 'Import/Export Corp',
+            customerCompany: '',
             customerLocation: 'São Paulo, Brasil',
-            customerPhoto: '/images/testimonials/eduardo-martinez.jpg',
+            customerPhoto: null,
             testimonialText: 'Gracias al servicio de Fly-Fleet pudimos organizar un viaje relámpago de negocios a São Paulo sin perder tiempo en aeropuertos. Todo impecable y seguro.',
             rating: 5,
             serviceUsed: 'Charter Privado',
@@ -176,8 +176,8 @@ export function TestimonialsComponent({
             customerTitle: 'Vacaciones Familiares',
             customerCompany: '',
             customerLocation: 'Punta Cana, República Dominicana',
-            customerPhoto: '/images/testimonials/sofia-family.jpg',
-            testimonialText: 'Elegimos Fly-Fleet para un vuelo familiar a Punta Cana y la experiencia fue perfecta: atención 24/7, comodidad y la tranquilidad de viajar con nuestra mascota.',
+            customerPhoto: null,
+            testimonialText: 'Elegimos Fly-Fleet para un vuelo familiar a Punta Cana y la experiencia fue perfecta: atención 24/7, la comodidad y poder llevar nuestra mascota.',
             rating: 5,
             serviceUsed: 'Charter Familiar',
             dateOfService: '2024-01-28',
@@ -189,7 +189,7 @@ export function TestimonialsComponent({
             customerTitle: 'Viaje de Placer',
             customerCompany: '',
             customerLocation: 'Punta del Este, Uruguay',
-            customerPhoto: '/images/testimonials/ricardo-ana.jpg',
+            customerPhoto: null,
             testimonialText: 'Volamos a Punta del Este con Fly-Fleet y todo salió espectacular: rápido, cómodo y sin estrés, justo como queríamos.',
             rating: 5,
             serviceUsed: 'Charter Privado',
@@ -219,9 +219,9 @@ export function TestimonialsComponent({
             id: 'testimonial-1',
             customerName: 'Eduardo Martinez',
             customerTitle: 'Diretor de Negócios',
-            customerCompany: 'Import/Export Corp',
+            customerCompany: '',
             customerLocation: 'São Paulo, Brasil',
-            customerPhoto: '/images/testimonials/eduardo-martinez.jpg',
+            customerPhoto: null,
             testimonialText: 'Graças ao serviço da Fly-Fleet pudemos organizar uma viagem relâmpago de negócios a São Paulo sem perder tempo em aeroportos. Tudo impecável e seguro.',
             rating: 5,
             serviceUsed: 'Charter Privado',
@@ -234,7 +234,7 @@ export function TestimonialsComponent({
             customerTitle: 'Férias em Família',
             customerCompany: '',
             customerLocation: 'Punta Cana, República Dominicana',
-            customerPhoto: '/images/testimonials/sofia-family.jpg',
+            customerPhoto: null,
             testimonialText: 'Escolhemos a Fly-Fleet para um voo familiar a Punta Cana e a experiência foi perfeita: atendimento 24/7, conforto e a tranquilidade de viajar com nosso animal de estimação.',
             rating: 5,
             serviceUsed: 'Charter Familiar',
@@ -247,7 +247,7 @@ export function TestimonialsComponent({
             customerTitle: 'Viagem de Lazer',
             customerCompany: '',
             customerLocation: 'Punta del Este, Uruguai',
-            customerPhoto: '/images/testimonials/ricardo-ana.jpg',
+            customerPhoto: null,
             testimonialText: 'Voamos para Punta del Este com a Fly-Fleet e tudo foi espetacular: rápido, confortável e sem estresse, exatamente como queríamos.',
             rating: 5,
             serviceUsed: 'Charter Privado',
@@ -341,10 +341,19 @@ export function TestimonialsComponent({
       ? `${testimonial.testimonialText.substring(0, 200)}...`
       : testimonial.testimonialText;
 
+    // Helper function to generate initials from customer name
+    const getInitials = (name: string) => {
+      return name
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase())
+        .join('')
+        .slice(0, 2); // Limit to 2 initials
+    };
+
     return (
       <div
         className={clsx(
-          'bg-white rounded-lg shadow-medium p-2 h-full w-full flex flex-col',
+          'bg-white rounded-lg shadow-medium p-6 h-full w-full flex flex-col',
           variant === 'grid' && 'hover:shadow-large transition-shadow duration-300',
           variant === 'carousel' && isActive && 'ring-2 ring-accent-blue/50'
         )}
@@ -354,12 +363,11 @@ export function TestimonialsComponent({
           <div className="mb-6">
             {!showVideo ? (
               <div className="relative">
-                <img
-                  src={testimonial.customerPhoto}
-                  alt={testimonial.customerName}
-                  className="w-full h-48 object-cover rounded-lg"
-                  loading="lazy"
-                />
+                <div className="w-full h-48 bg-gradient-to-br from-accent-blue to-navy-primary rounded-lg flex items-center justify-center">
+                  <span className="text-white text-4xl font-bold">
+                    {getInitials(testimonial.customerName)}
+                  </span>
+                </div>
                 <button
                   onClick={() => setShowVideo(true)}
                   className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-lg hover:bg-black/60 transition-colors"
@@ -375,7 +383,6 @@ export function TestimonialsComponent({
                 controls
                 autoPlay
                 className="w-full h-48 rounded-lg"
-                poster={testimonial.customerPhoto}
               >
                 <source src={testimonial.videoUrl} type="video/mp4" />
                 Your browser does not support the video tag.
@@ -408,12 +415,11 @@ export function TestimonialsComponent({
         {/* Customer Info */}
         <div className="flex items-start space-x-4">
           {!testimonial.videoUrl && (
-            <img
-              src={testimonial.customerPhoto}
-              alt={testimonial.customerName}
-              className="w-16 h-16 rounded-full object-cover border-2 border-neutral-light"
-              loading="lazy"
-            />
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-accent-blue to-navy-primary flex items-center justify-center border-2 border-neutral-light">
+              <span className="text-white text-lg font-bold">
+                {getInitials(testimonial.customerName)}
+              </span>
+            </div>
           )}
           <div className="flex-1">
             <div className="font-semibold text-navy-primary">{testimonial.customerName}</div>

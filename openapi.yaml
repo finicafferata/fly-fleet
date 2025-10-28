@@ -174,95 +174,6 @@ paths:
               - en
               - pt
           description: Language locale
-        - name: search
-          in: query
-          schema:
-            type: string
-          description: Search term
-    delete:
-      summary: Delete airports
-      description: Search and retrieve airport information
-      tags:
-        - airports
-      responses:
-        '200':
-          description: Success
-        '400':
-          $ref: '#/components/responses/ValidationError'
-        '500':
-          $ref: '#/components/responses/InternalError'
-      parameters:
-        - name: q
-          in: query
-          schema:
-            type: string
-          description: Search query
-        - name: locale
-          in: query
-          schema:
-            type: string
-            enum:
-              - es
-              - en
-              - pt
-          description: Language locale
-        - name: search
-          in: query
-          schema:
-            type: string
-          description: Search term
-  /api/analytics/event:
-    get:
-      summary: List analytics
-      description: Track user events and analytics
-      tags:
-        - analytics
-      responses:
-        '200':
-          description: Success
-        '400':
-          $ref: '#/components/responses/ValidationError'
-        '500':
-          $ref: '#/components/responses/InternalError'
-    post:
-      summary: Create analytics
-      description: Track user events and analytics
-      tags:
-        - analytics
-      responses:
-        '200':
-          description: Success
-        '400':
-          $ref: '#/components/responses/ValidationError'
-        '500':
-          $ref: '#/components/responses/InternalError'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AnalyticsEventSchema'
-  /api/analytics/internal:
-    get:
-      summary: List analytics
-      description: Track user events and analytics
-      tags:
-        - analytics
-      responses:
-        '200':
-          description: Success
-        '500':
-          $ref: '#/components/responses/InternalError'
-    post:
-      summary: Create analytics
-      description: Track user events and analytics
-      tags:
-        - analytics
-      responses:
-        '200':
-          description: Success
-        '500':
-          $ref: '#/components/responses/InternalError'
   /api/contact:
     post:
       summary: Create contact
@@ -706,6 +617,90 @@ components:
         - vip_lounge_fbo
         - customs_immigration_assist
       description: Additional services that can be requested
+    ContactFormSchema:
+      type: object
+      required:
+        - email
+        - message
+        - locale
+      properties:
+        fullName:
+          type: string
+          minLength: 2
+          maxLength: 100
+          description: Full name of the contact (alternative to firstName/lastName)
+        firstName:
+          type: string
+          minLength: 1
+          maxLength: 50
+          description: First name of the contact
+        lastName:
+          type: string
+          minLength: 1
+          maxLength: 50
+          description: Last name of the contact
+        email:
+          type: string
+          format: email
+          description: Contact email address
+        phone:
+          type: string
+          description: Contact phone number (optional)
+        contactViaWhatsApp:
+          type: boolean
+          description: Preference to be contacted via WhatsApp
+        subject:
+          type: string
+          maxLength: 200
+          description: Subject of the inquiry
+        message:
+          type: string
+          minLength: 10
+          maxLength: 1000
+          description: Contact message content
+        locale:
+          type: string
+          enum:
+            - es
+            - en
+            - pt
+          description: Preferred language locale
+        recaptchaToken:
+          type: string
+          description: reCAPTCHA verification token (optional)
+        inquiryType:
+          type: string
+          description: Type of inquiry (optional)
+      description: Contact form submission schema. Requires either fullName OR both firstName and lastName.
+    QuoteStatusUpdateSchema:
+      type: object
+      required:
+        - status
+        - adminEmail
+        - adminToken
+      properties:
+        status:
+          type: string
+          enum:
+            - pending
+            - processing
+            - quoted
+            - converted
+            - closed
+          description: New status for the quote
+        adminNote:
+          type: string
+          maxLength: 1000
+          description: Optional administrative note about the status change
+        adminEmail:
+          type: string
+          format: email
+          description: Email of the admin making the change
+        adminToken:
+          type: string
+          minLength: 1
+          description: Authentication token for admin access
+      description: Schema for updating quote request status
   responses:
     ValidationError:
       description: Request validation failed
@@ -752,6 +747,16 @@ components:
               error:
                 type: string
                 example: Authentication required
+    ForbiddenError:
+      description: Access forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Access forbidden
     NotFoundError:
       description: Resource not found
       content:

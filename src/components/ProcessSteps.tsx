@@ -18,7 +18,6 @@ const getContent = (locale: string) => {
   const content = {
     en: {
       heading: 'How It Works',
-      subheading: 'Simple steps to your perfect flight',
       steps: [
         {
           title: 'Share your plan',
@@ -30,7 +29,7 @@ const getContent = (locale: string) => {
           ),
         },
         {
-          title: 'We curate verified options',
+          title: 'Receive an exclusive proposal',
           description: '',
           icon: (
             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -39,7 +38,7 @@ const getContent = (locale: string) => {
           ),
         },
         {
-          title: 'You fly. We handle the rest',
+          title: 'Choose your aircraft',
           description: '',
           icon: (
             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -47,11 +46,19 @@ const getContent = (locale: string) => {
             </svg>
           ),
         },
+        {
+          title: 'We coordinate everything, you fly!',
+          description: '',
+          icon: (
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          ),
+        },
       ] as Step[],
     },
     es: {
       heading: 'Cómo funciona nuestro servicio',
-      subheading: 'Pasos simples hacia tu vuelo perfecto',
       steps: [
         {
           title: 'Contanos tu plan',
@@ -63,7 +70,7 @@ const getContent = (locale: string) => {
           ),
         },
         {
-          title: 'Curamos opciones verificadas',
+          title: 'Recibí una propuesta exclusiva',
           description: '',
           icon: (
             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -72,7 +79,7 @@ const getContent = (locale: string) => {
           ),
         },
         {
-          title: 'Volás. Coordinamos todo',
+          title: 'Elegí tu aeronave',
           description: '',
           icon: (
             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -80,11 +87,19 @@ const getContent = (locale: string) => {
             </svg>
           ),
         },
+        {
+          title: 'Coordinamos todo, vos volás!',
+          description: '',
+          icon: (
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          ),
+        },
       ] as Step[],
     },
     pt: {
       heading: 'Como Funciona',
-      subheading: 'Passos simples para seu voo perfeito',
       steps: [
         {
           title: 'Conte seu plano',
@@ -96,7 +111,7 @@ const getContent = (locale: string) => {
           ),
         },
         {
-          title: 'Curadoria de opções verificadas',
+          title: 'Receba uma proposta exclusiva',
           description: '',
           icon: (
             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -105,11 +120,20 @@ const getContent = (locale: string) => {
           ),
         },
         {
-          title: 'Você voa. Nós cuidamos do resto',
+          title: 'Escolha sua aeronave',
           description: '',
           icon: (
             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+            </svg>
+          ),
+        },
+        {
+          title: 'Coordenamos tudo, você voa!',
+          description: '',
+          icon: (
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           ),
         },
@@ -171,19 +195,10 @@ export function ProcessSteps({ locale = 'en', className }: ProcessStepsProps) {
           >
             {content.heading}
           </h2>
-          <p
-            className={clsx(
-              'text-lg md:text-xl text-neutral-medium max-w-2xl mx-auto',
-              'transform transition-all duration-800 ease-out delay-200',
-              isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-            )}
-          >
-            {content.subheading}
-          </p>
         </div>
 
         {/* Steps */}
-        <ol className="steps-list grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 relative" role="list">
+        <ol className="steps-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 relative" role="list">
           {/* Connecting Lines - Desktop Only */}
           <div className="hidden md:block absolute inset-0 pointer-events-none z-0" aria-hidden="true">
             <div className="flex items-center justify-center h-16 relative">

@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   /* Fly-Fleet Design System Colors */
@@ -142,6 +144,12 @@ h1, h2, h3, h4, h5, h6 {
   right: 0;
   left: auto;
   min-width: 140px;
+}
+
+/* Emoji font support for flags */
+.font-emoji {
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  font-style: normal;
 }
 
 /* Focus styles */
