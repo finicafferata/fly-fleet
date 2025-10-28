@@ -247,7 +247,7 @@ export function LanguageSwitcher({
   if (isMobile || variant === 'dropdown') {
     const selectOptions = languages.map(lang => ({
       value: lang.code,
-      label: showFlags ? lang.flag : (showNativeNames ? lang.nativeName : lang.name),
+      label: lang.code.toUpperCase(),
     }));
 
     return (
@@ -258,7 +258,7 @@ export function LanguageSwitcher({
           onChange={(value) => switchLanguage(value)}
           placeholder="Select language"
           aria-label="Choose language"
-          className="min-w-[60px]"
+          className="min-w-[80px]"
         />
 
         {/* Live region for announcements */}
@@ -312,11 +312,9 @@ export function LanguageSwitcher({
           Current language: {selectedLanguage.label}, click to change language
         </span>
 
-        {showFlags && (
-          <span aria-hidden="true" className="text-lg leading-none">
-            {selectedLanguage.flag}
-          </span>
-        )}
+        <span aria-hidden="true" className="text-xs font-semibold uppercase">
+          {selectedLanguage.code}
+        </span>
       </button>
 
       {isOpen && (
@@ -355,11 +353,8 @@ export function LanguageSwitcher({
                 aria-current={currentLocale === language.code ? 'true' : 'false'}
                 tabIndex={-1} // Managed by arrow key navigation
               >
-                {showFlags && (
-                  <span aria-hidden="true" className="text-lg">
-                    {language.flag}
-                  </span>
-                )}
+                <span className="font-semibold">{language.code.toUpperCase()}</span>
+                <span className="ml-2 text-sm text-gray-600">{language.nativeName}</span>
 
                 {currentLocale === language.code && (
                   <>

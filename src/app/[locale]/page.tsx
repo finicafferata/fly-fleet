@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Navigation } from '@/components/Navigation';
+import { Header } from '@/components/Navigation/Header';
 import { Hero } from '@/components/Hero';
 import { ServicesGrid } from '@/components/ServicesGrid';
 import { ProcessSteps } from '@/components/ProcessSteps';
@@ -23,7 +23,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-white" lang={locale}>
       {/* Navigation */}
-      <Navigation
+      <Header
         locale={locale}
         onLanguageChange={(newLocale) => {
           router.push(`/${newLocale}`);
@@ -31,31 +31,34 @@ export default function HomePage() {
       />
 
       {/* Main Content - Account for fixed header */}
-      <main className="pt-20">
+      <main className="pt-14">
         {/* Hero Section */}
         <Hero
           locale={locale}
           onQuoteRequest={() => setShowQuoteForm(true)}
         />
 
+        {/* Services Section */}
+        <section className="py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <ServicesGrid locale={locale} />
+          </div>
+        </section>
+
       {/* Process Steps Section */}
       <section className="py-20 bg-gray-50">
-        <div className="max-w-full xl:max-w-[1600px] 2xl:max-w-[1800px] mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 2xl:px-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ProcessSteps locale={locale} />
         </div>
       </section>
 
       {/* Why Choose Fly-Fleet Section */}
       <section className="py-20 bg-white relative overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-[0.02]">
-          <svg width="100%" height="100%">
-            <pattern id="grid-pattern" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="1"/>
-            </pattern>
-            <rect width="100%" height="100%" fill="url(#grid-pattern)" />
-          </svg>
-        </div>
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 opacity-15 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: 'url(/images/clouds.png)' }}
+        />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
@@ -65,9 +68,9 @@ export default function HomePage() {
                'Why Choose Fly-Fleet?'}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              {locale === 'es' ? 'Somos más que un broker: somos tu socio estratégico en el aire' :
-               locale === 'pt' ? 'Somos mais que um corretor: somos seu parceiro estratégico no ar' :
-               'We are more than a broker: we are your strategic partner in the air'}
+              {locale === 'es' ? 'Somos tu socio estratégico en el aire' :
+               locale === 'pt' ? 'Somos seu parceiro estratégico no ar' :
+               'We are your strategic partner in the air'}
             </p>
           </div>
 
@@ -104,9 +107,9 @@ export default function HomePage() {
                  'Fast Response'}
               </h3>
               <p className="text-gray-600 text-sm leading-relaxed">
-                {locale === 'es' ? 'Cotizaciones en minutos, no días. Atención 24/7 en múltiples idiomas' :
-                 locale === 'pt' ? 'Cotações em minutos, não dias. Atendimento 24/7 em múltiplos idiomas' :
-                 'Quotes in minutes, not days. 24/7 support in multiple languages'}
+                {locale === 'es' ? 'Cotizaciones en minutos. Atención 24/7 en múltiples idiomas' :
+                 locale === 'pt' ? 'Cotações em minutos. Atendimento 24/7 em múltiplos idiomas' :
+                 'Quotes in minutes. 24/7 support in multiple languages'}
               </p>
             </div>
 
@@ -152,16 +155,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Section Divider - Wave */}
-      <div className="relative h-24 bg-white">
-        <svg className="absolute bottom-0 w-full h-24" viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none">
-          <path d="M0 0L60 10C120 20 240 40 360 46.7C480 53 600 47 720 43.3C840 40 960 40 1080 46.7C1200 53 1320 67 1380 73.3L1440 80V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0V0Z" fill="#F9FAFB"/>
-        </svg>
-      </div>
-
       {/* Additional Services Section */}
-      <section className="py-20 bg-white relative">
-        <div className="max-w-full xl:max-w-[1600px] 2xl:max-w-[1800px] mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 2xl:px-12">
+      <section className="py-20 bg-gray-50 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-navy-primary mb-6">
@@ -177,47 +173,134 @@ export default function HomePage() {
           </div>
 
           {/* Services Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {(locale === 'es' ? [
-              { icon: '🌍', title: 'Apoyo internacional', desc: 'Asistencia global completa' },
-              { icon: '📋', title: 'Documentación por país', desc: 'Trámites y permisos' },
-              { icon: '🐕', title: 'Transporte pet-friendly', desc: 'Viaja con tu mascota' },
-              { icon: '🚗', title: 'Transfer/chofer', desc: 'Traslados terrestres' },
-              { icon: '🍽️', title: 'Catering premium', desc: 'Gastronomía de lujo' },
-              { icon: '✈️', title: 'Sala VIP o FBO', desc: 'Lounges exclusivos' },
-              { icon: '🛂', title: 'Migraciones/aduana', desc: 'Asistencia en aeropuertos' },
-              { icon: '🛡️', title: 'Seguro de viaje', desc: 'Cobertura completa' },
-              { icon: '🏥', title: 'Medevac', desc: 'Evacuación médica' },
-              { icon: '🔒', title: 'Seguridad', desc: 'Protección personalizada' },
-              { icon: '📦', title: 'Equipaje voluminoso', desc: 'Carga especializada' }
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
+                title: 'Apoyo internacional', desc: 'Asistencia global completa'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>,
+                title: 'Documentación por país', desc: 'Trámites y permisos'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
+                title: 'Transporte pet-friendly', desc: 'Viaja con tu mascota'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>,
+                title: 'Transfer/chofer', desc: 'Traslados terrestres'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" /></svg>,
+                title: 'Catering premium', desc: 'Gastronomía de lujo'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>,
+                title: 'Sala VIP o FBO', desc: 'Lounges exclusivos'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>,
+                title: 'Migraciones/aduana', desc: 'Asistencia en aeropuertos'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>,
+                title: 'Medevac', desc: 'Evacuación médica'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>,
+                title: 'Seguridad', desc: 'Protección personalizada'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>,
+                title: 'Equipaje voluminoso', desc: 'Carga especializada'
+              }
             ] : locale === 'pt' ? [
-              { icon: '🌍', title: 'Handling internacional', desc: 'Assistência global completa' },
-              { icon: '📋', title: 'Documentação de entrada', desc: 'Trâmites e permissões' },
-              { icon: '🐕', title: 'Pet-friendly', desc: 'Viaje com seu animal' },
-              { icon: '🚗', title: 'Transfer/motorista', desc: 'Traslados terrestres' },
-              { icon: '🍽️', title: 'Catering premium', desc: 'Gastronomia de luxo' },
-              { icon: '✈️', title: 'Sala VIP ou FBO', desc: 'Lounges exclusivos' },
-              { icon: '🛂', title: 'Imigração/alfândega', desc: 'Assistência em aeroportos' },
-              { icon: '🛡️', title: 'Seguro viagem', desc: 'Cobertura completa' },
-              { icon: '🏥', title: 'Medevac', desc: 'Evacuação médica' },
-              { icon: '🔒', title: 'Segurança', desc: 'Proteção personalizada' },
-              { icon: '📦', title: 'Bagagem volumosa', desc: 'Carga especializada' }
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
+                title: 'Handling internacional', desc: 'Assistência global completa'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>,
+                title: 'Documentação de entrada', desc: 'Trâmites e permissões'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
+                title: 'Pet-friendly', desc: 'Viaje com seu animal'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>,
+                title: 'Transfer/motorista', desc: 'Traslados terrestres'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" /></svg>,
+                title: 'Catering premium', desc: 'Gastronomia de luxo'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>,
+                title: 'Sala VIP ou FBO', desc: 'Lounges exclusivos'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>,
+                title: 'Imigração/alfândega', desc: 'Assistência em aeroportos'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>,
+                title: 'Medevac', desc: 'Evacuação médica'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>,
+                title: 'Segurança', desc: 'Proteção personalizada'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>,
+                title: 'Bagagem volumosa', desc: 'Carga especializada'
+              }
             ] : [
-              { icon: '🌍', title: 'International handling', desc: 'Complete global assistance' },
-              { icon: '📋', title: 'Country documentation', desc: 'Permits and procedures' },
-              { icon: '🐕', title: 'Pet-friendly transport', desc: 'Travel with your pet' },
-              { icon: '🚗', title: 'Ground transfer', desc: 'Land transportation' },
-              { icon: '🍽️', title: 'Premium catering', desc: 'Luxury gastronomy' },
-              { icon: '✈️', title: 'VIP lounge/FBO', desc: 'Exclusive lounges' },
-              { icon: '🛂', title: 'Immigration/customs', desc: 'Airport assistance' },
-              { icon: '🛡️', title: 'Travel insurance', desc: 'Complete coverage' },
-              { icon: '🏥', title: 'Medevac', desc: 'Medical evacuation' },
-              { icon: '🔒', title: 'Security', desc: 'Personal protection' },
-              { icon: '📦', title: 'Oversized baggage', desc: 'Specialized cargo' }
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
+                title: 'International handling', desc: 'Complete global assistance'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>,
+                title: 'Country documentation', desc: 'Permits and procedures'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
+                title: 'Pet-friendly transport', desc: 'Travel with your pet'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>,
+                title: 'Ground transfer', desc: 'Land transportation'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" /></svg>,
+                title: 'Premium catering', desc: 'Luxury gastronomy'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>,
+                title: 'VIP lounge/FBO', desc: 'Exclusive lounges'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>,
+                title: 'Immigration/customs', desc: 'Airport assistance'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>,
+                title: 'Medevac', desc: 'Medical evacuation'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>,
+                title: 'Security', desc: 'Personal protection'
+              },
+              {
+                icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>,
+                title: 'Oversized baggage', desc: 'Specialized cargo'
+              }
             ]).map((service, index) => (
               <div key={index} className="group bg-white border border-gray-100 rounded-xl p-6 hover:border-accent-blue hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                 <div className="text-center">
-                  <div className="text-3xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <div className="w-12 h-12 mx-auto mb-4 bg-gradient-to-br from-accent-blue to-blue-600 rounded-xl flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300">
                     {service.icon}
                   </div>
                   <h3 className="font-semibold text-navy-primary mb-2 text-sm leading-snug">
@@ -251,7 +334,7 @@ export default function HomePage() {
       </section>
 
       {/* Featured Aircraft Section */}
-      <section className="py-20 bg-gradient-to-b from-white to-gray-50">
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-navy-primary mb-6">
@@ -266,19 +349,22 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Light Jets */}
             <div className="group relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500">
-              <div className="relative h-64 bg-gradient-to-br from-accent-blue/20 to-blue-600/20 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/40 to-blue-600/60"></div>
+              <div className="relative h-64 overflow-hidden">
+                <img
+                  src="/images/aircrafts/light_jets.png"
+                  alt="Light Jets"
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy-primary/90 via-navy-primary/50 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                  <h3 className="text-2xl font-bold mb-2">
+                  <h3 className="text-2xl font-bold">
                     {locale === 'es' ? 'Jets Ligeros' :
                      locale === 'pt' ? 'Jets Leves' :
                      'Light Jets'}
                   </h3>
-                  <p className="text-sm text-white/90">Learjet 45, Citation CJ2</p>
                 </div>
               </div>
               <div className="p-6">
@@ -309,16 +395,19 @@ export default function HomePage() {
 
             {/* Mid Jets */}
             <div className="group relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500">
-              <div className="relative h-64 bg-gradient-to-br from-blue-600/20 to-accent-blue/20 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/40 to-accent-blue/60"></div>
+              <div className="relative h-64 overflow-hidden">
+                <img
+                  src="/images/aircrafts/medium_jets.png"
+                  alt="Midsize Jets"
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy-primary/90 via-navy-primary/50 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                  <h3 className="text-2xl font-bold mb-2">
+                  <h3 className="text-2xl font-bold">
                     {locale === 'es' ? 'Jets Medianos' :
                      locale === 'pt' ? 'Jets Médios' :
                      'Midsize Jets'}
                   </h3>
-                  <p className="text-sm text-white/90">Hawker 800, Learjet 60</p>
                 </div>
               </div>
               <div className="p-6">
@@ -345,16 +434,19 @@ export default function HomePage() {
 
             {/* Heavy Jets */}
             <div className="group relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500">
-              <div className="relative h-64 bg-gradient-to-br from-navy-primary/20 to-accent-blue/20 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-navy-primary/40 to-accent-blue/60"></div>
+              <div className="relative h-64 overflow-hidden">
+                <img
+                  src="/images/aircrafts/heavy_jets.png"
+                  alt="Heavy Jets"
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy-primary/90 via-navy-primary/50 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                  <h3 className="text-2xl font-bold mb-2">
+                  <h3 className="text-2xl font-bold">
                     {locale === 'es' ? 'Jets Pesados' :
                      locale === 'pt' ? 'Jets Pesados' :
                      'Heavy Jets'}
                   </h3>
-                  <p className="text-sm text-white/90">Challenger 605, Gulfstream G450</p>
                 </div>
               </div>
               <div className="p-6">
@@ -373,6 +465,45 @@ export default function HomePage() {
                       {locale === 'es' ? 'Vuelos largos' :
                        locale === 'pt' ? 'Voos longos' :
                        'Long flights'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Turboprop / Piston */}
+            <div className="group relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500">
+              <div className="relative h-64 overflow-hidden">
+                <img
+                  src="/images/aircrafts/turbo_jets.png"
+                  alt="Turboprop / Piston"
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy-primary/90 via-navy-primary/50 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                  <h3 className="text-2xl font-bold">
+                    {locale === 'es' ? 'Turbohélice / Pistón' :
+                     locale === 'pt' ? 'Turboélice / Pistão' :
+                     'Turboprop / Piston'}
+                  </h3>
+                </div>
+              </div>
+              <div className="p-6">
+                <div className="space-y-3">
+                  <div className="flex items-center text-gray-600">
+                    <svg className="w-5 h-5 mr-3 text-accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    <span>9–19 {locale === 'es' ? 'pasajeros' : locale === 'pt' ? 'passageiros' : 'passengers'}</span>
+                  </div>
+                  <div className="flex items-center text-gray-600">
+                    <svg className="w-5 h-5 mr-3 text-accent-blue" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                    </svg>
+                    <span>
+                      {locale === 'es' ? 'Vuelos regionales' :
+                       locale === 'pt' ? 'Voos regionais' :
+                       'Regional flights'}
                     </span>
                   </div>
                 </div>
@@ -401,7 +532,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-navy-primary mb-6">
-              {locale === 'es' ? 'Soluciones Para Cada Necesidad' :
+              {locale === 'es' ? 'Soluciones para cada necesidad' :
                locale === 'pt' ? 'Soluções Para Cada Necessidade' :
                'Solutions For Every Need'}
             </h2>
@@ -459,7 +590,7 @@ export default function HomePage() {
                  'Medical'}
               </h3>
               <p className="text-gray-600 text-sm">
-                {locale === 'es' ? 'Evacuaciones médicas con equipamiento especializado 24/7' :
+                {locale === 'es' ? 'Evacuaciones sanitarias,' :
                  locale === 'pt' ? 'Evacuações médicas com equipamento especializado 24/7' :
                  'Medical evacuations with specialized equipment 24/7'}
               </p>
@@ -493,8 +624,8 @@ export default function HomePage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-full xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 2xl:px-12">
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <FAQComponent locale={locale} />
         </div>
       </section>
