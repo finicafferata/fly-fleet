@@ -16,7 +16,7 @@
     "docs:serve": "swagger-ui-serve openapi.yaml",
     "docs:serve-dev": "swagger-ui-serve -p 8080 openapi.yaml",
     "docs:build-static": "redoc-cli build openapi.yaml --output docs/api.html",
-    "docs:validate": "swagger-parser validate openapi.yaml",
+    "docs:validate": "node -e \"const parser = require('swagger-parser'); parser.validate('openapi.yaml').then(api => { console.log('✅ API validation successful!'); console.log('API name: %s, Version: %s', api.info.title, api.info.version); }).catch(err => { console.error('❌ Validation failed:', err.message); process.exit(1); })\"",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
