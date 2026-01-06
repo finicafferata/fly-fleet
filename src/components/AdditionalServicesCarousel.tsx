@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 
@@ -172,6 +172,9 @@ const getServices = (locale: 'en' | 'es' | 'pt') => {
 };
 
 export function AdditionalServicesCarousel({ locale }: AdditionalServicesCarouselProps) {
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       loop: true,
@@ -192,6 +195,38 @@ export function AdditionalServicesCarousel({ locale }: AdditionalServicesCarouse
 
   const scrollNext = useCallback(() => {
     if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
+
+  const toggleAutoplay = useCallback(() => {
+    const autoplay = emblaApi?.plugins()?.autoplay;
+    if (!autoplay) return;
+
+    const playOrStop = isPlaying ? autoplay.stop : autoplay.play;
+    playOrStop();
+    setIsPlaying(!isPlaying);
+  }, [emblaApi, isPlaying]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    // Update selected index on scroll
+    const onSelect = () => {
+      setSelectedIndex(emblaApi.selectedScrollSnap());
+    };
+
+    emblaApi.on('select', onSelect);
+    onSelect();
+
+    // Respect prefers-reduced-motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      emblaApi.plugins()?.autoplay?.stop();
+      setIsPlaying(false);
+    }
+
+    return () => {
+      emblaApi.off('select', onSelect);
+    };
   }, [emblaApi]);
 
   const services = getServices(locale);
@@ -252,7 +287,7 @@ export function AdditionalServicesCarousel({ locale }: AdditionalServicesCarouse
           {/* Navigation Buttons */}
           <button
             onClick={scrollPrev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-12 h-12 bg-white hover:bg-navy-primary text-navy-primary hover:text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-12 h-12 bg-white hover:bg-navy-primary text-navy-primary hover:text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2"
             aria-label="Previous slide"
           >
             <svg
@@ -272,7 +307,7 @@ export function AdditionalServicesCarousel({ locale }: AdditionalServicesCarouse
 
           <button
             onClick={scrollNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-12 h-12 bg-white hover:bg-navy-primary text-navy-primary hover:text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-12 h-12 bg-white hover:bg-navy-primary text-navy-primary hover:text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2"
             aria-label="Next slide"
           >
             <svg
@@ -289,6 +324,45 @@ export function AdditionalServicesCarousel({ locale }: AdditionalServicesCarouse
               />
             </svg>
           </button>
+        </div>
+
+        {/* Controls: Pause/Play and Progress Indicators */}
+        <div className="flex items-center justify-center gap-4 mt-8">
+          {/* Pause/Play Button */}
+          <button
+            onClick={toggleAutoplay}
+            className="w-10 h-10 bg-white hover:bg-navy-primary text-navy-primary hover:text-white rounded-full shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2"
+            aria-label={isPlaying ? 'Pause carousel' : 'Play carousel'}
+            aria-pressed={!isPlaying}
+          >
+            {isPlaying ? (
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+              </svg>
+            ) : (
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            )}
+          </button>
+
+          {/* Progress Indicators (Dots) */}
+          <div className="flex gap-2" role="tablist" aria-label="Carousel slides">
+            {services.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => emblaApi?.scrollTo(index)}
+                className={`h-2 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2 ${
+                  index === selectedIndex
+                    ? 'w-8 bg-navy-primary'
+                    : 'w-2 bg-gray-300 hover:bg-gray-400'
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+                role="tab"
+                aria-selected={index === selectedIndex}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>

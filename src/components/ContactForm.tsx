@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -91,6 +91,16 @@ export function ContactForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const content = getContent(locale);
+
+  // Auto-dismiss error message after 10 seconds
+  useEffect(() => {
+    if (submitStatus === 'error') {
+      const timer = setTimeout(() => {
+        setSubmitStatus('idle');
+      }, 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [submitStatus]);
 
   const {
     register,
@@ -289,8 +299,31 @@ export function ContactForm({
 
         {/* Error Message */}
         {submitStatus === 'error' && (
-          <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-sm text-red-800">{content.errorMessage}</p>
+          <div className="p-6 bg-gradient-to-r from-red-50 to-rose-50 border-l-4 border-red-500 rounded-lg shadow-md animate-fade-in-up">
+            <div className="flex items-start">
+              <div className="flex-shrink-0">
+                <svg className="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div className="ml-3 flex-1">
+                <h3 className="text-lg font-semibold text-red-800">
+                  {locale === 'es' ? 'Error al Enviar' :
+                   locale === 'pt' ? 'Erro ao Enviar' :
+                   'Submission Failed'}
+                </h3>
+                <p className="text-red-700 mt-2">{content.errorMessage}</p>
+              </div>
+              <button
+                onClick={() => setSubmitStatus('idle')}
+                className="ml-4 text-red-500 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 rounded"
+                aria-label="Close notification"
+              >
+                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </button>
+            </div>
           </div>
         )}
 

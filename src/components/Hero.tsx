@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { clsx } from 'clsx';
 import { Button } from './ui/Button';
 import { WhatsAppWidget } from './WhatsAppWidget';
@@ -69,6 +70,7 @@ export function Hero({
   onQuoteRequest,
   onLearnMore,
 }: HeroProps) {
+  const router = useRouter();
   const [isLoaded, setIsLoaded] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -109,7 +111,13 @@ export function Hero({
         value: 1,
       });
     }
-    onQuoteRequest?.();
+
+    // Call parent handler if provided, otherwise navigate
+    if (onQuoteRequest) {
+      onQuoteRequest();
+    } else {
+      router.push(`/${locale}/quote`);
+    }
   };
 
   const handleSecondaryCTA = () => {
@@ -219,21 +227,20 @@ export function Hero({
                 {content.actionsHeading}
               </h2>
 
-              <a
-                href="/quote"
+              <Button
+                variant="primary"
+                size="lg"
+                onClick={handlePrimaryCTA}
                 className={clsx(
-                  'cta-primary inline-flex items-center justify-center',
-                  'bg-navy-primary hover:bg-navy-primary/90 text-white',
-                  'min-h-[56px] px-8 text-lg font-semibold rounded-lg',
+                  'cta-primary',
+                  'min-h-[56px] px-8 text-lg font-semibold',
                   'shadow-large hover:shadow-xl',
-                  'transform hover:scale-105 transition-all duration-200',
-                  'focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2 focus:ring-offset-navy-primary'
+                  'transform hover:scale-105'
                 )}
                 aria-describedby="cta-primary-desc"
-                onClick={handlePrimaryCTA}
               >
                 {content.primaryCTA}
-              </a>
+              </Button>
               <div id="cta-primary-desc" className="sr-only">
                 Start your private charter quote request
               </div>

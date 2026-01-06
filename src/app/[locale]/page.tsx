@@ -14,6 +14,7 @@ import { WhatsAppWidget } from '@/components/WhatsAppWidget';
 import { FleetSection } from '@/components/FleetSection';
 import { DestinationsCarousel } from '@/components/DestinationsCarousel';
 import { AdditionalServicesCarousel } from '@/components/AdditionalServicesCarousel';
+import { Modal } from '@/components/ui/Modal';
 import { useParams, useRouter } from 'next/navigation';
 
 export default function HomePage() {
@@ -273,76 +274,38 @@ export default function HomePage() {
       <WhatsAppWidget locale={locale} />
 
       {/* Quote Form Modal */}
-      {showQuoteForm && (
-        <div className="fixed inset-0 z-50 overflow-y-auto">
-          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div className="fixed inset-0 transition-opacity" onClick={() => setShowQuoteForm(false)}>
-              <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-            </div>
-            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
-              <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-2xl font-bold">
-                    {locale === 'es' ? 'Solicitar Cotización' :
-                     locale === 'pt' ? 'Solicitar Cotação' :
-                     'Request Quote'}
-                  </h3>
-                  <button
-                    onClick={() => setShowQuoteForm(false)}
-                    className="text-gray-400 hover:text-gray-600"
-                  >
-                    <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
-                <QuoteForm
-                  locale={locale}
-                  onSubmitSuccess={() => {
-                    setShowQuoteForm(false);
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      <Modal
+        isOpen={showQuoteForm}
+        onClose={() => setShowQuoteForm(false)}
+        title={
+          locale === 'es' ? 'Solicitar Cotización' :
+          locale === 'pt' ? 'Solicitar Cotação' :
+          'Request Quote'
+        }
+        size="lg"
+      >
+        <QuoteForm
+          locale={locale}
+          onSubmitSuccess={() => setShowQuoteForm(false)}
+        />
+      </Modal>
 
       {/* Contact Form Modal */}
-      {showContactForm && (
-        <div className="fixed inset-0 z-50 overflow-y-auto">
-          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div className="fixed inset-0 transition-opacity" onClick={() => setShowContactForm(false)}>
-              <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-            </div>
-            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
-              <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-2xl font-bold">
-                    {locale === 'es' ? 'Contacto' :
-                     locale === 'pt' ? 'Contato' :
-                     'Contact'}
-                  </h3>
-                  <button
-                    onClick={() => setShowContactForm(false)}
-                    className="text-gray-400 hover:text-gray-600"
-                  >
-                    <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
-                <ContactForm
-                  locale={locale}
-                  onSubmitSuccess={() => {
-                    setShowContactForm(false);
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      <Modal
+        isOpen={showContactForm}
+        onClose={() => setShowContactForm(false)}
+        title={
+          locale === 'es' ? 'Contacto' :
+          locale === 'pt' ? 'Contato' :
+          'Contact'
+        }
+        size="md"
+      >
+        <ContactForm
+          locale={locale}
+          onSubmitSuccess={() => setShowContactForm(false)}
+        />
+      </Modal>
       </main>
     </div>
   );

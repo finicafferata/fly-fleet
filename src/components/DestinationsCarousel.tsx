@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 
@@ -57,6 +57,10 @@ const destinations = [
 ];
 
 export function DestinationsCarousel({ locale }: DestinationsCarouselProps) {
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
+
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       loop: true,
@@ -77,6 +81,43 @@ export function DestinationsCarousel({ locale }: DestinationsCarouselProps) {
 
   const scrollNext = useCallback(() => {
     if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
+
+  const toggleAutoplay = useCallback(() => {
+    const autoplay = emblaApi?.plugins()?.autoplay;
+    if (!autoplay) return;
+    const playOrStop = isPlaying ? autoplay.stop : autoplay.play;
+    playOrStop();
+    setIsPlaying(!isPlaying);
+  }, [emblaApi, isPlaying]);
+
+  const handleImageLoad = useCallback((id: number) => {
+    setLoadedImages((prev) => new Set(prev).add(id));
+  }, []);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    const onSelect = () => {
+      setSelectedIndex(emblaApi.selectedScrollSnap());
+    };
+
+    emblaApi.on('select', onSelect);
+    onSelect();
+
+    // Respect user's motion preferences
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      const autoplay = emblaApi.plugins()?.autoplay;
+      if (autoplay) {
+        autoplay.stop();
+        setIsPlaying(false);
+      }
+    }
+
+    return () => {
+      emblaApi.off('select', onSelect);
+    };
   }, [emblaApi]);
 
   const sectionTitle = {
@@ -109,37 +150,49 @@ export function DestinationsCarousel({ locale }: DestinationsCarouselProps) {
           {/* Carousel */}
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex">
-              {destinations.map((destination) => (
-                <div
-                  key={destination.id}
-                  className="flex-[0_0_70%] sm:flex-[0_0_48%] md:flex-[0_0_30%] lg:flex-[0_0_28%] xl:flex-[0_0_25%] min-w-0 px-2.5"
-                >
-                  <div className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 h-64 md:h-80 lg:h-[400px]">
-                    {/* Background Image */}
-                    <div
-                      className="absolute inset-0 bg-cover bg-center transform group-hover:scale-110 transition-transform duration-700"
-                      style={{ backgroundImage: `url(${destination.image})` }}
-                    />
+              {destinations.map((destination) => {
+                const isLoaded = loadedImages.has(destination.id);
+                return (
+                  <div
+                    key={destination.id}
+                    className="flex-[0_0_70%] sm:flex-[0_0_48%] md:flex-[0_0_30%] lg:flex-[0_0_28%] xl:flex-[0_0_25%] min-w-0 px-2.5"
+                  >
+                    <div className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 h-64 md:h-80 lg:h-[400px]">
+                      {/* Skeleton Loader */}
+                      {!isLoaded && (
+                        <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-pulse" />
+                      )}
 
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-navy-primary/90 via-navy-primary/40 to-transparent" />
+                      {/* Background Image */}
+                      <img
+                        src={destination.image}
+                        alt={destination.title[locale]}
+                        onLoad={() => handleImageLoad(destination.id)}
+                        className={`absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700 ${
+                          isLoaded ? 'opacity-100' : 'opacity-0'
+                        }`}
+                      />
 
-                    {/* Content */}
-                    <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-                      <h3 className="text-3xl font-bold">
-                        {destination.title[locale]}
-                      </h3>
+                      {/* Gradient Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-navy-primary/90 via-navy-primary/40 to-transparent" />
+
+                      {/* Content */}
+                      <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+                        <h3 className="text-3xl font-bold">
+                          {destination.title[locale]}
+                        </h3>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
           {/* Navigation Buttons */}
           <button
             onClick={scrollPrev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-12 h-12 bg-white hover:bg-navy-primary text-navy-primary hover:text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-12 h-12 bg-white hover:bg-navy-primary text-navy-primary hover:text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2"
             aria-label="Previous slide"
           >
             <svg
@@ -159,7 +212,7 @@ export function DestinationsCarousel({ locale }: DestinationsCarouselProps) {
 
           <button
             onClick={scrollNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-12 h-12 bg-white hover:bg-navy-primary text-navy-primary hover:text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-12 h-12 bg-white hover:bg-navy-primary text-navy-primary hover:text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2"
             aria-label="Next slide"
           >
             <svg
@@ -176,6 +229,45 @@ export function DestinationsCarousel({ locale }: DestinationsCarouselProps) {
               />
             </svg>
           </button>
+
+          {/* Carousel Controls */}
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-16 flex items-center gap-4">
+            {/* Pause/Play Button */}
+            <button
+              onClick={toggleAutoplay}
+              className="w-10 h-10 bg-white hover:bg-navy-primary text-navy-primary hover:text-white rounded-full shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2"
+              aria-label={isPlaying ? 'Pause carousel' : 'Play carousel'}
+              aria-pressed={!isPlaying}
+            >
+              {isPlaying ? (
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              )}
+            </button>
+
+            {/* Progress Indicators */}
+            <div className="flex gap-2" role="tablist" aria-label="Carousel slides">
+              {destinations.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => emblaApi?.scrollTo(index)}
+                  className={`h-2 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2 ${
+                    index === selectedIndex
+                      ? 'w-8 bg-navy-primary'
+                      : 'w-2 bg-gray-300 hover:bg-gray-400'
+                  }`}
+                  aria-label={`Go to slide ${index + 1}`}
+                  role="tab"
+                  aria-selected={index === selectedIndex}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
