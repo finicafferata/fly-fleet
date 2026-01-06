@@ -81,18 +81,18 @@ function generateSEOData(page: string, locale: string, baseUrl: string): SEOData
   const defaultContent = {
     es: {
       siteName: 'Fly-Fleet - Charter de Jets Privados',
-      companyDescription: 'Servicios de charter de jets privados en América Latina. Vuelos charter, empty legs, helicópteros y más.',
-      keywords: 'jet privado, charter, vuelos privados, empty legs, América Latina, Argentina, Brasil, Chile'
+      companyDescription: 'Servicios de charter de jets privados en América Latina. Vuelos charter, helicópteros y más.',
+      keywords: 'jet privado, charter, vuelos privados, América Latina, Argentina, Brasil, Chile'
     },
     en: {
       siteName: 'Fly-Fleet - Private Jet Charter',
-      companyDescription: 'Private jet charter services in Latin America. Charter flights, empty legs, helicopters and more.',
-      keywords: 'private jet, charter, private flights, empty legs, Latin America, Argentina, Brazil, Chile'
+      companyDescription: 'Private jet charter services in Latin America. Charter flights, helicopters and more.',
+      keywords: 'private jet, charter, private flights, Latin America, Argentina, Brazil, Chile'
     },
     pt: {
       siteName: 'Fly-Fleet - Charter de Jatos Privados',
-      companyDescription: 'Serviços de charter de jatos privados na América Latina. Voos charter, empty legs, helicópteros e mais.',
-      keywords: 'jato privado, charter, voos privados, empty legs, América Latina, Argentina, Brasil, Chile'
+      companyDescription: 'Serviços de charter de jatos privados na América Latina. Voos charter, helicópteros e mais.',
+      keywords: 'jato privado, charter, voos privados, América Latina, Argentina, Brasil, Chile'
     }
   };
 
@@ -178,35 +178,35 @@ function getPageSEOContent(page: string, locale: string) {
     homepage: {
       es: {
         title: 'Fly-Fleet | Charter de Jets Privados en América Latina',
-        description: 'Servicios premium de charter de jets privados. Vuelos charter, empty legs, helicópteros y más. Cotiza tu vuelo privado ahora.',
-        keywords: 'jet privado Argentina, charter Buenos Aires, vuelos privados, empty legs'
+        description: 'Servicios premium de charter de jets privados. Vuelos charter, helicópteros y más. Cotiza tu vuelo privado ahora.',
+        keywords: 'jet privado Argentina, charter Buenos Aires, vuelos privados'
       },
       en: {
         title: 'Fly-Fleet | Private Jet Charter in Latin America',
-        description: 'Premium private jet charter services. Charter flights, empty legs, helicopters and more. Quote your private flight now.',
-        keywords: 'private jet Argentina, charter Buenos Aires, private flights, empty legs'
+        description: 'Premium private jet charter services. Charter flights, helicopters and more. Quote your private flight now.',
+        keywords: 'private jet Argentina, charter Buenos Aires, private flights'
       },
       pt: {
         title: 'Fly-Fleet | Charter de Jatos Privados na América Latina',
-        description: 'Serviços premium de charter de jatos privados. Voos charter, empty legs, helicópteros e mais. Faça sua cotação agora.',
-        keywords: 'jato privado Argentina, charter Buenos Aires, voos privados, empty legs'
+        description: 'Serviços premium de charter de jatos privados. Voos charter, helicópteros e mais. Faça sua cotação agora.',
+        keywords: 'jato privado Argentina, charter Buenos Aires, voos privados'
       }
     },
     'que-hacemos': {
       es: {
         title: 'Qué Hacemos | Servicios de Charter de Jets Privados - Fly-Fleet',
-        description: 'Descubre nuestros servicios de charter de jets privados: vuelos charter, empty legs, helicópteros, vuelos médicos y de carga.',
-        keywords: 'servicios charter, vuelos privados, empty legs, helicópteros, vuelos médicos'
+        description: 'Descubre nuestros servicios de charter de jets privados: vuelos charter, helicópteros, vuelos médicos y de carga.',
+        keywords: 'servicios charter, vuelos privados, helicópteros, vuelos médicos'
       },
       en: {
         title: 'What We Do | Private Jet Charter Services - Fly-Fleet',
-        description: 'Discover our private jet charter services: charter flights, empty legs, helicopters, medical flights and cargo.',
-        keywords: 'charter services, private flights, empty legs, helicopters, medical flights'
+        description: 'Discover our private jet charter services: charter flights, helicopters, medical flights and cargo.',
+        keywords: 'charter services, private flights, helicopters, medical flights'
       },
       pt: {
         title: 'O Que Fazemos | Serviços de Charter de Jatos Privados - Fly-Fleet',
-        description: 'Descubra nossos serviços de charter de jatos privados: voos charter, empty legs, helicópteros, voos médicos e carga.',
-        keywords: 'serviços charter, voos privados, empty legs, helicópteros, voos médicos'
+        description: 'Descubra nossos serviços de charter de jatos privados: voos charter, helicópteros, voos médicos e carga.',
+        keywords: 'serviços charter, voos privados, helicópteros, voos médicos'
       }
     },
     cotizar: {
@@ -229,17 +229,17 @@ function getPageSEOContent(page: string, locale: string) {
     servicios: {
       es: {
         title: 'Servicios | Charter de Jets Privados - Fly-Fleet',
-        description: 'Servicios completos de aviación privada: charter, empty legs, helicópteros, vuelos médicos, carga y servicios adicionales.',
+        description: 'Servicios completos de aviación privada: charter, helicópteros, vuelos médicos, carga y servicios adicionales.',
         keywords: 'servicios aviación, charter completo, vuelos médicos, transporte carga'
       },
       en: {
         title: 'Services | Private Jet Charter - Fly-Fleet',
-        description: 'Complete private aviation services: charter, empty legs, helicopters, medical flights, cargo and additional services.',
+        description: 'Complete private aviation services: charter, helicopters, medical flights, cargo and additional services.',
         keywords: 'aviation services, complete charter, medical flights, cargo transport'
       },
       pt: {
         title: 'Serviços | Charter de Jatos Privados - Fly-Fleet',
-        description: 'Serviços completos de aviação privada: charter, empty legs, helicópteros, voos médicos, carga e serviços adicionais.',
+        description: 'Serviços completos de aviação privada: charter, helicópteros, voos médicos, carga e serviços adicionais.',
         keywords: 'serviços aviação, charter completo, voos médicos, transporte carga'
       }
     },

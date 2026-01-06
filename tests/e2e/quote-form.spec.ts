@@ -125,7 +125,7 @@ test.describe('Quote Form E2E Tests', () => {
   });
 
   test('should work with different service types', async ({ page }) => {
-    const serviceTypes = ['charter', 'empty_legs', 'multicity', 'helicopter', 'medical', 'cargo'];
+    const serviceTypes = ['charter', 'multicity', 'helicopter', 'medical', 'cargo'];
 
     for (const serviceType of serviceTypes) {
       await page.selectOption('[data-testid="service-type"]', serviceType);

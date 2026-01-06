@@ -13,7 +13,6 @@ const mockFilters: FilterGroup[] = [
     type: 'checkbox',
     options: [
       { id: 'charter', label: 'Charter Flights', value: 'charter', count: 25 },
-      { id: 'empty_legs', label: 'Empty Legs', value: 'empty_legs', count: 12 },
       { id: 'multicity', label: 'Multi-City', value: 'multicity', count: 8 },
     ],
   },
@@ -119,24 +118,24 @@ describe('SearchFilters Component', () => {
     };
     render(<SearchFilters {...propsWithSelected} />);
 
-    const emptyLegsCheckbox = screen.getByLabelText('Empty Legs');
-    await user.click(emptyLegsCheckbox);
+    const multicityCheckbox = screen.getByLabelText('Multi-City');
+    await user.click(multicityCheckbox);
 
-    expect(mockProps.onFilterChange).toHaveBeenCalledWith('category', ['charter', 'empty_legs']);
+    expect(mockProps.onFilterChange).toHaveBeenCalledWith('category', ['charter', 'multicity']);
   });
 
   it('should handle checkbox deselection', async () => {
     const user = userEvent.setup();
     const propsWithSelected = {
       ...mockProps,
-      selectedFilters: { category: ['charter', 'empty_legs'] },
+      selectedFilters: { category: ['charter', 'multicity'] },
     };
     render(<SearchFilters {...propsWithSelected} />);
 
     const charterCheckbox = screen.getByLabelText('Charter Flights');
     await user.click(charterCheckbox);
 
-    expect(mockProps.onFilterChange).toHaveBeenCalledWith('category', ['empty_legs']);
+    expect(mockProps.onFilterChange).toHaveBeenCalledWith('category', ['multicity']);
   });
 
   it('should handle radio filter changes', async () => {
@@ -171,7 +170,6 @@ describe('SearchFilters Component', () => {
     render(<SearchFilters {...mockProps} />);
 
     expect(screen.getByText('(25)')).toBeInTheDocument(); // Charter Flights count
-    expect(screen.getByText('(12)')).toBeInTheDocument(); // Empty Legs count
     expect(screen.getByText('(8)')).toBeInTheDocument(); // Multi-City count
   });
 
@@ -179,7 +177,7 @@ describe('SearchFilters Component', () => {
     const propsWithSelected = {
       ...mockProps,
       selectedFilters: {
-        category: ['charter', 'empty_legs'],
+        category: ['charter', 'multicity'],
         aircraft_type: 'light',
       },
     };
@@ -305,17 +303,17 @@ describe('SearchFilters Component', () => {
     await user.click(categoryButton);
 
     const charterCheckbox = screen.getByLabelText('Charter Flights');
-    const emptyLegsCheckbox = screen.getByLabelText('Empty Legs');
+    const multicityCheckbox = screen.getByLabelText('Multi-City');
 
     charterCheckbox.focus();
     expect(charterCheckbox).toHaveFocus();
 
     await user.tab();
-    expect(emptyLegsCheckbox).toHaveFocus();
+    expect(multicityCheckbox).toHaveFocus();
 
     // Test space key to select checkbox
     await user.keyboard(' ');
-    expect(mockProps.onFilterChange).toHaveBeenCalledWith('category', ['empty_legs']);
+    expect(mockProps.onFilterChange).toHaveBeenCalledWith('category', ['multicity']);
   });
 
   it('should announce filter changes to screen readers', async () => {

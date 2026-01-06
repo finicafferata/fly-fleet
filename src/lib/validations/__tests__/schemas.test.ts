@@ -67,7 +67,7 @@ describe('Validation Schemas', () => {
     });
 
     it('should validate different service types', () => {
-      const serviceTypes = ['charter', 'empty_legs', 'multicity', 'helicopter', 'medical', 'cargo'] as const;
+      const serviceTypes = ['charter', 'multicity', 'helicopter', 'medical', 'cargo'] as const;
 
       serviceTypes.forEach(serviceType => {
         const data = {
@@ -190,7 +190,7 @@ describe('Validation Schemas', () => {
     it('should validate a complete FAQ entry', () => {
       const validData = {
         question: 'What services do you offer?',
-        answer: 'We offer charter flights, empty legs, and more.',
+        answer: 'We offer charter flights, helicopters, and more.',
         category: 'services',
         locale: 'en',
         order: 1,
@@ -271,7 +271,7 @@ describe('Validation Schemas', () => {
       const validData = {
         key: 'services.list',
         type: 'json' as const,
-        value: JSON.stringify({ services: ['charter', 'empty_legs'] }),
+        value: JSON.stringify({ services: ['charter', 'helicopter'] }),
         locale: 'en',
       };
 

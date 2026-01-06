@@ -13,7 +13,6 @@ datasource db {
 // ENUMS
 enum ServiceType {
   charter
-  empty_legs
   multicity
   helicopter
   medical

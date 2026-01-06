@@ -490,7 +490,7 @@ function generateCommonSchemas() {
     },
     ServiceType: {
       type: 'string',
-      enum: ['charter', 'empty_legs', 'multicity', 'helicopter', 'medical', 'cargo', 'other'],
+      enum: ['charter', 'multicity', 'helicopter', 'medical', 'cargo', 'other'],
       description: 'Type of aviation service requested'
     },
     QuoteStatus: {

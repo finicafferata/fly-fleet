@@ -35,7 +35,6 @@ const additionalServicesTranslations = {
 const serviceTypeTranslations = {
   es: {
     charter: "Charter",
-    empty_legs: "Empty Legs",
     multicity: "Multi-ciudad",
     helicopter: "Helicóptero",
     medical: "Médico",
@@ -44,7 +43,6 @@ const serviceTypeTranslations = {
   },
   en: {
     charter: "Charter",
-    empty_legs: "Empty Legs",
     multicity: "Multi-city",
     helicopter: "Helicopter",
     medical: "Medical",
@@ -53,7 +51,6 @@ const serviceTypeTranslations = {
   },
   pt: {
     charter: "Charter",
-    empty_legs: "Empty Legs",
     multicity: "Multi-cidade",
     helicopter: "Helicóptero",
     medical: "Médico",

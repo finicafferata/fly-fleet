@@ -391,7 +391,6 @@ interface QuoteFormProps {
 
 const serviceTypeOptions = [
   { value: 'charter', label: 'Private Charter', description: 'Exclusive private flights' },
-  { value: 'empty_legs', label: 'Empty Legs', description: 'Discounted repositioning flights' },
   { value: 'multicity', label: 'Multi-City', description: 'Multiple destination trips' },
   { value: 'helicopter', label: 'Helicopter', description: 'Helicopter charter services' },
   { value: 'medical', label: 'Medical', description: 'Emergency medical transport' },
@@ -907,7 +906,6 @@ export function QuoteForm({
                 >
                   <option value="">-- {locale === 'es' ? 'Seleccionar' : locale === 'pt' ? 'Selecionar' : 'Select'} --</option>
                   <option value="charter">{locale === 'es' ? 'Charter punto a punto' : locale === 'pt' ? 'Charter ponto a ponto' : 'Charter point-to-point'}</option>
-                  <option value="empty_legs">{locale === 'es' ? 'Empty legs' : locale === 'pt' ? 'Empty legs' : 'Empty legs'}</option>
                   <option value="multicity">{locale === 'es' ? 'Multi-ciudad' : locale === 'pt' ? 'Multi-cidade' : 'Multi-city'}</option>
                   <option value="helicopter">{locale === 'es' ? 'Helicóptero' : locale === 'pt' ? 'Helicóptero' : 'Helicopter'}</option>
                   <option value="medical">{locale === 'es' ? 'Médico' : locale === 'pt' ? 'Médico' : 'Medical'}</option>

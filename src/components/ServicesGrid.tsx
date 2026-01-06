@@ -38,18 +38,6 @@ const getContent = (locale: string) => {
           ),
         },
         {
-          id: 'empty-legs',
-          title: 'Empty Legs',
-          description: 'Discounted one-way flights on repositioning aircraft with luxury at reduced rates.',
-          features: ['Up to 50% savings', 'Last-minute deals', 'Same luxury service', 'Flexible destinations'],
-          ctaText: 'View Empty Legs',
-          icon: (
-            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          ),
-        },
-        {
           id: 'multicity',
           title: 'Multi-City Tours',
           description: 'Visit multiple destinations in one seamless journey with coordinated ground services.',
@@ -117,18 +105,6 @@ const getContent = (locale: string) => {
           ),
         },
         {
-          id: 'empty-legs',
-          title: 'Empty Legs',
-          description: 'Vuelos de ida con descuento en aeronaves reposicionándose con lujo a tarifas reducidas.',
-          features: ['Hasta 50% ahorro', 'Ofertas de último momento', 'Mismo servicio de lujo', 'Destinos flexibles'],
-          ctaText: 'Cotizar servicio',
-          icon: (
-            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          ),
-        },
-        {
           id: 'multicity',
           title: 'Tours Multi-Ciudad',
           description: 'Visite múltiples destinos en un viaje fluido con servicios terrestres coordinados.',
@@ -192,18 +168,6 @@ const getContent = (locale: string) => {
           icon: (
             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-            </svg>
-          ),
-        },
-        {
-          id: 'empty-legs',
-          title: 'Pernas Vazias',
-          description: 'Voos de ida com desconto em aeronaves reposicionando com luxo a tarifas reduzidas.',
-          features: ['Até 50% economia', 'Ofertas de última hora', 'Mesmo serviço de luxo', 'Destinos flexíveis'],
-          ctaText: 'Cotizar servicio',
-          icon: (
-            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           ),
         },

@@ -590,7 +590,6 @@ components:
       type: string
       enum:
         - charter
-        - empty_legs
         - multicity
         - helicopter
         - medical

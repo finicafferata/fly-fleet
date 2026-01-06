@@ -14,7 +14,7 @@ interface Airport {
 
 interface QuoteFormData {
   // Step 1: Service & Contact
-  serviceType: 'charter' | 'empty_legs' | 'multicity' | 'helicopter' | 'medical' | 'cargo' | 'other';
+  serviceType: 'charter' | 'multicity' | 'helicopter' | 'medical' | 'cargo' | 'other';
   fullName: string;
   phone: string;
   contactWhatsApp?: boolean;
@@ -65,7 +65,6 @@ const getContent = (locale: string) => {
         placeholder: 'Select a service',
         options: {
           charter: 'Point-to-point charter',
-          empty_legs: 'Empty legs',
           multicity: 'Multicity',
           helicopter: 'Helicopter',
           medical: 'Medical',
@@ -132,7 +131,6 @@ const getContent = (locale: string) => {
         placeholder: 'Seleccioná un servicio',
         options: {
           charter: 'Charter point-to-point',
-          empty_legs: 'Empty legs',
           multicity: 'Multicity',
           helicopter: 'Helicóptero',
           medical: 'Medical',
@@ -199,7 +197,6 @@ const getContent = (locale: string) => {
         placeholder: 'Selecione um serviço',
         options: {
           charter: 'Charter ponto-a-ponto',
-          empty_legs: 'Empty legs',
           multicity: 'Multicity',
           helicopter: 'Helicóptero',
           medical: 'Medical',

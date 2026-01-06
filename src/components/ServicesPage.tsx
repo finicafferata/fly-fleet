@@ -89,27 +89,6 @@ export function ServicesPage({
             pricing: { from: 3000, to: 50000, currency: 'USD', unit: 'per flight' }
           },
           {
-            id: 'empty_legs',
-            name: 'Empty Leg Flights',
-            description: 'Cost-effective luxury travel on repositioning flights',
-            icon: '🎯',
-            features: [
-              'Significant cost savings',
-              'Same luxury standards',
-              'Last-minute availability',
-              'Flexible destinations',
-              'Premium aircraft',
-              'Professional crew'
-            ],
-            aircraftTypes: ['Light Jets', 'Midsize Jets', 'Heavy Jets'],
-            routes: [
-              { from: 'Buenos Aires', to: 'Montevideo', duration: '45m', priceRange: '$2,000 - $4,000' },
-              { from: 'São Paulo', to: 'Rio de Janeiro', duration: '1h 10m', priceRange: '$1,500 - $3,500' },
-              { from: 'Mexico City', to: 'Cancún', duration: '2h 15m', priceRange: '$3,000 - $6,000' }
-            ],
-            pricing: { from: 1500, to: 15000, currency: 'USD', unit: 'per flight' }
-          },
-          {
             id: 'multicity',
             name: 'Multi-City Tours',
             description: 'Complex itineraries with multiple destinations',
@@ -323,27 +302,6 @@ export function ServicesPage({
             pricing: { from: 3000, to: 50000, currency: 'USD', unit: 'por vuelo' }
           },
           {
-            id: 'empty_legs',
-            name: 'Vuelos Empty Leg',
-            description: 'Viajes de lujo rentables en vuelos de reposicionamiento',
-            icon: '🎯',
-            features: [
-              'Ahorros significativos',
-              'Mismos estándares de lujo',
-              'Disponibilidad de último momento',
-              'Destinos flexibles',
-              'Aeronaves premium',
-              'Tripulación profesional'
-            ],
-            aircraftTypes: ['Jets Ligeros', 'Jets Medianos', 'Jets Pesados'],
-            routes: [
-              { from: 'Buenos Aires', to: 'Montevideo', duration: '45m', priceRange: '$2,000 - $4,000' },
-              { from: 'São Paulo', to: 'Río de Janeiro', duration: '1h 10m', priceRange: '$1,500 - $3,500' },
-              { from: 'Ciudad de México', to: 'Cancún', duration: '2h 15m', priceRange: '$3,000 - $6,000' }
-            ],
-            pricing: { from: 1500, to: 15000, currency: 'USD', unit: 'por vuelo' }
-          },
-          {
             id: 'multicity',
             name: 'Tours Multi-Ciudad',
             description: 'Itinerarios complejos con múltiples destinos',
@@ -555,27 +513,6 @@ export function ServicesPage({
               { from: 'Santiago', to: 'Lima', duration: '2h 45m', priceRange: '$9,000 - $18,000' }
             ],
             pricing: { from: 3000, to: 50000, currency: 'USD', unit: 'por voo' }
-          },
-          {
-            id: 'empty_legs',
-            name: 'Voos Empty Leg',
-            description: 'Viagens de luxo com ótimo custo-benefício em voos de reposicionamento',
-            icon: '🎯',
-            features: [
-              'Economias significativas',
-              'Mesmos padrões de luxo',
-              'Disponibilidade de última hora',
-              'Destinos flexíveis',
-              'Aeronaves premium',
-              'Tripulação profissional'
-            ],
-            aircraftTypes: ['Jatos Leves', 'Jatos Médios', 'Jatos Pesados'],
-            routes: [
-              { from: 'Buenos Aires', to: 'Montevidéu', duration: '45m', priceRange: '$2,000 - $4,000' },
-              { from: 'São Paulo', to: 'Rio de Janeiro', duration: '1h 10m', priceRange: '$1,500 - $3,500' },
-              { from: 'Cidade do México', to: 'Cancún', duration: '2h 15m', priceRange: '$3,000 - $6,000' }
-            ],
-            pricing: { from: 1500, to: 15000, currency: 'USD', unit: 'por voo' }
           },
           {
             id: 'multicity',

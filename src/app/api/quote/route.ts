@@ -26,7 +26,7 @@ const AdditionalService = z.enum([
 ]);
 
 const QuoteRequestSchema = z.object({
-  service: z.enum(['charter', 'empty_legs', 'multicity', 'helicopter', 'medical', 'cargo', 'other']),
+  service: z.enum(['charter', 'multicity', 'helicopter', 'medical', 'cargo', 'other']),
   fullName: z.string().min(2).max(100),
   email: z.string().email(),
   phone: z.string().min(10).max(20).optional(),

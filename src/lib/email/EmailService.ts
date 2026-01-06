@@ -125,7 +125,6 @@ export class EmailService {
     const translations: Record<string, Record<string, string>> = {
       es: {
         charter: 'Charter',
-        empty_legs: 'Empty Legs',
         multicity: 'Multi-ciudad',
         helicopter: 'Helicóptero',
         medical: 'Médico',
@@ -134,7 +133,6 @@ export class EmailService {
       },
       en: {
         charter: 'Charter',
-        empty_legs: 'Empty Legs',
         multicity: 'Multi-city',
         helicopter: 'Helicopter',
         medical: 'Medical',
@@ -143,7 +141,6 @@ export class EmailService {
       },
       pt: {
         charter: 'Charter',
-        empty_legs: 'Empty Legs',
         multicity: 'Multi-cidade',
         helicopter: 'Helicóptero',
         medical: 'Médico',

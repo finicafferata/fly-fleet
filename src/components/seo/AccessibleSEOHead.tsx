@@ -80,21 +80,21 @@ export function AccessibleSEOHead({
       },
       services: {
         en: {
-          title: "Private Jet Services | Charter, Empty Legs, Multi-City Tours",
-          description: "Comprehensive private aviation services including charter flights, empty legs, helicopter transfers, medical transport, and cargo operations across Latin America.",
-          keywords: ["private jet services", "charter flights", "empty legs", "helicopter", "medical transport", "cargo"],
+          title: "Private Jet Services | Charter, Multi-City Tours",
+          description: "Comprehensive private aviation services including charter flights, helicopter transfers, medical transport, and cargo operations across Latin America.",
+          keywords: ["private jet services", "charter flights", "helicopter", "medical transport", "cargo"],
           path: "/services"
         },
         es: {
-          title: "Servicios de Jets Privados | Charter, Empty Legs, Tours Multi-Ciudad",
-          description: "Servicios integrales de aviación privada incluyendo vuelos charter, empty legs, traslados en helicóptero, transporte médico y operaciones de carga.",
-          keywords: ["servicios jets privados", "vuelos charter", "empty legs", "helicóptero", "transporte médico", "carga"],
+          title: "Servicios de Jets Privados | Charter, Tours Multi-Ciudad",
+          description: "Servicios integrales de aviación privada incluyendo vuelos charter, traslados en helicóptero, transporte médico y operaciones de carga.",
+          keywords: ["servicios jets privados", "vuelos charter", "helicóptero", "transporte médico", "carga"],
           path: "/services"
         },
         pt: {
-          title: "Serviços de Jatos Privados | Charter, Empty Legs, Tours Multi-Cidade",
-          description: "Serviços abrangentes de aviação privada incluindo voos charter, empty legs, transferências de helicóptero, transporte médico e operações de carga.",
-          keywords: ["serviços jatos privados", "voos charter", "empty legs", "helicóptero", "transporte médico", "carga"],
+          title: "Serviços de Jatos Privados | Charter, Tours Multi-Cidade",
+          description: "Serviços abrangentes de aviação privada incluindo voos charter, transferências de helicóptero, transporte médico e operações de carga.",
+          keywords: ["serviços jatos privados", "voos charter", "helicóptero", "transporte médico", "carga"],
           path: "/services"
         }
       },
@@ -262,9 +262,9 @@ export function AccessibleSEOHead({
         pt: "Serviços de Charter de Jatos Privados"
       }),
       "description": getLocalizedText(locale, {
-        en: "Comprehensive private aviation services including charter flights, empty legs, helicopter transfers, and luxury travel solutions.",
-        es: "Servicios integrales de aviación privada incluyendo vuelos charter, empty legs, traslados en helicóptero y soluciones de viaje de lujo.",
-        pt: "Serviços abrangentes de aviação privada incluindo voos charter, empty legs, transferências de helicóptero e soluções de viagem de luxo."
+        en: "Comprehensive private aviation services including charter flights, helicopter transfers, and luxury travel solutions.",
+        es: "Servicios integrales de aviación privada incluyendo vuelos charter, traslados en helicóptero y soluciones de viaje de lujo.",
+        pt: "Serviços abrangentes de aviação privada incluindo voos charter, transferências de helicóptero e soluções de viagem de luxo."
       }),
       "provider": organization,
       "serviceType": "Private Aviation Charter",
@@ -307,15 +307,6 @@ export function AccessibleSEOHead({
             {
               "@type": "Service",
               "position": 2,
-              "name": getLocalizedText(locale, {
-                en: "Empty Leg Flights",
-                es: "Vuelos Empty Leg",
-                pt: "Voos Empty Leg"
-              })
-            },
-            {
-              "@type": "Service",
-              "position": 3,
               "name": getLocalizedText(locale, {
                 en: "Helicopter Services",
                 es: "Servicios de Helicóptero",
