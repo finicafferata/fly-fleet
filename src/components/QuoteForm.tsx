@@ -611,7 +611,7 @@ export function QuoteForm({
   const countryCodes = getOrderedCountryCodes(locale);
   const { announce } = useAnnouncer();
   const { focusElement } = useFocusManagement();
-  const { executeRecaptcha, isReady: isRecaptchaReady, error: recaptchaError } = useRecaptcha('quote');
+  const { executeRecaptcha, isReady: isRecaptchaReady, error: recaptchaError } = useRecaptcha('quote_request');
 
   const {
     register,
