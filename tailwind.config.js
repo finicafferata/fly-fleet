@@ -9,14 +9,14 @@ module.exports = {
     extend: {
       colors: {
         // Fly-Fleet Design System Colors
-        'navy-primary': '#0B1E3C',
+        'navy-primary': '#13213d',
         'neutral-light': '#F4F6F8',
         'neutral-medium': '#828FA0',
         'accent-blue': '#2F6AEF',
         'white': '#FFFFFF',
         'black': '#000000',
         // Legacy aliases
-        'navy': '#0B1E3C',
+        'navy': '#13213d',
       },
       fontFamily: {
         'sans': ['Poppins', 'system-ui', '-apple-system', 'sans-serif'],
