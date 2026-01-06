@@ -328,7 +328,7 @@ export function Header({
               href="/quote"
               className="inline-flex items-center px-4 py-2 rounded-lg font-medium text-sm transition-colors whitespace-nowrap bg-accent-blue text-white hover:bg-accent-blue/80"
             >
-              Get Quote
+              {locale === 'es' ? 'Cotizar' : locale === 'pt' ? 'Cotar' : 'Get Quote'}
             </Link>
 
             <LanguageSwitcher
@@ -486,7 +486,7 @@ export function Header({
                   className="w-full inline-flex items-center justify-center px-6 py-3 bg-accent-blue text-white font-medium rounded-md hover:bg-accent-blue-dark transition-colors"
                   onClick={closeMobileMenu}
                 >
-                  Get Quote
+                  {locale === 'es' ? 'Cotizar' : locale === 'pt' ? 'Cotar' : 'Get Quote'}
                 </Link>
               </div>
             </nav>

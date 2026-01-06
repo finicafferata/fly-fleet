@@ -89,6 +89,18 @@ export function Hero({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Timeout fallback to ensure video becomes visible even if onLoadedData doesn't fire
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!imageLoaded) {
+        console.log('Video load timeout - forcing visibility');
+        setImageLoaded(true);
+      }
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [imageLoaded]);
+
   const handlePrimaryCTA = () => {
     // Track analytics
     if (typeof window !== 'undefined' && window.gtag) {
@@ -142,9 +154,10 @@ export function Hero({
           loop
           muted
           playsInline
+          preload="auto"
           className={clsx(
             'hero-background w-full h-full object-cover transition-opacity duration-1000',
-            imageLoaded ? 'opacity-30' : 'opacity-0'
+            imageLoaded ? 'opacity-40' : 'opacity-0'
           )}
           onLoadedData={() => {
             console.log('Hero background video loaded successfully');
