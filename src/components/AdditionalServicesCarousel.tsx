@@ -201,6 +201,7 @@ export function AdditionalServicesCarousel({ locale }: AdditionalServicesCarouse
 
         {/* Carousel Container */}
         <BaseCarousel
+          showProgress={false}
           autoplayDelay={5500}
           slideCount={services.length}
           ariaLabel="Additional services carousel"

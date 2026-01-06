@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { BaseCarousel } from './ui/BaseCarousel';
-import { OptimizedImage } from './ui/OptimizedImage';
 
 interface DestinationsCarouselProps {
   locale: 'en' | 'es' | 'pt';
@@ -85,6 +84,7 @@ export function DestinationsCarousel({ locale }: DestinationsCarouselProps) {
 
         {/* Carousel Container */}
         <BaseCarousel
+          showProgress={false}
           autoplayDelay={5500}
           slideCount={destinations.length}
           ariaLabel="Popular destinations carousel"
@@ -100,15 +100,12 @@ export function DestinationsCarousel({ locale }: DestinationsCarouselProps) {
               className="flex-[0_0_70%] sm:flex-[0_0_48%] md:flex-[0_0_30%] lg:flex-[0_0_28%] xl:flex-[0_0_25%] min-w-0 px-2.5"
             >
               <div className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 h-64 md:h-80 lg:h-[400px]">
-                {/* Optimized Image with Lazy Loading */}
-                <OptimizedImage
+                {/* Destination Image */}
+                <img
                   src={destination.image}
                   alt={destination.title[locale]}
                   className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                   loading="lazy"
-                  sizes="(max-width: 640px) 70vw, (max-width: 768px) 48vw, (max-width: 1024px) 30vw, 25vw"
-                  objectFit="cover"
-                  placeholder="blur"
                 />
 
                 {/* Gradient Overlay */}
