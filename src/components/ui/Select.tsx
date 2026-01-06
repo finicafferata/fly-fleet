@@ -140,7 +140,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
 
       // Variant styles
       {
-        'border-neutral-medium text-black focus:border-accent-blue focus:ring-accent-blue':
+        'border-neutral-medium text-black focus:border-navy-primary focus:ring-navy-primary':
           !hasError,
         'border-red-500 bg-red-50 text-red-900 focus:border-red-500 focus:ring-red-500':
           hasError,
@@ -162,7 +162,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
       {
         'text-neutral-medium cursor-not-allowed': option.disabled,
         'text-black hover:bg-neutral-light': !option.disabled,
-        'bg-accent-blue text-white': index === activeOptionIndex && !option.disabled,
+        'bg-navy-primary text-white': index === activeOptionIndex && !option.disabled,
         'bg-neutral-light': value === option.value && index !== activeOptionIndex,
       }
     );

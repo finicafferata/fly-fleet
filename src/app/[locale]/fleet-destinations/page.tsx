@@ -409,18 +409,18 @@ export default function FleetDestinationsPage() {
                   <div className="p-6 flex-grow">
                     <div className="space-y-3">
                       <div className="flex items-center text-gray-700">
-                        <svg className="w-5 h-5 mr-3 text-accent-blue flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-5 h-5 mr-3 text-navy-primary flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
                         </svg>
                         <span className="font-semibold text-sm">{content.aircraft.charter.lightJets.models}</span>
                       </div>
                       <div className="flex items-center text-gray-600">
-                        <svg className="w-5 h-5 mr-3 text-accent-blue flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="w-5 h-5 mr-3 text-navy-primary flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
                         <span className="text-sm">{content.aircraft.charter.lightJets.passengers}</span>
                       </div>
-                      <div className="flex items-center text-accent-blue">
+                      <div className="flex items-center text-navy-primary">
                         <svg className="w-5 h-5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clipRule="evenodd" />
                         </svg>
@@ -473,18 +473,18 @@ export default function FleetDestinationsPage() {
                   <div className="p-6 flex-grow">
                     <div className="space-y-3">
                       <div className="flex items-center text-gray-700">
-                        <svg className="w-5 h-5 mr-3 text-accent-blue flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-5 h-5 mr-3 text-navy-primary flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
                         </svg>
                         <span className="font-semibold text-sm">{content.aircraft.charter.midJets.models}</span>
                       </div>
                       <div className="flex items-center text-gray-600">
-                        <svg className="w-5 h-5 mr-3 text-accent-blue flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="w-5 h-5 mr-3 text-navy-primary flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
                         <span className="text-sm">{content.aircraft.charter.midJets.passengers}</span>
                       </div>
-                      <div className="flex items-center text-accent-blue">
+                      <div className="flex items-center text-navy-primary">
                         <svg className="w-5 h-5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clipRule="evenodd" />
                         </svg>
@@ -537,18 +537,18 @@ export default function FleetDestinationsPage() {
                   <div className="p-6 flex-grow">
                     <div className="space-y-3">
                       <div className="flex items-center text-gray-700">
-                        <svg className="w-5 h-5 mr-3 text-accent-blue flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-5 h-5 mr-3 text-navy-primary flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
                         </svg>
                         <span className="font-semibold text-sm">{content.aircraft.charter.heavyJets.models}</span>
                       </div>
                       <div className="flex items-center text-gray-600">
-                        <svg className="w-5 h-5 mr-3 text-accent-blue flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="w-5 h-5 mr-3 text-navy-primary flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
                         <span className="text-sm">{content.aircraft.charter.heavyJets.passengers}</span>
                       </div>
-                      <div className="flex items-center text-accent-blue">
+                      <div className="flex items-center text-navy-primary">
                         <svg className="w-5 h-5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clipRule="evenodd" />
                         </svg>
@@ -601,18 +601,18 @@ export default function FleetDestinationsPage() {
                   <div className="p-6 flex-grow">
                     <div className="space-y-3">
                       <div className="flex items-center text-gray-700">
-                        <svg className="w-5 h-5 mr-3 text-accent-blue flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-5 h-5 mr-3 text-navy-primary flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
                         </svg>
                         <span className="font-semibold text-sm">{content.aircraft.charter.turboprop.models}</span>
                       </div>
                       <div className="flex items-center text-gray-600">
-                        <svg className="w-5 h-5 mr-3 text-accent-blue flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="w-5 h-5 mr-3 text-navy-primary flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
                         <span className="text-sm">{content.aircraft.charter.turboprop.passengers}</span>
                       </div>
-                      <div className="flex items-center text-accent-blue">
+                      <div className="flex items-center text-navy-primary">
                         <svg className="w-5 h-5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clipRule="evenodd" />
                         </svg>
@@ -654,7 +654,7 @@ export default function FleetDestinationsPage() {
                   <div className="space-y-2 text-gray-600">
                     <p>{content.aircraft.specialized.helicopter.passengers}</p>
                     <p>{content.aircraft.specialized.helicopter.description}</p>
-                    <p className="text-sm font-medium text-accent-blue">
+                    <p className="text-sm font-medium text-navy-primary">
                       {content.aircraft.specialized.helicopter.feature}
                     </p>
                   </div>
@@ -668,7 +668,7 @@ export default function FleetDestinationsPage() {
                   <div className="space-y-2 text-gray-600">
                     <p>{content.aircraft.specialized.medical.description}</p>
                     <p>{content.aircraft.specialized.medical.equipment}</p>
-                    <p className="text-sm font-medium text-accent-blue">
+                    <p className="text-sm font-medium text-navy-primary">
                       {content.aircraft.specialized.medical.staff}
                     </p>
                   </div>
@@ -682,7 +682,7 @@ export default function FleetDestinationsPage() {
                   <div className="space-y-2 text-gray-600">
                     <p>{content.aircraft.specialized.cargo.capacity}</p>
                     <p>{content.aircraft.specialized.cargo.doors}</p>
-                    <p className="text-sm font-medium text-accent-blue">
+                    <p className="text-sm font-medium text-navy-primary">
                       {content.aircraft.specialized.cargo.configuration}
                     </p>
                   </div>
@@ -708,7 +708,7 @@ export default function FleetDestinationsPage() {
           {/* International Routes */}
           <div>
               <div className="mb-10">
-                <div className="inline-flex items-center bg-gradient-to-r from-blue-600 to-accent-blue text-white px-6 py-3 rounded-full shadow-lg mb-2">
+                <div className="inline-flex items-center bg-gradient-to-r from-blue-600 to-navy-primary text-white px-6 py-3 rounded-full shadow-lg mb-2">
                   <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clipRule="evenodd" />
                   </svg>
@@ -721,7 +721,7 @@ export default function FleetDestinationsPage() {
                   return (
                     <div
                       key={index}
-                      className="group relative bg-white rounded-2xl p-6 shadow-md hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 hover:border-accent-blue/50 overflow-hidden"
+                      className="group relative bg-white rounded-2xl p-6 shadow-md hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 hover:border-navy-primary/50 overflow-hidden"
                     >
                       {/* Gradient overlay on hover */}
                       <div className="absolute inset-0 bg-gradient-to-r from-blue-600/0 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -808,10 +808,10 @@ export default function FleetDestinationsPage() {
                 </div>
 
                 {/* Bottom CTA */}
-                <div className="bg-white p-4 border-t-2 border-accent-blue/20">
+                <div className="bg-white p-4 border-t-2 border-navy-primary/20">
                   <a
                     href={`/${locale}/quote`}
-                    className="w-full text-center text-accent-blue font-semibold group-hover:text-blue-600 transition-colors duration-300 flex items-center justify-center"
+                    className="w-full text-center text-navy-primary font-semibold group-hover:text-blue-600 transition-colors duration-300 flex items-center justify-center"
                   >
                     <span>{locale === 'es' ? 'Cotizá tu vuelo' : locale === 'pt' ? 'Pedir cotação' : 'Get a quote'}</span>
                     <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-2 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -830,7 +830,7 @@ export default function FleetDestinationsPage() {
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <a
             href={`/${locale}/quote`}
-            className="inline-flex items-center justify-center bg-accent-blue hover:bg-accent-blue/90 text-white min-h-[56px] px-8 text-lg font-semibold rounded-lg shadow-large hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+            className="inline-flex items-center justify-center bg-navy-primary hover:bg-navy-primary/90 text-white min-h-[56px] px-8 text-lg font-semibold rounded-lg shadow-large hover:shadow-xl transform hover:scale-105 transition-all duration-200"
           >
             {locale === 'es' ? 'Cotizá tu vuelo' :
              locale === 'pt' ? 'Pedir cotação' :

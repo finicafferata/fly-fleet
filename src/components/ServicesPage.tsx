@@ -741,9 +741,9 @@ export function ServicesPage({
                   onClick={() => setActiveCategory(category.id)}
                   className={clsx(
                     'px-6 py-3 rounded-lg font-semibold transition-all duration-200',
-                    'focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2',
+                    'focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2',
                     activeCategory === category.id
-                      ? 'bg-accent-blue text-white'
+                      ? 'bg-navy-primary text-white'
                       : 'bg-neutral-light text-navy-primary hover:bg-neutral-medium/20'
                   )}
                   aria-pressed={activeCategory === category.id}
@@ -779,7 +779,7 @@ export function ServicesPage({
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {activeService.features.map((feature, index) => (
                       <li key={index} className="flex items-center text-neutral-dark">
-                        <svg className="w-5 h-5 text-accent-blue mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-5 h-5 text-navy-primary mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
                         {feature}
@@ -788,9 +788,9 @@ export function ServicesPage({
                   </ul>
                 </div>
 
-                <div className="bg-gradient-to-r from-accent-blue/10 to-navy-primary/10 rounded-lg p-6">
+                <div className="bg-gradient-to-r from-navy-primary/10 to-navy-primary/10 rounded-lg p-6">
                   <h4 className="font-semibold text-navy-primary mb-2">Pricing Range</h4>
-                  <div className="text-2xl font-bold text-accent-blue">
+                  <div className="text-2xl font-bold text-navy-primary">
                     ${activeService.pricing.from.toLocaleString()} - ${activeService.pricing.to.toLocaleString()} {activeService.pricing.currency}
                   </div>
                   <div className="text-sm text-neutral-medium">{activeService.pricing.unit}</div>
@@ -811,7 +811,7 @@ export function ServicesPage({
                             {route.duration}
                           </div>
                         </div>
-                        <div className="text-accent-blue font-semibold">
+                        <div className="text-navy-primary font-semibold">
                           {route.priceRange}
                         </div>
                       </div>
@@ -824,7 +824,7 @@ export function ServicesPage({
                     </p>
                     <Button
                       onClick={() => handleQuoteClick(activeService.id)}
-                      className="w-full bg-accent-blue hover:bg-accent-blue/90 text-white"
+                      className="w-full bg-navy-primary hover:bg-navy-primary/90 text-white"
                     >
                       Get Exact Quote for {activeService.name}
                     </Button>
@@ -867,7 +867,7 @@ export function ServicesPage({
                     loading="lazy"
                   />
                   <div className="p-6">
-                    <div className="text-sm text-accent-blue font-semibold mb-2">
+                    <div className="text-sm text-navy-primary font-semibold mb-2">
                       {aircraft.category}
                     </div>
                     <h3 className="text-xl font-bold text-navy-primary mb-3" role="cell">
@@ -919,7 +919,7 @@ export function ServicesPage({
                 <p className="text-neutral-dark mb-4 leading-relaxed">
                   {service.description}
                 </p>
-                <div className="text-sm text-accent-blue font-semibold">
+                <div className="text-sm text-navy-primary font-semibold">
                   Available: {service.availability}
                 </div>
               </div>
@@ -929,7 +929,7 @@ export function ServicesPage({
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-navy-primary to-accent-blue text-white">
+      <section className="py-20 bg-gradient-to-r from-navy-primary to-navy-primary text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             {content.cta.title}

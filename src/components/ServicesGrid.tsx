@@ -331,7 +331,7 @@ export function ServicesGrid({
                 <div
                   className={clsx(
                     'w-12 h-12 md:w-16 md:h-16',
-                    'bg-gradient-to-br from-accent-blue to-accent-blue/80',
+                    'bg-gradient-to-br from-navy-primary to-navy-primary/80',
                     'rounded-xl flex items-center justify-center',
                     'text-white shadow-medium',
                     'group-hover:scale-110 transition-transform duration-300'
@@ -355,7 +355,7 @@ export function ServicesGrid({
                 <ul className="space-y-2">
                   {service.features.map((feature, featureIndex) => (
                     <li key={featureIndex} className="flex items-center space-x-2">
-                      <div className="w-1.5 h-1.5 bg-accent-blue rounded-full flex-shrink-0" />
+                      <div className="w-1.5 h-1.5 bg-navy-primary rounded-full flex-shrink-0" />
                       <span className="text-sm text-neutral-medium">{feature}</span>
                     </li>
                   ))}
@@ -367,10 +367,10 @@ export function ServicesGrid({
                     href="/quote"
                     className={clsx(
                       'service-cta inline-flex items-center justify-center w-full',
-                      'bg-accent-blue hover:bg-accent-blue/90 text-white',
+                      'bg-navy-primary hover:bg-navy-primary/90 text-white',
                       'px-4 py-2 rounded-lg font-medium text-center',
                       'group-hover:shadow-large transition-all duration-300',
-                      'focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2',
+                      'focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2',
                       'min-h-[44px]'
                     )}
                     aria-label={`Request quote for ${service.title}`}

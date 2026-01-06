@@ -53,7 +53,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
       // Variant styles
       {
-        'border-neutral-medium bg-white text-black focus:border-accent-blue focus:ring-accent-blue':
+        'border-neutral-medium bg-white text-black focus:border-navy-primary focus:ring-navy-primary':
           finalVariant === 'default',
         'border-red-500 bg-red-50 text-red-900 focus:border-red-500 focus:ring-red-500':
           finalVariant === 'error',

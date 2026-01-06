@@ -22,7 +22,7 @@ export const Spinner: React.FC<SpinnerProps> = ({
   };
 
   const colorClasses = {
-    primary: 'text-accent-blue',
+    primary: 'text-navy-primary',
     white: 'text-white',
     current: 'text-current',
   };
@@ -115,9 +115,9 @@ export const LoadingButton: React.FC<LoadingButtonProps> = ({
     <button
       className={clsx(
         'inline-flex items-center justify-center px-4 py-2',
-        'bg-accent-blue text-white rounded-lg',
+        'bg-navy-primary text-white rounded-lg',
         'hover:bg-opacity-90 disabled:opacity-50 disabled:cursor-not-allowed',
-        'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-blue',
+        'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-navy-primary',
         'transition-colors duration-200',
         'min-h-[44px]',
         className
@@ -205,7 +205,7 @@ export const LoadingState: React.FC<LoadingStateProps> = ({
             <div
               key={i}
               className={clsx(
-                'bg-accent-blue rounded-full animate-pulse',
+                'bg-navy-primary rounded-full animate-pulse',
                 {
                   'w-2 h-2': size === 'sm',
                   'w-3 h-3': size === 'md',

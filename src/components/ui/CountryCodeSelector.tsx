@@ -195,9 +195,9 @@ export function CountryCodeSelector({
           <button
             onClick={() => setUserConsent(true)}
             className={clsx(
-              'px-3 py-1 bg-accent-blue text-white text-sm rounded',
-              'hover:bg-accent-blue/90 transition-colors duration-200',
-              'focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2'
+              'px-3 py-1 bg-navy-primary text-white text-sm rounded',
+              'hover:bg-navy-primary/90 transition-colors duration-200',
+              'focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2'
             )}
           >
             {content.allowDetection}
@@ -211,7 +211,7 @@ export function CountryCodeSelector({
           <span className="text-sm text-neutral-medium">
             {isDetecting && (
               <span className="inline-flex items-center space-x-1">
-                <div className="w-3 h-3 border-2 border-accent-blue border-t-transparent rounded-full animate-spin" />
+                <div className="w-3 h-3 border-2 border-navy-primary border-t-transparent rounded-full animate-spin" />
                 <span>{content.detecting}</span>
               </span>
             )}
@@ -221,7 +221,7 @@ export function CountryCodeSelector({
           {!isDetecting && detectionMethod === 'auto' && (
             <button
               onClick={retryDetection}
-              className="text-xs text-accent-blue hover:underline focus:outline-none focus:underline"
+              className="text-xs text-navy-primary hover:underline focus:outline-none focus:underline"
             >
               {content.retry}
             </button>
@@ -240,11 +240,11 @@ export function CountryCodeSelector({
           className={clsx(
             'w-full flex items-center justify-between px-3 py-2',
             'border border-neutral-medium rounded-lg',
-            'bg-white hover:border-accent-blue',
-            'focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2',
+            'bg-white hover:border-navy-primary',
+            'focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2',
             'min-h-[44px]',
             disabled && 'opacity-50 cursor-not-allowed',
-            isOpen && 'border-accent-blue ring-2 ring-accent-blue ring-offset-2'
+            isOpen && 'border-navy-primary ring-2 ring-navy-primary ring-offset-2'
           )}
           aria-haspopup="listbox"
           aria-expanded={isOpen}
@@ -272,7 +272,7 @@ export function CountryCodeSelector({
 
           <div className="flex items-center space-x-2">
             {detectionMethod === 'auto' && (
-              <span className="text-xs text-accent-blue bg-accent-blue/10 px-2 py-1 rounded">
+              <span className="text-xs text-navy-primary bg-navy-primary/10 px-2 py-1 rounded">
                 {content.autoDetected}
               </span>
             )}
@@ -319,7 +319,7 @@ export function CountryCodeSelector({
                 placeholder={content.searchPlaceholder}
                 className={clsx(
                   'w-full px-3 py-2 border border-neutral-medium rounded',
-                  'focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2'
+                  'focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2'
                 )}
                 aria-label={content.searchPlaceholder}
               />
@@ -347,9 +347,9 @@ export function CountryCodeSelector({
                     className={clsx(
                       'w-full flex items-center space-x-3 px-3 py-2 text-left',
                       'hover:bg-neutral-light',
-                      'focus:outline-none focus:bg-accent-blue focus:text-white',
+                      'focus:outline-none focus:bg-navy-primary focus:text-white',
                       country.code === currentCode && 'bg-neutral-light',
-                      focusedIndex === index && 'bg-accent-blue text-white'
+                      focusedIndex === index && 'bg-navy-primary text-white'
                     )}
                   >
                     <span className="text-lg" aria-hidden="true">

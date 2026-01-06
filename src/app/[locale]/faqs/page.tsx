@@ -234,7 +234,7 @@ export default function FAQsPage() {
               onClick={() => setActiveCategory(null)}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
                 activeCategory === null
-                  ? 'bg-accent-blue text-white'
+                  ? 'bg-navy-primary text-white'
                   : 'bg-white text-gray-700 hover:bg-gray-100'
               }`}
             >
@@ -248,7 +248,7 @@ export default function FAQsPage() {
                 onClick={() => setActiveCategory(categoryKey)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
                   activeCategory === categoryKey
-                    ? 'bg-accent-blue text-white'
+                    ? 'bg-navy-primary text-white'
                     : 'bg-white text-gray-700 hover:bg-gray-100'
                 }`}
               >
@@ -267,11 +267,11 @@ export default function FAQsPage() {
               <div key={faq.id} className="bg-white border border-gray-200 rounded-lg shadow-sm">
                 <button
                   onClick={() => setOpenQuestion(openQuestion === faq.id ? null : faq.id)}
-                  className="w-full px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-inset"
+                  className="w-full px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-inset"
                 >
                   <div className="flex justify-between items-center">
                     <div>
-                      <div className="text-xs text-accent-blue font-medium mb-1 uppercase">
+                      <div className="text-xs text-navy-primary font-medium mb-1 uppercase">
                         {content.categories[faq.category as keyof typeof content.categories]}
                       </div>
                       <h3 className="text-lg font-semibold text-navy-primary">

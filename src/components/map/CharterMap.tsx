@@ -248,7 +248,7 @@ export function CharterMap({
             </div>
             <button
               onClick={() => setSelectedAirport(null)}
-              className="text-neutral-medium hover:text-neutral-dark p-1 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-blue"
+              className="text-neutral-medium hover:text-neutral-dark p-1 rounded-md focus:outline-none focus:ring-2 focus:ring-navy-primary"
               aria-label={t('closeDetails')}
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -289,7 +289,7 @@ export function CharterMap({
                   {selectedAirport.services.map((service, index) => (
                     <span
                       key={index}
-                      className="inline-block px-2 py-1 text-xs bg-accent-blue/10 text-accent-blue rounded-full"
+                      className="inline-block px-2 py-1 text-xs bg-navy-primary/10 text-navy-primary rounded-full"
                     >
                       {service}
                     </span>
@@ -322,7 +322,7 @@ export function CharterMap({
                         <button
                           key={route.id}
                           onClick={() => onRouteSelect?.(route)}
-                          className="w-full text-left p-2 rounded-md hover:bg-neutral-light/50 focus:outline-none focus:ring-2 focus:ring-accent-blue transition-colors"
+                          className="w-full text-left p-2 rounded-md hover:bg-neutral-light/50 focus:outline-none focus:ring-2 focus:ring-navy-primary transition-colors"
                         >
                           <div className="text-sm font-medium text-neutral-dark">
                             {direction} {otherAirport.code}
@@ -331,7 +331,7 @@ export function CharterMap({
                             {otherAirport.city} • {route.estimatedTime}
                           </div>
                           {route.price && (
-                            <div className="text-xs text-accent-blue font-medium">
+                            <div className="text-xs text-navy-primary font-medium">
                               {formatPriceRange(route.price)}
                             </div>
                           )}
@@ -365,7 +365,7 @@ export function CharterMap({
               </div>
 
               <div className="flex-1 mx-3 relative">
-                <div className="border-t-2 border-dashed border-accent-blue"></div>
+                <div className="border-t-2 border-dashed border-navy-primary"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span className="bg-white px-2 text-xs text-neutral-medium">
                     {selectedRoute.estimatedTime}
@@ -401,11 +401,11 @@ export function CharterMap({
 
             {/* Pricing */}
             {selectedRoute.price && (
-              <div className="bg-accent-blue/5 rounded-md p-3">
+              <div className="bg-navy-primary/5 rounded-md p-3">
                 <div className="text-sm text-neutral-medium mb-1">
                   {t('estimatedPrice')}
                 </div>
-                <div className="text-lg font-semibold text-accent-blue">
+                <div className="text-lg font-semibold text-navy-primary">
                   {formatPriceRange(selectedRoute.price)}
                 </div>
               </div>

@@ -268,7 +268,7 @@ export function Header({
             <Link
               href="/"
               className={clsx(
-                'flex items-center focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2 rounded-lg',
+                'flex items-center focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2 rounded-lg',
                 'transition-all duration-200',
                 'motion-reduce:transition-none'
               )}
@@ -306,12 +306,12 @@ export function Header({
                 href={item.href}
                 className={clsx(
                   'px-3 py-2 text-sm font-medium transition-colors duration-200',
-                  'focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2',
+                  'focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2',
                   'motion-reduce:transition-none whitespace-nowrap',
                   // Navy text on white background
-                  'text-navy-primary hover:text-accent-blue hover:bg-neutral-light',
+                  'text-navy-primary hover:text-navy-primary hover:bg-neutral-light',
                   isActiveRoute(item.href)
-                    ? 'text-accent-blue bg-accent-blue/10 border-b-2 border-accent-blue'
+                    ? 'text-navy-primary bg-navy-primary/10 border-b-2 border-navy-primary'
                     : 'rounded-lg'
                 )}
                 aria-current={isActiveRoute(item.href) ? 'page' : 'false'}
@@ -326,7 +326,7 @@ export function Header({
           <div className="hidden lg:flex lg:items-center lg:gap-3">
             <Link
               href="/quote"
-              className="inline-flex items-center px-4 py-2 rounded-lg font-medium text-sm transition-colors whitespace-nowrap bg-accent-blue text-white hover:bg-accent-blue/80"
+              className="inline-flex items-center px-4 py-2 rounded-lg font-medium text-sm transition-colors whitespace-nowrap bg-navy-primary text-white hover:bg-navy-primary/80"
             >
               {locale === 'es' ? 'Cotizar' : locale === 'pt' ? 'Cotar' : 'Get Quote'}
             </Link>
@@ -352,9 +352,9 @@ export function Header({
               onClick={toggleMenu}
               className={clsx(
                 'p-2 rounded-lg transition-colors duration-200',
-                'focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2',
+                'focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2',
                 'motion-reduce:transition-none',
-                'text-navy-primary hover:bg-neutral-light hover:text-accent-blue'
+                'text-navy-primary hover:bg-neutral-light hover:text-navy-primary'
               )}
               aria-expanded={isMenuOpen}
               aria-controls="mobile-menu"
@@ -424,7 +424,7 @@ export function Header({
               ref={mobileMenuLastFocusableRef}
               type="button"
               onClick={closeMobileMenu}
-              className="p-2 rounded-lg text-navy-primary hover:bg-neutral-light focus:outline-none focus:ring-2 focus:ring-accent-blue"
+              className="p-2 rounded-lg text-navy-primary hover:bg-neutral-light focus:outline-none focus:ring-2 focus:ring-navy-primary"
               aria-label="Close navigation menu"
             >
               <svg
@@ -455,12 +455,12 @@ export function Header({
                       href={item.href}
                       className={clsx(
                         'mobile-nav-item block px-4 py-3 text-base font-medium transition-colors duration-200',
-                        'focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2',
-                        'hover:bg-neutral-light hover:text-accent-blue',
+                        'focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2',
+                        'hover:bg-neutral-light hover:text-navy-primary',
                         'min-h-[44px] flex items-center',
                         'motion-reduce:transition-none',
                         isActiveRoute(item.href)
-                          ? 'text-accent-blue bg-accent-blue/10 border-l-4 border-accent-blue'
+                          ? 'text-navy-primary bg-navy-primary/10 border-l-4 border-navy-primary'
                           : 'text-navy-primary rounded-lg'
                       )}
                       role="menuitem"
@@ -483,7 +483,7 @@ export function Header({
               <div className="pt-4 mt-4 border-t border-neutral-light">
                 <Link
                   href="/quote"
-                  className="w-full inline-flex items-center justify-center px-6 py-3 bg-accent-blue text-white font-medium rounded-md hover:bg-accent-blue-dark transition-colors"
+                  className="w-full inline-flex items-center justify-center px-6 py-3 bg-navy-primary text-white font-medium rounded-md hover:bg-navy-primary-dark transition-colors"
                   onClick={closeMobileMenu}
                 >
                   {locale === 'es' ? 'Cotizar' : locale === 'pt' ? 'Cotar' : 'Get Quote'}
@@ -497,7 +497,7 @@ export function Header({
       {/* Skip Navigation Link */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-accent-blue text-white px-4 py-2 rounded z-50"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-navy-primary text-white px-4 py-2 rounded z-50"
       >
         Skip to main content
       </a>

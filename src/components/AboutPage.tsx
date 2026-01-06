@@ -384,11 +384,11 @@ export function AboutPage({
                 {content.story.content}
               </p>
               <div className="space-y-4">
-                <div className="border-l-4 border-accent-blue pl-6">
+                <div className="border-l-4 border-navy-primary pl-6">
                   <h3 className="font-semibold text-navy-primary mb-2">Mission</h3>
                   <p className="text-neutral-medium">{content.story.mission}</p>
                 </div>
-                <div className="border-l-4 border-accent-blue pl-6">
+                <div className="border-l-4 border-navy-primary pl-6">
                   <h3 className="font-semibold text-navy-primary mb-2">Vision</h3>
                   <p className="text-neutral-medium">{content.story.vision}</p>
                 </div>
@@ -425,7 +425,7 @@ export function AboutPage({
                 className="stat-item bg-white rounded-lg p-8 text-center shadow-medium hover:shadow-large transition-shadow duration-300"
                 role="listitem"
               >
-                <span className="stat-number text-4xl md:text-5xl font-bold text-accent-blue mb-2 block" aria-label={`${stat.value.toLocaleString()}${stat.suffix} ${stat.label}`}>
+                <span className="stat-number text-4xl md:text-5xl font-bold text-navy-primary mb-2 block" aria-label={`${stat.value.toLocaleString()}${stat.suffix} ${stat.label}`}>
                   {stat.value.toLocaleString()}{stat.suffix}
                 </span>
                 <span className="stat-label text-lg font-semibold text-navy-primary">
@@ -464,7 +464,7 @@ export function AboutPage({
                 <h3 className="text-xl font-bold text-navy-primary mb-2">
                   {member.name}
                 </h3>
-                <p className="member-title text-accent-blue font-semibold mb-4">
+                <p className="member-title text-navy-primary font-semibold mb-4">
                   {member.role}
                 </p>
                 <p className="member-bio text-neutral-medium leading-relaxed mb-6">
@@ -475,7 +475,7 @@ export function AboutPage({
                     href={member.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center text-accent-blue hover:text-navy-primary transition-colors duration-200"
+                    className="inline-flex items-center text-navy-primary hover:text-navy-primary transition-colors duration-200"
                     aria-label={`View ${member.name}'s LinkedIn profile`}
                   >
                     <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -526,7 +526,7 @@ export function AboutPage({
                 <p className="text-neutral-medium text-sm mb-3 leading-relaxed">
                   {cert.description}
                 </p>
-                <div className="text-xs text-accent-blue font-semibold">
+                <div className="text-xs text-navy-primary font-semibold">
                   Since {cert.issued}
                 </div>
               </div>
@@ -536,7 +536,7 @@ export function AboutPage({
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-navy-primary to-accent-blue text-white">
+      <section className="py-20 bg-gradient-to-r from-navy-primary to-navy-primary text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             {content.cta.title}

@@ -172,7 +172,7 @@ export function ContactForm({
               type="text"
               autoComplete="given-name"
               className={clsx(
-                'w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-accent-blue focus:border-accent-blue transition-colors',
+                'w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-navy-primary focus:border-navy-primary transition-colors',
                 errors.firstName ? 'border-red-500' : 'border-gray-300'
               )}
             />
@@ -191,7 +191,7 @@ export function ContactForm({
               type="text"
               autoComplete="family-name"
               className={clsx(
-                'w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-accent-blue focus:border-accent-blue transition-colors',
+                'w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-navy-primary focus:border-navy-primary transition-colors',
                 errors.lastName ? 'border-red-500' : 'border-gray-300'
               )}
             />
@@ -212,7 +212,7 @@ export function ContactForm({
             type="email"
             autoComplete="email"
             className={clsx(
-              'w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-accent-blue focus:border-accent-blue transition-colors',
+              'w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-navy-primary focus:border-navy-primary transition-colors',
               errors.email ? 'border-red-500' : 'border-gray-300'
             )}
           />
@@ -231,7 +231,7 @@ export function ContactForm({
             id="phone"
             type="tel"
             autoComplete="tel"
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-blue focus:border-accent-blue transition-colors"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-primary focus:border-navy-primary transition-colors"
           />
 
           {/* WhatsApp Checkbox */}
@@ -240,7 +240,7 @@ export function ContactForm({
               <input
                 {...register('contactViaWhatsApp')}
                 type="checkbox"
-                className="w-4 h-4 text-accent-blue border-gray-300 rounded focus:ring-2 focus:ring-accent-blue"
+                className="w-4 h-4 text-navy-primary border-gray-300 rounded focus:ring-2 focus:ring-navy-primary"
               />
               <span className="ml-2 text-sm text-gray-700">{content.contactWhatsApp}</span>
             </label>
@@ -257,7 +257,7 @@ export function ContactForm({
             id="message"
             rows={6}
             className={clsx(
-              'w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-accent-blue focus:border-accent-blue transition-colors resize-vertical',
+              'w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-navy-primary focus:border-navy-primary transition-colors resize-vertical',
               errors.message ? 'border-red-500' : 'border-gray-300'
             )}
           />
@@ -282,7 +282,7 @@ export function ContactForm({
             'w-full py-3 px-6 rounded-lg font-semibold text-white transition-all duration-200',
             isSubmitting
               ? 'bg-gray-400 cursor-not-allowed'
-              : 'bg-accent-blue hover:bg-accent-blue/90 hover:shadow-lg transform hover:scale-105'
+              : 'bg-navy-primary hover:bg-navy-primary/90 hover:shadow-lg transform hover:scale-105'
           )}
         >
           {isSubmitting ? content.submitting : content.submit}

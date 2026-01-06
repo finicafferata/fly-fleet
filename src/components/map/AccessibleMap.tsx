@@ -267,13 +267,13 @@ export function AccessibleMap({
     const content = document.createElement('div');
     content.className = 'marker-content';
     content.innerHTML = `
-      <div class="bg-white rounded-full p-2 shadow-lg border-2 border-accent-blue cursor-pointer hover:scale-110 transition-transform"
+      <div class="bg-white rounded-full p-2 shadow-lg border-2 border-navy-primary cursor-pointer hover:scale-110 transition-transform"
            role="button"
            tabindex="0"
            aria-label="${markerData.title}"
            data-marker-index="${index}">
         ${markerData.icon ? `<img src="${markerData.icon}" alt="" class="w-6 h-6">` : `
-          <svg class="w-6 h-6 text-accent-blue" fill="currentColor" viewBox="0 0 24 24">
+          <svg class="w-6 h-6 text-navy-primary" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
             <circle cx="12" cy="9" r="2.5"/>
           </svg>
@@ -380,7 +380,7 @@ export function AccessibleMap({
         aria-label={t('loading')}
       >
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent-blue mx-auto mb-2" />
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-navy-primary mx-auto mb-2" />
           <p className="text-neutral-medium">{t('loading')}</p>
         </div>
       </div>
@@ -412,7 +412,7 @@ export function AccessibleMap({
           <div className="space-y-1">
             {markers.slice(0, 5).map((marker, index) => (
               <div key={marker.id} className="flex items-center text-xs">
-                <div className="w-3 h-3 bg-accent-blue rounded-full mr-2" />
+                <div className="w-3 h-3 bg-navy-primary rounded-full mr-2" />
                 <span className="truncate">{marker.title}</span>
               </div>
             ))}

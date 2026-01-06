@@ -252,7 +252,7 @@ export function SearchPage({
                         id="sort-select"
                         value={sortBy}
                         onChange={(e) => handleSortChange(e.target.value)}
-                        className="text-sm border border-neutral-medium rounded-md px-3 py-1 bg-white focus:ring-accent-blue focus:border-accent-blue"
+                        className="text-sm border border-neutral-medium rounded-md px-3 py-1 bg-white focus:ring-navy-primary focus:border-navy-primary"
                       >
                         <option value="relevance">{t('sortOptions.relevance')}</option>
                         <option value="date">{t('sortOptions.date')}</option>
@@ -267,9 +267,9 @@ export function SearchPage({
                         type="button"
                         onClick={() => setLayout('list')}
                         className={clsx(
-                          'p-2 rounded-l-md focus:outline-none focus:ring-2 focus:ring-accent-blue',
+                          'p-2 rounded-l-md focus:outline-none focus:ring-2 focus:ring-navy-primary',
                           layout === 'list'
-                            ? 'bg-accent-blue text-white'
+                            ? 'bg-navy-primary text-white'
                             : 'bg-white text-neutral-medium hover:text-neutral-dark'
                         )}
                         aria-label={t('layout.list')}
@@ -283,9 +283,9 @@ export function SearchPage({
                         type="button"
                         onClick={() => setLayout('grid')}
                         className={clsx(
-                          'p-2 rounded-r-md focus:outline-none focus:ring-2 focus:ring-accent-blue',
+                          'p-2 rounded-r-md focus:outline-none focus:ring-2 focus:ring-navy-primary',
                           layout === 'grid'
-                            ? 'bg-accent-blue text-white'
+                            ? 'bg-navy-primary text-white'
                             : 'bg-white text-neutral-medium hover:text-neutral-dark'
                         )}
                         aria-label={t('layout.grid')}
@@ -334,14 +334,14 @@ export function SearchPage({
                     <button
                       type="button"
                       onClick={retry}
-                      className="px-4 py-2 bg-accent-blue text-white rounded-lg hover:bg-accent-blue-dark focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2"
+                      className="px-4 py-2 bg-navy-primary text-white rounded-lg hover:bg-navy-primary-dark focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2"
                     >
                       {t('errors.retry')}
                     </button>
                     <button
                       type="button"
                       onClick={clearSearch}
-                      className="px-4 py-2 bg-white text-neutral-dark border border-neutral-medium rounded-lg hover:bg-neutral-light focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2"
+                      className="px-4 py-2 bg-white text-neutral-dark border border-neutral-medium rounded-lg hover:bg-neutral-light focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2"
                     >
                       {t('errors.clearSearch')}
                     </button>

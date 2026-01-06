@@ -845,7 +845,7 @@ export function QuoteForm({
                   className={clsx(
                     'w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold border-2 transition-all duration-200 relative z-10',
                     step === currentStep
-                      ? 'bg-accent-blue text-white border-accent-blue shadow-lg'
+                      ? 'bg-navy-primary text-white border-navy-primary shadow-lg'
                       : step < currentStep
                       ? 'bg-green-500 text-white border-green-500'
                       : 'bg-white text-gray-500 border-gray-300'
@@ -862,7 +862,7 @@ export function QuoteForm({
                 </div>
                 <span className={clsx(
                   'mt-2 text-xs font-medium text-center max-w-20',
-                  step === currentStep ? 'text-accent-blue' : 'text-gray-500'
+                  step === currentStep ? 'text-navy-primary' : 'text-gray-500'
                 )}>
                   {getStepTitle(step)}
                 </span>
@@ -903,7 +903,7 @@ export function QuoteForm({
                 </label>
                 <select
                   {...register('serviceType')}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-navy-primary"
                   required
                 >
                   <option value="">-- {locale === 'es' ? 'Seleccionar' : locale === 'pt' ? 'Selecionar' : 'Select'} --</option>
@@ -969,7 +969,7 @@ export function QuoteForm({
                   </label>
                   <select
                     {...register('countryCode')}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-navy-primary"
                     required
                   >
                     {countryCodes.map((country) => (
@@ -1010,7 +1010,7 @@ export function QuoteForm({
                       <input
                         {...register('contactWhatsApp')}
                         type="checkbox"
-                        className="w-4 h-4 text-accent-blue border-gray-300 rounded focus:ring-2 focus:ring-accent-blue"
+                        className="w-4 h-4 text-navy-primary border-gray-300 rounded focus:ring-2 focus:ring-navy-primary"
                       />
                       <span className="text-sm text-gray-600">
                         {content.contactWhatsApp}
@@ -1060,7 +1060,7 @@ export function QuoteForm({
                     {...register('departureDate')}
                     type="date"
                     min={new Date().toISOString().split('T')[0]}
-                    className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue cursor-pointer min-h-[44px]"
+                    className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-navy-primary cursor-pointer min-h-[44px]"
                     required
                     style={{
                       colorScheme: 'light',
@@ -1087,7 +1087,7 @@ export function QuoteForm({
                     {...register('departureTime')}
                     type="text"
                     placeholder={locale === 'es' ? 'Ej: 14:00 o 14:30' : locale === 'pt' ? 'Ex: 14:00 ou 14:30' : 'e.g., 14:00 or 14:30'}
-                    className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue min-h-[44px]"
+                    className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-navy-primary min-h-[44px]"
                     pattern="^([0-1]?[0-9]|2[0-3]):(00|30)$"
                     onInput={(e) => {
                       const target = e.target as HTMLInputElement;
@@ -1131,7 +1131,7 @@ export function QuoteForm({
                       setValue('passengers', newValue, { shouldValidate: true });
                     }}
                     disabled={watchedValues.passengers <= 1}
-                    className="w-8 h-8 rounded-full bg-white border-2 border-accent-blue text-accent-blue font-bold text-sm hover:bg-accent-blue hover:text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-1"
+                    className="w-8 h-8 rounded-full bg-white border-2 border-navy-primary text-navy-primary font-bold text-sm hover:bg-navy-primary hover:text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-1"
                   >
                     −
                   </button>
@@ -1151,7 +1151,7 @@ export function QuoteForm({
                       setValue('passengers', newValue, { shouldValidate: true });
                     }}
                     disabled={watchedValues.passengers >= 50}
-                    className="w-8 h-8 rounded-full bg-white border-2 border-accent-blue text-accent-blue font-bold text-sm hover:bg-accent-blue hover:text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-1"
+                    className="w-8 h-8 rounded-full bg-white border-2 border-navy-primary text-navy-primary font-bold text-sm hover:bg-navy-primary hover:text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-1"
                   >
                     +
                   </button>
@@ -1318,7 +1318,7 @@ export function QuoteForm({
                     placeholder={locale === 'es' ? 'Describa equipaje de gran tamaño o artículos especiales...' :
                                 locale === 'pt' ? 'Descreva bagagem de grande porte ou itens especiais...' :
                                 'Describe oversized baggage or special items...'}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue resize-none"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-navy-primary resize-none"
                   />
                 </FormField>
               </div>
@@ -1341,7 +1341,7 @@ export function QuoteForm({
                         name="pets"
                         checked={watchedValues.pets === true}
                         onChange={() => setValue('pets', true, { shouldValidate: true })}
-                        className="w-4 h-4 text-accent-blue border-gray-300 focus:ring-2 focus:ring-accent-blue"
+                        className="w-4 h-4 text-navy-primary border-gray-300 focus:ring-2 focus:ring-navy-primary"
                       />
                       <span className="text-sm font-medium text-gray-900">
                         {locale === 'es' ? 'Sí' : locale === 'pt' ? 'Sim' : 'Yes'}
@@ -1353,7 +1353,7 @@ export function QuoteForm({
                         name="pets"
                         checked={watchedValues.pets === false}
                         onChange={() => setValue('pets', false, { shouldValidate: true })}
-                        className="w-4 h-4 text-accent-blue border-gray-300 focus:ring-2 focus:ring-accent-blue"
+                        className="w-4 h-4 text-navy-primary border-gray-300 focus:ring-2 focus:ring-navy-primary"
                       />
                       <span className="text-sm font-medium text-gray-900">
                         {locale === 'es' ? 'No' : locale === 'pt' ? 'Não' : 'No'}
@@ -1373,7 +1373,7 @@ export function QuoteForm({
                       >
                         <select
                           {...register('petSpecies')}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-navy-primary"
                         >
                           <option value="">
                             {locale === 'es' ? 'Seleccionar tipo' : locale === 'pt' ? 'Selecionar tipo' : 'Select type'}
@@ -1393,7 +1393,7 @@ export function QuoteForm({
                       >
                         <select
                           {...register('petSize')}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-navy-primary"
                         >
                           <option value="">
                             {locale === 'es' ? 'Seleccionar tamaño' : locale === 'pt' ? 'Selecionar tamanho' : 'Select size'}
@@ -1412,7 +1412,7 @@ export function QuoteForm({
                       <input
                         {...register('petDocumentation')}
                         type="checkbox"
-                        className="w-4 h-4 text-accent-blue border-gray-300 rounded focus:ring-2 focus:ring-accent-blue mt-0.5"
+                        className="w-4 h-4 text-navy-primary border-gray-300 rounded focus:ring-2 focus:ring-navy-primary mt-0.5"
                       />
                       <label className="text-sm text-gray-700 cursor-pointer" onClick={() => {
                         setValue('petDocumentation', !watchedValues.petDocumentation, { shouldValidate: true });
@@ -1433,7 +1433,7 @@ export function QuoteForm({
                   placeholder={locale === 'es' ? 'Escriba aquí cualquier comentario adicional o solicitud especial...' :
                               locale === 'pt' ? 'Escreva aqui quaisquer comentários adicionais ou solicitações especiais...' :
                               'Write any additional comments or special requests here...'}
-                  className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue resize-none min-h-[120px]"
+                  className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-navy-primary resize-none min-h-[120px]"
                 />
                 {errors.message && (
                   <p className="mt-1 text-sm text-red-600">{errors.message.message}</p>
@@ -1460,7 +1460,7 @@ export function QuoteForm({
                           setSelectedServices(newServices);
                           setValue('additionalServices', newServices);
                         }}
-                        className="w-4 h-4 text-accent-blue border-gray-300 rounded focus:ring-2 focus:ring-accent-blue"
+                        className="w-4 h-4 text-navy-primary border-gray-300 rounded focus:ring-2 focus:ring-navy-primary"
                       />
                       <span className="text-sm font-medium text-navy-primary">
                         {service.label}
@@ -1477,7 +1477,7 @@ export function QuoteForm({
                   <input
                     {...register('privacyConsent')}
                     type="checkbox"
-                    className="w-3 h-3 text-accent-blue border-gray-300 rounded focus:ring-1 focus:ring-accent-blue mt-0.5 flex-shrink-0"
+                    className="w-3 h-3 text-navy-primary border-gray-300 rounded focus:ring-1 focus:ring-navy-primary mt-0.5 flex-shrink-0"
                     required
                   />
                   <span className="text-xs text-gray-600 leading-tight">
@@ -1609,7 +1609,7 @@ export function QuoteForm({
               onClick={prevStep}
               disabled={currentStep === 1}
               className={clsx(
-                'border-2 border-gray-600 bg-white text-gray-900 hover:bg-gray-50 hover:border-gray-700 hover:text-black px-6 py-2 rounded-lg font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-accent-blue',
+                'border-2 border-gray-600 bg-white text-gray-900 hover:bg-gray-50 hover:border-gray-700 hover:text-black px-6 py-2 rounded-lg font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-navy-primary focus:border-navy-primary',
                 currentStep === 1 && 'invisible'
               )}
             >
@@ -1624,7 +1624,7 @@ export function QuoteForm({
                 className={clsx(
                   !isCurrentStepValid()
                     ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-accent-blue hover:bg-accent-blue/90'
+                    : 'bg-navy-primary hover:bg-navy-primary/90'
                 )}
               >
                 {content.nextButton}
@@ -1638,7 +1638,7 @@ export function QuoteForm({
                   className={clsx(
                     (!isCurrentStepValid() || !recaptchaToken)
                       ? 'bg-gray-400 cursor-not-allowed'
-                      : 'bg-accent-blue hover:bg-accent-blue/90'
+                      : 'bg-navy-primary hover:bg-navy-primary/90'
                   )}
                 >
                   {content.submitButton}

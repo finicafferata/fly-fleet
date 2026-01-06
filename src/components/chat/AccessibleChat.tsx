@@ -305,7 +305,7 @@ export function AccessibleChat({
             {ariaLabel || t('title')}
           </h2>
           {unreadCount > 0 && (
-            <span className="bg-accent-blue text-white text-xs rounded-full px-2 py-1">
+            <span className="bg-navy-primary text-white text-xs rounded-full px-2 py-1">
               {unreadCount}
             </span>
           )}
@@ -320,7 +320,7 @@ export function AccessibleChat({
               {participants.slice(0, 3).map(participant => (
                 <div
                   key={participant.id}
-                  className="relative w-8 h-8 rounded-full bg-accent-blue text-white flex items-center justify-center text-sm font-medium border-2 border-white"
+                  className="relative w-8 h-8 rounded-full bg-navy-primary text-white flex items-center justify-center text-sm font-medium border-2 border-white"
                   title={participant.name}
                 >
                   {participant.avatar ? (
@@ -355,7 +355,7 @@ export function AccessibleChat({
       >
         {isLoading ? (
           <div className="flex items-center justify-center py-8">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-accent-blue" />
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-navy-primary" />
             <span className="ml-2 text-neutral-medium">{t('loading')}</span>
           </div>
         ) : groupedMessages.length === 0 ? (
@@ -423,7 +423,7 @@ export function AccessibleChat({
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={!isConnected}
-                className="flex-shrink-0 p-2 text-neutral-medium hover:text-accent-blue disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-accent-blue rounded-md"
+                className="flex-shrink-0 p-2 text-neutral-medium hover:text-navy-primary disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-navy-primary rounded-md"
                 aria-label={t('attachFile')}
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -441,7 +441,7 @@ export function AccessibleChat({
                 onKeyDown={handleKeyDown}
                 placeholder={placeholder || t('placeholder')}
                 disabled={!isConnected}
-                className="w-full min-h-[40px] max-h-[120px] px-3 py-2 border border-neutral-medium rounded-lg resize-none focus:ring-accent-blue focus:border-accent-blue disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full min-h-[40px] max-h-[120px] px-3 py-2 border border-neutral-medium rounded-lg resize-none focus:ring-navy-primary focus:border-navy-primary disabled:opacity-50 disabled:cursor-not-allowed"
                 aria-label={t('messageInput')}
                 aria-describedby="input-help"
                 rows={1}
@@ -455,7 +455,7 @@ export function AccessibleChat({
             <button
               type="submit"
               disabled={!inputValue.trim() || !isConnected}
-              className="flex-shrink-0 bg-accent-blue text-white p-2 rounded-lg hover:bg-accent-blue-dark disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2 transition-colors"
+              className="flex-shrink-0 bg-navy-primary text-white p-2 rounded-lg hover:bg-navy-primary-dark disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2 transition-colors"
               aria-label={t('sendMessage')}
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -521,11 +521,11 @@ function ChatMessage({ message, isOwn, onVisible, formatTimestamp }: ChatMessage
   const getStatusIcon = (status: ChatMessage['status']) => {
     switch (status) {
       case 'sending':
-        return <div className="w-4 h-4 border-2 border-neutral-light border-t-accent-blue rounded-full animate-spin" />;
+        return <div className="w-4 h-4 border-2 border-neutral-light border-t-navy-primary rounded-full animate-spin" />;
       case 'sent':
         return <svg className="w-4 h-4 text-neutral-medium" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>;
       case 'delivered':
-        return <svg className="w-4 h-4 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>;
+        return <svg className="w-4 h-4 text-navy-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>;
       case 'read':
         return <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>;
       case 'failed':
@@ -561,7 +561,7 @@ function ChatMessage({ message, isOwn, onVisible, formatTimestamp }: ChatMessage
         <div className={clsx(
           'rounded-lg px-3 py-2 break-words',
           isOwn
-            ? 'bg-accent-blue text-white'
+            ? 'bg-navy-primary text-white'
             : 'bg-neutral-light text-neutral-dark',
           message.type === 'system' && 'bg-yellow-50 text-yellow-800 border border-yellow-200'
         )}>

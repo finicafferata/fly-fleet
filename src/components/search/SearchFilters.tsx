@@ -153,14 +153,14 @@ export function SearchFilters({
           type="button"
           onClick={() => toggleFilter(filter.id)}
           onKeyDown={(e) => handleFilterKeyDown(e, filter.id)}
-          className="w-full flex items-center justify-between py-4 px-1 text-left hover:bg-neutral-light/50 focus:outline-none focus:ring-2 focus:ring-accent-blue rounded-md"
+          className="w-full flex items-center justify-between py-4 px-1 text-left hover:bg-neutral-light/50 focus:outline-none focus:ring-2 focus:ring-navy-primary rounded-md"
           aria-expanded={isExpanded}
           aria-controls={`filter-content-${filter.id}`}
         >
           <span className="font-medium text-neutral-dark">
             {filter.label}
             {Array.isArray(selectedValue) && selectedValue.length > 0 && (
-              <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-accent-blue text-white">
+              <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-navy-primary text-white">
                 {selectedValue.length}
               </span>
             )}
@@ -197,7 +197,7 @@ export function SearchFilters({
                           type="checkbox"
                           checked={isChecked}
                           onChange={(e) => handleCheckboxChange(filter.id, option.value, e.target.checked)}
-                          className="h-4 w-4 text-accent-blue border-neutral-medium rounded focus:ring-accent-blue focus:ring-offset-0"
+                          className="h-4 w-4 text-navy-primary border-neutral-medium rounded focus:ring-navy-primary focus:ring-offset-0"
                           aria-describedby={option.count ? `${option.id}-count` : undefined}
                         />
                         <span className="text-sm text-neutral-dark flex-1">
@@ -235,7 +235,7 @@ export function SearchFilters({
                           value={option.value}
                           checked={isSelected}
                           onChange={() => handleRadioChange(filter.id, option.value)}
-                          className="h-4 w-4 text-accent-blue border-neutral-medium focus:ring-accent-blue focus:ring-offset-0"
+                          className="h-4 w-4 text-navy-primary border-neutral-medium focus:ring-navy-primary focus:ring-offset-0"
                           aria-describedby={option.count ? `${option.id}-count` : undefined}
                         />
                         <span className="text-sm text-neutral-dark flex-1">
@@ -274,7 +274,7 @@ export function SearchFilters({
                         const currentValues = (selectedValue as number[]) || [filter.min!, filter.max!];
                         handleRangeChange(filter.id, [parseInt(e.target.value), currentValues[1]]);
                       }}
-                      className="block w-full rounded-md border-neutral-medium shadow-sm focus:border-accent-blue focus:ring-accent-blue text-sm"
+                      className="block w-full rounded-md border-neutral-medium shadow-sm focus:border-navy-primary focus:ring-navy-primary text-sm"
                     />
                   </div>
                   <div className="flex-1">
@@ -292,7 +292,7 @@ export function SearchFilters({
                         const currentValues = (selectedValue as number[]) || [filter.min!, filter.max!];
                         handleRangeChange(filter.id, [currentValues[0], parseInt(e.target.value)]);
                       }}
-                      className="block w-full rounded-md border-neutral-medium shadow-sm focus:border-accent-blue focus:ring-accent-blue text-sm"
+                      className="block w-full rounded-md border-neutral-medium shadow-sm focus:border-navy-primary focus:ring-navy-primary text-sm"
                     />
                   </div>
                 </div>
@@ -325,12 +325,12 @@ export function SearchFilters({
               value={searchQuery}
               onChange={(e) => handleSearchChange(e.target.value)}
               placeholder={t('searchPlaceholder')}
-              className="block w-full pl-4 pr-10 py-3 border border-neutral-medium rounded-lg shadow-sm focus:ring-accent-blue focus:border-accent-blue text-sm"
+              className="block w-full pl-4 pr-10 py-3 border border-neutral-medium rounded-lg shadow-sm focus:ring-navy-primary focus:border-navy-primary text-sm"
               aria-describedby="search-results-count"
             />
             <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
               {isLoading ? (
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-accent-blue" />
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-navy-primary" />
               ) : (
                 <svg
                   className="h-5 w-5 text-neutral-medium"
@@ -362,14 +362,14 @@ export function SearchFilters({
         <button
           type="button"
           onClick={toggleMobileFilters}
-          className="inline-flex items-center px-4 py-2 border border-neutral-medium rounded-lg shadow-sm text-sm font-medium text-neutral-dark bg-white hover:bg-neutral-light focus:outline-none focus:ring-2 focus:ring-accent-blue"
+          className="inline-flex items-center px-4 py-2 border border-neutral-medium rounded-lg shadow-sm text-sm font-medium text-neutral-dark bg-white hover:bg-neutral-light focus:outline-none focus:ring-2 focus:ring-navy-primary"
           aria-expanded={showMobileFilters}
           aria-controls="mobile-filters"
         >
           <FunnelIcon className="w-5 h-5 mr-2" aria-hidden="true" />
           {t('filters.title')}
           {activeFilterCount > 0 && (
-            <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-accent-blue text-white">
+            <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-navy-primary text-white">
               {activeFilterCount}
             </span>
           )}
@@ -386,7 +386,7 @@ export function SearchFilters({
             <button
               type="button"
               onClick={onClearAll}
-              className="text-sm text-accent-blue hover:text-accent-blue-dark focus:outline-none focus:underline"
+              className="text-sm text-navy-primary hover:text-navy-primary-dark focus:outline-none focus:underline"
             >
               {t('filters.clearAll')}
             </button>
@@ -417,7 +417,7 @@ export function SearchFilters({
                 <button
                   type="button"
                   onClick={toggleMobileFilters}
-                  className="p-2 -mr-2 text-neutral-medium hover:text-neutral-dark focus:outline-none focus:ring-2 focus:ring-accent-blue rounded-md"
+                  className="p-2 -mr-2 text-neutral-medium hover:text-neutral-dark focus:outline-none focus:ring-2 focus:ring-navy-primary rounded-md"
                   aria-label={t('filters.close')}
                 >
                   <XMarkIcon className="w-6 h-6" aria-hidden="true" />
@@ -435,7 +435,7 @@ export function SearchFilters({
                     onClearAll();
                     setShowMobileFilters(false);
                   }}
-                  className="w-full px-4 py-2 border border-neutral-medium rounded-lg text-sm font-medium text-neutral-dark bg-white hover:bg-neutral-light focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                  className="w-full px-4 py-2 border border-neutral-medium rounded-lg text-sm font-medium text-neutral-dark bg-white hover:bg-neutral-light focus:outline-none focus:ring-2 focus:ring-navy-primary"
                 >
                   {t('filters.clearAll')}
                 </button>
@@ -455,7 +455,7 @@ export function SearchFilters({
             <button
               type="button"
               onClick={onClearAll}
-              className="text-sm text-accent-blue hover:text-accent-blue-dark focus:outline-none focus:underline"
+              className="text-sm text-navy-primary hover:text-navy-primary-dark focus:outline-none focus:underline"
             >
               {t('filters.clearAll')}
             </button>

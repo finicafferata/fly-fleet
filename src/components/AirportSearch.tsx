@@ -353,7 +353,7 @@ export function AirportSearch({
           aria-invalid={error ? 'true' : undefined}
           className={clsx(
             'w-full px-3 py-2.5 border rounded-lg shadow-sm transition-colors duration-200',
-            'focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-accent-blue',
+            'focus:outline-none focus:ring-2 focus:ring-navy-primary focus:border-navy-primary',
             'disabled:opacity-50 disabled:cursor-not-allowed',
             'min-h-[44px]', // Mobile accessibility
             error
@@ -366,7 +366,7 @@ export function AirportSearch({
         {isLoading && (
           <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
             <div
-              className="animate-spin h-4 w-4 border-2 border-accent-blue border-t-transparent rounded-full"
+              className="animate-spin h-4 w-4 border-2 border-navy-primary border-t-transparent rounded-full"
               aria-hidden="true"
             />
             <VisuallyHidden>Searching airports</VisuallyHidden>
@@ -408,9 +408,9 @@ export function AirportSearch({
                 className={clsx(
                   'px-3 py-3 cursor-pointer transition-colors duration-150',
                   'hover:bg-neutral-light',
-                  'focus:bg-accent-blue focus:text-white',
+                  'focus:bg-navy-primary focus:text-white',
                   'focus:outline-none min-h-[44px] flex items-center',
-                  index === selectedIndex && 'bg-accent-blue text-white'
+                  index === selectedIndex && 'bg-navy-primary text-white'
                 )}
                 onClick={() => handleSelect(airport)}
                 onMouseEnter={() => setSelectedIndex(index)}
@@ -442,11 +442,11 @@ export function AirportSearch({
                 tabIndex={-1}
                 className={clsx(
                   'px-3 py-3 cursor-pointer transition-colors duration-150',
-                  'hover:bg-accent-blue hover:text-white',
-                  'focus:bg-accent-blue focus:text-white',
+                  'hover:bg-navy-primary hover:text-white',
+                  'focus:bg-navy-primary focus:text-white',
                   'focus:outline-none min-h-[44px] flex items-center',
                   'border-t border-neutral-light',
-                  results.length === selectedIndex && 'bg-accent-blue text-white'
+                  results.length === selectedIndex && 'bg-navy-primary text-white'
                 )}
                 onClick={() => handleCustomAirport(query.trim())}
                 onMouseEnter={() => setSelectedIndex(results.length)}

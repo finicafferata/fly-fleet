@@ -203,7 +203,7 @@ export function ProcessSteps({ locale = 'en', className }: ProcessStepsProps) {
           <div className="hidden md:block absolute inset-0 pointer-events-none z-0" aria-hidden="true">
             <div className="flex items-center justify-center h-16 relative">
               {/* Single continuous line */}
-              <div className="absolute left-1/6 right-1/6 h-0.5 bg-accent-blue top-1/2 transform -translate-y-1/2" />
+              <div className="absolute left-1/6 right-1/6 h-0.5 bg-navy-primary top-1/2 transform -translate-y-1/2" />
             </div>
           </div>
 
@@ -226,7 +226,7 @@ export function ProcessSteps({ locale = 'en', className }: ProcessStepsProps) {
               <div
                 className={clsx(
                   'step-number w-12 h-12 md:w-16 md:h-16 mx-auto mb-6',
-                  'bg-accent-blue',
+                  'bg-navy-primary',
                   'rounded-full flex items-center justify-center',
                   'text-white text-lg md:text-xl font-bold',
                   'shadow-large border-4 border-white'
@@ -251,7 +251,7 @@ export function ProcessSteps({ locale = 'en', className }: ProcessStepsProps) {
               {/* Mobile Connecting Line */}
               {index < content.steps.length - 1 && (
                 <div className="step-connector md:hidden flex justify-center mt-8" aria-hidden="true">
-                  <div className="w-0.5 h-8 bg-gradient-to-b from-accent-blue to-accent-blue/50" />
+                  <div className="w-0.5 h-8 bg-gradient-to-b from-navy-primary to-navy-primary/50" />
                 </div>
               )}
             </li>

@@ -161,7 +161,7 @@ export default function LegalPage() {
               <ul className="space-y-3">
                 {content.responsibilities.items.map((item, index) => (
                   <li key={index} className="flex items-start space-x-3">
-                    <div className="w-2 h-2 bg-accent-blue rounded-full mt-2 flex-shrink-0" />
+                    <div className="w-2 h-2 bg-navy-primary rounded-full mt-2 flex-shrink-0" />
                     <span className="text-gray-600 leading-relaxed">{item}</span>
                   </li>
                 ))}
@@ -176,7 +176,7 @@ export default function LegalPage() {
               <ul className="space-y-3">
                 {content.payments.items.map((item, index) => (
                   <li key={index} className="flex items-start space-x-3">
-                    <div className="w-2 h-2 bg-accent-blue rounded-full mt-2 flex-shrink-0" />
+                    <div className="w-2 h-2 bg-navy-primary rounded-full mt-2 flex-shrink-0" />
                     <span className="text-gray-600 leading-relaxed">{item}</span>
                   </li>
                 ))}
@@ -191,7 +191,7 @@ export default function LegalPage() {
               <ul className="space-y-3">
                 {content.privacy.items.map((item, index) => (
                   <li key={index} className="flex items-start space-x-3">
-                    <div className="w-2 h-2 bg-accent-blue rounded-full mt-2 flex-shrink-0" />
+                    <div className="w-2 h-2 bg-navy-primary rounded-full mt-2 flex-shrink-0" />
                     <span className="text-gray-600 leading-relaxed">{item}</span>
                   </li>
                 ))}

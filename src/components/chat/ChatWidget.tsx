@@ -321,7 +321,7 @@ export function ChatWidget({
       {isOpen && (
         <div className="mb-4 w-80 h-96 shadow-2xl rounded-lg overflow-hidden border border-neutral-200 dark:border-neutral-700">
           {/* Header */}
-          <div className="bg-accent-blue dark:bg-accent-blue-dark text-white p-4 flex items-center justify-between">
+          <div className="bg-navy-primary dark:bg-navy-primary-dark text-white p-4 flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -369,7 +369,7 @@ export function ChatWidget({
           ) : (
             <div className="h-full flex items-center justify-center p-4 text-center">
               <div>
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent-blue mx-auto mb-4" />
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-navy-primary mx-auto mb-4" />
                 <p className="text-neutral-medium">{t('connecting')}</p>
                 {lastError && (
                   <p className="text-red-600 text-sm mt-2">{lastError}</p>
@@ -393,7 +393,7 @@ export function ChatWidget({
       <button
         onClick={handleToggle}
         className={clsx(
-          'w-14 h-14 bg-accent-blue hover:bg-accent-blue-dark text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center focus:outline-none focus:ring-4 focus:ring-accent-blue/30',
+          'w-14 h-14 bg-navy-primary hover:bg-navy-primary-dark text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center focus:outline-none focus:ring-4 focus:ring-navy-primary/30',
           isOpen && 'scale-90'
         )}
         aria-label={isOpen ? t('close') : t('open')}

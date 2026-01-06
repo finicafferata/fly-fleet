@@ -44,7 +44,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
       ? [
           'cursor-pointer',
           'hover:shadow-medium hover:border-opacity-20',
-          'focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2',
+          'focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2',
           'active:transform active:scale-98',
         ]
       : [];
@@ -187,7 +187,7 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
       role="article"
     >
       {icon && (
-        <div className="flex justify-center mb-4 text-accent-blue">
+        <div className="flex justify-center mb-4 text-navy-primary">
           {icon}
         </div>
       )}
@@ -258,7 +258,7 @@ export const StatsCard: React.FC<StatsCardProps> = ({
           )}
         </div>
         {icon && (
-          <div className="text-accent-blue" aria-hidden="true">
+          <div className="text-navy-primary" aria-hidden="true">
             {icon}
           </div>
         )}

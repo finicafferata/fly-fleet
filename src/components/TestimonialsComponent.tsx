@@ -355,7 +355,7 @@ export function TestimonialsComponent({
         className={clsx(
           'bg-white rounded-lg shadow-medium p-6 h-full w-full flex flex-col',
           variant === 'grid' && 'hover:shadow-large transition-shadow duration-300',
-          variant === 'carousel' && isActive && 'ring-2 ring-accent-blue/50'
+          variant === 'carousel' && isActive && 'ring-2 ring-navy-primary/50'
         )}
       >
         {/* Video Section */}
@@ -363,7 +363,7 @@ export function TestimonialsComponent({
           <div className="mb-6">
             {!showVideo ? (
               <div className="relative">
-                <div className="w-full h-48 bg-gradient-to-br from-accent-blue to-navy-primary rounded-lg flex items-center justify-center">
+                <div className="w-full h-48 bg-gradient-to-br from-navy-primary to-navy-primary rounded-lg flex items-center justify-center">
                   <span className="text-white text-4xl font-bold">
                     {getInitials(testimonial.customerName)}
                   </span>
@@ -405,7 +405,7 @@ export function TestimonialsComponent({
           {shouldTruncate && (
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="mt-2 text-accent-blue hover:text-navy-primary font-medium text-sm transition-colors"
+              className="mt-2 text-navy-primary hover:text-navy-primary font-medium text-sm transition-colors"
             >
               {isExpanded ? content.readLess : content.readMore}
             </button>
@@ -415,7 +415,7 @@ export function TestimonialsComponent({
         {/* Customer Info */}
         <div className="flex items-start space-x-4">
           {!testimonial.videoUrl && (
-            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-accent-blue to-navy-primary flex items-center justify-center border-2 border-neutral-light">
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-navy-primary to-navy-primary flex items-center justify-center border-2 border-neutral-light">
               <span className="text-white text-lg font-bold">
                 {getInitials(testimonial.customerName)}
               </span>
@@ -423,7 +423,7 @@ export function TestimonialsComponent({
           )}
           <div className="flex-1">
             <div className="font-semibold text-navy-primary">{testimonial.customerName}</div>
-            <div className="text-sm text-accent-blue">{testimonial.customerTitle}</div>
+            <div className="text-sm text-navy-primary">{testimonial.customerTitle}</div>
             <div className="text-sm text-neutral-medium">{testimonial.customerCompany}</div>
             <div className="text-xs text-neutral-medium mt-1">
               {testimonial.customerLocation} • {testimonial.serviceUsed}
@@ -519,7 +519,7 @@ export function TestimonialsComponent({
             {displayTestimonials.length > 1 && (
               <>
                 <button
-                  className="carousel-prev absolute left-2 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-3 shadow-large hover:shadow-xl transition-shadow focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                  className="carousel-prev absolute left-2 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-3 shadow-large hover:shadow-xl transition-shadow focus:outline-none focus:ring-2 focus:ring-navy-primary"
                   onClick={() => {
                     const newIndex = (activeIndex - 1 + displayTestimonials.length) % displayTestimonials.length;
                     setActiveIndex(newIndex);
@@ -531,7 +531,7 @@ export function TestimonialsComponent({
                 </button>
 
                 <button
-                  className="carousel-next absolute right-2 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-3 shadow-large hover:shadow-xl transition-shadow focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                  className="carousel-next absolute right-2 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-3 shadow-large hover:shadow-xl transition-shadow focus:outline-none focus:ring-2 focus:ring-navy-primary"
                   onClick={() => {
                     const newIndex = (activeIndex + 1) % displayTestimonials.length;
                     setActiveIndex(newIndex);
@@ -545,7 +545,7 @@ export function TestimonialsComponent({
                 {/* Auto-play Control */}
                 <button
                   onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-                  className="absolute top-4 right-4 bg-white/90 rounded-full p-2 shadow-medium hover:shadow-large transition-shadow focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                  className="absolute top-4 right-4 bg-white/90 rounded-full p-2 shadow-medium hover:shadow-large transition-shadow focus:outline-none focus:ring-2 focus:ring-navy-primary"
                   aria-label={isAutoPlaying ? content.pauseCarousel : content.playCarousel}
                 >
                   {isAutoPlaying ? (
@@ -566,8 +566,8 @@ export function TestimonialsComponent({
                       key={index}
                       role="tab"
                       className={clsx(
-                        'indicator w-3 h-3 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2',
-                        index === activeIndex ? 'bg-accent-blue active' : 'bg-neutral-medium/30 hover:bg-neutral-medium/50'
+                        'indicator w-3 h-3 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2',
+                        index === activeIndex ? 'bg-navy-primary active' : 'bg-neutral-medium/30 hover:bg-neutral-medium/50'
                       )}
                       aria-selected={index === activeIndex}
                       aria-label={`Go to testimonial ${index + 1}`}
@@ -595,7 +595,7 @@ export function TestimonialsComponent({
             <Button
               onClick={handleCTAClick}
               size="lg"
-              className="bg-accent-blue hover:bg-accent-blue/90 text-white"
+              className="bg-navy-primary hover:bg-navy-primary/90 text-white"
             >
               {content.cta.button}
             </Button>
@@ -634,7 +634,7 @@ export function TestimonialsComponent({
           <Button
             onClick={handleCTAClick}
             size="lg"
-            className="bg-accent-blue hover:bg-accent-blue/90 text-white"
+            className="bg-navy-primary hover:bg-navy-primary/90 text-white"
           >
             {content.cta.button}
           </Button>

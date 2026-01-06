@@ -384,9 +384,9 @@ export function FAQComponent({
           {currentContent.questions.map((faq, index) => {
             const isExpanded = expandedItems.has(index.toString());
             return (
-              <div key={index} className="group bg-white rounded-xl border border-gray-100 hover:border-accent-blue hover:shadow-lg transition-all duration-300">
+              <div key={index} className="group bg-white rounded-xl border border-gray-100 hover:border-navy-primary hover:shadow-lg transition-all duration-300">
                 <button
-                  className="w-full px-6 py-5 text-left focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-inset rounded-xl hover:bg-gray-50/50 transition-colors"
+                  className="w-full px-6 py-5 text-left focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-inset rounded-xl hover:bg-gray-50/50 transition-colors"
                   onClick={() => toggleExpanded(index.toString())}
                   aria-expanded={isExpanded}
                 >
@@ -394,7 +394,7 @@ export function FAQComponent({
                     <span className="text-lg font-semibold text-navy-primary pr-4 leading-snug">{faq.question}</span>
                     <svg
                       className={clsx(
-                        'w-6 h-6 text-accent-blue transform transition-transform duration-300 flex-shrink-0',
+                        'w-6 h-6 text-navy-primary transform transition-transform duration-300 flex-shrink-0',
                         isExpanded ? 'rotate-180' : 'rotate-0'
                       )}
                       fill="none"

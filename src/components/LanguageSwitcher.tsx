@@ -295,12 +295,12 @@ export function LanguageSwitcher({
           'language-trigger inline-flex items-center justify-center',
           'text-sm font-medium text-navy-primary',
           'border border-neutral-medium rounded-lg',
-          'hover:bg-neutral-light hover:border-accent-blue',
-          'focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2',
+          'hover:bg-neutral-light hover:border-navy-primary',
+          'focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2',
           'transition-colors duration-200',
           'h-10 w-10',
           // Navy blue active states
-          isOpen && 'bg-accent-blue text-white border-accent-blue',
+          isOpen && 'bg-navy-primary text-white border-navy-primary',
           // High contrast mode compatibility
           'contrast-more:border-black contrast-more:text-black'
         )}
@@ -341,12 +341,12 @@ export function LanguageSwitcher({
                   'w-full px-3 py-3 text-left',
                   'flex items-center space-x-3',
                   'hover:bg-neutral-light',
-                  'focus:outline-none focus:bg-accent-blue focus:text-white',
+                  'focus:outline-none focus:bg-navy-primary focus:text-white',
                   'transition-colors duration-150',
                   'min-h-[44px]',
                   // Navy blue active states
                   currentLocale === language.code && 'bg-neutral-light',
-                  activeIndex === index && 'bg-accent-blue text-white',
+                  activeIndex === index && 'bg-navy-primary text-white',
                   // High contrast mode compatibility
                   'contrast-more:hover:bg-black contrast-more:hover:text-white'
                 )}
@@ -359,7 +359,7 @@ export function LanguageSwitcher({
                 {currentLocale === language.code && (
                   <>
                     <svg
-                      className="w-4 h-4 ml-auto text-accent-blue"
+                      className="w-4 h-4 ml-auto text-navy-primary"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                       aria-hidden="true"

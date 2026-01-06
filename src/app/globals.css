@@ -8,7 +8,7 @@
   --navy-primary: #0B1E3C;
   --neutral-light: #F4F6F8;
   --neutral-medium: #828FA0;
-  --accent-blue: #2F6AEF;
+  --navy-primary: #2F6AEF;
   --white: #FFFFFF;
   --black: #000000;
   --focus-ring: 0 0 0 3px rgba(47, 106, 239, 0.3);
@@ -20,7 +20,7 @@
 @theme inline {
   /* Design System Colors */
   --color-navy-primary: var(--navy-primary);
-  --color-accent-blue: var(--accent-blue);
+  --color-navy-primary: var(--navy-primary);
   --color-neutral-light: var(--neutral-light);
   --color-neutral-medium: var(--neutral-medium);
   --color-white: var(--white);
@@ -154,7 +154,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Focus styles */
 *:focus {
-  outline: 2px solid var(--accent-blue);
+  outline: 2px solid var(--navy-primary);
   outline-offset: 2px;
 }
 

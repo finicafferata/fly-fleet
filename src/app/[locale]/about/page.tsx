@@ -242,7 +242,7 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {content.certifications.items.map((item, index) => (
               <div key={index} className="flex items-center space-x-3 bg-white p-4 rounded-lg shadow-sm">
-                <div className="w-3 h-3 bg-accent-blue rounded-full flex-shrink-0" />
+                <div className="w-3 h-3 bg-navy-primary rounded-full flex-shrink-0" />
                 <span className="text-gray-700 font-medium">{item}</span>
               </div>
             ))}
@@ -258,8 +258,8 @@ export default function AboutPage() {
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {content.commitment.items.map((item, index) => (
-              <div key={index} className="group text-center p-6 rounded-2xl bg-gradient-to-br from-accent-blue/5 to-transparent hover:from-accent-blue/10 transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
-                <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-accent-blue to-blue-600 rounded-2xl flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+              <div key={index} className="group text-center p-6 rounded-2xl bg-gradient-to-br from-navy-primary/5 to-transparent hover:from-navy-primary/10 transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-navy-primary to-blue-600 rounded-2xl flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
                   <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     {index === 0 && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />}
                     {index === 1 && <><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></>}
@@ -309,7 +309,7 @@ export default function AboutPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href={`/${locale}/quote`}
-              className="inline-flex items-center justify-center bg-accent-blue hover:bg-accent-blue/90 text-white min-h-[56px] px-8 text-lg font-semibold rounded-lg shadow-large hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+              className="inline-flex items-center justify-center bg-navy-primary hover:bg-navy-primary/90 text-white min-h-[56px] px-8 text-lg font-semibold rounded-lg shadow-large hover:shadow-xl transform hover:scale-105 transition-all duration-200"
             >
               {locale === 'es' ? 'Cotizá tu vuelo' :
                locale === 'pt' ? 'Pedir cotação' :

@@ -564,7 +564,7 @@ export default function LegalPages({ pageType }: LegalPagesProps) {
                     onClick={() => scrollToSection(section.id)}
                     className={`block w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
                       activeSection === section.id
-                        ? 'bg-accent-blue text-white'
+                        ? 'bg-navy-primary text-white'
                         : 'text-neutral-medium hover:text-navy-primary hover:bg-neutral-light'
                     }`}
                     aria-label={`Navigate to ${section.title}`}
@@ -616,7 +616,7 @@ export default function LegalPages({ pageType }: LegalPagesProps) {
               <div className="flex flex-col sm:flex-row gap-4">
                 <a
                   href={`mailto:${businessConfig.email}`}
-                  className="inline-flex items-center px-4 py-2 bg-accent-blue text-white rounded-md hover:opacity-90 transition-colors"
+                  className="inline-flex items-center px-4 py-2 bg-navy-primary text-white rounded-md hover:opacity-90 transition-colors"
                   aria-label={`Send email to ${businessConfig.email}`}
                 >
                   <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

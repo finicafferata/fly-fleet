@@ -163,7 +163,7 @@ const ToastItem: React.FC<ToastProps> = ({
                 className={clsx(
                   'inline-flex rounded-md p-1.5 focus:outline-none focus:ring-2 focus:ring-offset-2',
                   config.iconColor,
-                  'hover:opacity-75 focus:ring-accent-blue'
+                  'hover:opacity-75 focus:ring-navy-primary'
                 )}
                 onClick={handleDismiss}
                 aria-label="Dismiss notification"

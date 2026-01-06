@@ -267,9 +267,9 @@ export function EmailDashboard({
                 onClick={fetchEmailData}
                 disabled={isLoading}
                 className={clsx(
-                  'px-4 py-2 bg-accent-blue text-white rounded-lg',
-                  'hover:bg-accent-blue/90 transition-colors duration-200',
-                  'focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2',
+                  'px-4 py-2 bg-navy-primary text-white rounded-lg',
+                  'hover:bg-navy-primary/90 transition-colors duration-200',
+                  'focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2',
                   'disabled:opacity-50 disabled:cursor-not-allowed'
                 )}
                 aria-describedby="refresh-description"
@@ -289,7 +289,7 @@ export function EmailDashboard({
                 className={clsx(
                   'px-4 py-2 border border-neutral-medium text-navy-primary rounded-lg',
                   'hover:bg-neutral-light transition-colors duration-200',
-                  'focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2',
+                  'focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2',
                   'disabled:opacity-50 disabled:cursor-not-allowed'
                 )}
               >

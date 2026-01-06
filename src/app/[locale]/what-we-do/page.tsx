@@ -218,7 +218,7 @@ export default function WhatWeDoPage() {
       </section>
 
       {/* Advisory Section - Highlighted */}
-      <section className="bg-gradient-to-br from-accent-blue/5 to-accent-blue/10 py-12">
+      <section className="bg-gradient-to-br from-navy-primary/5 to-navy-primary/10 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-navy-primary mb-6">
             {content.advisoryTitle}
@@ -227,7 +227,7 @@ export default function WhatWeDoPage() {
             {content.advisoryPoints.map((point, index) => (
               <li key={index} className="flex items-start">
                 <svg
-                  className="w-6 h-6 text-accent-blue flex-shrink-0 mt-0.5 mr-3"
+                  className="w-6 h-6 text-navy-primary flex-shrink-0 mt-0.5 mr-3"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -255,13 +255,13 @@ export default function WhatWeDoPage() {
             {/* Connecting Lines - Desktop Only */}
             <div className="hidden md:block absolute inset-0 pointer-events-none z-0" aria-hidden="true">
               <div className="flex items-center justify-center h-12 relative">
-                <div className="absolute left-1/6 right-1/6 h-0.5 bg-accent-blue top-1/2 transform -translate-y-1/2" />
+                <div className="absolute left-1/6 right-1/6 h-0.5 bg-navy-primary top-1/2 transform -translate-y-1/2" />
               </div>
             </div>
 
             {/* Step 1 */}
             <div className="text-center relative z-10">
-              <div className="w-10 h-10 md:w-12 md:h-12 bg-accent-blue rounded-full flex items-center justify-center text-white text-base md:text-lg font-bold mx-auto mb-3 shadow-large border-4 border-white">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-navy-primary rounded-full flex items-center justify-center text-white text-base md:text-lg font-bold mx-auto mb-3 shadow-large border-4 border-white">
                 1
               </div>
               <h3 className="text-sm md:text-base font-bold text-navy-primary leading-tight max-w-32 mx-auto">
@@ -271,7 +271,7 @@ export default function WhatWeDoPage() {
 
             {/* Step 2 */}
             <div className="text-center relative z-10">
-              <div className="w-10 h-10 md:w-12 md:h-12 bg-accent-blue rounded-full flex items-center justify-center text-white text-base md:text-lg font-bold mx-auto mb-3 shadow-large border-4 border-white">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-navy-primary rounded-full flex items-center justify-center text-white text-base md:text-lg font-bold mx-auto mb-3 shadow-large border-4 border-white">
                 2
               </div>
               <h3 className="text-sm md:text-base font-bold text-navy-primary leading-tight max-w-32 mx-auto">
@@ -281,7 +281,7 @@ export default function WhatWeDoPage() {
 
             {/* Step 3 */}
             <div className="text-center relative z-10">
-              <div className="w-10 h-10 md:w-12 md:h-12 bg-accent-blue rounded-full flex items-center justify-center text-white text-base md:text-lg font-bold mx-auto mb-3 shadow-large border-4 border-white">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-navy-primary rounded-full flex items-center justify-center text-white text-base md:text-lg font-bold mx-auto mb-3 shadow-large border-4 border-white">
                 3
               </div>
               <h3 className="text-sm md:text-base font-bold text-navy-primary leading-tight max-w-32 mx-auto">

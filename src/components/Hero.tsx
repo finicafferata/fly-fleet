@@ -226,11 +226,11 @@ export function Hero({
                 href="/quote"
                 className={clsx(
                   'cta-primary inline-flex items-center justify-center',
-                  'bg-accent-blue hover:bg-accent-blue/90 text-white',
+                  'bg-navy-primary hover:bg-navy-primary/90 text-white',
                   'min-h-[56px] px-8 text-lg font-semibold rounded-lg',
                   'shadow-large hover:shadow-xl',
                   'transform hover:scale-105 transition-all duration-200',
-                  'focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2 focus:ring-offset-navy-primary'
+                  'focus:outline-none focus:ring-2 focus:ring-navy-primary focus:ring-offset-2 focus:ring-offset-navy-primary'
                 )}
                 aria-describedby="cta-primary-desc"
                 onClick={handlePrimaryCTA}
@@ -256,7 +256,7 @@ export function Hero({
             <div className="relative group">
               {/* Subtle glow effect behind logo */}
               <div
-                className="absolute inset-0 blur-3xl bg-accent-blue/20 rounded-full scale-110 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                className="absolute inset-0 blur-3xl bg-navy-primary/20 rounded-full scale-110 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                 aria-hidden="true"
               />
 

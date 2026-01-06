@@ -338,7 +338,7 @@ export function QuoteFormWizard({ locale, onSubmitSuccess, className }: QuoteFor
             className={clsx(
               'w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium',
               step === currentStep
-                ? 'bg-accent-blue text-white'
+                ? 'bg-navy-primary text-white'
                 : step < currentStep
                 ? 'bg-green-500 text-white'
                 : 'bg-gray-200 text-gray-500'
@@ -380,7 +380,7 @@ export function QuoteFormWizard({ locale, onSubmitSuccess, className }: QuoteFor
               </label>
               <select
                 {...register('serviceType')}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-navy-primary"
               >
                 <option value="">{content.serviceType.placeholder}</option>
                 {Object.entries(content.serviceType.options).map(([key, label]) => (
@@ -400,7 +400,7 @@ export function QuoteFormWizard({ locale, onSubmitSuccess, className }: QuoteFor
                 type="text"
                 {...register('fullName')}
                 placeholder={content.fullName.placeholder}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-navy-primary"
               />
               {errors.fullName && (
                 <p className="mt-1 text-sm text-red-600">{errors.fullName.message}</p>
@@ -415,14 +415,14 @@ export function QuoteFormWizard({ locale, onSubmitSuccess, className }: QuoteFor
                 type="tel"
                 {...register('phone')}
                 placeholder={content.phone.placeholder}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-navy-primary"
               />
               <div className="mt-2">
                 <label className="flex items-center">
                   <input
                     type="checkbox"
                     {...register('contactWhatsApp')}
-                    className="rounded border-gray-300 text-accent-blue focus:ring-accent-blue"
+                    className="rounded border-gray-300 text-navy-primary focus:ring-navy-primary"
                   />
                   <span className="ml-2 text-sm text-gray-600">{content.phone.whatsapp}</span>
                 </label>
@@ -440,7 +440,7 @@ export function QuoteFormWizard({ locale, onSubmitSuccess, className }: QuoteFor
                 type="email"
                 {...register('email')}
                 placeholder={content.email.placeholder}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-navy-primary"
               />
               {errors.email && (
                 <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
@@ -466,7 +466,7 @@ export function QuoteFormWizard({ locale, onSubmitSuccess, className }: QuoteFor
                 max="14"
                 {...register('passengers', { valueAsNumber: true })}
                 placeholder={content.passengers.placeholder}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-navy-primary"
               />
               {errors.passengers && (
                 <p className="mt-1 text-sm text-red-600">{errors.passengers.message}</p>
@@ -514,7 +514,7 @@ export function QuoteFormWizard({ locale, onSubmitSuccess, className }: QuoteFor
                   type="date"
                   {...register('date')}
                   min={new Date().toISOString().split('T')[0]}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-navy-primary"
                 />
                 {errors.date && (
                   <p className="mt-1 text-sm text-red-600">{errors.date.message}</p>
@@ -528,7 +528,7 @@ export function QuoteFormWizard({ locale, onSubmitSuccess, className }: QuoteFor
                 <input
                   type="time"
                   {...register('time')}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-navy-primary"
                 />
                 {errors.time && (
                   <p className="mt-1 text-sm text-red-600">{errors.time.message}</p>
@@ -556,7 +556,7 @@ export function QuoteFormWizard({ locale, onSubmitSuccess, className }: QuoteFor
                       type="radio"
                       value={key}
                       {...register('baggageSize')}
-                      className="text-accent-blue focus:ring-accent-blue"
+                      className="text-navy-primary focus:ring-navy-primary"
                     />
                     <span className="ml-2 text-sm">{label}</span>
                   </label>
@@ -572,7 +572,7 @@ export function QuoteFormWizard({ locale, onSubmitSuccess, className }: QuoteFor
                     type="number"
                     min="0"
                     {...register('baggagePieces', { valueAsNumber: true })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-navy-primary"
                   />
                 </div>
 
@@ -583,7 +583,7 @@ export function QuoteFormWizard({ locale, onSubmitSuccess, className }: QuoteFor
                   <input
                     type="text"
                     {...register('specialItems')}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-navy-primary"
                   />
                 </div>
               </div>
@@ -598,7 +598,7 @@ export function QuoteFormWizard({ locale, onSubmitSuccess, className }: QuoteFor
                   <input
                     type="checkbox"
                     {...register('hasPets')}
-                    className="rounded border-gray-300 text-accent-blue focus:ring-accent-blue"
+                    className="rounded border-gray-300 text-navy-primary focus:ring-navy-primary"
                   />
                   <span className="ml-2 text-sm">{content.pets.question}</span>
                 </label>
@@ -612,7 +612,7 @@ export function QuoteFormWizard({ locale, onSubmitSuccess, className }: QuoteFor
                     </label>
                     <select
                       {...register('petSpecies')}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-blue text-sm"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-navy-primary text-sm"
                     >
                       <option value="">Select</option>
                       {Object.entries(content.pets.speciesOptions).map(([key, label]) => (
@@ -627,7 +627,7 @@ export function QuoteFormWizard({ locale, onSubmitSuccess, className }: QuoteFor
                     </label>
                     <select
                       {...register('petSize')}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-blue text-sm"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-navy-primary text-sm"
                     >
                       <option value="">Select</option>
                       {Object.entries(content.pets.sizeOptions).map(([key, label]) => (
@@ -642,7 +642,7 @@ export function QuoteFormWizard({ locale, onSubmitSuccess, className }: QuoteFor
                     </label>
                     <select
                       {...register('petDocuments')}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-blue text-sm"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-navy-primary text-sm"
                     >
                       <option value="">Select</option>
                       {Object.entries(content.pets.documentsOptions).map(([key, label]) => (
@@ -674,7 +674,7 @@ export function QuoteFormWizard({ locale, onSubmitSuccess, className }: QuoteFor
                       type="checkbox"
                       value={key}
                       {...register('additionalServices')}
-                      className="mt-1 rounded border-gray-300 text-accent-blue focus:ring-accent-blue"
+                      className="mt-1 rounded border-gray-300 text-navy-primary focus:ring-navy-primary"
                     />
                     <span className="ml-3 text-sm text-gray-700">{label}</span>
                   </label>
@@ -699,7 +699,7 @@ export function QuoteFormWizard({ locale, onSubmitSuccess, className }: QuoteFor
                 {...register('comments')}
                 rows={4}
                 placeholder={content.comments.placeholder}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-navy-primary"
               />
             </div>
 
@@ -708,7 +708,7 @@ export function QuoteFormWizard({ locale, onSubmitSuccess, className }: QuoteFor
                 <input
                   type="checkbox"
                   {...register('privacyConsent')}
-                  className="mt-1 rounded border-gray-300 text-accent-blue focus:ring-accent-blue"
+                  className="mt-1 rounded border-gray-300 text-navy-primary focus:ring-navy-primary"
                 />
                 <span className="ml-3 text-sm text-gray-700">
                   {content.consent.label}
@@ -738,7 +738,7 @@ export function QuoteFormWizard({ locale, onSubmitSuccess, className }: QuoteFor
             <button
               type="button"
               onClick={handlePrevious}
-              className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-accent-blue"
+              className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-navy-primary"
             >
               {content.buttons.previous}
             </button>
@@ -750,7 +750,7 @@ export function QuoteFormWizard({ locale, onSubmitSuccess, className }: QuoteFor
             <button
               type="button"
               onClick={handleNext}
-              className="px-6 py-2 bg-accent-blue text-white rounded-md hover:bg-accent-blue/90 focus:outline-none focus:ring-2 focus:ring-accent-blue"
+              className="px-6 py-2 bg-navy-primary text-white rounded-md hover:bg-navy-primary/90 focus:outline-none focus:ring-2 focus:ring-navy-primary"
             >
               {content.buttons.next}
             </button>
@@ -758,7 +758,7 @@ export function QuoteFormWizard({ locale, onSubmitSuccess, className }: QuoteFor
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-6 py-2 bg-accent-blue text-white rounded-md hover:bg-accent-blue/90 focus:outline-none focus:ring-2 focus:ring-accent-blue disabled:opacity-50"
+              className="px-6 py-2 bg-navy-primary text-white rounded-md hover:bg-navy-primary/90 focus:outline-none focus:ring-2 focus:ring-navy-primary disabled:opacity-50"
             >
               {isSubmitting ? 'Submitting...' : content.buttons.submit}
             </button>

@@ -133,7 +133,7 @@ export function SearchResults({
         layout === 'list'
           ? 'border-b border-neutral-light pb-6 mb-6 last:border-b-0 last:pb-0 last:mb-0'
           : 'border border-neutral-light rounded-lg overflow-hidden hover:shadow-md transition-shadow',
-        'focus-within:ring-2 focus-within:ring-accent-blue focus-within:ring-offset-2'
+        'focus-within:ring-2 focus-within:ring-navy-primary focus-within:ring-offset-2'
       )}
       aria-labelledby={`result-title-${item.id}`}
       aria-describedby={`result-description-${item.id}`}
@@ -172,7 +172,7 @@ export function SearchResults({
           {/* Title */}
           <h3
             id={`result-title-${item.id}`}
-            className="text-lg font-semibold text-neutral-dark group-hover:text-accent-blue transition-colors"
+            className="text-lg font-semibold text-neutral-dark group-hover:text-navy-primary transition-colors"
           >
             <a
               href={item.url}
@@ -250,7 +250,7 @@ export function SearchResults({
           onClick={() => onPageChange?.(currentPage - 1)}
           onKeyDown={(e) => handlePaginationKeyDown(e, currentPage - 1)}
           disabled={currentPage === 1}
-          className="px-3 py-2 text-sm font-medium text-neutral-medium bg-white border border-neutral-light rounded-md hover:bg-neutral-light disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-accent-blue"
+          className="px-3 py-2 text-sm font-medium text-neutral-medium bg-white border border-neutral-light rounded-md hover:bg-neutral-light disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-navy-primary"
           aria-label={t('pagination.previous')}
         >
           {t('pagination.previous')}
@@ -270,9 +270,9 @@ export function SearchResults({
                 onClick={() => onPageChange?.(page)}
                 onKeyDown={(e) => handlePaginationKeyDown(e, page)}
                 className={clsx(
-                  'px-3 py-2 text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-accent-blue',
+                  'px-3 py-2 text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-navy-primary',
                   page === currentPage
-                    ? 'bg-accent-blue text-white'
+                    ? 'bg-navy-primary text-white'
                     : 'text-neutral-medium bg-white border border-neutral-light hover:bg-neutral-light'
                 )}
                 aria-label={page === currentPage ? t('pagination.currentPage', { page }) : t('pagination.goToPage', { page })}
@@ -289,7 +289,7 @@ export function SearchResults({
           onClick={() => onPageChange?.(currentPage + 1)}
           onKeyDown={(e) => handlePaginationKeyDown(e, currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="px-3 py-2 text-sm font-medium text-neutral-medium bg-white border border-neutral-light rounded-md hover:bg-neutral-light disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-accent-blue"
+          className="px-3 py-2 text-sm font-medium text-neutral-medium bg-white border border-neutral-light rounded-md hover:bg-neutral-light disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-navy-primary"
           aria-label={t('pagination.next')}
         >
           {t('pagination.next')}
@@ -313,7 +313,7 @@ export function SearchResults({
       {/* Loading state */}
       {isLoading && (
         <div className="flex items-center justify-center py-12" role="status" aria-label={t('loading')}>
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent-blue" />
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-navy-primary" />
           <span className="ml-3 text-neutral-medium">{t('loading')}</span>
         </div>
       )}
