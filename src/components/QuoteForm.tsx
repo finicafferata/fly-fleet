@@ -1703,7 +1703,7 @@ export function QuoteForm({
                   <p className="text-green-700 mt-2">
                     {locale === 'es' ? 'Te responderemos dentro de las próximas 24 horas.' :
                      locale === 'pt' ? 'Responderemos dentro de 24 horas.' :
-                     'We'll get back to you within 24 hours.'}
+                     'We will get back to you within 24 hours.'}
                   </p>
                 </div>
                 <button

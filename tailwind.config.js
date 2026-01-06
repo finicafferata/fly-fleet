@@ -43,21 +43,14 @@ module.exports = {
       transitionDuration: designTokens.transitions,
       zIndex: designTokens.zIndex,
       animation: {
-        'fade-in-up': 'fade-in-up 0.8s ease-out forwards',
-        'bounce': 'bounce 1s infinite',
+        'fade-in': `fadeIn ${designTokens.animations.duration.normal} ${designTokens.animations.timing.easeOut}`,
+        'fade-in-up': `fadeInUp ${designTokens.animations.duration.slow} ${designTokens.animations.timing.easeOut} forwards`,
+        'slide-up': `slideUp ${designTokens.animations.duration.slow} ${designTokens.animations.timing.easeOut}`,
+        'slide-in-right': `slideInRight ${designTokens.animations.duration.normal} ${designTokens.animations.timing.easeOut}`,
+        'scale-in': `scaleIn ${designTokens.animations.duration.fast} ${designTokens.animations.timing.easeOut}`,
       },
-      keyframes: {
-        'fade-in-up': {
-          '0%': {
-            opacity: '0',
-            transform: 'translateY(2rem)',
-          },
-          '100%': {
-            opacity: '1',
-            transform: 'translateY(0)',
-          },
-        },
-      },
+      keyframes: designTokens.animations.keyframes,
+      animationDelay: designTokens.animations.delay,
     },
   },
   plugins: [

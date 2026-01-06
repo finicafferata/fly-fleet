@@ -183,6 +183,77 @@ export const zIndex = {
   tooltip: 1600,
 };
 
+export const animations = {
+  // Animation keyframes
+  keyframes: {
+    fadeIn: {
+      from: { opacity: '0' },
+      to: { opacity: '1' },
+    },
+    slideUp: {
+      from: {
+        opacity: '0',
+        transform: 'translateY(20px)',
+      },
+      to: {
+        opacity: '1',
+        transform: 'translateY(0)',
+      },
+    },
+    fadeInUp: {
+      from: {
+        opacity: '0',
+        transform: 'translateY(2rem)',
+      },
+      to: {
+        opacity: '1',
+        transform: 'translateY(0)',
+      },
+    },
+    slideInRight: {
+      from: {
+        opacity: '0',
+        transform: 'translateX(-20px)',
+      },
+      to: {
+        opacity: '1',
+        transform: 'translateX(0)',
+      },
+    },
+    scaleIn: {
+      from: {
+        opacity: '0',
+        transform: 'scale(0.95)',
+      },
+      to: {
+        opacity: '1',
+        transform: 'scale(1)',
+      },
+    },
+  },
+  // Animation durations
+  duration: {
+    fast: '300ms',
+    normal: '600ms',
+    slow: '800ms',
+    slower: '1000ms',
+  },
+  // Animation delays
+  delay: {
+    none: '0ms',
+    short: '200ms',
+    medium: '400ms',
+    long: '600ms',
+  },
+  // Animation timings
+  timing: {
+    easeIn: 'cubic-bezier(0.4, 0, 1, 1)',
+    easeOut: 'cubic-bezier(0, 0, 0.2, 1)',
+    easeInOut: 'cubic-bezier(0.4, 0, 0.2, 1)',
+    linear: 'linear',
+  },
+};
+
 // Export individual token categories for easier importing
 export default {
   colors,
@@ -195,4 +266,5 @@ export default {
   transitions,
   breakpoints,
   zIndex,
+  animations,
 };
