@@ -648,6 +648,17 @@ export function QuoteForm({
   const watchedValues = watch();
   const pets = watch('pets');
 
+  // Capitalize first letter of each word
+  const capitalizeName = (value: string) => {
+    return value
+      .split(' ')
+      .map(word => {
+        if (word.length === 0) return word;
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+      })
+      .join(' ');
+  };
+
   // Show/hide pet section
   useEffect(() => {
     setShowPetSection(pets);
@@ -941,6 +952,10 @@ export function QuoteForm({
                   error={errors.firstName?.message}
                   type="text"
                   autoComplete="given-name"
+                  onChange={(e) => {
+                    const capitalized = capitalizeName(e.target.value);
+                    setValue('firstName', capitalized);
+                  }}
                 />
 
                 <Input
@@ -950,6 +965,10 @@ export function QuoteForm({
                   error={errors.lastName?.message}
                   type="text"
                   autoComplete="family-name"
+                  onChange={(e) => {
+                    const capitalized = capitalizeName(e.target.value);
+                    setValue('lastName', capitalized);
+                  }}
                 />
               </div>
 

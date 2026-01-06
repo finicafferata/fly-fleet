@@ -95,6 +95,7 @@ export function ContactForm({
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
     reset
   } = useForm<ContactFormData>({
@@ -104,6 +105,17 @@ export function ContactForm({
       contactViaWhatsApp: false
     }
   });
+
+  // Capitalize first letter of each word
+  const capitalizeName = (value: string) => {
+    return value
+      .split(' ')
+      .map(word => {
+        if (word.length === 0) return word;
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+      })
+      .join(' ');
+  };
 
   const onSubmit = useCallback(async (data: ContactFormData) => {
     setIsSubmitting(true);
@@ -171,6 +183,10 @@ export function ContactForm({
               id="firstName"
               type="text"
               autoComplete="given-name"
+              onChange={(e) => {
+                const capitalized = capitalizeName(e.target.value);
+                setValue('firstName', capitalized);
+              }}
               className={clsx(
                 'w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-navy-primary focus:border-navy-primary transition-colors',
                 errors.firstName ? 'border-red-500' : 'border-gray-300'
@@ -190,6 +206,10 @@ export function ContactForm({
               id="lastName"
               type="text"
               autoComplete="family-name"
+              onChange={(e) => {
+                const capitalized = capitalizeName(e.target.value);
+                setValue('lastName', capitalized);
+              }}
               className={clsx(
                 'w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-navy-primary focus:border-navy-primary transition-colors',
                 errors.lastName ? 'border-red-500' : 'border-gray-300'

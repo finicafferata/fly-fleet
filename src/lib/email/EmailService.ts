@@ -124,6 +124,16 @@ export class EmailService {
     });
   }
 
+  private capitalizeName(name: string): string {
+    return name
+      .split(' ')
+      .map(word => {
+        if (word.length === 0) return word;
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+      })
+      .join(' ');
+  }
+
   private translateServiceType(serviceType: string, locale: string): string {
     const translations: Record<string, Record<string, string>> = {
       es: {
@@ -420,6 +430,7 @@ export class EmailService {
 
         // Content data
         ...data.quoteData,
+        fullName: this.capitalizeName(data.quoteData.fullName),
         ...labels,
         serviceType: this.translateServiceType(data.quoteData.serviceType, data.locale),
         departureDate: this.formatDate(data.quoteData.departureDate),
