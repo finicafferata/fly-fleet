@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Header } from '@/components/Navigation/Header';
 import { Footer } from '@/components/Footer';
@@ -321,6 +321,34 @@ export default function FleetDestinationsPage() {
   const router = useRouter();
   const locale = params.locale as 'en' | 'es' | 'pt';
   const content = getContent(locale);
+  const lightVideoRef = useRef<HTMLVideoElement>(null);
+  const mediumVideoRef = useRef<HTMLVideoElement>(null);
+  const heavyVideoRef = useRef<HTMLVideoElement>(null);
+  const pistonVideoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    // Ensure videos play when component mounts
+    if (lightVideoRef.current) {
+      lightVideoRef.current.play().catch((error) => {
+        console.log('Light video autoplay prevented:', error);
+      });
+    }
+    if (mediumVideoRef.current) {
+      mediumVideoRef.current.play().catch((error) => {
+        console.log('Medium video autoplay prevented:', error);
+      });
+    }
+    if (heavyVideoRef.current) {
+      heavyVideoRef.current.play().catch((error) => {
+        console.log('Heavy video autoplay prevented:', error);
+      });
+    }
+    if (pistonVideoRef.current) {
+      pistonVideoRef.current.play().catch((error) => {
+        console.log('Piston video autoplay prevented:', error);
+      });
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-white" lang={locale}>
@@ -355,13 +383,20 @@ export default function FleetDestinationsPage() {
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {/* Light Jets */}
                 <div className="group relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 flex flex-col">
-                  {/* Hero Image */}
+                  {/* Hero Video Background */}
                   <div className="relative h-56 overflow-hidden">
-                    <img
-                      src="/images/aircrafts/light_jets.png"
-                      alt="Light Jets"
-                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                    />
+                    <video
+                      ref={lightVideoRef}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      preload="auto"
+                      className="absolute inset-0 w-full h-full object-cover"
+                      style={{ objectFit: 'cover' }}
+                    >
+                      <source src="/images/aircrafts/light/light_video.mp4" type="video/mp4" />
+                    </video>
                     <div className="absolute inset-0 bg-gradient-to-t from-navy-primary/90 via-navy-primary/50 to-transparent"></div>
                     <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                       <h3 className="text-2xl font-bold">
@@ -398,13 +433,13 @@ export default function FleetDestinationsPage() {
                   <div className="px-6 pb-6 pt-4 border-t border-gray-100">
                     <div className="grid grid-cols-3 gap-2">
                       <div className="relative h-16 rounded overflow-hidden group/img">
-                        <img src="/images/aircrafts/light_jets.png" alt="" className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-300" />
+                        <img src="/images/aircrafts/light/light1.png" alt="Light jet view 1" className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-300" />
                       </div>
                       <div className="relative h-16 rounded overflow-hidden group/img">
-                        <img src="/images/aircrafts/light_jets.png" alt="" className="w-full h-full object-cover opacity-80 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
+                        <img src="/images/aircrafts/light/light2.png" alt="Light jet view 2" className="w-full h-full object-cover opacity-80 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
                       </div>
                       <div className="relative h-16 rounded overflow-hidden group/img">
-                        <img src="/images/aircrafts/light_jets.png" alt="" className="w-full h-full object-cover opacity-60 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
+                        <img src="/images/aircrafts/light/light3.png" alt="Light jet view 3" className="w-full h-full object-cover opacity-60 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
                       </div>
                     </div>
                   </div>
@@ -412,13 +447,20 @@ export default function FleetDestinationsPage() {
 
                 {/* Midsize Jets */}
                 <div className="group relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 flex flex-col">
-                  {/* Hero Image */}
+                  {/* Hero Video Background */}
                   <div className="relative h-56 overflow-hidden">
-                    <img
-                      src="/images/aircrafts/medium_jets.png"
-                      alt="Midsize Jets"
-                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                    />
+                    <video
+                      ref={mediumVideoRef}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      preload="auto"
+                      className="absolute inset-0 w-full h-full object-cover"
+                      style={{ objectFit: 'cover' }}
+                    >
+                      <source src="/images/aircrafts/medium/medium_video.mp4" type="video/mp4" />
+                    </video>
                     <div className="absolute inset-0 bg-gradient-to-t from-navy-primary/90 via-navy-primary/50 to-transparent"></div>
                     <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                       <h3 className="text-2xl font-bold">
@@ -455,13 +497,13 @@ export default function FleetDestinationsPage() {
                   <div className="px-6 pb-6 pt-4 border-t border-gray-100">
                     <div className="grid grid-cols-3 gap-2">
                       <div className="relative h-16 rounded overflow-hidden group/img">
-                        <img src="/images/aircrafts/medium_jets.png" alt="" className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-300" />
+                        <img src="/images/aircrafts/medium/medium_1.png" alt="Midsize jet view 1" className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-300" />
                       </div>
                       <div className="relative h-16 rounded overflow-hidden group/img">
-                        <img src="/images/aircrafts/medium_jets.png" alt="" className="w-full h-full object-cover opacity-80 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
+                        <img src="/images/aircrafts/medium/medium_2.png" alt="Midsize jet view 2" className="w-full h-full object-cover opacity-80 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
                       </div>
                       <div className="relative h-16 rounded overflow-hidden group/img">
-                        <img src="/images/aircrafts/medium_jets.png" alt="" className="w-full h-full object-cover opacity-60 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
+                        <img src="/images/aircrafts/medium/medium_3.png" alt="Midsize jet view 3" className="w-full h-full object-cover opacity-60 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
                       </div>
                     </div>
                   </div>
@@ -469,13 +511,20 @@ export default function FleetDestinationsPage() {
 
                 {/* Heavy Jets */}
                 <div className="group relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 flex flex-col">
-                  {/* Hero Image */}
+                  {/* Hero Video Background */}
                   <div className="relative h-56 overflow-hidden">
-                    <img
-                      src="/images/aircrafts/heavy_jets.png"
-                      alt="Heavy Jets"
-                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                    />
+                    <video
+                      ref={heavyVideoRef}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      preload="auto"
+                      className="absolute inset-0 w-full h-full object-cover"
+                      style={{ objectFit: 'cover' }}
+                    >
+                      <source src="/images/aircrafts/heavy/heavy_video.mp4" type="video/mp4" />
+                    </video>
                     <div className="absolute inset-0 bg-gradient-to-t from-navy-primary/90 via-navy-primary/50 to-transparent"></div>
                     <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                       <h3 className="text-2xl font-bold">
@@ -512,13 +561,13 @@ export default function FleetDestinationsPage() {
                   <div className="px-6 pb-6 pt-4 border-t border-gray-100">
                     <div className="grid grid-cols-3 gap-2">
                       <div className="relative h-16 rounded overflow-hidden group/img">
-                        <img src="/images/aircrafts/heavy_jets.png" alt="" className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-300" />
+                        <img src="/images/aircrafts/heavy/heavy_1.png" alt="Heavy jet view 1" className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-300" />
                       </div>
                       <div className="relative h-16 rounded overflow-hidden group/img">
-                        <img src="/images/aircrafts/heavy_jets.png" alt="" className="w-full h-full object-cover opacity-80 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
+                        <img src="/images/aircrafts/heavy/heavy_2.png" alt="Heavy jet view 2" className="w-full h-full object-cover opacity-80 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
                       </div>
                       <div className="relative h-16 rounded overflow-hidden group/img">
-                        <img src="/images/aircrafts/heavy_jets.png" alt="" className="w-full h-full object-cover opacity-60 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
+                        <img src="/images/aircrafts/heavy/heavy_3.png" alt="Heavy jet view 3" className="w-full h-full object-cover opacity-60 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
                       </div>
                     </div>
                   </div>
@@ -526,13 +575,20 @@ export default function FleetDestinationsPage() {
 
                 {/* Turboprop / Piston */}
                 <div className="group relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 flex flex-col">
-                  {/* Hero Image */}
+                  {/* Hero Video Background */}
                   <div className="relative h-56 overflow-hidden">
-                    <img
-                      src="/images/aircrafts/turbo_jets.png"
-                      alt="Turboprop / Piston"
-                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                    />
+                    <video
+                      ref={pistonVideoRef}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      preload="auto"
+                      className="absolute inset-0 w-full h-full object-cover"
+                      style={{ objectFit: 'cover' }}
+                    >
+                      <source src="/images/aircrafts/piston/piston_video.mp4" type="video/mp4" />
+                    </video>
                     <div className="absolute inset-0 bg-gradient-to-t from-navy-primary/90 via-navy-primary/50 to-transparent"></div>
                     <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                       <h3 className="text-2xl font-bold">
@@ -569,13 +625,13 @@ export default function FleetDestinationsPage() {
                   <div className="px-6 pb-6 pt-4 border-t border-gray-100">
                     <div className="grid grid-cols-3 gap-2">
                       <div className="relative h-16 rounded overflow-hidden group/img">
-                        <img src="/images/aircrafts/turbo_jets.png" alt="" className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-300" />
+                        <img src="/images/aircrafts/piston/piston_1.png" alt="Piston/Turboprop view 1" className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-300" />
                       </div>
                       <div className="relative h-16 rounded overflow-hidden group/img">
-                        <img src="/images/aircrafts/turbo_jets.png" alt="" className="w-full h-full object-cover opacity-80 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
+                        <img src="/images/aircrafts/piston/piston_2.png" alt="Piston/Turboprop view 2" className="w-full h-full object-cover opacity-80 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
                       </div>
                       <div className="relative h-16 rounded overflow-hidden group/img">
-                        <img src="/images/aircrafts/turbo_jets.png" alt="" className="w-full h-full object-cover opacity-60 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
+                        <img src="/images/aircrafts/piston/piston_3.png" alt="Piston/Turboprop view 3" className="w-full h-full object-cover opacity-60 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
                       </div>
                     </div>
                   </div>
