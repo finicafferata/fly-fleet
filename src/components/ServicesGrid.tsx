@@ -306,17 +306,17 @@ export function ServicesGrid({
         </div>
 
         {/* Services Grid */}
-        <div className="services-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" role="list">
+        <div className="services-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center max-w-6xl mx-auto" role="list">
           {content.services.map((service, index) => (
             <article
               key={service.id}
               className={clsx(
-                'service-card bg-white rounded-xl shadow-medium hover:shadow-large',
+                'service-card bg-transparent rounded-xl shadow-medium hover:shadow-large',
                 'border border-neutral-medium/20',
                 'p-6 md:p-8',
                 'transform transition-all duration-800 ease-out',
                 'hover:scale-105 hover:-translate-y-2',
-                'group',
+                'group w-full',
                 isVisible
                   ? 'translate-y-0 opacity-100'
                   : 'translate-y-8 opacity-0'
