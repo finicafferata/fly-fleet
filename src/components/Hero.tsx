@@ -240,14 +240,23 @@ export function Hero({
               isLoaded ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'
             )}
           >
-            <img
-              src="/images/flyfleet_logo_white.png"
-              alt="Fly-Fleet Logo"
-              className="w-96 h-auto"
-              onError={(e) => {
-                e.currentTarget.style.display = 'none';
-              }}
-            />
+            <div className="relative group">
+              {/* Subtle glow effect behind logo */}
+              <div
+                className="absolute inset-0 blur-3xl bg-accent-blue/20 rounded-full scale-110 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                aria-hidden="true"
+              />
+
+              {/* Logo with enhanced styling */}
+              <img
+                src="/images/flyfleet_logo_white.png"
+                alt="Fly-Fleet Logo"
+                className="relative w-80 h-auto drop-shadow-2xl opacity-90 hover:opacity-100 hover:scale-105 transition-all duration-300"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+            </div>
           </div>
         </div>
       </div>
