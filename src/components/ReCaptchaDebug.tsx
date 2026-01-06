@@ -10,8 +10,14 @@ import { useEffect, useState } from 'react';
  */
 export function ReCaptchaDebug() {
   const [diagnostics, setDiagnostics] = useState<any>({});
+  const [shouldShow, setShouldShow] = useState(false);
 
   useEffect(() => {
+    // Check if we should show the debug panel
+    const isDebugMode = process.env.NODE_ENV !== 'production' ||
+                        (typeof window !== 'undefined' && window.location.search.includes('debug=true'));
+    setShouldShow(isDebugMode);
+
     console.log('🔍 ReCaptchaDebug component mounted - v2');
 
     const checkEnv = () => {
@@ -53,8 +59,7 @@ export function ReCaptchaDebug() {
     setTimeout(checkEnv, 5000);
   }, []);
 
-  if (process.env.NODE_ENV === 'production' && !window.location.search.includes('debug=true')) {
-    // Only show in production if ?debug=true is in URL
+  if (!shouldShow) {
     return null;
   }
 
