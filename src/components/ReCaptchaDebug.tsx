@@ -12,6 +12,8 @@ export function ReCaptchaDebug() {
   const [diagnostics, setDiagnostics] = useState<any>({});
 
   useEffect(() => {
+    console.log('🔍 ReCaptchaDebug component mounted - v2');
+
     const checkEnv = () => {
       // Check if process exists
       const hasProcess = typeof process !== 'undefined';
