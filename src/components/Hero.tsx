@@ -135,26 +135,34 @@ export function Hero({
         role="banner"
         aria-labelledby="hero-heading"
       >
-      {/* Background Image */}
+      {/* Background Video */}
       <div className="hero-media absolute inset-0 z-0" aria-hidden="true">
-        <img
-          src="/images/hero-jet.jpg"
-          alt="Hero Background"
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
           className={clsx(
             'hero-background w-full h-full object-cover transition-opacity duration-1000',
             imageLoaded ? 'opacity-30' : 'opacity-0'
           )}
-          onLoad={() => {
-            console.log('Hero background image loaded successfully');
+          onLoadedData={() => {
+            console.log('Hero background video loaded successfully');
             setImageLoaded(true);
           }}
           onError={() => {
-            console.error('Hero background image failed to load');
+            console.error('Hero background video failed to load');
             setImageLoaded(false);
           }}
-          loading="eager"
-          decoding="async"
-        />
+        >
+          <source src="/images/hero-video.mp4" type="video/mp4" />
+          {/* Fallback image if video fails */}
+          <img
+            src="/images/hero-jet.jpg"
+            alt="Hero Background"
+            className="w-full h-full object-cover"
+          />
+        </video>
         <div className="absolute inset-0 bg-gradient-to-r from-navy-primary/60 to-transparent" />
       </div>
 
