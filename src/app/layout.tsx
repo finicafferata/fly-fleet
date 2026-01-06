@@ -23,11 +23,10 @@ export const metadata: Metadata = {
   description: "Premium private jet charter services across Latin America. Certified operators, 24/7 support, and hassle-free booking.",
   icons: {
     icon: [
-      { url: '/icon.png?v=4', sizes: '32x32', type: 'image/png' },
-      { url: '/icon-192.png?v=4', sizes: '192x192', type: 'image/png' },
+      { url: '/icon.png?v=5', sizes: '32x32', type: 'image/png' },
     ],
     apple: [
-      { url: '/apple-touch-icon.png?v=4', sizes: '180x180', type: 'image/png' },
+      { url: '/apple-touch-icon.png?v=5', sizes: '180x180', type: 'image/png' },
     ],
   },
 };
