@@ -226,7 +226,7 @@ export default function HomePage() {
                  'Medical'}
               </h3>
               <p className="text-gray-600 text-sm">
-                {locale === 'es' ? 'Evacuaciones sanitarias,' :
+                {locale === 'es' ? 'Evacuaciones médicas con equipamiento especializado disponible 24/7' :
                  locale === 'pt' ? 'Evacuações médicas com equipamento especializado 24/7' :
                  'Medical evacuations with specialized equipment 24/7'}
               </p>

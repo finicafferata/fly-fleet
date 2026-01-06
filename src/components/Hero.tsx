@@ -93,7 +93,6 @@ export function Hero({
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!imageLoaded) {
-        console.log('Video load timeout - forcing visibility');
         setImageLoaded(true);
       }
     }, 2000);
@@ -160,11 +159,9 @@ export function Hero({
             imageLoaded ? 'opacity-40' : 'opacity-0'
           )}
           onLoadedData={() => {
-            console.log('Hero background video loaded successfully');
             setImageLoaded(true);
           }}
           onError={() => {
-            console.error('Hero background video failed to load');
             setImageLoaded(false);
           }}
         >

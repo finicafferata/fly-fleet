@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const designTokens = require('./src/lib/design-tokens.ts');
+
 module.exports = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -8,25 +10,38 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Fly-Fleet Design System Colors
-        'navy-primary': '#13213d',
-        'neutral-light': '#F4F6F8',
-        'neutral-medium': '#828FA0',
-        'accent-blue': '#2F6AEF',
-        'white': '#FFFFFF',
-        'black': '#000000',
-        // Legacy aliases
-        'navy': '#13213d',
+        // Import from design tokens - Single source of truth
+        'navy-primary': designTokens.colors.navy.primary,
+        'navy': designTokens.colors.navy,
+        'blue': designTokens.colors.blue,
+        'neutral-light': designTokens.colors.neutral.light,
+        'neutral-medium': designTokens.colors.neutral.medium,
+        'neutral': designTokens.colors.neutral,
+        'accent-blue': designTokens.colors.blue.accent,
+        'white': designTokens.colors.white,
+        'black': designTokens.colors.black,
+        // Semantic colors
+        'success': designTokens.colors.success,
+        'error': designTokens.colors.error,
+        'warning': designTokens.colors.warning,
+        'info': designTokens.colors.info,
       },
       fontFamily: {
         'sans': ['Poppins', 'system-ui', '-apple-system', 'sans-serif'],
-        'heading': ['Soul Gaze BC', 'Poppins', 'serif'],
+        'heading': ['Poppins', 'system-ui', 'sans-serif'], // Removed 'Soul Gaze BC' (not loaded)
       },
-      boxShadow: {
-        'soft': '0 4px 6px -1px rgb(0 0 0 / 0.1)',
-        'medium': '0 10px 15px -3px rgb(0 0 0 / 0.1)',
-        'large': '0 25px 50px -12px rgb(0 0 0 / 0.25)',
+      fontSize: designTokens.fontSize,
+      fontWeight: designTokens.fontWeight,
+      lineHeight: designTokens.lineHeight,
+      spacing: {
+        ...designTokens.spacing.section,
+        ...designTokens.spacing.component,
+        ...designTokens.spacing.gap,
       },
+      borderRadius: designTokens.borderRadius,
+      boxShadow: designTokens.shadows,
+      transitionDuration: designTokens.transitions,
+      zIndex: designTokens.zIndex,
       animation: {
         'fade-in-up': 'fade-in-up 0.8s ease-out forwards',
         'bounce': 'bounce 1s infinite',
