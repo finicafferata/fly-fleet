@@ -1,9 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/database/prisma';
 import { QuoteStatusService } from '../../../../lib/quotes/QuoteStatusService';
+import { requireAdmin, getAuthSession } from '@/lib/auth/server';
 
 // GET /api/admin/quotes - List quotes with filtering and pagination
 export async function GET(req: NextRequest) {
+  // Check authentication
+  const authError = await requireAdmin();
+  if (authError) return authError;
+
+  const session = await getAuthSession();
+  const adminEmail = session?.user?.email || 'admin';
+
   try {
     const { searchParams } = new URL(req.url);
 
@@ -13,16 +21,6 @@ export async function GET(req: NextRequest) {
     const offset = parseInt(searchParams.get('offset') || '0');
     const stale = searchParams.get('stale') === 'true';
     const stats = searchParams.get('stats') === 'true';
-    const adminToken = req.headers.get('authorization')?.replace('Bearer ', '');
-    const adminEmail = req.headers.get('x-admin-email');
-
-    // Simple authentication check
-    if (!adminToken || !adminEmail || !isValidAdminAccess(adminToken, adminEmail)) {
-      return NextResponse.json(
-        { error: 'Unauthorized. Admin access required.' },
-        { status: 401 }
-      );
-    }
 
     // Handle different request types
     if (stats) {
@@ -75,42 +73,42 @@ export async function GET(req: NextRequest) {
     const quotes = await prisma.quoteRequest.findMany({
       skip: offset,
       take: limit,
-      orderBy: { created_at: 'desc' },
+      orderBy: { createdAt: 'desc' },
       select: {
         id: true,
-        service_type: true,
-        full_name: true,
+        serviceType: true,
+        fullName: true,
         email: true,
         phone: true,
         passengers: true,
         origin: true,
         destination: true,
-        departure_date: true,
-        departure_time: true,
+        departureDate: true,
+        departureTime: true,
         locale: true,
-        created_at: true,
-        updated_at: true
+        createdAt: true,
+        updatedAt: true
       }
     });
 
     // Get current status for each quote (this is expensive - consider caching)
     const quotesWithStatus = await Promise.all(
-      quotes.map(async (quote: any) => {
+      quotes.map(async (quote) => {
         const currentStatus = await QuoteStatusService.getCurrentQuoteStatus(quote.id);
         return {
           id: quote.id,
-          serviceType: quote.service_type,
-          fullName: quote.full_name,
+          serviceType: quote.serviceType,
+          fullName: quote.fullName,
           email: quote.email,
           phone: quote.phone,
           passengers: quote.passengers,
           origin: quote.origin,
           destination: quote.destination,
-          departureDate: quote.departure_date,
-          departureTime: quote.departure_time,
+          departureDate: quote.departureDate,
+          departureTime: quote.departureTime,
           locale: quote.locale,
-          createdAt: quote.created_at,
-          updatedAt: quote.updated_at,
+          createdAt: quote.createdAt,
+          updatedAt: quote.updatedAt,
           currentStatus
         };
       })
@@ -142,18 +140,14 @@ export async function GET(req: NextRequest) {
 
 // POST /api/admin/quotes - Bulk operations
 export async function POST(req: NextRequest) {
+  // Check authentication
+  const authError = await requireAdmin();
+  if (authError) return authError;
+
+  const session = await getAuthSession();
+  const adminEmail = session?.user?.email || 'admin';
+
   try {
-    const adminToken = req.headers.get('authorization')?.replace('Bearer ', '');
-    const adminEmail = req.headers.get('x-admin-email');
-
-    // Authentication check
-    if (!adminToken || !adminEmail || !isValidAdminAccess(adminToken, adminEmail)) {
-      return NextResponse.json(
-        { error: 'Unauthorized. Admin access required.' },
-        { status: 401 }
-      );
-    }
-
     const body = await req.json();
     const { action, quoteIds, status, note } = body;
 
@@ -202,16 +196,4 @@ export async function POST(req: NextRequest) {
       { status: 500 }
     );
   }
-}
-
-function isValidAdminAccess(token: string, email: string): boolean {
-  // Simple token validation - in production, use proper JWT validation
-  const expectedToken = process.env.ADMIN_TOKEN || 'demo-admin-token-2024';
-  const allowedEmails = [
-    'admin@fly-fleet.com',
-    'contact@fly-fleet.com',
-    'demo@fly-fleet.com'
-  ];
-
-  return token === expectedToken && allowedEmails.includes(email);
 }

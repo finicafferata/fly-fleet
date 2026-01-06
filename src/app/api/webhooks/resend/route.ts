@@ -202,8 +202,8 @@ async function processWebhookEvent(
   try {
     // Prepare update data
     const updateData: any = {
-      webhook_data: payload,
-      updated_at: new Date()
+      webhookData: payload,
+      updatedAt: new Date()
     };
 
     let newStatus = emailDelivery.status; // Default to current status
@@ -212,39 +212,39 @@ async function processWebhookEvent(
     switch (payload.type) {
       case 'email.sent':
         updateData.status = 'sent';
-        updateData.sent_at = timestamp;
+        updateData.sentAt = timestamp;
         newStatus = 'sent';
         break;
 
       case 'email.delivered':
         updateData.status = 'delivered';
-        updateData.delivered_at = timestamp;
+        updateData.deliveredAt = timestamp;
         newStatus = 'delivered';
         break;
 
       case 'email.delivery_delayed':
         // Keep current status but log the delay
         console.log(`Email delivery delayed for ${payload.data.email_id}: ${payload.data.error?.message || 'No details'}`);
-        updateData.error_message = `Delivery delayed: ${payload.data.error?.message || 'Unknown reason'}`;
+        updateData.errorMessage = `Delivery delayed: ${payload.data.error?.message || 'Unknown reason'}`;
         break;
 
       case 'email.complained':
         updateData.status = 'complained';
-        updateData.error_message = 'Recipient marked as spam/complaint';
+        updateData.errorMessage = 'Recipient marked as spam/complaint';
         newStatus = 'complained';
         break;
 
       case 'email.bounced':
         updateData.status = 'bounced';
-        updateData.bounced_at = timestamp;
-        updateData.error_message = payload.data.error?.message || 'Email bounced';
+        updateData.bouncedAt = timestamp;
+        updateData.errorMessage = payload.data.error?.message || 'Email bounced';
         newStatus = 'bounced';
         break;
 
       case 'email.delivery_failed':
         updateData.status = 'failed';
-        updateData.failed_at = timestamp;
-        updateData.error_message = payload.data.error?.message || 'Email delivery failed';
+        updateData.failedAt = timestamp;
+        updateData.errorMessage = payload.data.error?.message || 'Email delivery failed';
         newStatus = 'failed';
         break;
 
@@ -290,11 +290,11 @@ async function processWebhookEvent(
 
 async function logWebhookEvent(logEntry: WebhookLogEntry): Promise<void> {
   try {
-    // Log webhook events to analytics_events table for debugging and monitoring
-    await prisma.analytics_events.create({
+    // Log webhook events to analyticsEvent table for debugging and monitoring
+    await prisma.analyticsEvent.create({
       data: {
-        event_name: 'resend_webhook_received',
-        event_data: {
+        eventName: 'resend_webhook_received',
+        eventData: {
           eventType: logEntry.eventType,
           emailId: logEntry.emailId,
           processed: logEntry.processed,
@@ -302,9 +302,9 @@ async function logWebhookEvent(logEntry: WebhookLogEntry): Promise<void> {
           deliveryRecordId: logEntry.deliveryRecordId,
           payload: logEntry.payload
         },
-        page_path: '/webhooks/resend',
-        ip_address: 'resend-webhook',
-        timestamp: logEntry.timestamp
+        pagePath: '/webhooks/resend',
+        ipAddress: 'resend-webhook',
+        createdAt: logEntry.timestamp
       }
     });
   } catch (error) {
@@ -323,37 +323,37 @@ export async function GET(req: NextRequest) {
     const since = new Date();
     since.setHours(since.getHours() - hours);
 
-    const webhookEvents = await prisma.analytics_events.findMany({
+    const webhookEvents = await prisma.analyticsEvent.findMany({
       where: {
-        event_name: 'resend_webhook_received',
-        timestamp: {
+        eventName: 'resend_webhook_received',
+        createdAt: {
           gte: since
         }
       },
       orderBy: {
-        timestamp: 'desc'
+        createdAt: 'desc'
       }
     });
 
     const stats = {
       totalEvents: webhookEvents.length,
-      processed: webhookEvents.filter((e: any) => (e.event_data as any)?.processed === true).length,
-      failed: webhookEvents.filter((e: any) => (e.event_data as any)?.processed === false).length,
+      processed: webhookEvents.filter((e: any) => (e.eventData as any)?.processed === true).length,
+      failed: webhookEvents.filter((e: any) => (e.eventData as any)?.processed === false).length,
       byEventType: {} as Record<string, number>,
       errors: webhookEvents
-        .filter((e: any) => (e.event_data as any)?.error)
+        .filter((e: any) => (e.eventData as any)?.error)
         .map((e: any) => ({
-          timestamp: e.timestamp,
-          eventType: (e.event_data as any)?.eventType,
-          error: (e.event_data as any)?.error,
-          emailId: (e.event_data as any)?.emailId
+          timestamp: e.createdAt,
+          eventType: (e.eventData as any)?.eventType,
+          error: (e.eventData as any)?.error,
+          emailId: (e.eventData as any)?.emailId
         }))
         .slice(0, 10) // Last 10 errors
     };
 
     // Count events by type
     webhookEvents.forEach((event: any) => {
-      const eventType = (event.event_data as any)?.eventType || 'unknown';
+      const eventType = (event.eventData as any)?.eventType || 'unknown';
       stats.byEventType[eventType] = (stats.byEventType[eventType] || 0) + 1;
     });
 

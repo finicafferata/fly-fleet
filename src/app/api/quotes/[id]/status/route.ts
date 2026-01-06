@@ -73,18 +73,18 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       where: { id },
       select: {
         id: true,
-        service_type: true,
-        full_name: true,
+        serviceType: true,
+        fullName: true,
         email: true,
         phone: true,
         passengers: true,
         origin: true,
         destination: true,
-        departure_date: true,
-        departure_time: true,
+        departureDate: true,
+        departureTime: true,
         locale: true,
-        created_at: true,
-        updated_at: true,
+        createdAt: true,
+        updatedAt: true,
         // Add status field - note: this might need to be added to schema
         // For now, we'll work with a separate status tracking approach
       }
@@ -125,11 +125,11 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       userAgent: req.headers.get('user-agent') || undefined
     });
 
-    // Update quote's updated_at timestamp
+    // Update quote's updatedAt timestamp
     const updatedQuote = await prisma.quoteRequest.update({
       where: { id },
       data: {
-        updated_at: new Date()
+        updatedAt: new Date()
       },
       include: {
         // Include any related data you want to return
@@ -144,18 +144,18 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       success: true,
       quote: {
         id: updatedQuote.id,
-        serviceType: updatedQuote.service_type,
-        fullName: updatedQuote.full_name,
+        serviceType: updatedQuote.serviceType,
+        fullName: updatedQuote.fullName,
         email: updatedQuote.email,
         phone: updatedQuote.phone,
         passengers: updatedQuote.passengers,
         origin: updatedQuote.origin,
         destination: updatedQuote.destination,
-        departureDate: updatedQuote.departure_date,
-        departureTime: updatedQuote.departure_time,
+        departureDate: updatedQuote.departureDate,
+        departureTime: updatedQuote.departureTime,
         locale: updatedQuote.locale,
-        createdAt: updatedQuote.created_at,
-        updatedAt: updatedQuote.updated_at,
+        createdAt: updatedQuote.createdAt,
+        updatedAt: updatedQuote.updatedAt,
         currentStatus: newStatus
       },
       statusChange: {
@@ -223,11 +223,11 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
       success: true,
       quote: {
         id: quote.id,
-        fullName: quote.full_name,
+        fullName: quote.fullName,
         email: quote.email,
         currentStatus,
-        createdAt: quote.created_at,
-        updatedAt: quote.updated_at
+        createdAt: quote.createdAt,
+        updatedAt: quote.updatedAt
       },
       statusHistory,
       availableActions: getAvailableStatusActions(currentStatus),
@@ -278,11 +278,11 @@ async function createStatusChangeLog(data: {
 }): Promise<StatusChangeLog> {
 
   // Since we don't have a status_changes table in the schema yet,
-  // we'll store this in the analytics_events table for now
-  const logEntry = await prisma.analytics_events.create({
+  // we'll store this in the analyticsEvent table for now
+  const logEntry = await prisma.analyticsEvent.create({
     data: {
-      event_name: 'quote_status_change',
-      event_data: {
+      eventName: 'quote_status_change',
+      eventData: {
         quoteRequestId: data.quoteRequestId,
         fromStatus: data.fromStatus,
         toStatus: data.toStatus,
@@ -290,9 +290,9 @@ async function createStatusChangeLog(data: {
         adminNote: data.adminNote,
         type: 'status_change'
       },
-      page_path: `/admin/quotes/${data.quoteRequestId}`,
-      user_agent: data.userAgent,
-      ip_address: data.ipAddress,
+      pagePath: `/admin/quotes/${data.quoteRequestId}`,
+      userAgent: data.userAgent,
+      ipAddress: data.ipAddress,
       locale: 'en'
     }
   });
@@ -311,52 +311,52 @@ async function createStatusChangeLog(data: {
 }
 
 async function getLatestQuoteStatus(quoteId: string) {
-  const latestStatusEvent = await prisma.analytics_events.findFirst({
+  const latestStatusEvent = await prisma.analyticsEvent.findFirst({
     where: {
-      event_name: 'quote_status_change',
-      event_data: {
+      eventName: 'quote_status_change',
+      eventData: {
         path: ['quoteRequestId'],
         equals: quoteId
       }
     },
     orderBy: {
-      timestamp: 'desc'
+      createdAt: 'desc'
     }
   });
 
   if (!latestStatusEvent) return null;
 
-  const eventData = latestStatusEvent.event_data as any;
+  const eventData = latestStatusEvent.eventData as any;
   return {
     toStatus: eventData.toStatus,
     fromStatus: eventData.fromStatus,
-    changedAt: latestStatusEvent.timestamp
+    changedAt: latestStatusEvent.createdAt
   };
 }
 
 async function getQuoteStatusHistory(quoteId: string) {
-  const statusEvents = await prisma.analytics_events.findMany({
+  const statusEvents = await prisma.analyticsEvent.findMany({
     where: {
-      event_name: 'quote_status_change',
-      event_data: {
+      eventName: 'quote_status_change',
+      eventData: {
         path: ['quoteRequestId'],
         equals: quoteId
       }
     },
     orderBy: {
-      timestamp: 'desc'
+      createdAt: 'desc'
     }
   });
 
   return statusEvents.map((event: any) => {
-    const eventData = event.event_data as any;
+    const eventData = event.eventData as any;
     return {
       id: event.id,
       fromStatus: eventData.fromStatus,
       toStatus: eventData.toStatus,
       adminEmail: eventData.adminEmail,
       adminNote: eventData.adminNote,
-      changedAt: event.timestamp
+      changedAt: event.createdAt
     };
   });
 }

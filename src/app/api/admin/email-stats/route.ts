@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/database/prisma';
+import { requireAdmin } from '@/lib/auth/server';
 
 export async function GET(request: NextRequest) {
+  // Check authentication
+  const authError = await requireAdmin();
+  if (authError) return authError;
+
   try {
     // Get query parameters for filtering
     const searchParams = request.nextUrl.searchParams;
