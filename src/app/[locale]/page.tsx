@@ -46,14 +46,14 @@ export default function HomePage() {
         <ServicesGrid locale={locale} />
 
       {/* Process Steps Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ProcessSteps locale={locale} />
         </div>
       </section>
 
       {/* Why Choose Fly-Fleet Section */}
-      <section className="py-20 bg-white relative overflow-hidden">
+      <section className="py-24 bg-white relative overflow-hidden">
         {/* Background Image */}
         <div
           className="absolute inset-0 opacity-15 bg-cover bg-center bg-no-repeat"
@@ -165,7 +165,7 @@ export default function HomePage() {
       <DestinationsCarousel locale={locale} />
 
       {/* Use Cases Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-navy-primary mb-6">
@@ -256,12 +256,12 @@ export default function HomePage() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-white">
         <TestimonialsComponent locale={locale} />
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <FAQComponent locale={locale} />
         </div>

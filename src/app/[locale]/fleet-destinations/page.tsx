@@ -376,7 +376,7 @@ export default function FleetDestinationsPage() {
       </section>
 
       {/* Fleet Content */}
-      <section className="py-20">
+      <section className="py-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Charter Aircraft */}
             <div className="mb-16">
@@ -693,7 +693,7 @@ export default function FleetDestinationsPage() {
       </section>
 
       {/* Destinations Content */}
-      <section className="py-20 bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 relative overflow-hidden">
+      <section className="py-24 bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 relative overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-[0.03]">
           <svg width="100%" height="100%">
@@ -759,7 +759,7 @@ export default function FleetDestinationsPage() {
       </section>
 
       {/* Popular Destinations Section - NEW DESIGN */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-16">

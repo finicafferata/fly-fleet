@@ -731,7 +731,7 @@ export function ServicesPage({
       </header>
 
       {/* Service Categories Navigation */}
-      <section aria-labelledby="categories-heading" className="py-8 bg-white border-b border-neutral-light">
+      <section aria-labelledby="categories-heading" className="py-12 bg-white border-b border-neutral-light">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 id="categories-heading" className="sr-only">Service Categories</h2>
           <div className="category-grid flex overflow-x-auto gap-4 pb-2" role="list">
@@ -762,7 +762,7 @@ export function ServicesPage({
 
       {/* Active Service Details */}
       {activeService && (
-        <section className="py-20 bg-white">
+        <section className="py-24 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
               <div>
@@ -837,7 +837,7 @@ export function ServicesPage({
       )}
 
       {/* Aircraft Fleet Section */}
-      <section aria-labelledby="aircraft-heading" className="py-20 bg-neutral-light">
+      <section aria-labelledby="aircraft-heading" className="py-24 bg-neutral-light">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 id="aircraft-heading" className="text-3xl md:text-4xl font-bold text-navy-primary mb-4">
@@ -899,7 +899,7 @@ export function ServicesPage({
       </section>
 
       {/* Additional Services Section */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-navy-primary mb-4">
@@ -929,7 +929,7 @@ export function ServicesPage({
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-navy-primary to-navy-primary text-white">
+      <section className="py-24 bg-gradient-to-r from-navy-primary to-navy-primary text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             {content.cta.title}

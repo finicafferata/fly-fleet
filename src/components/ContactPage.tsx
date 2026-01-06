@@ -347,7 +347,7 @@ export function ContactPage({
       </section>
 
       {/* Main Content */}
-      <section className="py-20 bg-neutral-light">
+      <section className="py-24 bg-neutral-light">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Contact Form */}
@@ -489,7 +489,7 @@ export function ContactPage({
       </section>
 
       {/* Map Section */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-navy-primary mb-4">

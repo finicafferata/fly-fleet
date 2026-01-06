@@ -187,7 +187,7 @@ export function AdditionalServicesCarousel({ locale }: AdditionalServicesCarouse
   };
 
   return (
-    <section className="py-20 bg-gray-50 relative">
+    <section className="py-24 bg-gray-50 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">

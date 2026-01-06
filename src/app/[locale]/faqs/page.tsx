@@ -227,7 +227,7 @@ export default function FAQsPage() {
       </section>
 
       {/* Category Filter */}
-      <section className="py-8 bg-gray-50 border-b">
+      <section className="py-12 bg-gray-50 border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap gap-2 justify-center">
             <button
