@@ -48,6 +48,9 @@ export function useRecaptcha(defaultAction: string = 'submit'): UseRecaptchaRetu
     }
 
     // Wait for grecaptcha to be available
+    let retryCount = 0;
+    const maxRetries = 50; // Max 5 seconds (50 * 100ms)
+
     const checkRecaptcha = () => {
       if (window.grecaptcha) {
         window.grecaptcha.ready(() => {
@@ -56,6 +59,12 @@ export function useRecaptcha(defaultAction: string = 'submit'): UseRecaptchaRetu
           console.log('✅ reCAPTCHA ready');
         });
       } else {
+        retryCount++;
+        if (retryCount >= maxRetries) {
+          console.error('❌ reCAPTCHA script failed to load after 5 seconds');
+          setError('reCAPTCHA script failed to load');
+          return;
+        }
         // Retry after 100ms
         setTimeout(checkRecaptcha, 100);
       }
