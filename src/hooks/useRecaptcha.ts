@@ -5,10 +5,8 @@ import { useCallback, useEffect, useState } from 'react';
 declare global {
   interface Window {
     grecaptcha?: {
-      enterprise: {
-        ready: (callback: () => void) => void;
-        execute: (siteKey: string, options: { action: string }) => Promise<string>;
-      };
+      ready: (callback: () => void) => void;
+      execute: (siteKey: string, options: { action: string }) => Promise<string>;
     };
   }
 }
@@ -22,7 +20,7 @@ interface UseRecaptchaReturn {
 /**
  * useRecaptcha Hook
  *
- * Provides reCAPTCHA v3 Enterprise integration for form submissions.
+ * Provides reCAPTCHA v3 integration for form submissions.
  *
  * @param action - The action name for reCAPTCHA (e.g., 'quote', 'contact')
  * @returns Object with executeRecaptcha function, ready status, and error
@@ -51,8 +49,8 @@ export function useRecaptcha(defaultAction: string = 'submit'): UseRecaptchaRetu
 
     // Wait for grecaptcha to be available
     const checkRecaptcha = () => {
-      if (window.grecaptcha?.enterprise) {
-        window.grecaptcha.enterprise.ready(() => {
+      if (window.grecaptcha) {
+        window.grecaptcha.ready(() => {
           setIsReady(true);
           setError(null);
           console.log('✅ reCAPTCHA ready');
@@ -72,7 +70,7 @@ export function useRecaptcha(defaultAction: string = 'submit'): UseRecaptchaRetu
         throw new Error('reCAPTCHA site key not configured');
       }
 
-      if (!window.grecaptcha?.enterprise) {
+      if (!window.grecaptcha) {
         throw new Error('reCAPTCHA not loaded');
       }
 
@@ -81,7 +79,7 @@ export function useRecaptcha(defaultAction: string = 'submit'): UseRecaptchaRetu
       }
 
       try {
-        const token = await window.grecaptcha.enterprise.execute(siteKey, { action });
+        const token = await window.grecaptcha.execute(siteKey, { action });
         console.log('✅ reCAPTCHA token generated for action:', action);
         return token;
       } catch (err) {
