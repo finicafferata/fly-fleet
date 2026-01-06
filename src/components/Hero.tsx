@@ -262,7 +262,7 @@ export function Hero({
 
               {/* Logo with enhanced styling */}
               <img
-                src="/images/flyfleet_logo_white.png"
+                src="/images/flyfleet_logo_dark.png"
                 alt="Fly-Fleet Logo"
                 className="relative w-80 h-auto drop-shadow-2xl opacity-90 hover:opacity-100 hover:scale-105 transition-all duration-300"
                 onError={(e) => {
