@@ -1,3 +1,4 @@
+import { prisma } from '../database/prisma';
 import { PrismaClient } from '@prisma/client';
 
 export interface FAQ {
@@ -48,7 +49,7 @@ export class FAQService {
   private supportedLocales: string[];
 
   constructor() {
-    this.prisma = new PrismaClient();
+    this.prisma = prisma;
     this.cache = new Map();
     this.cacheTTL = 60 * 60 * 1000; // 1 hour
     this.supportedLocales = ['es', 'en', 'pt'];

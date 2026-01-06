@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { prisma } from '@/lib/database/prisma';
 import { QuoteStatusService } from '../../../../lib/quotes/QuoteStatusService';
 
 // GET /api/admin/quotes - List quotes with filtering and pagination
@@ -71,9 +72,6 @@ export async function GET(req: NextRequest) {
     }
 
     // Default: Return all quotes with basic info (without full status history for performance)
-    const { PrismaClient } = await import('@prisma/client');
-    const prisma = new PrismaClient();
-
     const quotes = await prisma.quoteRequest.findMany({
       skip: offset,
       take: limit,

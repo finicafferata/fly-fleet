@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/database/prisma';
 import crypto from 'crypto';
-
-const prisma = new PrismaClient();
 
 // Resend webhook event types
 type ResendEventType =

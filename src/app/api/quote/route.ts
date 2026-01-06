@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/database/prisma';
 import { EmailService } from '../../../lib/email/EmailService';
 import { recaptchaService } from '../../../lib/recaptcha/RecaptchaService';
+import { quoteRateLimiter, getRateLimitHeaders } from '@/lib/redis/rate-limiter';
 import {
   generateAriaValidationResponse,
   generateAriaSuccessInfo,
@@ -10,8 +11,15 @@ import {
   generateAriaLoadingInfo,
   type Locale
 } from '../../../lib/accessibility/aria-helpers';
+import { withSpan, addSpanAttributes } from '@/lib/observability/tracing';
+import {
+  recordApiRequest,
+  quoteRequestCounter,
+  rateLimitHitCounter,
+  recordError
+} from '@/lib/observability/metrics';
+import { createRequestLogger } from '@/lib/observability/logger';
 
-const prisma = new PrismaClient();
 const emailService = new EmailService();
 
 // Additional Services Enum (EXACT match to database enum)
@@ -110,48 +118,55 @@ const autoResponseSubjects = {
   pt: `Confirmação de cotação recebida`
 };
 
-// Simple rate limiting (in-memory store)
-const rateLimit = new Map<string, { count: number; resetTime: number }>();
-
-const checkRateLimit = (ip: string): boolean => {
-  const now = Date.now();
-  const windowMs = 60 * 60 * 1000; // 1 hour
-  const maxRequests = 7;
-
-  const record = rateLimit.get(ip);
-
-  if (!record || now > record.resetTime) {
-    rateLimit.set(ip, { count: 1, resetTime: now + windowMs });
-    return true;
-  }
-
-  if (record.count >= maxRequests) {
-    return false;
-  }
-
-  record.count++;
-  return true;
-};
+// Distributed rate limiting using Redis (works across serverless instances)
 
 export async function POST(req: NextRequest) {
-  try {
-    const clientIP = getClientIP(req);
+  const startTime = Date.now();
+  const requestId = crypto.randomUUID();
+  const reqLogger = createRequestLogger(requestId, '/api/quote', 'POST');
 
-    // Rate limiting check
-    if (!checkRateLimit(clientIP)) {
-      const ariaError = generateAriaErrorResponse('rateLimit', 'en'); // Default to English, will be enhanced with locale detection
-      return NextResponse.json(
-        {
-          ...ariaError,
-          accessibility: {
-            ...ariaError.accessibility,
-            formStatus: 'error',
-            nextSteps: 'Please wait before submitting another request'
-          }
-        },
-        { status: 429 }
+  return withSpan('api.quote.post', async () => {
+    try {
+      const clientIP = getClientIP(req);
+
+      // Add span attributes for tracing
+      addSpanAttributes({
+        requestId,
+        clientIP,
+        endpoint: '/api/quote',
+        method: 'POST',
+      });
+
+      reqLogger.info('Quote request received', { clientIP });
+
+      // Distributed rate limiting check (Redis-based)
+      const rateLimitResult = await withSpan('ratelimit.check', () =>
+        quoteRateLimiter.limit(clientIP)
       );
-    }
+
+      if (!rateLimitResult.success) {
+        rateLimitHitCounter.add(1, { endpoint: '/api/quote', clientIP });
+        reqLogger.warn('Rate limit exceeded', { clientIP });
+
+        const duration = Date.now() - startTime;
+        recordApiRequest('/api/quote', 'POST', 429, duration);
+
+        const ariaError = generateAriaErrorResponse('rateLimit', 'en');
+        return NextResponse.json(
+          {
+            ...ariaError,
+            accessibility: {
+              ...ariaError.accessibility,
+              formStatus: 'error',
+              nextSteps: 'Please wait before submitting another request'
+            }
+          },
+          {
+            status: 429,
+            headers: getRateLimitHeaders(rateLimitResult)
+          }
+        );
+      }
 
     const body = await req.json();
 
@@ -222,38 +237,42 @@ export async function POST(req: NextRequest) {
     // Parse date and time - convert time to DateTime for Prisma
     const departureDateTime = new Date(`${formData.date}T${formData.time}:00`);
 
-    // Create quote request with CORRECTED field names
-    const quoteRequest = await prisma.quoteRequest.create({
-      data: {
-        serviceType: formData.service,
-        fullName: formData.fullName,
-        email: formData.email,
-        phone: formData.phone,
-        passengers: formData.passengers,
-        origin: formData.origin,
-        destination: formData.destination,
-        departureDate: new Date(formData.date),
-        departureTime: departureDateTime,
-        // CORRECTED: Use database field names
-        standardBagsCount: formData.standardBagsCount,
-        specialItems: formData.specialItems,
-        hasPets: formData.pets,
-        petSpecies: formData.petSpecies,
-        petSize: formData.petSize,
-        petDocuments: formData.petDocuments,
-        additionalServices: formData.additionalServices, // JSON array of enums
-        comments: formData.comments,
-        locale: formData.locale,
-        privacyConsent: formData.privacyConsent,
-        contactWhatsApp: formData.contactWhatsApp,
-        ipAddress: clientIP,
-        userAgent: req.headers.get('user-agent'),
-        // UTM parameters properly extracted
-        utmSource: utmParams.utm_source,
-        utmMedium: utmParams.utm_medium,
-        utmCampaign: utmParams.utm_campaign
-      }
-    });
+      // Create quote request with CORRECTED field names
+      const quoteRequest = await withSpan(
+        'db.quoteRequest.create',
+        () => prisma.quoteRequest.create({
+          data: {
+            serviceType: formData.service,
+            fullName: formData.fullName,
+            email: formData.email,
+            phone: formData.phone,
+            passengers: formData.passengers,
+            origin: formData.origin,
+            destination: formData.destination,
+            departureDate: new Date(formData.date),
+            departureTime: departureDateTime,
+            // CORRECTED: Use database field names
+            standardBagsCount: formData.standardBagsCount,
+            specialItems: formData.specialItems,
+            hasPets: formData.pets,
+            petSpecies: formData.petSpecies,
+            petSize: formData.petSize,
+            petDocuments: formData.petDocuments,
+            additionalServices: formData.additionalServices, // JSON array of enums
+            comments: formData.comments,
+            locale: formData.locale,
+            privacyConsent: formData.privacyConsent,
+            contactWhatsApp: formData.contactWhatsApp,
+            ipAddress: clientIP,
+            userAgent: req.headers.get('user-agent'),
+            // UTM parameters properly extracted
+            utmSource: utmParams.utm_source,
+            utmMedium: utmParams.utm_medium,
+            utmCampaign: utmParams.utm_campaign
+          }
+        }),
+        { model: 'quoteRequest', operation: 'create' }
+      );
 
     // Send business notification email
     try {
@@ -276,13 +295,30 @@ export async function POST(req: NextRequest) {
       // Continue execution - don't fail the entire request if email fails
     }
 
-    // Log successful request
-    console.log(`Quote request created: ${quoteRequest.id} from IP: ${clientIP}`);
+      // Record business metrics
+      quoteRequestCounter.add(1, {
+        service: formData.service,
+        locale: formData.locale,
+        hasUTM: !!utmParams.utm_source,
+      });
 
-    // Generate success response with ARIA information
-    const ariaSuccess = generateAriaSuccessInfo('quote', formData.locale, { id: quoteRequest.id });
+      // Log successful request
+      const duration = Date.now() - startTime;
+      recordApiRequest('/api/quote', 'POST', 201, duration);
 
-    return NextResponse.json({
+      reqLogger.info('Quote request created successfully', {
+        quoteId: quoteRequest.id,
+        service: formData.service,
+        origin: formData.origin,
+        destination: formData.destination,
+        passengers: formData.passengers,
+        locale: formData.locale,
+      });
+
+      // Generate success response with ARIA information
+      const ariaSuccess = generateAriaSuccessInfo('quote', formData.locale, { id: quoteRequest.id });
+
+      return NextResponse.json({
       success: true,
       quoteId: quoteRequest.id,
       message: 'Quote request submitted successfully',
@@ -305,28 +341,33 @@ export async function POST(req: NextRequest) {
       }
     }, { status: 201 });
 
-  } catch (error) {
-    console.error('Quote API error:', error);
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      recordApiRequest('/api/quote', 'POST', 500, duration);
 
-    // Log detailed error information for debugging
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    const errorStack = error instanceof Error ? error.stack : undefined;
-    console.error('Error details:', { message: errorMessage, stack: errorStack });
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      recordError('api_error', 'high', errorMessage);
 
-    const ariaError = generateAriaErrorResponse('server', 'en'); // Default locale for server errors
-    return NextResponse.json(
-      {
-        ...ariaError,
-        message: errorMessage, // Include error message in response
-        accessibility: {
-          ...ariaError.accessibility,
-          formStatus: 'error',
-          retryInstructions: 'Please check your connection and try again',
-          supportContact: 'If the problem persists, contact support'
-        }
-      },
-      { status: 500 }
-    );
-  }
+      reqLogger.error('Quote API error', error as Error, {
+        endpoint: '/api/quote',
+        method: 'POST',
+      });
+
+      const ariaError = generateAriaErrorResponse('server', 'en');
+      return NextResponse.json(
+        {
+          ...ariaError,
+          message: errorMessage,
+          accessibility: {
+            ...ariaError.accessibility,
+            formStatus: 'error',
+            retryInstructions: 'Please check your connection and try again',
+            supportContact: 'If the problem persists, contact support'
+          }
+        },
+        { status: 500 }
+      );
+    }
+  });
 }
 

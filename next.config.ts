@@ -4,9 +4,6 @@ const withNextIntl = createNextIntlPlugin('./src/i18n.ts');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Enable output file tracing for Railway deployment optimization
-  output: 'standalone',
-
   // Disable ESLint during builds to avoid strict rule failures in production
   eslint: {
     ignoreDuringBuilds: true,
@@ -33,7 +30,13 @@ const nextConfig = {
       },
       {
         protocol: 'https' as const,
-        hostname: '**.railway.app',
+        hostname: '**.vercel.app',
+        port: '',
+        pathname: '/**'
+      },
+      {
+        protocol: 'https' as const,
+        hostname: '**.vercel-storage.com',
         port: '',
         pathname: '/**'
       }

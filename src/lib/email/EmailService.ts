@@ -1,6 +1,7 @@
 import { Resend } from 'resend';
+import { prisma } from '../database/prisma';
 import { PrismaClient } from '@prisma/client';
-import fs from 'fs';
+import { promises as fs } from 'fs';
 import path from 'path';
 
 interface QuoteRequest {
@@ -48,7 +49,7 @@ export class EmailService {
     // Initialize Resend with fallback for build time when env vars aren't available
     const apiKey = process.env.RESEND_API_KEY || 're_build_placeholder';
     this.resend = new Resend(apiKey);
-    this.prisma = new PrismaClient();
+    this.prisma = prisma;
     this.businessEmail = process.env.BUSINESS_EMAIL || 'contact@fly-fleet.com';
     this.noreplyEmail = process.env.NOREPLY_EMAIL || 'noreply@fly-fleet.com';
   }
@@ -61,21 +62,23 @@ export class EmailService {
 
   private async loadTemplate(templateName: string): Promise<string> {
     const templatePath = path.join(process.cwd(), 'src/lib/email/templates', `${templateName}.html`);
-    return fs.readFileSync(templatePath, 'utf-8');
+    return await fs.readFile(templatePath, 'utf-8');
   }
 
   private async loadAccessibleTemplate(templateName: string): Promise<string> {
     const templatePath = path.join(process.cwd(), 'src/lib/email/templates', `${templateName}-accessible.html`);
-    if (fs.existsSync(templatePath)) {
-      return fs.readFileSync(templatePath, 'utf-8');
+    try {
+      await fs.access(templatePath);
+      return await fs.readFile(templatePath, 'utf-8');
+    } catch {
+      // Fallback to regular template if accessible version doesn't exist
+      return this.loadTemplate(templateName);
     }
-    // Fallback to regular template
-    return this.loadTemplate(templateName);
   }
 
   private async loadBaseTemplate(): Promise<string> {
     const basePath = path.join(process.cwd(), 'src/lib/email/templates', 'accessible-email-base.html');
-    return fs.readFileSync(basePath, 'utf-8');
+    return await fs.readFile(basePath, 'utf-8');
   }
 
   private replaceTemplateVariables(template: string, data: Record<string, any>): string {

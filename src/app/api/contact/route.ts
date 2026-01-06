@@ -1,16 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/database/prisma';
 import { EmailService } from '../../../lib/email/EmailService';
 import { recaptchaService } from '../../../lib/recaptcha/RecaptchaService';
+import { contactRateLimiter, getRateLimitHeaders } from '@/lib/redis/rate-limiter';
 import {
   generateAriaValidationResponse,
   generateAriaSuccessInfo,
   generateAriaErrorResponse,
   type Locale
 } from '../../../lib/accessibility/aria-helpers';
-
-const prisma = new PrismaClient();
 const emailService = new EmailService();
 
 const ContactFormSchema = z.object({
@@ -76,36 +75,17 @@ const contactSubjects = {
   pt: (fullName: string) => `Novo contato - ${fullName}`
 };
 
-// Simple rate limiting (in-memory store)
-const rateLimit = new Map<string, { count: number; resetTime: number }>();
-
-const checkRateLimit = (ip: string): boolean => {
-  const now = Date.now();
-  const windowMs = 60 * 60 * 1000; // 1 hour
-  const maxRequests = 5; // Lower than quote form for spam protection
-
-  const record = rateLimit.get(ip);
-
-  if (!record || now > record.resetTime) {
-    rateLimit.set(ip, { count: 1, resetTime: now + windowMs });
-    return true;
-  }
-
-  if (record.count >= maxRequests) {
-    return false;
-  }
-
-  record.count++;
-  return true;
-};
+// Distributed rate limiting using Redis (5 requests/hour per IP)
 
 export async function POST(req: NextRequest) {
   try {
     const clientIP = getClientIP(req);
 
-    // Rate limiting check
-    if (!checkRateLimit(clientIP)) {
-      const ariaError = generateAriaErrorResponse('rateLimit', 'en'); // Default to English, will be enhanced with locale detection
+    // Distributed rate limiting check (Redis-based)
+    const rateLimitResult = await contactRateLimiter.limit(clientIP);
+
+    if (!rateLimitResult.success) {
+      const ariaError = generateAriaErrorResponse('rateLimit', 'en');
       return NextResponse.json(
         {
           ...ariaError,
@@ -115,7 +95,10 @@ export async function POST(req: NextRequest) {
             nextSteps: 'Please wait before submitting another contact request'
           }
         },
-        { status: 429 }
+        {
+          status: 429,
+          headers: getRateLimitHeaders(rateLimitResult)
+        }
       );
     }
 

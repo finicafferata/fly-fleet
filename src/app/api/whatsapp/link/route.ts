@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { whatsappService, WhatsAppLinkRequest } from '../../../../lib/whatsapp/WhatsAppService';
+import { whatsappRateLimiter, getRateLimitHeaders } from '@/lib/redis/rate-limiter';
 
 // Get client IP address
 const getClientIP = (req: NextRequest): string => {
@@ -109,38 +110,22 @@ const validateRequest = (body: any): { valid: boolean; error?: string; data?: Wh
   };
 };
 
-// Simple rate limiting (in-memory store)
-const rateLimit = new Map<string, { count: number; resetTime: number }>();
-
-const checkRateLimit = (ip: string): boolean => {
-  const now = Date.now();
-  const windowMs = 60 * 60 * 1000; // 1 hour
-  const maxRequests = 20; // Allow more requests than forms as this is just link generation
-
-  const record = rateLimit.get(ip);
-
-  if (!record || now > record.resetTime) {
-    rateLimit.set(ip, { count: 1, resetTime: now + windowMs });
-    return true;
-  }
-
-  if (record.count >= maxRequests) {
-    return false;
-  }
-
-  record.count++;
-  return true;
-};
+// Distributed rate limiting using Redis (20 requests/hour per IP)
 
 export async function POST(req: NextRequest) {
   try {
     const clientIP = getClientIP(req);
 
-    // Rate limiting check
-    if (!checkRateLimit(clientIP)) {
+    // Distributed rate limiting check (Redis-based)
+    const rateLimitResult = await whatsappRateLimiter.limit(clientIP);
+
+    if (!rateLimitResult.success) {
       return NextResponse.json(
         { error: 'Rate limit exceeded. Maximum 20 WhatsApp link requests per hour.' },
-        { status: 429 }
+        {
+          status: 429,
+          headers: getRateLimitHeaders(rateLimitResult)
+        }
       );
     }
 

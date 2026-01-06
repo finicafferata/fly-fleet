@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/database/prisma';
 import { z } from 'zod';
-
-const prisma = new PrismaClient();
 
 
 // Status validation schema

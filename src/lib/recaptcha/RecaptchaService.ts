@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import { cacheGet, cacheSet } from '@/lib/redis/client';
 
 // reCAPTCHA verification response interface
 interface RecaptchaVerificationResponse {
@@ -20,24 +21,16 @@ export interface RecaptchaResult {
   fromCache?: boolean;
 }
 
-// Cache interface for verified tokens
-interface CacheItem {
-  result: RecaptchaResult;
-  timestamp: number;
-}
-
 export class RecaptchaService {
   private secretKey: string;
   private scoreThreshold: number;
-  private cache: Map<string, CacheItem>;
   private cacheTTL: number;
   private developmentMode: boolean;
 
   constructor() {
     this.secretKey = process.env.RECAPTCHA_SECRET_KEY || '';
     this.scoreThreshold = Number(process.env.RECAPTCHA_SCORE_THRESHOLD) || 0.5;
-    this.cache = new Map();
-    this.cacheTTL = 5 * 60 * 1000; // 5 minutes
+    this.cacheTTL = 5 * 60 * 1000; // 5 minutes (kept in ms for compatibility)
     this.developmentMode = process.env.NODE_ENV === 'development' || !this.secretKey;
   }
 
@@ -52,7 +45,7 @@ export class RecaptchaService {
     try {
       // Check cache first
       const cacheKey = this.generateCacheKey(token, expectedAction);
-      const cached = this.getFromCache(cacheKey);
+      const cached = await this.getFromCache(cacheKey);
       if (cached) {
         return { ...cached, fromCache: true };
       }
@@ -65,7 +58,7 @@ export class RecaptchaService {
           action: expectedAction,
           hostname: 'localhost'
         };
-        this.setCache(cacheKey, devResult);
+        await this.setCache(cacheKey, devResult);
         console.log('⚠️ Development mode: reCAPTCHA verification bypassed');
         return devResult;
       }
@@ -78,7 +71,7 @@ export class RecaptchaService {
 
       // Cache successful verifications
       if (validatedResult.success) {
-        this.setCache(cacheKey, validatedResult);
+        await this.setCache(cacheKey, validatedResult);
       }
 
       // Log suspicious attempts
@@ -213,62 +206,27 @@ export class RecaptchaService {
   /**
    * Get result from cache if valid
    */
-  private getFromCache(cacheKey: string): RecaptchaResult | null {
-    const cached = this.cache.get(cacheKey);
-    if (!cached) return null;
-
-    const now = Date.now();
-    if (now - cached.timestamp > this.cacheTTL) {
-      this.cache.delete(cacheKey);
-      return null;
-    }
-
-    return cached.result;
+  private async getFromCache(cacheKey: string): Promise<RecaptchaResult | null> {
+    return await cacheGet<RecaptchaResult>(`recaptcha:${cacheKey}`);
   }
 
   /**
    * Set result in cache
    */
-  private setCache(cacheKey: string, result: RecaptchaResult): void {
-    this.cache.set(cacheKey, {
-      result,
-      timestamp: Date.now()
-    });
-
-    // Clean old entries
-    this.cleanCache();
-  }
-
-  /**
-   * Clean expired cache entries
-   */
-  private cleanCache(): void {
-    const now = Date.now();
-    for (const [key, item] of this.cache.entries()) {
-      if (now - item.timestamp > this.cacheTTL) {
-        this.cache.delete(key);
-      }
-    }
+  private async setCache(cacheKey: string, result: RecaptchaResult): Promise<void> {
+    // Convert TTL from milliseconds to seconds for Redis
+    const ttlSeconds = Math.floor(this.cacheTTL / 1000);
+    await cacheSet(`recaptcha:${cacheKey}`, result, ttlSeconds);
   }
 
   /**
    * Get cache statistics for monitoring
+   * Note: With Redis, detailed stats require separate analytics
    */
-  getCacheStats(): { size: number; maxAge: number } {
-    this.cleanCache();
-    const now = Date.now();
-    let maxAge = 0;
-
-    for (const item of this.cache.values()) {
-      const age = now - item.timestamp;
-      if (age > maxAge) {
-        maxAge = age;
-      }
-    }
-
+  getCacheStats(): { message: string; ttlSeconds: number } {
     return {
-      size: this.cache.size,
-      maxAge: Math.round(maxAge / 1000) // in seconds
+      message: 'Using Redis distributed cache',
+      ttlSeconds: Math.floor(this.cacheTTL / 1000)
     };
   }
 
@@ -286,7 +244,7 @@ export class RecaptchaService {
     configured: boolean;
     developmentMode: boolean;
     scoreThreshold: number;
-    cacheStats: { size: number; maxAge: number };
+    cacheStats: { message: string; ttlSeconds: number };
   } {
     return {
       configured: this.isConfigured(),

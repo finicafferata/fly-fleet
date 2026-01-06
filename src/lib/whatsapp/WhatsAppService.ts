@@ -1,3 +1,4 @@
+import { prisma } from '../database/prisma';
 import { PrismaClient } from '@prisma/client';
 
 // Additional services translations for WhatsApp messages
@@ -224,7 +225,7 @@ export class WhatsAppService {
   private businessPhone: string;
 
   constructor() {
-    this.prisma = new PrismaClient();
+    this.prisma = prisma;
     this.businessPhone = process.env.WHATSAPP_BUSINESS_PHONE || '5491166601927'; // Default to Fly-Fleet number
   }
 
