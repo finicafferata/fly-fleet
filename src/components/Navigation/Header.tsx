@@ -6,13 +6,7 @@ import { usePathname } from 'next/navigation';
 import { clsx } from 'clsx';
 import { Button } from '../ui/Button';
 import { LanguageSwitcher } from '../LanguageSwitcher';
-
-export interface NavigationItem {
-  href: string;
-  label: string;
-  description?: string;
-  external?: boolean;
-}
+import { getNavigationItems, type NavigationItem } from '@/config/navigation';
 
 export interface HeaderProps {
   locale: 'en' | 'es' | 'pt';
@@ -22,40 +16,6 @@ export interface HeaderProps {
   shrinkOnScroll?: boolean;
   logoSrc?: string;
 }
-
-const getNavigationItems = (locale: string): NavigationItem[] => {
-  const items = {
-    en: [
-      { href: '/', label: 'Home', description: 'Return to homepage' },
-      { href: '/what-we-do', label: 'What We Do', description: 'Our aviation services' },
-      { href: '/quote', label: 'Get a Quote', description: 'Request a quote' },
-      { href: '/additional-services', label: 'Additional Services', description: 'Extra services' },
-      { href: '/fleet-destinations', label: 'Fleet & Destinations', description: 'Aircraft fleet information' },
-      { href: '/faqs', label: 'FAQs', description: 'Frequently asked questions' },
-      { href: '/about', label: 'About Us', description: 'About Fly-Fleet' },
-    ],
-    es: [
-      { href: '/', label: 'Inicio', description: 'Volver al inicio' },
-      { href: '/what-we-do', label: 'Qué Hacemos', description: 'Nuestros servicios de aviación' },
-      { href: '/quote', label: 'Cotizar', description: 'Solicitar cotización' },
-      { href: '/additional-services', label: 'Servicios Adicionales', description: 'Servicios extra' },
-      { href: '/fleet-destinations', label: 'Flota y Destinos', description: 'Información de la flota' },
-      { href: '/faqs', label: 'FAQs', description: 'Preguntas frecuentes' },
-      { href: '/about', label: 'Nosotros', description: 'Nosotros - Fly-Fleet' },
-    ],
-    pt: [
-      { href: '/', label: 'Início', description: 'Voltar ao início' },
-      { href: '/what-we-do', label: 'O Que Fazemos', description: 'Nossos serviços de aviação' },
-      { href: '/quote', label: 'Cotar', description: 'Solicitar cotação' },
-      { href: '/additional-services', label: 'Serviços Adicionais', description: 'Serviços extras' },
-      { href: '/fleet-destinations', label: 'Frota e Destinos', description: 'Informações da frota' },
-      { href: '/faqs', label: 'FAQs', description: 'Perguntas frequentes' },
-      { href: '/about', label: 'Sobre Nós', description: 'Sobre a Fly-Fleet' },
-    ],
-  };
-
-  return items[locale as keyof typeof items] || items.en;
-};
 
 export function Header({
   locale,
