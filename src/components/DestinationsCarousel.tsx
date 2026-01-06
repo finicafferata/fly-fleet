@@ -3,6 +3,7 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
+import { OptimizedImage } from './ui/OptimizedImage';
 
 interface DestinationsCarouselProps {
   locale: 'en' | 'es' | 'pt';
@@ -59,7 +60,6 @@ const destinations = [
 export function DestinationsCarousel({ locale }: DestinationsCarouselProps) {
   const [isPlaying, setIsPlaying] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
@@ -90,10 +90,6 @@ export function DestinationsCarousel({ locale }: DestinationsCarouselProps) {
     playOrStop();
     setIsPlaying(!isPlaying);
   }, [emblaApi, isPlaying]);
-
-  const handleImageLoad = useCallback((id: number) => {
-    setLoadedImages((prev) => new Set(prev).add(id));
-  }, []);
 
   useEffect(() => {
     if (!emblaApi) return;
@@ -150,42 +146,35 @@ export function DestinationsCarousel({ locale }: DestinationsCarouselProps) {
           {/* Carousel */}
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex">
-              {destinations.map((destination) => {
-                const isLoaded = loadedImages.has(destination.id);
-                return (
-                  <div
-                    key={destination.id}
-                    className="flex-[0_0_70%] sm:flex-[0_0_48%] md:flex-[0_0_30%] lg:flex-[0_0_28%] xl:flex-[0_0_25%] min-w-0 px-2.5"
-                  >
-                    <div className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 h-64 md:h-80 lg:h-[400px]">
-                      {/* Skeleton Loader */}
-                      {!isLoaded && (
-                        <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-pulse" />
-                      )}
+              {destinations.map((destination) => (
+                <div
+                  key={destination.id}
+                  className="flex-[0_0_70%] sm:flex-[0_0_48%] md:flex-[0_0_30%] lg:flex-[0_0_28%] xl:flex-[0_0_25%] min-w-0 px-2.5"
+                >
+                  <div className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 h-64 md:h-80 lg:h-[400px]">
+                    {/* Optimized Image with Lazy Loading */}
+                    <OptimizedImage
+                      src={destination.image}
+                      alt={destination.title[locale]}
+                      className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                      loading="lazy"
+                      sizes="(max-width: 640px) 70vw, (max-width: 768px) 48vw, (max-width: 1024px) 30vw, 25vw"
+                      objectFit="cover"
+                      placeholder="blur"
+                    />
 
-                      {/* Background Image */}
-                      <img
-                        src={destination.image}
-                        alt={destination.title[locale]}
-                        onLoad={() => handleImageLoad(destination.id)}
-                        className={`absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-all duration-700 ${
-                          isLoaded ? 'opacity-100' : 'opacity-0'
-                        }`}
-                      />
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-navy-primary/90 via-navy-primary/40 to-transparent" />
 
-                      {/* Gradient Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-navy-primary/90 via-navy-primary/40 to-transparent" />
-
-                      {/* Content */}
-                      <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-                        <h3 className="text-3xl font-bold">
-                          {destination.title[locale]}
-                        </h3>
-                      </div>
+                    {/* Content */}
+                    <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+                      <h3 className="text-3xl font-bold">
+                        {destination.title[locale]}
+                      </h3>
                     </div>
                   </div>
-                );
-              })}
+                </div>
+              ))}
             </div>
           </div>
 

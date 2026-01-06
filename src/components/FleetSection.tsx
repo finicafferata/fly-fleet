@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef, useEffect } from 'react';
+import { OptimizedImage } from './ui/OptimizedImage';
 
 interface FleetSectionProps {
   locale: 'en' | 'es' | 'pt';
@@ -201,13 +202,13 @@ export function FleetSection({ locale, title, subtitle }: FleetSectionProps) {
             <div className="px-6 pb-6 pt-4 border-t border-gray-100">
               <div className="grid grid-cols-3 gap-2">
                 <div className="relative h-16 rounded overflow-hidden group/img">
-                  <img src="/images/aircrafts/light/light1.png" alt="Light jet view 1" className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-300" />
+                  <OptimizedImage src="/images/aircrafts/light/light1.png" alt="Light jet view 1" className="w-full h-full group-hover/img:scale-110 transition-transform duration-300" objectFit="cover" loading="lazy" />
                 </div>
                 <div className="relative h-16 rounded overflow-hidden group/img">
-                  <img src="/images/aircrafts/light/light2.png" alt="Light jet view 2" className="w-full h-full object-cover opacity-80 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
+                  <OptimizedImage src="/images/aircrafts/light/light2.png" alt="Light jet view 2" className="w-full h-full opacity-80 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" objectFit="cover" loading="lazy" />
                 </div>
                 <div className="relative h-16 rounded overflow-hidden group/img">
-                  <img src="/images/aircrafts/light/light3.png" alt="Light jet view 3" className="w-full h-full object-cover opacity-60 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
+                  <OptimizedImage src="/images/aircrafts/light/light3.png" alt="Light jet view 3" className="w-full h-full opacity-60 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" objectFit="cover" loading="lazy" />
                 </div>
               </div>
             </div>
@@ -262,13 +263,13 @@ export function FleetSection({ locale, title, subtitle }: FleetSectionProps) {
             <div className="px-6 pb-6 pt-4 border-t border-gray-100">
               <div className="grid grid-cols-3 gap-2">
                 <div className="relative h-16 rounded overflow-hidden group/img">
-                  <img src="/images/aircrafts/medium/medium_1.png" alt="Midsize jet view 1" className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-300" />
+                  <OptimizedImage src="/images/aircrafts/medium/medium_1.png" alt="Midsize jet view 1" className="w-full h-full group-hover/img:scale-110 transition-transform duration-300" objectFit="cover" loading="lazy" />
                 </div>
                 <div className="relative h-16 rounded overflow-hidden group/img">
-                  <img src="/images/aircrafts/medium/medium_2.png" alt="Midsize jet view 2" className="w-full h-full object-cover opacity-80 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
+                  <OptimizedImage src="/images/aircrafts/medium/medium_2.png" alt="Midsize jet view 2" className="w-full h-full opacity-80 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" objectFit="cover" loading="lazy" />
                 </div>
                 <div className="relative h-16 rounded overflow-hidden group/img">
-                  <img src="/images/aircrafts/medium/medium_3.png" alt="Midsize jet view 3" className="w-full h-full object-cover opacity-60 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
+                  <OptimizedImage src="/images/aircrafts/medium/medium_3.png" alt="Midsize jet view 3" className="w-full h-full opacity-60 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" objectFit="cover" loading="lazy" />
                 </div>
               </div>
             </div>
@@ -323,13 +324,13 @@ export function FleetSection({ locale, title, subtitle }: FleetSectionProps) {
             <div className="px-6 pb-6 pt-4 border-t border-gray-100">
               <div className="grid grid-cols-3 gap-2">
                 <div className="relative h-16 rounded overflow-hidden group/img">
-                  <img src="/images/aircrafts/heavy/heavy_1.png" alt="Heavy jet view 1" className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-300" />
+                  <OptimizedImage src="/images/aircrafts/heavy/heavy_1.png" alt="Heavy jet view 1" className="w-full h-full group-hover/img:scale-110 transition-transform duration-300" objectFit="cover" loading="lazy" />
                 </div>
                 <div className="relative h-16 rounded overflow-hidden group/img">
-                  <img src="/images/aircrafts/heavy/heavy_2.png" alt="Heavy jet view 2" className="w-full h-full object-cover opacity-80 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
+                  <OptimizedImage src="/images/aircrafts/heavy/heavy_2.png" alt="Heavy jet view 2" className="w-full h-full opacity-80 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" objectFit="cover" loading="lazy" />
                 </div>
                 <div className="relative h-16 rounded overflow-hidden group/img">
-                  <img src="/images/aircrafts/heavy/heavy_3.png" alt="Heavy jet view 3" className="w-full h-full object-cover opacity-60 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
+                  <OptimizedImage src="/images/aircrafts/heavy/heavy_3.png" alt="Heavy jet view 3" className="w-full h-full opacity-60 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" objectFit="cover" loading="lazy" />
                 </div>
               </div>
             </div>
@@ -384,13 +385,13 @@ export function FleetSection({ locale, title, subtitle }: FleetSectionProps) {
             <div className="px-6 pb-6 pt-4 border-t border-gray-100">
               <div className="grid grid-cols-3 gap-2">
                 <div className="relative h-16 rounded overflow-hidden group/img">
-                  <img src="/images/aircrafts/piston/piston_1.png" alt="Piston/Turboprop view 1" className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-300" />
+                  <OptimizedImage src="/images/aircrafts/piston/piston_1.png" alt="Piston/Turboprop view 1" className="w-full h-full group-hover/img:scale-110 transition-transform duration-300" objectFit="cover" loading="lazy" />
                 </div>
                 <div className="relative h-16 rounded overflow-hidden group/img">
-                  <img src="/images/aircrafts/piston/piston_2.png" alt="Piston/Turboprop view 2" className="w-full h-full object-cover opacity-80 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
+                  <OptimizedImage src="/images/aircrafts/piston/piston_2.png" alt="Piston/Turboprop view 2" className="w-full h-full opacity-80 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" objectFit="cover" loading="lazy" />
                 </div>
                 <div className="relative h-16 rounded overflow-hidden group/img">
-                  <img src="/images/aircrafts/piston/piston_3.png" alt="Piston/Turboprop view 3" className="w-full h-full object-cover opacity-60 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" />
+                  <OptimizedImage src="/images/aircrafts/piston/piston_3.png" alt="Piston/Turboprop view 3" className="w-full h-full opacity-60 group-hover/img:scale-110 group-hover/img:opacity-100 transition-all duration-300" objectFit="cover" loading="lazy" />
                 </div>
               </div>
             </div>
