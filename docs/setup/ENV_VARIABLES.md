@@ -49,6 +49,17 @@ FRONTEND_URL="https://fly-fleet.vercel.app"
 WHATSAPP_BUSINESS_NUMBER="+1234567890"
 
 # -----------------------------------------------------------------------------
+# ADMIN AUTHENTICATION (NextAuth)
+# -----------------------------------------------------------------------------
+# Generate a secure random string for NEXTAUTH_SECRET:
+# Run: openssl rand -base64 32
+NEXTAUTH_SECRET="your-super-secret-32-character-string-here"
+
+# Admin credentials for /admin/login
+ADMIN_EMAIL="admin@fly-fleet.com"
+ADMIN_PASSWORD="your-secure-admin-password-here"
+
+# -----------------------------------------------------------------------------
 # VERCEL (Automatically set by platform)
 # -----------------------------------------------------------------------------
 # These are provided automatically by Vercel:
