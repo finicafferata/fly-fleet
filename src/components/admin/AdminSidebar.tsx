@@ -31,10 +31,10 @@ export default function AdminSidebar({ session }: AdminSidebarProps) {
   return (
     <>
       {/* Mobile menu button */}
-      <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-white px-4 py-4 shadow-sm sm:px-6 lg:hidden">
+      <div className="sticky top-0 z-40 flex items-center gap-x-4 bg-gradient-to-r from-white to-gray-50 px-4 py-4 shadow-md sm:px-6 lg:hidden border-b border-gray-200">
         <button
           type="button"
-          className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
+          className="-m-2.5 p-2.5 text-gray-700 hover:text-blue-600 transition-colors lg:hidden"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           <span className="sr-only">Open sidebar</span>
@@ -42,18 +42,32 @@ export default function AdminSidebar({ session }: AdminSidebarProps) {
             <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
           </svg>
         </button>
-        <div className="flex-1 text-sm font-semibold leading-6 text-gray-900">
-          Fly-Fleet Admin
+        <div className="flex items-center gap-2 flex-1">
+          <div className="h-7 w-7 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center">
+            <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+            </svg>
+          </div>
+          <span className="text-sm font-bold text-gray-900">Fly-Fleet</span>
         </div>
-        <span className="text-sm text-gray-500">{session.user?.email}</span>
+        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-blue-800 text-white font-semibold text-xs">
+          {session.user?.email?.charAt(0).toUpperCase() || 'A'}
+        </div>
       </div>
 
       {/* Desktop sidebar */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-64 lg:flex-col">
-        <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
+        <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gradient-to-b from-gray-50 to-white border-r border-gray-200 shadow-lg px-6 pb-4">
           {/* Logo */}
           <div className="flex h-16 shrink-0 items-center border-b border-gray-200">
-            <h1 className="text-xl font-bold text-navy-primary">Fly-Fleet Admin</h1>
+            <div className="flex items-center gap-2">
+              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center">
+                <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                </svg>
+              </div>
+              <h1 className="text-xl font-bold text-gray-900">Fly-Fleet</h1>
+            </div>
           </div>
 
           {/* Navigation */}
@@ -69,15 +83,15 @@ export default function AdminSidebar({ session }: AdminSidebarProps) {
                           href={item.href}
                           className={clsx(
                             isActive
-                              ? 'bg-navy-primary text-white'
-                              : 'text-gray-700 hover:bg-gray-50 hover:text-navy-primary',
-                            'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 transition-colors'
+                              ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-md'
+                              : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700',
+                            'group flex gap-x-3 rounded-lg p-3 text-sm font-semibold leading-6 transition-all duration-200 ease-in-out hover:shadow-sm'
                           )}
                         >
                           <item.icon
                             className={clsx(
-                              isActive ? 'text-white' : 'text-gray-400 group-hover:text-navy-primary',
-                              'h-6 w-6 shrink-0'
+                              isActive ? 'text-white' : 'text-gray-500 group-hover:text-blue-600',
+                              'h-5 w-5 shrink-0 transition-colors'
                             )}
                             aria-hidden="true"
                           />
@@ -91,17 +105,25 @@ export default function AdminSidebar({ session }: AdminSidebarProps) {
 
               {/* User section */}
               <li className="mt-auto">
-                <div className="flex items-center gap-x-4 border-t border-gray-200 pt-4">
+                <div className="flex items-center gap-x-3 border-t border-gray-200 pt-4 px-2">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-blue-800 text-white font-semibold text-sm">
+                    {session.user?.email?.charAt(0).toUpperCase() || 'A'}
+                  </div>
                   <div className="flex-1 text-sm">
-                    <p className="font-semibold text-gray-900">{session.user?.email}</p>
+                    <p className="font-semibold text-gray-900 truncate">{session.user?.email}</p>
                     <p className="text-xs text-gray-500">Administrator</p>
                   </div>
                 </div>
                 <button
                   onClick={handleSignOut}
-                  className="mt-3 w-full rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors"
+                  className="mt-3 w-full rounded-lg bg-gradient-to-r from-red-600 to-red-700 px-3 py-2.5 text-sm font-semibold text-white shadow-md hover:shadow-lg hover:from-red-700 hover:to-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all duration-200"
                 >
-                  Sign Out
+                  <div className="flex items-center justify-center gap-2">
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                    Sign Out
+                  </div>
                 </button>
               </li>
             </ul>
@@ -135,15 +157,15 @@ export default function AdminSidebar({ session }: AdminSidebarProps) {
                                 onClick={() => setMobileMenuOpen(false)}
                                 className={clsx(
                                   isActive
-                                    ? 'bg-navy-primary text-white'
-                                    : 'text-gray-700 hover:bg-gray-50 hover:text-navy-primary',
-                                  'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 transition-colors'
+                                    ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-md'
+                                    : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700',
+                                  'group flex gap-x-3 rounded-lg p-3 text-sm font-semibold leading-6 transition-all duration-200 ease-in-out hover:shadow-sm'
                                 )}
                               >
                                 <item.icon
                                   className={clsx(
-                                    isActive ? 'text-white' : 'text-gray-400 group-hover:text-navy-primary',
-                                    'h-6 w-6 shrink-0'
+                                    isActive ? 'text-white' : 'text-gray-500 group-hover:text-blue-600',
+                                    'h-5 w-5 shrink-0 transition-colors'
                                   )}
                                   aria-hidden="true"
                                 />
@@ -157,17 +179,25 @@ export default function AdminSidebar({ session }: AdminSidebarProps) {
 
                     {/* Mobile user section */}
                     <li className="mt-auto">
-                      <div className="flex items-center gap-x-4 border-t border-gray-200 pt-4">
+                      <div className="flex items-center gap-x-3 border-t border-gray-200 pt-4 px-2">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-blue-800 text-white font-semibold text-sm">
+                          {session.user?.email?.charAt(0).toUpperCase() || 'A'}
+                        </div>
                         <div className="flex-1 text-sm">
-                          <p className="font-semibold text-gray-900">{session.user?.email}</p>
+                          <p className="font-semibold text-gray-900 truncate">{session.user?.email}</p>
                           <p className="text-xs text-gray-500">Administrator</p>
                         </div>
                       </div>
                       <button
                         onClick={handleSignOut}
-                        className="mt-3 w-full rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors"
+                        className="mt-3 w-full rounded-lg bg-gradient-to-r from-red-600 to-red-700 px-3 py-2.5 text-sm font-semibold text-white shadow-md hover:shadow-lg hover:from-red-700 hover:to-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all duration-200"
                       >
-                        Sign Out
+                        <div className="flex items-center justify-center gap-2">
+                          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                          </svg>
+                          Sign Out
+                        </div>
                       </button>
                     </li>
                   </ul>

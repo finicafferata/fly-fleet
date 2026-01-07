@@ -56,12 +56,33 @@ async function getDashboardStats() {
       },
     });
 
-    // Get email stats
-    const emailStatsResponse = await fetch(
-      `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/admin/email-stats`,
-      { cache: 'no-store' }
-    );
-    const emailStats = emailStatsResponse.ok ? await emailStatsResponse.json() : null;
+    // Get email stats directly from database
+    const emailStats = await prisma.emailDelivery.aggregate({
+      _count: {
+        id: true,
+      },
+      where: {
+        status: {
+          in: ['sent', 'delivered', 'bounced', 'failed'],
+        },
+      },
+    });
+
+    const deliveredCount = await prisma.emailDelivery.count({
+      where: { status: 'delivered' },
+    });
+
+    const bouncedCount = await prisma.emailDelivery.count({
+      where: { status: 'bounced' },
+    });
+
+    const failedCount = await prisma.emailDelivery.count({
+      where: { status: 'failed' },
+    });
+
+    const totalSent = emailStats._count.id;
+    const deliveryRate = totalSent > 0 ? ((deliveredCount / totalSent) * 100).toFixed(1) : '0.0';
+    const bounceRate = totalSent > 0 ? ((bouncedCount / totalSent) * 100).toFixed(1) : '0.0';
 
     // Calculate average response time (simplified - would need status change events for accuracy)
     const avgResponseTime = '2.5'; // Placeholder - would calculate from status change events
@@ -74,7 +95,14 @@ async function getDashboardStats() {
       staleQuotes,
       recentQuotesWithStatus,
       recentContacts,
-      emailStats,
+      emailStats: {
+        totalSent,
+        delivered: deliveredCount,
+        bounced: bouncedCount,
+        failed: failedCount,
+        deliveryRate: parseFloat(deliveryRate),
+        bounceRate: parseFloat(bounceRate),
+      },
     };
   } catch (error) {
     console.error('Error fetching dashboard stats:', error);
@@ -88,8 +116,24 @@ export default async function AdminDashboard() {
   if (!stats) {
     return (
       <div className="p-6">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <p className="text-red-800">Error loading dashboard statistics</p>
+        <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+          <div className="flex items-start">
+            <svg className="h-6 w-6 text-red-600 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <div>
+              <h3 className="text-lg font-semibold text-red-900 mb-1">Error Loading Dashboard</h3>
+              <p className="text-red-700 text-sm">
+                Unable to load dashboard statistics. Please check your database connection and try refreshing the page.
+              </p>
+              <a
+                href="/admin/dashboard"
+                className="mt-4 inline-block px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-medium"
+              >
+                Refresh Dashboard
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     );
