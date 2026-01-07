@@ -23,7 +23,7 @@ export function Header({
   className,
   sticky = true,
   shrinkOnScroll = true,
-  logoSrc = '/images/flyfleet_logo.png',
+  logoSrc = '/images/flyfleet_logo_navy.png',
 }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);

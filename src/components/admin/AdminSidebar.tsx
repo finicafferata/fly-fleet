@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import { clsx } from 'clsx';
@@ -43,12 +44,11 @@ export default function AdminSidebar({ session }: AdminSidebarProps) {
           </svg>
         </button>
         <div className="flex items-center gap-2 flex-1">
-          <div className="h-7 w-7 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center">
-            <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-            </svg>
-          </div>
-          <span className="text-sm font-bold text-gray-900">Fly-Fleet</span>
+          <img
+            src="/images/flyfleet_logo_navy.png"
+            alt="Fly-Fleet"
+            className="h-8 w-auto"
+          />
         </div>
         <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-blue-800 text-white font-semibold text-xs">
           {session.user?.email?.charAt(0).toUpperCase() || 'A'}
@@ -60,14 +60,11 @@ export default function AdminSidebar({ session }: AdminSidebarProps) {
         <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gradient-to-b from-gray-50 to-white border-r border-gray-200 shadow-lg px-6 pb-4">
           {/* Logo */}
           <div className="flex h-16 shrink-0 items-center border-b border-gray-200">
-            <div className="flex items-center gap-2">
-              <div className="h-7 w-7 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center">
-                <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                </svg>
-              </div>
-              <h1 className="text-base font-bold text-gray-900">Fly-Fleet</h1>
-            </div>
+            <img
+              src="/images/flyfleet_logo_navy.png"
+              alt="Fly-Fleet"
+              className="h-10 w-auto"
+            />
           </div>
 
           {/* Navigation */}
@@ -140,7 +137,11 @@ export default function AdminSidebar({ session }: AdminSidebarProps) {
               <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
                 {/* Mobile logo */}
                 <div className="flex h-16 shrink-0 items-center border-b border-gray-200">
-                  <h1 className="text-base font-bold text-navy-primary">Fly-Fleet Admin</h1>
+                  <img
+                    src="/images/flyfleet_logo_navy.png"
+                    alt="Fly-Fleet"
+                    className="h-10 w-auto"
+                  />
                 </div>
 
                 {/* Mobile navigation */}
