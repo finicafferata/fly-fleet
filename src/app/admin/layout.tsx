@@ -16,11 +16,11 @@ export default async function AdminLayout({
 
   // Redirect to login if not authenticated
   if (!session || session.user?.role !== 'admin') {
-    redirect('/admin/login');
+    redirect('/admin-login');
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-50">
+    <div className="admin-layout min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-50">
       <AdminSidebar session={session} />
       <main className="lg:pl-64 min-h-screen">
         <div className="max-w-[1600px] mx-auto">

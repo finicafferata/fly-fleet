@@ -283,7 +283,7 @@ export default function ContactsPage() {
     <div className="p-6">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Contact Management</h1>
+        <h1 className="text-xl font-bold text-gray-900">Contact Management</h1>
         <p className="mt-2 text-sm text-gray-600">
           View and manage all contact form submissions
         </p>

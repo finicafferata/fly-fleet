@@ -1,24 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { requireAdmin, getAuthSession } from '@/lib/auth/server';
-import { QuoteStatusService, QuoteStatus } from '@/lib/quotes/QuoteStatusService';
 import { prisma } from '@/lib/database/prisma';
+import { QuoteStatusService, type QuoteStatus } from '@/lib/quotes/QuoteStatusService';
+import { requireAdmin, getAuthSession } from '@/lib/auth/server';
 
 // GET /api/admin/quotes/[id] - Get single quote with full details
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // Check authentication
   const authError = await requireAdmin();
   if (authError) return authError;
 
   try {
-    const quoteId = params.id;
+    const { id } = await params;
 
-    // Get quote with full details
-    const quote = await prisma.quoteRequest.findUnique({
-      where: { id: quoteId },
-    });
+    // Get quote with status details
+    const quote = await QuoteStatusService.getQuoteWithStatus(id);
 
     if (!quote) {
       return NextResponse.json(
@@ -27,14 +25,14 @@ export async function GET(
       );
     }
 
-    // Get current status and history
-    const currentStatus = await QuoteStatusService.getCurrentQuoteStatus(quoteId);
-    const statusHistory = await QuoteStatusService.getQuoteStatusHistory(quoteId);
-
     // Get related email deliveries
     const emailDeliveries = await prisma.emailDelivery.findMany({
-      where: { quoteRequestId: quoteId },
-      orderBy: { createdAt: 'desc' },
+      where: {
+        quoteRequestId: id
+      },
+      orderBy: {
+        createdAt: 'desc'
+      },
       select: {
         id: true,
         recipientEmail: true,
@@ -45,22 +43,21 @@ export async function GET(
         deliveredAt: true,
         bouncedAt: true,
         failedAt: true,
-        errorMessage: true,
-      },
+        errorMessage: true
+      }
     });
 
     return NextResponse.json({
       success: true,
       quote: {
         ...quote,
-        currentStatus,
-        statusHistory,
-        emailDeliveries,
+        emailDeliveries
       },
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toISOString()
     });
+
   } catch (error) {
-    console.error('Error fetching quote:', error);
+    console.error('Admin quote detail API error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -71,7 +68,7 @@ export async function GET(
 // PATCH /api/admin/quotes/[id] - Update quote status
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // Check authentication
   const authError = await requireAdmin();
@@ -81,59 +78,56 @@ export async function PATCH(
   const adminEmail = session?.user?.email || 'admin';
 
   try {
-    const quoteId = params.id;
+    const { id } = await params;
     const body = await req.json();
     const { status, note } = body;
 
-    // Validate status
-    const validStatuses: QuoteStatus[] = ['pending', 'processing', 'quoted', 'converted', 'closed'];
-    if (!status || !validStatuses.includes(status)) {
+    if (!status) {
+      return NextResponse.json(
+        { error: 'Status is required' },
+        { status: 400 }
+      );
+    }
+
+    const validStatuses: QuoteStatus[] = [
+      'new_request',
+      'reviewing',
+      'quote_sent',
+      'awaiting_confirmation',
+      'confirmed',
+      'payment_pending',
+      'paid',
+      'completed',
+      'cancelled'
+    ];
+
+    if (!validStatuses.includes(status)) {
       return NextResponse.json(
         { error: 'Invalid status', validStatuses },
         { status: 400 }
       );
     }
 
-    // Check if quote exists
-    const quote = await prisma.quoteRequest.findUnique({
-      where: { id: quoteId },
-    });
-
-    if (!quote) {
-      return NextResponse.json(
-        { error: 'Quote not found' },
-        { status: 404 }
-      );
-    }
-
     // Update status using QuoteStatusService
     const statusChange = await QuoteStatusService.updateQuoteStatus({
-      quoteId,
+      quoteId: id,
       newStatus: status,
       adminEmail,
       adminNote: note,
     });
 
-    // Get updated quote with new status
-    const currentStatus = await QuoteStatusService.getCurrentQuoteStatus(quoteId);
-    const statusHistory = await QuoteStatusService.getQuoteStatusHistory(quoteId);
-
     return NextResponse.json({
       success: true,
-      message: `Quote status updated to ${status}`,
-      quote: {
-        ...quote,
-        currentStatus,
-        statusHistory,
-      },
+      action: 'status_updated',
       statusChange,
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toISOString()
     });
-  } catch (error: any) {
-    console.error('Error updating quote status:', error);
+
+  } catch (error) {
+    console.error('Admin quote update API error:', error);
 
     // Handle validation errors from QuoteStatusService
-    if (error.message?.includes('Invalid status transition')) {
+    if (error instanceof Error && error.message.includes('Invalid status transition')) {
       return NextResponse.json(
         { error: error.message },
         { status: 400 }

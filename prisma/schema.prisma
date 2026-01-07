@@ -29,17 +29,39 @@ enum ContentType {
 }
 
 enum QuoteStatus {
-  pending
-  processing
-  quoted
-  converted
-  closed
+  new_request
+  reviewing
+  quote_sent
+  awaiting_confirmation
+  confirmed
+  payment_pending
+  paid
+  completed
+  cancelled
 }
 
 enum ContactStatus {
   pending
   responded
   closed
+}
+
+enum PaymentMethod {
+  credit_card
+  wire_transfer
+  bank_transfer
+  check
+  cash
+  other
+}
+
+enum PaymentStatus {
+  pending
+  processing
+  completed
+  failed
+  refunded
+  partially_refunded
 }
 
 enum AdditionalService {
@@ -125,6 +147,7 @@ model QuoteRequest {
 
   // Relations
   emailDeliveries    EmailDelivery[]
+  payments           Payment[]
 
   @@index([email])
   @@index([createdAt], name: "idx_created_desc")
@@ -158,6 +181,34 @@ model ContactForm {
   @@index([createdAt])
   @@index([locale])
   @@map("contact_forms")
+}
+
+model Payment {
+  id                   String        @id @default(uuid()) @db.Uuid
+  quoteRequestId       String        @map("quote_request_id") @db.Uuid
+  amount               Decimal       @db.Decimal(10, 2)
+  currency             String        @default("USD") @db.VarChar(3)
+  paymentMethod        PaymentMethod @map("payment_method")
+  paymentStatus        PaymentStatus @default(pending) @map("payment_status")
+  transactionReference String?       @map("transaction_reference") @db.VarChar(255)
+  receiptUrl           String?       @map("receipt_url") @db.VarChar(500)
+  notes                String?       @db.Text
+  paidAt               DateTime?     @map("paid_at")
+  processedBy          String?       @map("processed_by") @db.VarChar(255)
+  refundAmount         Decimal?      @map("refund_amount") @db.Decimal(10, 2)
+  refundedAt           DateTime?     @map("refunded_at")
+  refundReason         String?       @map("refund_reason") @db.Text
+  createdAt            DateTime      @default(now()) @map("created_at")
+  updatedAt            DateTime      @default(now()) @updatedAt @map("updated_at")
+
+  // Relations
+  quoteRequest QuoteRequest @relation(fields: [quoteRequestId], references: [id], onDelete: Cascade)
+
+  @@index([quoteRequestId])
+  @@index([paymentStatus])
+  @@index([paidAt])
+  @@index([createdAt])
+  @@map("payments")
 }
 
 model AnalyticsEvent {

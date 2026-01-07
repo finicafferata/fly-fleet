@@ -25,7 +25,7 @@ export default function AdminSidebar({ session }: AdminSidebarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleSignOut = async () => {
-    await signOut({ callbackUrl: '/admin/login' });
+    await signOut({ callbackUrl: '/admin-login' });
   };
 
   return (
@@ -61,12 +61,12 @@ export default function AdminSidebar({ session }: AdminSidebarProps) {
           {/* Logo */}
           <div className="flex h-16 shrink-0 items-center border-b border-gray-200">
             <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center">
-                <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="h-7 w-7 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center">
+                <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                 </svg>
               </div>
-              <h1 className="text-xl font-bold text-gray-900">Fly-Fleet</h1>
+              <h1 className="text-base font-bold text-gray-900">Fly-Fleet</h1>
             </div>
           </div>
 
@@ -140,7 +140,7 @@ export default function AdminSidebar({ session }: AdminSidebarProps) {
               <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
                 {/* Mobile logo */}
                 <div className="flex h-16 shrink-0 items-center border-b border-gray-200">
-                  <h1 className="text-xl font-bold text-navy-primary">Fly-Fleet Admin</h1>
+                  <h1 className="text-base font-bold text-navy-primary">Fly-Fleet Admin</h1>
                 </div>
 
                 {/* Mobile navigation */}

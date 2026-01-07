@@ -255,7 +255,7 @@ export function EmailDashboard({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 id="dashboard-title" className="text-3xl font-bold text-navy-primary mb-2">
+          <h1 id="dashboard-title" className="text-xl font-bold text-navy-primary mb-2">
             {content.title}
           </h1>
           <div className="flex items-center justify-between">
@@ -343,7 +343,7 @@ export function EmailDashboard({
 
         {/* Summary Section */}
         <section aria-labelledby="summary-heading" className="mb-8">
-          <h2 id="summary-heading" className="text-xl font-semibold text-navy-primary mb-4">
+          <h2 id="summary-heading" className="text-lg font-semibold text-navy-primary mb-4">
             {content.summaryHeading}
           </h2>
           <div className="stats-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" role="list">
@@ -393,7 +393,7 @@ export function EmailDashboard({
 
         {/* Activity Section */}
         <section aria-labelledby="recent-heading">
-          <h2 id="recent-heading" className="text-xl font-semibold text-navy-primary mb-4">
+          <h2 id="recent-heading" className="text-lg font-semibold text-navy-primary mb-4">
             {content.activityHeading}
           </h2>
 

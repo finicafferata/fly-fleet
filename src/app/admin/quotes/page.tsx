@@ -6,7 +6,6 @@ import { DataTable, ColumnDef, ActionItem } from '@/components/admin/DataTable';
 import { FilterBar } from '@/components/admin/FilterBar';
 import { StatusBadge, QuoteStatus } from '@/components/admin/StatusBadge';
 import { BulkActionBar } from '@/components/admin/BulkActionBar';
-import { QuoteDetailModal } from '@/components/admin/QuoteDetailModal';
 
 interface Quote {
   id: string;
@@ -23,11 +22,15 @@ interface Quote {
 
 const statusFilterOptions = [
   { label: 'All Statuses', value: '' },
-  { label: 'Pending', value: 'pending' },
-  { label: 'Processing', value: 'processing' },
-  { label: 'Quoted', value: 'quoted' },
-  { label: 'Converted', value: 'converted' },
-  { label: 'Closed', value: 'closed' },
+  { label: 'New Request', value: 'new_request' },
+  { label: 'Reviewing', value: 'reviewing' },
+  { label: 'Quote Sent', value: 'quote_sent' },
+  { label: 'Awaiting Confirmation', value: 'awaiting_confirmation' },
+  { label: 'Confirmed', value: 'confirmed' },
+  { label: 'Payment Pending', value: 'payment_pending' },
+  { label: 'Paid', value: 'paid' },
+  { label: 'Completed', value: 'completed' },
+  { label: 'Cancelled', value: 'cancelled' },
 ];
 
 export default function QuotesPage() {
@@ -37,8 +40,6 @@ export default function QuotesPage() {
   const [loading, setLoading] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
   const [selectedQuotes, setSelectedQuotes] = useState<string[]>([]);
-  const [selectedQuoteId, setSelectedQuoteId] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Pagination
   const limit = 50;
@@ -100,11 +101,6 @@ export default function QuotesPage() {
     const params = new URLSearchParams(searchParams);
     params.set('offset', newOffset.toString());
     router.push(`/admin/quotes?${params.toString()}`);
-  };
-
-  const handleViewDetails = (quote: Quote) => {
-    setSelectedQuoteId(quote.id);
-    setIsModalOpen(true);
   };
 
   const handleCopyId = (id: string) => {
@@ -176,18 +172,7 @@ export default function QuotesPage() {
       header: 'ID',
       width: 'w-32',
       render: (quote) => (
-        <div className="flex items-center space-x-2">
-          <span className="font-mono text-xs">{quote.id.substring(0, 8)}</span>
-          <button
-            onClick={() => handleCopyId(quote.id)}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
-            title="Copy full ID"
-          >
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-            </svg>
-          </button>
-        </div>
+        <span className="font-mono text-xs">{quote.id.substring(0, 8)}</span>
       ),
     },
     {
@@ -247,16 +232,6 @@ export default function QuotesPage() {
   // Define row actions
   const actions: ActionItem<Quote>[] = [
     {
-      label: 'View Details',
-      onClick: handleViewDetails,
-      icon: (
-        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-        </svg>
-      ),
-    },
-    {
       label: 'Copy ID',
       onClick: (quote) => handleCopyId(quote.id),
       icon: (
@@ -270,26 +245,49 @@ export default function QuotesPage() {
   // Bulk actions
   const bulkActions = [
     {
-      label: 'Mark as Processing',
-      value: 'processing',
+      label: 'Mark as Reviewing',
+      value: 'reviewing',
       icon: (
         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
         </svg>
       ),
       requiresConfirmation: true,
-      confirmationMessage: `Are you sure you want to mark ${selectedQuotes.length} quote${selectedQuotes.length !== 1 ? 's' : ''} as processing?`,
+      confirmationMessage: `Are you sure you want to mark ${selectedQuotes.length} quote${selectedQuotes.length !== 1 ? 's' : ''} as reviewing?`,
     },
     {
-      label: 'Mark as Quoted',
-      value: 'quoted',
+      label: 'Mark as Quote Sent',
+      value: 'quote_sent',
       icon: (
         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
       ),
       requiresConfirmation: true,
-      confirmationMessage: `Are you sure you want to mark ${selectedQuotes.length} quote${selectedQuotes.length !== 1 ? 's' : ''} as quoted?`,
+      confirmationMessage: `Are you sure you want to mark ${selectedQuotes.length} quote${selectedQuotes.length !== 1 ? 's' : ''} as quote sent?`,
+    },
+    {
+      label: 'Mark as Confirmed',
+      value: 'confirmed',
+      icon: (
+        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      ),
+      requiresConfirmation: true,
+      confirmationMessage: `Are you sure you want to mark ${selectedQuotes.length} quote${selectedQuotes.length !== 1 ? 's' : ''} as confirmed?`,
+    },
+    {
+      label: 'Mark as Cancelled',
+      value: 'cancelled',
+      icon: (
+        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      ),
+      requiresConfirmation: true,
+      confirmationMessage: `Are you sure you want to mark ${selectedQuotes.length} quote${selectedQuotes.length !== 1 ? 's' : ''} as cancelled?`,
     },
     {
       label: 'Export Selected',
@@ -314,7 +312,7 @@ export default function QuotesPage() {
     <div className="p-6">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Quote Management</h1>
+        <h1 className="text-xl font-bold text-gray-900">Quote Management</h1>
         <p className="mt-2 text-sm text-gray-600">
           View and manage all quote requests from customers
         </p>
@@ -352,24 +350,12 @@ export default function QuotesPage() {
           onPageChange: handlePageChange,
         }}
         onRowSelect={setSelectedQuotes}
+        onRowClick={(quote) => router.push(`/admin/quotes/${quote.id}`)}
         loading={loading}
         emptyMessage="No quotes found. Try adjusting your filters."
         actions={actions}
         showSelection={true}
       />
-
-      {/* Quote Detail Modal */}
-      {selectedQuoteId && (
-        <QuoteDetailModal
-          isOpen={isModalOpen}
-          onClose={() => {
-            setIsModalOpen(false);
-            setSelectedQuoteId(null);
-          }}
-          quoteId={selectedQuoteId}
-          onStatusUpdate={fetchQuotes}
-        />
-      )}
     </div>
   );
 }

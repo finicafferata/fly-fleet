@@ -9,7 +9,7 @@ export interface QuoteStatusUpdate {
   userAgent?: string;
 }
 
-export type QuoteStatus = 'pending' | 'processing' | 'quoted' | 'converted' | 'closed';
+export type QuoteStatus = 'new_request' | 'reviewing' | 'quote_sent' | 'awaiting_confirmation' | 'confirmed' | 'payment_pending' | 'paid' | 'completed' | 'cancelled';
 
 export interface StatusChangeEvent {
   id: string;
@@ -43,13 +43,17 @@ export interface QuoteWithStatus {
 
 export class QuoteStatusService {
 
-  // Status workflow rules
+  // Status workflow rules - allows skipping intermediate statuses
   private static readonly STATUS_TRANSITIONS: Record<QuoteStatus, QuoteStatus[]> = {
-    pending: ['processing', 'closed'],
-    processing: ['quoted', 'closed'],
-    quoted: ['converted', 'closed'],
-    converted: [],
-    closed: []
+    new_request: ['reviewing', 'quote_sent', 'awaiting_confirmation', 'confirmed', 'payment_pending', 'paid', 'completed', 'cancelled'],
+    reviewing: ['quote_sent', 'awaiting_confirmation', 'confirmed', 'payment_pending', 'paid', 'completed', 'cancelled'],
+    quote_sent: ['awaiting_confirmation', 'confirmed', 'payment_pending', 'paid', 'completed', 'cancelled'],
+    awaiting_confirmation: ['confirmed', 'payment_pending', 'paid', 'completed', 'cancelled'],
+    confirmed: ['payment_pending', 'paid', 'completed', 'cancelled'],
+    payment_pending: ['paid', 'completed', 'cancelled'],
+    paid: ['completed', 'cancelled'],
+    completed: [],
+    cancelled: []
   };
 
   // Get quote with current status and history
@@ -61,22 +65,22 @@ export class QuoteStatusService {
     if (!quote) return null;
 
     const statusHistory = await this.getQuoteStatusHistory(quoteId);
-    const currentStatus = statusHistory[0]?.toStatus || 'pending';
+    const currentStatus = statusHistory[0]?.toStatus || 'new_request';
 
     return {
       id: quote.id,
-      serviceType: quote.service_type,
-      fullName: quote.full_name,
+      serviceType: quote.serviceType,
+      fullName: quote.fullName,
       email: quote.email,
       phone: quote.phone || undefined,
       passengers: quote.passengers,
       origin: quote.origin,
       destination: quote.destination,
-      departureDate: quote.departure_date,
-      departureTime: quote.departure_time,
+      departureDate: quote.departureDate,
+      departureTime: quote.departureTime,
       locale: quote.locale,
-      createdAt: quote.created_at,
-      updatedAt: quote.updated_at,
+      createdAt: quote.createdAt,
+      updatedAt: quote.updatedAt,
       currentStatus,
       statusHistory
     };
@@ -107,7 +111,7 @@ export class QuoteStatusService {
     // Update quote timestamp
     await prisma.quoteRequest.update({
       where: { id: data.quoteId },
-      data: { updated_at: new Date() }
+      data: { updatedAt: new Date() }
     });
 
     return statusChange;
@@ -115,10 +119,10 @@ export class QuoteStatusService {
 
   // Get current status of a quote
   static async getCurrentQuoteStatus(quoteId: string): Promise<QuoteStatus> {
-    const latestStatusEvent = await prisma.analytics_events.findFirst({
+    const latestStatusEvent = await prisma.analyticsEvent.findFirst({
       where: {
-        event_name: 'quote_status_change',
-        event_data: {
+        eventName: 'quote_status_change',
+        eventData: {
           path: ['quoteRequestId'],
           equals: quoteId
         }
@@ -126,18 +130,18 @@ export class QuoteStatusService {
       orderBy: { timestamp: 'desc' }
     });
 
-    if (!latestStatusEvent) return 'pending';
+    if (!latestStatusEvent) return 'new_request';
 
-    const eventData = latestStatusEvent.event_data as any;
+    const eventData = latestStatusEvent.eventData as any;
     return eventData.toStatus as QuoteStatus;
   }
 
   // Get complete status history for a quote
   static async getQuoteStatusHistory(quoteId: string): Promise<StatusChangeEvent[]> {
-    const statusEvents = await prisma.analytics_events.findMany({
+    const statusEvents = await prisma.analyticsEvent.findMany({
       where: {
-        event_name: 'quote_status_change',
-        event_data: {
+        eventName: 'quote_status_change',
+        eventData: {
           path: ['quoteRequestId'],
           equals: quoteId
         }
@@ -146,7 +150,7 @@ export class QuoteStatusService {
     });
 
     return statusEvents.map(event => {
-      const eventData = event.event_data as any;
+      const eventData = event.eventData as any;
       return {
         id: event.id,
         quoteRequestId: quoteId,
@@ -155,8 +159,8 @@ export class QuoteStatusService {
         adminEmail: eventData.adminEmail,
         adminNote: eventData.adminNote,
         changedAt: event.timestamp,
-        ipAddress: event.ip_address || undefined,
-        userAgent: event.user_agent || undefined
+        ipAddress: event.ipAddress || undefined,
+        userAgent: event.userAgent || undefined
       };
     });
   }
@@ -172,7 +176,7 @@ export class QuoteStatusService {
     const quotes = await prisma.quoteRequest.findMany({
       skip: offset,
       take: limit,
-      orderBy: { created_at: 'desc' }
+      orderBy: { createdAt: 'desc' }
     });
 
     // Filter by current status
@@ -186,18 +190,18 @@ export class QuoteStatusService {
 
         quotesWithStatus.push({
           id: quote.id,
-          serviceType: quote.service_type,
-          fullName: quote.full_name,
+          serviceType: quote.serviceType,
+          fullName: quote.fullName,
           email: quote.email,
           phone: quote.phone || undefined,
           passengers: quote.passengers,
           origin: quote.origin,
           destination: quote.destination,
-          departureDate: quote.departure_date,
-          departureTime: quote.departure_time,
+          departureDate: quote.departureDate,
+          departureTime: quote.departureTime,
           locale: quote.locale,
-          createdAt: quote.created_at,
-          updatedAt: quote.updated_at,
+          createdAt: quote.createdAt,
+          updatedAt: quote.updatedAt,
           currentStatus,
           statusHistory
         });
@@ -210,11 +214,15 @@ export class QuoteStatusService {
   // Get status statistics
   static async getStatusStatistics(): Promise<Record<QuoteStatus, number>> {
     const stats: Record<QuoteStatus, number> = {
-      pending: 0,
-      processing: 0,
-      quoted: 0,
-      converted: 0,
-      closed: 0
+      new_request: 0,
+      reviewing: 0,
+      quote_sent: 0,
+      awaiting_confirmation: 0,
+      confirmed: 0,
+      payment_pending: 0,
+      paid: 0,
+      completed: 0,
+      cancelled: 0
     };
 
     // Get all quotes and check their current status
@@ -252,10 +260,10 @@ export class QuoteStatusService {
     userAgent?: string;
   }): Promise<StatusChangeEvent> {
 
-    const logEntry = await prisma.analytics_events.create({
+    const logEntry = await prisma.analyticsEvent.create({
       data: {
-        event_name: 'quote_status_change',
-        event_data: {
+        eventName: 'quote_status_change',
+        eventData: {
           quoteRequestId: data.quoteRequestId,
           fromStatus: data.fromStatus,
           toStatus: data.toStatus,
@@ -263,9 +271,9 @@ export class QuoteStatusService {
           adminNote: data.adminNote,
           type: 'status_change'
         },
-        page_path: `/admin/quotes/${data.quoteRequestId}`,
-        user_agent: data.userAgent,
-        ip_address: data.ipAddress,
+        pagePath: `/admin/quotes/${data.quoteRequestId}`,
+        userAgent: data.userAgent,
+        ipAddress: data.ipAddress,
         locale: 'en'
       }
     });
@@ -317,11 +325,11 @@ export class QuoteStatusService {
 
     const quotes = await prisma.quoteRequest.findMany({
       where: {
-        created_at: {
+        createdAt: {
           lt: cutoffDate
         }
       },
-      orderBy: { created_at: 'asc' }
+      orderBy: { createdAt: 'asc' }
     });
 
     const staleQuotes: QuoteWithStatus[] = [];
@@ -329,24 +337,25 @@ export class QuoteStatusService {
     for (const quote of quotes) {
       const currentStatus = await this.getCurrentQuoteStatus(quote.id);
 
-      // Consider quotes stale if they're still pending or processing after the cutoff
-      if (currentStatus === 'pending' || currentStatus === 'processing') {
+      // Consider quotes stale if they're in early stages after the cutoff
+      if (currentStatus === 'new_request' || currentStatus === 'reviewing' ||
+          currentStatus === 'quote_sent' || currentStatus === 'awaiting_confirmation') {
         const statusHistory = await this.getQuoteStatusHistory(quote.id);
 
         staleQuotes.push({
           id: quote.id,
-          serviceType: quote.service_type,
-          fullName: quote.full_name,
+          serviceType: quote.serviceType,
+          fullName: quote.fullName,
           email: quote.email,
           phone: quote.phone || undefined,
           passengers: quote.passengers,
           origin: quote.origin,
           destination: quote.destination,
-          departureDate: quote.departure_date,
-          departureTime: quote.departure_time,
+          departureDate: quote.departureDate,
+          departureTime: quote.departureTime,
           locale: quote.locale,
-          createdAt: quote.created_at,
-          updatedAt: quote.updated_at,
+          createdAt: quote.createdAt,
+          updatedAt: quote.updatedAt,
           currentStatus,
           statusHistory
         });

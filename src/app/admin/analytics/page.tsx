@@ -155,11 +155,15 @@ export default function AnalyticsPage() {
   // Status colors
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
-      pending: '#F59E0B',
-      processing: '#3B82F6',
-      quoted: '#8B5CF6',
-      converted: '#10B981',
-      closed: '#6B7280',
+      new_request: '#3B82F6', // blue
+      reviewing: '#8B5CF6', // purple
+      quote_sent: '#EC4899', // pink
+      awaiting_confirmation: '#F59E0B', // yellow
+      confirmed: '#10B981', // green
+      payment_pending: '#F97316', // orange
+      paid: '#059669', // dark green
+      completed: '#10B981', // green
+      cancelled: '#6B7280', // gray
     };
     return colors[status] || '#6B7280';
   };
@@ -168,7 +172,7 @@ export default function AnalyticsPage() {
     <div className="p-6">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Analytics Dashboard</h1>
+        <h1 className="text-xl font-bold text-gray-900">Analytics Dashboard</h1>
         <p className="mt-2 text-sm text-gray-600">
           Business metrics and insights for quote performance
         </p>

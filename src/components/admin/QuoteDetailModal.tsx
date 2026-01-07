@@ -3,8 +3,11 @@
 import React, { useState, useEffect } from 'react';
 import { Modal } from '@/components/ui/Modal';
 import { StatusBadge, QuoteStatus } from './StatusBadge';
+import { PaymentModal } from './PaymentModal';
+import { PaymentList } from './PaymentList';
 import { Tab } from '@headlessui/react';
 import { clsx } from 'clsx';
+import { PaymentMethod, PaymentStatus } from '@prisma/client';
 
 interface EmailDelivery {
   id: string;
@@ -26,6 +29,23 @@ interface StatusChangeEvent {
   adminEmail: string;
   adminNote?: string;
   changedAt: Date | string;
+}
+
+interface Payment {
+  id: string;
+  amount: number;
+  currency: string;
+  paymentMethod: PaymentMethod;
+  paymentStatus: PaymentStatus;
+  transactionReference?: string;
+  receiptUrl?: string;
+  notes?: string;
+  paidAt?: Date;
+  processedBy?: string;
+  refundAmount?: number;
+  refundedAt?: Date;
+  refundReason?: string;
+  createdAt: Date;
 }
 
 interface Quote {
@@ -53,6 +73,7 @@ interface Quote {
   currentStatus: QuoteStatus;
   statusHistory: StatusChangeEvent[];
   emailDeliveries: EmailDelivery[];
+  payments?: Payment[];
 }
 
 interface QuoteDetailModalProps {
@@ -72,13 +93,16 @@ export function QuoteDetailModal({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [updating, setUpdating] = useState(false);
-  const [selectedStatus, setSelectedStatus] = useState<QuoteStatus>('pending');
+  const [selectedStatus, setSelectedStatus] = useState<QuoteStatus>('new_request');
   const [statusNote, setStatusNote] = useState('');
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [payments, setPayments] = useState<Payment[]>([]);
 
   // Fetch quote details
   useEffect(() => {
     if (isOpen && quoteId) {
       fetchQuoteDetails();
+      fetchPayments();
     }
   }, [isOpen, quoteId]);
 
@@ -97,6 +121,18 @@ export function QuoteDetailModal({
       setError(err instanceof Error ? err.message : 'Error loading quote');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchPayments = async () => {
+    try {
+      const response = await fetch(`/api/admin/payments?quoteRequestId=${quoteId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setPayments(data.payments || []);
+      }
+    } catch (err) {
+      console.error('Error fetching payments:', err);
     }
   };
 
@@ -176,7 +212,17 @@ export function QuoteDetailModal({
     });
   };
 
-  const availableStatuses: QuoteStatus[] = ['pending', 'processing', 'quoted', 'converted', 'closed'];
+  const availableStatuses: QuoteStatus[] = [
+    'new_request',
+    'reviewing',
+    'quote_sent',
+    'awaiting_confirmation',
+    'confirmed',
+    'payment_pending',
+    'paid',
+    'completed',
+    'cancelled'
+  ];
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Quote Details" size="xl">
@@ -206,7 +252,7 @@ export function QuoteDetailModal({
           {/* Tabs */}
           <Tab.Group>
             <Tab.List className="flex space-x-1 rounded-xl bg-gray-100 p-1 mb-6">
-              {['Details', 'History', 'Actions'].map((tab) => (
+              {['Details', 'Timeline', 'Payments', 'Actions'].map((tab) => (
                 <Tab
                   key={tab}
                   className={({ selected }) =>
@@ -220,6 +266,11 @@ export function QuoteDetailModal({
                   }
                 >
                   {tab}
+                  {tab === 'Payments' && payments.length > 0 && (
+                    <span className="ml-2 inline-flex items-center justify-center px-2 py-0.5 text-xs font-bold leading-none text-white bg-blue-600 rounded-full">
+                      {payments.length}
+                    </span>
+                  )}
                 </Tab>
               ))}
             </Tab.List>
@@ -398,58 +449,112 @@ export function QuoteDetailModal({
                 )}
               </Tab.Panel>
 
-              {/* History Tab */}
+              {/* Timeline Tab - Enhanced Visual Timeline */}
               <Tab.Panel>
                 <div className="space-y-4">
-                  <h4 className="text-sm font-semibold text-gray-900">Status History</h4>
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-sm font-semibold text-gray-900">Status Timeline</h4>
+                    <span className="text-xs text-gray-500">{quote.statusHistory.length} changes</span>
+                  </div>
                   {quote.statusHistory.length === 0 ? (
-                    <p className="text-sm text-gray-500">No status changes yet</p>
+                    <div className="text-center py-12 bg-gray-50 rounded-lg">
+                      <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <p className="mt-2 text-sm text-gray-500">No status changes yet</p>
+                      <p className="text-xs text-gray-400 mt-1">The timeline will appear when the status is updated</p>
+                    </div>
                   ) : (
                     <div className="flow-root">
                       <ul className="-mb-8">
-                        {quote.statusHistory.map((event, eventIdx) => (
-                          <li key={event.id}>
-                            <div className="relative pb-8">
-                              {eventIdx !== quote.statusHistory.length - 1 && (
-                                <span
-                                  className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
-                                  aria-hidden="true"
-                                />
-                              )}
-                              <div className="relative flex space-x-3">
-                                <div>
-                                  <span className="h-8 w-8 rounded-full bg-navy-primary flex items-center justify-center ring-8 ring-white">
-                                    <svg className="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                    </svg>
-                                  </span>
-                                </div>
-                                <div className="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
-                                  <div>
-                                    <p className="text-sm text-gray-500">
-                                      Status changed from{' '}
-                                      <StatusBadge status={event.fromStatus} className="mx-1" />{' '}
-                                      to{' '}
-                                      <StatusBadge status={event.toStatus} className="mx-1" />
-                                    </p>
-                                    <p className="mt-1 text-xs text-gray-500">
-                                      By {event.adminEmail}
-                                    </p>
-                                    {event.adminNote && (
-                                      <p className="mt-2 text-sm text-gray-700 italic">"{event.adminNote}"</p>
+                        {quote.statusHistory.map((event, eventIdx) => {
+                          const isFirst = eventIdx === 0;
+                          const isLast = eventIdx === quote.statusHistory.length - 1;
+                          return (
+                            <li key={event.id}>
+                              <div className="relative pb-8">
+                                {!isLast && (
+                                  <span
+                                    className="absolute top-5 left-5 -ml-px h-full w-0.5 bg-gradient-to-b from-blue-400 to-gray-300"
+                                    aria-hidden="true"
+                                  />
+                                )}
+                                <div className="relative flex items-start space-x-4">
+                                  <div className="relative">
+                                    <span className={clsx(
+                                      'h-10 w-10 rounded-full flex items-center justify-center ring-4 ring-white',
+                                      isFirst ? 'bg-blue-600' : 'bg-gray-400'
+                                    )}>
+                                      {isFirst ? (
+                                        <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                        </svg>
+                                      ) : (
+                                        <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                                        </svg>
+                                      )}
+                                    </span>
+                                    {isFirst && (
+                                      <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-green-400 border-2 border-white"></span>
                                     )}
                                   </div>
-                                  <div className="whitespace-nowrap text-right text-sm text-gray-500">
-                                    {formatDate(event.changedAt)}
+                                  <div className="flex-1 min-w-0">
+                                    <div className="flex items-start justify-between">
+                                      <div className="flex-1">
+                                        <div className="flex items-center gap-2 flex-wrap">
+                                          <StatusBadge status={event.fromStatus} />
+                                          <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                          </svg>
+                                          <StatusBadge status={event.toStatus} />
+                                        </div>
+                                        <p className="mt-2 text-xs text-gray-500">
+                                          <span className="font-medium">Changed by:</span> {event.adminEmail}
+                                        </p>
+                                        {event.adminNote && (
+                                          <div className="mt-2 bg-gray-50 rounded-lg p-3 border border-gray-200">
+                                            <p className="text-sm text-gray-700 italic">"{event.adminNote}"</p>
+                                          </div>
+                                        )}
+                                      </div>
+                                      <div className="ml-4 flex-shrink-0">
+                                        <time className="text-xs text-gray-500 whitespace-nowrap">
+                                          {formatDate(event.changedAt)}
+                                        </time>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          </li>
-                        ))}
+                            </li>
+                          );
+                        })}
                       </ul>
                     </div>
                   )}
+                </div>
+              </Tab.Panel>
+
+              {/* Payments Tab - New Payment Section */}
+              <Tab.Panel>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-sm font-semibold text-gray-900">Payment Records</h4>
+                    <button
+                      onClick={() => setIsPaymentModalOpen(true)}
+                      className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    >
+                      <svg className="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                      </svg>
+                      Record Payment
+                    </button>
+                  </div>
+                  <PaymentList
+                    payments={payments}
+                    onPaymentUpdated={fetchPayments}
+                  />
                 </div>
               </Tab.Panel>
 
@@ -472,7 +577,7 @@ export function QuoteDetailModal({
                         >
                           {availableStatuses.map((status) => (
                             <option key={status} value={status}>
-                              {status.charAt(0).toUpperCase() + status.slice(1)}
+                              {status.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
                             </option>
                           ))}
                         </select>
@@ -529,6 +634,17 @@ export function QuoteDetailModal({
           </Tab.Group>
         </div>
       )}
+
+      {/* Payment Modal */}
+      <PaymentModal
+        isOpen={isPaymentModalOpen}
+        onClose={() => setIsPaymentModalOpen(false)}
+        quoteRequestId={quoteId}
+        onSuccess={() => {
+          fetchPayments();
+          setIsPaymentModalOpen(false);
+        }}
+      />
     </Modal>
   );
 }

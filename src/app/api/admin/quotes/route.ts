@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/database/prisma';
-import { QuoteStatusService } from '../../../../lib/quotes/QuoteStatusService';
+import { QuoteStatusService, type QuoteStatus } from '../../../../lib/quotes/QuoteStatusService';
 import { requireAdmin, getAuthSession } from '@/lib/auth/server';
 
 // GET /api/admin/quotes - List quotes with filtering and pagination
@@ -48,7 +48,7 @@ export async function GET(req: NextRequest) {
 
     if (status) {
       // Filter by specific status
-      const validStatuses = ['pending', 'processing', 'quoted', 'converted', 'closed'];
+      const validStatuses: QuoteStatus[] = ['new_request', 'reviewing', 'quote_sent', 'awaiting_confirmation', 'confirmed', 'payment_pending', 'paid', 'completed', 'cancelled'];
       if (!validStatuses.includes(status)) {
         return NextResponse.json(
           { error: 'Invalid status filter', validStatuses },
@@ -159,7 +159,7 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      const validStatuses = ['pending', 'processing', 'quoted', 'converted', 'closed'];
+      const validStatuses: QuoteStatus[] = ['new_request', 'reviewing', 'quote_sent', 'awaiting_confirmation', 'confirmed', 'payment_pending', 'paid', 'completed', 'cancelled'];
       if (!validStatuses.includes(status)) {
         return NextResponse.json(
           { error: 'Invalid status', validStatuses },

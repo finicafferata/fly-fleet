@@ -32,6 +32,7 @@ interface DataTableProps<T extends { id: string }> {
   pagination?: PaginationConfig;
   onSort?: (column: string, direction: 'asc' | 'desc') => void;
   onRowSelect?: (selectedIds: string[]) => void;
+  onRowClick?: (row: T) => void;
   loading?: boolean;
   emptyMessage?: string;
   actions?: ActionItem<T>[];
@@ -44,6 +45,7 @@ export function DataTable<T extends { id: string }>({
   pagination,
   onSort,
   onRowSelect,
+  onRowClick,
   loading,
   emptyMessage = 'No data available',
   actions = [],
@@ -250,14 +252,19 @@ export function DataTable<T extends { id: string }>({
             {data.map((row) => (
               <tr
                 key={row.id}
+                onClick={() => onRowClick?.(row)}
                 className={clsx(
                   'hover:bg-gray-50 transition-colors',
-                  selectedRows.has(row.id) && 'bg-blue-50'
+                  selectedRows.has(row.id) && 'bg-blue-50',
+                  onRowClick && 'cursor-pointer'
                 )}
               >
                 {/* Selection checkbox */}
                 {showSelection && (
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td
+                    className="px-6 py-4 whitespace-nowrap"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <input
                       type="checkbox"
                       checked={selectedRows.has(row.id)}
@@ -277,7 +284,10 @@ export function DataTable<T extends { id: string }>({
 
                 {/* Actions menu */}
                 {actions.length > 0 && (
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <td
+                    className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <Menu as="div" className="relative inline-block text-left">
                       <Menu.Button className="flex items-center text-gray-400 hover:text-gray-600 focus:outline-none">
                         <span className="sr-only">Open options</span>
