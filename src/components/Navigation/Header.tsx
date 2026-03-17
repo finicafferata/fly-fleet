@@ -233,25 +233,7 @@ export function Header({
               )}
               aria-label="Fly-Fleet homepage"
             >
-              {/* Logo Image */}
-              <img
-                src={logoSrc}
-                alt="Fly-Fleet"
-                className={clsx(
-                  'transition-all duration-200',
-                  'motion-reduce:transition-none',
-                  isScrolled && shrinkOnScroll ? 'h-8 w-auto' : 'h-10 w-auto'
-                )}
-                onError={(e) => {
-                  // Fallback to text logo if image fails to load
-                  e.currentTarget.style.display = 'none';
-                }}
-              />
-              {/* Text fallback */}
-              <div
-                className="font-bold text-xl text-navy-primary"
-                style={{ display: logoSrc ? 'none' : 'block' }}
-              >
+              <div className="font-bold text-xl text-navy-primary">
                 Fly-Fleet
               </div>
             </Link>

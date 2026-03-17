@@ -34,7 +34,7 @@ const getFleetContent = (locale: string) => {
       },
       turboprop: {
         title: 'Turboprop / Piston',
-        models: 'Sovereign, Metroliner',
+        models: 'KingAir 90/200/350',
         passengers: '9–19 passengers',
         ideal: 'Regional flights'
       }
@@ -62,7 +62,7 @@ const getFleetContent = (locale: string) => {
       },
       turboprop: {
         title: 'Turbo / Pistón',
-        models: 'Sovereign, Metroliner',
+        models: 'KingAir 90/200/350',
         passengers: '9–19 pasajeros',
         ideal: 'Vuelos regionales'
       }
@@ -90,7 +90,7 @@ const getFleetContent = (locale: string) => {
       },
       turboprop: {
         title: 'Turboélice / Pistão',
-        models: 'Sovereign, Metroliner',
+        models: 'KingAir 90/200/350',
         passengers: '9–19 passageiros',
         ideal: 'Voos regionais'
       }

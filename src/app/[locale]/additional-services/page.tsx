@@ -301,17 +301,17 @@ export default function AdditionalServicesPage() {
             {content.services.map((service, index) => (
               <div
                 key={index}
-                className="group bg-white p-8 rounded-xl shadow-soft border border-gray-100 hover:shadow-large hover:border-navy-primary/30 transition-all duration-300 transform hover:-translate-y-1"
+                className="bg-white p-8 rounded-xl shadow-soft border border-gray-100"
               >
                 <div className="flex flex-col items-start space-y-4">
                   {/* Icon Container */}
-                  <div className="w-16 h-16 bg-gradient-to-br from-navy-primary/10 to-navy-primary/5 rounded-2xl flex items-center justify-center text-navy-primary group-hover:from-navy-primary group-hover:to-navy-primary/80 group-hover:text-white transition-all duration-300 transform group-hover:scale-110 group-hover:rotate-3">
+                  <div className="w-16 h-16 bg-navy-primary rounded-2xl flex items-center justify-center text-white">
                     {getIcon(service.icon)}
                   </div>
 
                   {/* Content */}
                   <div className="space-y-2">
-                    <h3 className="text-xl font-bold text-navy-primary group-hover:text-navy-primary transition-colors duration-200">
+                    <h3 className="text-xl font-bold text-navy-primary">
                       {service.title}
                     </h3>
                     <p className="text-gray-600 leading-relaxed text-sm">
@@ -325,34 +325,6 @@ export default function AdditionalServicesPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold mb-8 text-navy-primary">
-            {content.cta}
-          </h2>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href={`/${locale}/quote`}
-              className="inline-flex items-center justify-center bg-navy-primary hover:bg-navy-primary/90 text-white min-h-[56px] px-8 text-lg font-semibold rounded-lg shadow-large hover:shadow-xl transform hover:scale-105 transition-all duration-200"
-            >
-              {locale === 'es' ? 'Cotizar con servicios' :
-               locale === 'pt' ? 'Cotação com serviços' :
-               'Quote with services'}
-            </a>
-            <a
-              href="https://wa.me/5491166601927"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center bg-white hover:bg-gray-50 text-navy-primary border-2 border-navy-primary min-h-[56px] px-8 text-lg font-semibold rounded-lg transition-all duration-200"
-            >
-              {locale === 'es' ? 'Consultar por WhatsApp' :
-               locale === 'pt' ? 'Consultar via WhatsApp' :
-               'Contact via WhatsApp'}
-            </a>
-          </div>
-        </div>
-      </section>
       </main>
 
       <Footer locale={locale} />

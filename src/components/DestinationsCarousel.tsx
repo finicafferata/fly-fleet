@@ -59,8 +59,8 @@ export function DestinationsCarousel({ locale }: DestinationsCarouselProps) {
 
   const sectionTitle = {
     en: 'Popular Destinations',
-    es: 'Destinos Populares',
-    pt: 'Destinos Populares'
+    es: 'Destinos populares',
+    pt: 'Destinos populares'
   };
 
   const sectionSubtitle = {

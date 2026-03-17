@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { Header } from '@/components/Navigation/Header';
 import { Footer } from '@/components/Footer';
 import { WhatsAppWidget } from '@/components/WhatsAppWidget';
+import { DestinationsCarousel } from '@/components/DestinationsCarousel';
 
 const getContent = (locale: string) => {
   const content = {
@@ -110,10 +111,10 @@ const getContent = (locale: string) => {
       cta: 'Get Quote for Your Route'
     },
     es: {
-      title: 'Flota y Destinos',
+      title: 'Flota y destinos',
       subtitle: 'Descubrí nuestras categorías de aeronaves y destinos populares',
-      fleetTitle: 'Categorías de Aeronaves',
-      destinationsTitle: 'Destinos Populares',
+      fleetTitle: 'Categorías de aeronaves',
+      destinationsTitle: 'Destinos populares',
       internationalRoutes: 'Rutas Internacionales',
       aircraft: {
         charter: {
@@ -692,152 +693,7 @@ export default function FleetDestinationsPage() {
           </div>
       </section>
 
-      {/* Destinations Content */}
-      <section className="py-24 bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 relative overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-[0.03]">
-          <svg width="100%" height="100%">
-            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="1"/>
-            </pattern>
-            <rect width="100%" height="100%" fill="url(#grid)" />
-          </svg>
-        </div>
-
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          {/* International Routes */}
-          <div>
-              <div className="mb-10">
-                <div className="inline-flex items-center bg-gradient-to-r from-blue-600 to-navy-primary text-white px-6 py-3 rounded-full shadow-lg mb-2">
-                  <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clipRule="evenodd" />
-                  </svg>
-                  <span className="font-bold text-sm uppercase tracking-wider">{content.internationalRoutes}</span>
-                </div>
-              </div>
-              <div className="space-y-4">
-                {content.routes.international.map((route, index) => {
-                  const [origin, destination] = route.split(' ↔ ');
-                  return (
-                    <div
-                      key={index}
-                      className="group relative bg-white rounded-2xl p-6 shadow-md hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 hover:border-navy-primary/50 overflow-hidden"
-                    >
-                      {/* Gradient overlay on hover */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-blue-600/0 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-                      <div className="relative flex items-center justify-between">
-                        {/* Origin */}
-                        <div className="flex-1">
-                          <p className="text-lg font-bold text-navy-primary group-hover:text-blue-600 transition-colors duration-300">
-                            {origin}
-                          </p>
-                        </div>
-
-                        {/* Plane Icon with Animation */}
-                        <div className="px-6 flex-shrink-0 relative">
-                          <svg className="w-8 h-8 text-blue-600 transform rotate-90 group-hover:translate-x-20 transition-transform duration-1000 ease-in-out" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-                          </svg>
-                          {/* Dashed line */}
-                          <div className="absolute top-1/2 left-0 right-0 w-full border-t-2 border-dashed border-blue-600/30 group-hover:border-blue-600/60 transition-colors duration-300 -z-10"></div>
-                        </div>
-
-                        {/* Destination */}
-                        <div className="flex-1 text-right">
-                          <p className="text-lg font-bold text-navy-primary group-hover:text-blue-600 transition-colors duration-300">
-                            {destination}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Popular Destinations Section - NEW DESIGN */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Header */}
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-navy-primary mb-6">
-              {content.popularDestinations.title}
-            </h2>
-            <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-              {content.popularDestinations.subtitle}
-            </p>
-          </div>
-
-          {/* Destinations Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {content.popularDestinations.destinations.map((destination, index) => (
-              <div
-                key={index}
-                className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
-              >
-                {/* Image Container */}
-                <div className="relative h-64 overflow-hidden">
-                  {/* Background Image */}
-                  <img
-                    src={destination.image}
-                    alt={destination.title}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy-primary/90 via-navy-primary/50 to-transparent"></div>
-
-                  {/* Content */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white text-center">
-                    <h3 className="text-2xl font-bold mb-2 transform group-hover:translate-y-[-4px] transition-transform duration-300">
-                      {destination.title}
-                    </h3>
-                  </div>
-
-                  {/* Hover effect - Plane icon */}
-                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="bg-white/20 backdrop-blur-sm rounded-full p-3">
-                      <svg className="w-6 h-6 text-white transform rotate-45" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Bottom CTA */}
-                <div className="bg-white p-4 border-t-2 border-navy-primary/20">
-                  <a
-                    href={`/${locale}/quote`}
-                    className="w-full text-center text-navy-primary font-semibold group-hover:text-blue-600 transition-colors duration-300 flex items-center justify-center"
-                  >
-                    <span>{locale === 'es' ? 'Cotizá tu vuelo' : locale === 'pt' ? 'Pedir cotação' : 'Get a quote'}</span>
-                    <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-2 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </a>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 bg-navy-primary text-white">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <a
-            href={`/${locale}/quote`}
-            className="inline-flex items-center justify-center bg-navy-primary hover:bg-navy-primary/90 text-white min-h-[56px] px-8 text-lg font-semibold rounded-lg shadow-large hover:shadow-xl transform hover:scale-105 transition-all duration-200"
-          >
-            {locale === 'es' ? 'Cotizá tu vuelo' :
-             locale === 'pt' ? 'Pedir cotação' :
-             'Get a quote'}
-          </a>
-        </div>
-      </section>
+      <DestinationsCarousel locale={locale} />
       </main>
 
       <Footer locale={locale} />

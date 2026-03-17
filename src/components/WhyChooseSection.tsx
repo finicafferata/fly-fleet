@@ -7,8 +7,8 @@ interface WhyChooseSectionProps {
 export const WhyChooseSection: React.FC<WhyChooseSectionProps> = ({ locale }) => {
   const content = {
     title: {
-      es: '¿Por Qué Elegir Fly-Fleet?',
-      pt: 'Por Que Escolher Fly-Fleet?',
+      es: '¿Por qué elegir Fly-Fleet?',
+      pt: 'Por que escolher Fly-Fleet?',
       en: 'Why Choose Fly-Fleet?',
     },
     subtitle: {
@@ -29,9 +29,9 @@ export const WhyChooseSection: React.FC<WhyChooseSectionProps> = ({ locale }) =>
           en: 'Certified Safety',
         },
         description: {
-          es: 'Operadores certificados FAA, EASA, ANAC con seguros integrales',
-          pt: 'Operadores certificados FAA, EASA, ANAC com seguros integrais',
-          en: 'FAA, EASA, ANAC certified operators with comprehensive insurance',
+          es: 'Operadores certificados FAA – EASA – ANAC',
+          pt: 'Operadores certificados FAA – EASA – ANAC',
+          en: 'FAA – EASA – ANAC certified operators',
         },
       },
       {
@@ -113,7 +113,7 @@ export const WhyChooseSection: React.FC<WhyChooseSectionProps> = ({ locale }) =>
               key={index}
               className="group text-center p-6 rounded-2xl bg-gradient-to-br from-navy-primary/5 to-transparent hover:from-navy-primary/10 transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
             >
-              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-navy-primary to-blue-600 rounded-2xl flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+              <div className="w-16 h-16 mx-auto mb-4 bg-navy-primary rounded-2xl flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
                 {feature.icon}
               </div>
               <h3 className="text-xl font-bold text-navy-primary mb-3">

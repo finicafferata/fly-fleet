@@ -127,9 +127,9 @@ export function AboutPage({
       },
       es: {
         title: 'Nosotros',
-        subtitle: 'Excelencia en Aviación Privada desde 2020',
+        subtitle: 'Excelencia en aviación privada desde 2020',
         story: {
-          title: 'Nuestra Historia',
+          title: 'Nuestra historia',
           content: 'Fundada con la visión de revolucionar la aviación privada en América Latina, Fly-Fleet combina tecnología de vanguardia con excelencia en el servicio. Entendemos que cada vuelo es más que transporte: se trata de conectar personas, facilitar negocios y crear experiencias excepcionales.',
           mission: 'Nuestra misión es proporcionar soluciones de aviación privada fluidas, seguras y lujosas manteniendo los más altos estándares de servicio y confiabilidad.',
           vision: 'Convertirnos en el bróker líder de chárteres de jets privados en América Latina, estableciendo nuevos estándares de excelencia en servicios de aviación.'
@@ -141,7 +141,7 @@ export function AboutPage({
           { id: 'experience', value: 15, suffix: ' Años', label: 'Experiencia Combinada' }
         ],
         team: {
-          title: 'Nuestro Equipo Directivo',
+          title: 'Nuestro equipo directivo',
           subtitle: 'Expertos de la industria dedicados a tu viaje',
           members: [
             {
@@ -168,7 +168,7 @@ export function AboutPage({
           ]
         },
         certifications: {
-          title: 'Certificaciones y Alianzas',
+          title: 'Certificaciones y alianzas',
           subtitle: 'Manteniendo los más altos estándares de la industria',
           items: [
             {
@@ -365,9 +365,15 @@ export function AboutPage({
             <h1 id="about-title" className="text-4xl md:text-6xl font-bold mb-6">
               {content.title}
             </h1>
-            <p className="page-subtitle text-xl md:text-2xl text-neutral-light max-w-3xl mx-auto">
+            <p className="page-subtitle text-xl md:text-2xl text-neutral-light max-w-3xl mx-auto mb-8">
               {content.subtitle}
             </p>
+            <a
+              href={`/${locale}/quote`}
+              className="inline-flex items-center justify-center px-8 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-navy-primary transition-colors duration-200"
+            >
+              {locale === 'es' ? 'Cotizá tu vuelo' : locale === 'pt' ? 'Cotar seu voo' : 'Get your quote'}
+            </a>
           </div>
         </div>
       </header>
@@ -535,34 +541,6 @@ export function AboutPage({
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-24 bg-gradient-to-r from-navy-primary to-navy-primary text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            {content.cta.title}
-          </h2>
-          <p className="text-xl mb-10 text-neutral-light">
-            {content.cta.subtitle}
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              onClick={handlePrimaryClick}
-              size="lg"
-              className="bg-white text-navy-primary hover:bg-neutral-light transition-colors duration-200"
-            >
-              {content.cta.primaryButton}
-            </Button>
-            <Button
-              onClick={handleSecondaryClick}
-              variant="secondary"
-              size="lg"
-              className="border-white text-white hover:bg-white/10 transition-colors duration-200"
-            >
-              {content.cta.secondaryButton}
-            </Button>
-          </div>
-        </div>
-      </section>
     </main>
   );
 }

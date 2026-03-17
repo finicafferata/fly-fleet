@@ -35,11 +35,6 @@ export const navigationConfig: NavigationConfig = {
       description: 'Our aviation services'
     },
     {
-      href: '/quote',
-      label: 'Get a Quote',
-      description: 'Request a quote'
-    },
-    {
       href: '/additional-services',
       label: 'Additional Services',
       description: 'Extra services'
@@ -72,11 +67,6 @@ export const navigationConfig: NavigationConfig = {
       description: 'Nuestros servicios de aviación'
     },
     {
-      href: '/quote',
-      label: 'Cotizar',
-      description: 'Solicitar cotización'
-    },
-    {
       href: '/additional-services',
       label: 'Servicios Adicionales',
       description: 'Servicios extra'
@@ -107,11 +97,6 @@ export const navigationConfig: NavigationConfig = {
       href: '/what-we-do',
       label: 'O Que Fazemos',
       description: 'Nossos serviços de aviação'
-    },
-    {
-      href: '/quote',
-      label: 'Cotar',
-      description: 'Solicitar cotação'
     },
     {
       href: '/additional-services',

@@ -170,7 +170,7 @@ export function FAQComponent({
         ]
       },
       es: {
-        title: 'Preguntas Frecuentes',
+        title: 'Preguntas frecuentes',
         subtitle: 'Encuentra respuestas a preguntas comunes sobre nuestros servicios de aviación privada',
         searchPlaceholder: 'Buscar en preguntas frecuentes...',
         searchLabel: 'Buscar preguntas frecuentes',
@@ -214,7 +214,7 @@ export function FAQComponent({
         ]
       },
       pt: {
-        title: 'Perguntas Frequentes',
+        title: 'Perguntas frequentes',
         subtitle: 'Encontre respostas para perguntas comuns sobre nossos serviços de aviação privada',
         searchPlaceholder: 'Buscar nas perguntas frequentes...',
         searchLabel: 'Buscar perguntas frequentes',
@@ -348,7 +348,7 @@ export function FAQComponent({
       ]
     },
     es: {
-      title: 'Preguntas Frecuentes',
+      title: 'Preguntas frecuentes',
       questions: [
         { question: '¿Con cuánta anticipación debo reservar un jet privado?', answer: 'Aunque podemos acomodar solicitudes de último momento (hasta 4 horas de aviso), recomendamos reservar con al menos 24-48 horas de anticipación para la mejor disponibilidad y precios.' },
         { question: '¿Qué tipos de aeronaves ofrecen?', answer: 'Ofrecemos Jets Ligeros (6-8 pasajeros), Jets Medianos (8-10 pasajeros), Jets Pesados (10-16 pasajeros), y aeronaves especializadas para transporte de carga o médico.' },
@@ -356,7 +356,7 @@ export function FAQComponent({
       ]
     },
     pt: {
-      title: 'Perguntas Frequentes',
+      title: 'Perguntas frequentes',
       questions: [
         { question: 'Com que antecedência devo reservar um jato privado?', answer: 'Embora possamos acomodar solicitações de última hora (até 4 horas de aviso), recomendamos reservar com pelo menos 24-48 horas de antecedência para melhor disponibilidade e preços.' },
         { question: 'Que tipos de aeronaves vocês oferecem?', answer: 'Oferecemos Jets Leves (6-8 passageiros), Jets Médios (8-10 passageiros), Jets Pesados (10-16 passageiros), e aeronaves especializadas para transporte de carga ou médico.' },

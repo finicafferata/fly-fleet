@@ -176,8 +176,8 @@ export function AdditionalServicesCarousel({ locale }: AdditionalServicesCarouse
 
   const sectionTitle = {
     en: 'Additional Services',
-    es: 'Servicios Adicionales',
-    pt: 'Serviços Adicionais'
+    es: 'Servicios adicionales',
+    pt: 'Serviços adicionais'
   };
 
   const sectionSubtitle = {
@@ -187,7 +187,7 @@ export function AdditionalServicesCarousel({ locale }: AdditionalServicesCarouse
   };
 
   return (
-    <section className="py-24 bg-gray-50 relative">
+    <section className="py-24 bg-gradient-to-b from-gray-50 to-white relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
@@ -218,7 +218,7 @@ export function AdditionalServicesCarousel({ locale }: AdditionalServicesCarouse
             >
               <div className="group bg-white border border-gray-100 rounded-xl p-6 hover:border-navy-primary hover:shadow-lg transition-all duration-300 hover:-translate-y-1 h-full">
                 <div className="text-center">
-                  <div className="w-12 h-12 mx-auto mb-4 bg-gradient-to-br from-navy-primary to-blue-600 rounded-xl flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300">
+                  <div className="w-12 h-12 mx-auto mb-4 bg-navy-primary rounded-xl flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300">
                     {service.icon}
                   </div>
                   <h3 className="font-semibold text-navy-primary mb-2 text-sm leading-snug">

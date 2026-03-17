@@ -36,8 +36,8 @@ interface QuoteFormData {
   petSize?: 'small' | 'medium' | 'large';
   petDocuments?: 'yes' | 'need_help';
 
-  // Step 4: Additional Services
-  additionalServices?: string[];
+  // Step 4: Preferences
+  preferences?: string;
 
   // Step 5: Final Details
   comments?: string;
@@ -97,18 +97,9 @@ const getContent = (locale: string) => {
         documents: 'Documentation:',
         documentsOptions: { yes: 'Yes', need_help: 'Need help' }
       },
-      additionalServices: {
-        label: 'Add-on services',
-        placeholder: 'Select what you need',
-        options: {
-          international: 'International flight support',
-          documentation: 'Country documentation',
-          petFriendly: 'Pet-friendly transport',
-          transfer: 'Ground transfer / driver',
-          catering: 'Premium catering',
-          vip: 'VIP lounge / specific FBO',
-          immigration: 'Immigration/customs assistance'
-        }
+      preferences: {
+        label: 'Services & preferences',
+        placeholder: 'Please indicate here any additional comments or special requests, such as dietary restrictions for any passengers, need for ground transportation and/or pet transfer requests, etc.'
       },
       comments: { label: 'Notes', placeholder: 'Anything else we should know' },
       consent: { label: 'I accept the Privacy Policy and data use for quotation purposes.' },
@@ -123,7 +114,7 @@ const getContent = (locale: string) => {
         contact: 'Servicio y Contacto',
         details: 'Detalles del Vuelo',
         baggage: 'Equipaje y Mascotas',
-        services: 'Servicios Adicionales',
+        services: 'Servicios y preferencias',
         final: 'Revisar y Enviar'
       },
       serviceType: {
@@ -163,18 +154,9 @@ const getContent = (locale: string) => {
         documents: 'Documentos:',
         documentsOptions: { yes: 'Sí', need_help: 'Necesito ayuda' }
       },
-      additionalServices: {
-        label: 'Servicios adicionales',
-        placeholder: 'Marcá lo que necesitás',
-        options: {
-          international: 'Apoyo vuelos internacionales',
-          documentation: 'Documentación por país',
-          petFriendly: 'Transporte pet-friendly',
-          transfer: 'Transfer terrestre / chofer',
-          catering: 'Catering premium',
-          vip: 'Sala VIP / FBO específico',
-          immigration: 'Asistencia migraciones/aduana'
-        }
+      preferences: {
+        label: 'Servicios y preferencias',
+        placeholder: 'Por favor, indique aquí cualquier comentario adicional o solicitud especial, como por ejemplo restricciones alimentarias de alguno de los pasajeros, necesidad de transporte terrestre y/o solicitud de traslado de mascotas, etc.'
       },
       comments: { label: 'Comentarios', placeholder: 'Detalles útiles para tu vuelo' },
       consent: { label: 'Acepto la Política de privacidad y uso de datos para presupuestación.' },
@@ -189,7 +171,7 @@ const getContent = (locale: string) => {
         contact: 'Serviço e Contato',
         details: 'Detalhes do Voo',
         baggage: 'Bagagem e Pets',
-        services: 'Serviços Adicionais',
+        services: 'Serviços e preferências',
         final: 'Revisar e Enviar'
       },
       serviceType: {
@@ -229,18 +211,9 @@ const getContent = (locale: string) => {
         documents: 'Documentação:',
         documentsOptions: { yes: 'Sim', need_help: 'Preciso ajuda' }
       },
-      additionalServices: {
-        label: 'Serviços adicionais',
-        placeholder: 'Selecione o que precisa',
-        options: {
-          international: 'Suporte para voos internacionais',
-          documentation: 'Documentação por país',
-          petFriendly: 'Transporte pet-friendly',
-          transfer: 'Transfer terrestre / motorista',
-          catering: 'Catering premium',
-          vip: 'Sala VIP / FBO específico',
-          immigration: 'Assistência imigração/alfândega'
-        }
+      preferences: {
+        label: 'Serviços e preferências',
+        placeholder: 'Por favor, indique aqui qualquer comentário adicional ou solicitação especial, como restrições alimentares de algum passageiro, necessidade de transporte terrestre e/ou solicitação de traslado de pets, etc.'
       },
       comments: { label: 'Comentários', placeholder: 'Detalhes do voo' },
       consent: { label: 'Aceito a Política de Privacidade e uso de dados para cotação.' },
@@ -255,9 +228,19 @@ const getContent = (locale: string) => {
   return content[locale as keyof typeof content] || content.en;
 };
 
+interface MulticityLeg {
+  origin: Airport | null;
+  destination: Airport | null;
+  date: string;
+  time: string;
+}
+
 export function QuoteFormWizard({ locale, onSubmitSuccess, className }: QuoteFormWizardProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [multicityLegs, setMulticityLegs] = useState<MulticityLeg[]>([
+    { origin: null, destination: null, date: '', time: '' }
+  ]);
   const content = getContent(locale);
 
   const {
@@ -314,7 +297,8 @@ export function QuoteFormWizard({ locale, onSubmitSuccess, className }: QuoteFor
         },
         body: JSON.stringify({
           ...data,
-          locale
+          locale,
+          ...(data.serviceType === 'multicity' ? { multicityLegs } : {})
         }),
       });
 
@@ -473,68 +457,156 @@ export function QuoteFormWizard({ locale, onSubmitSuccess, className }: QuoteFor
               )}
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {content.origin.label}
-                </label>
-                <AirportSearch
-                  placeholder={content.origin.placeholder}
-                  onSelect={(airport) => setValue('origin', airport)}
-                  locale={locale}
-                />
-                <p className="mt-1 text-xs text-gray-500">{content.origin.fallback}</p>
-                {errors.origin && (
-                  <p className="mt-1 text-sm text-red-600">Origin airport is required</p>
-                )}
+            {watchedValues.serviceType === 'multicity' ? (
+              <div className="space-y-4">
+                {multicityLegs.map((leg, index) => (
+                  <div key={index} className="border border-gray-200 rounded-lg p-4 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-navy-primary">
+                        {locale === 'es' ? `Tramo ${index + 1}` : locale === 'pt' ? `Trecho ${index + 1}` : `Leg ${index + 1}`}
+                      </span>
+                      {multicityLegs.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => setMulticityLegs(legs => legs.filter((_, i) => i !== index))}
+                          className="text-sm text-red-500 hover:text-red-700"
+                        >
+                          ✕
+                        </button>
+                      )}
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">
+                          {content.origin.label}
+                        </label>
+                        <AirportSearch
+                          placeholder={content.origin.placeholder}
+                          onSelect={(airport) => setMulticityLegs(legs =>
+                            legs.map((l, i) => i === index ? { ...l, origin: airport } : l)
+                          )}
+                          locale={locale}
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">
+                          {content.destination.label}
+                        </label>
+                        <AirportSearch
+                          placeholder={content.destination.placeholder}
+                          onSelect={(airport) => setMulticityLegs(legs =>
+                            legs.map((l, i) => i === index ? { ...l, destination: airport } : l)
+                          )}
+                          locale={locale}
+                        />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">
+                          {content.date.label}
+                        </label>
+                        <input
+                          type="date"
+                          value={leg.date}
+                          min={new Date().toISOString().split('T')[0]}
+                          onChange={(e) => setMulticityLegs(legs =>
+                            legs.map((l, i) => i === index ? { ...l, date: e.target.value } : l)
+                          )}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-navy-primary text-sm"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">
+                          {content.time.label}
+                        </label>
+                        <input
+                          type="time"
+                          value={leg.time}
+                          onChange={(e) => setMulticityLegs(legs =>
+                            legs.map((l, i) => i === index ? { ...l, time: e.target.value } : l)
+                          )}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-navy-primary text-sm"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => setMulticityLegs(legs => [...legs, { origin: null, destination: null, date: '', time: '' }])}
+                  className="flex items-center gap-2 px-4 py-2 border-2 border-dashed border-navy-primary text-navy-primary rounded-md hover:bg-navy-primary/5 text-sm font-medium w-full justify-center"
+                >
+                  <span className="text-lg font-bold">+</span>
+                  {locale === 'es' ? 'Agregar tramo' : locale === 'pt' ? 'Adicionar trecho' : 'Add leg'}
+                </button>
               </div>
+            ) : (
+              <>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      {content.origin.label}
+                    </label>
+                    <AirportSearch
+                      placeholder={content.origin.placeholder}
+                      onSelect={(airport) => setValue('origin', airport)}
+                      locale={locale}
+                    />
+                    <p className="mt-1 text-xs text-gray-500">{content.origin.fallback}</p>
+                    {errors.origin && (
+                      <p className="mt-1 text-sm text-red-600">Origin airport is required</p>
+                    )}
+                  </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {content.destination.label}
-                </label>
-                <AirportSearch
-                  placeholder={content.destination.placeholder}
-                  onSelect={(airport) => setValue('destination', airport)}
-                  locale={locale}
-                />
-                <p className="mt-1 text-xs text-gray-500">{content.destination.fallback}</p>
-                {errors.destination && (
-                  <p className="mt-1 text-sm text-red-600">Destination airport is required</p>
-                )}
-              </div>
-            </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      {content.destination.label}
+                    </label>
+                    <AirportSearch
+                      placeholder={content.destination.placeholder}
+                      onSelect={(airport) => setValue('destination', airport)}
+                      locale={locale}
+                    />
+                    <p className="mt-1 text-xs text-gray-500">{content.destination.fallback}</p>
+                    {errors.destination && (
+                      <p className="mt-1 text-sm text-red-600">Destination airport is required</p>
+                    )}
+                  </div>
+                </div>
 
-            <div className="grid md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {content.date.label}
-                </label>
-                <input
-                  type="date"
-                  {...register('date')}
-                  min={new Date().toISOString().split('T')[0]}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-navy-primary"
-                />
-                {errors.date && (
-                  <p className="mt-1 text-sm text-red-600">{errors.date.message}</p>
-                )}
-              </div>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      {content.date.label}
+                    </label>
+                    <input
+                      type="date"
+                      {...register('date')}
+                      min={new Date().toISOString().split('T')[0]}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-navy-primary"
+                    />
+                    {errors.date && (
+                      <p className="mt-1 text-sm text-red-600">{errors.date.message}</p>
+                    )}
+                  </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {content.time.label}
-                </label>
-                <input
-                  type="time"
-                  {...register('time')}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-navy-primary"
-                />
-                {errors.time && (
-                  <p className="mt-1 text-sm text-red-600">{errors.time.message}</p>
-                )}
-              </div>
-            </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      {content.time.label}
+                    </label>
+                    <input
+                      type="time"
+                      {...register('time')}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-navy-primary"
+                    />
+                    {errors.time && (
+                      <p className="mt-1 text-sm text-red-600">{errors.time.message}</p>
+                    )}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         );
 
@@ -664,22 +736,12 @@ export function QuoteFormWizard({ locale, onSubmitSuccess, className }: QuoteFor
             </h3>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-4">
-                {content.additionalServices.label}
-              </label>
-              <div className="space-y-3">
-                {Object.entries(content.additionalServices.options).map(([key, label]) => (
-                  <label key={key} className="flex items-start">
-                    <input
-                      type="checkbox"
-                      value={key}
-                      {...register('additionalServices')}
-                      className="mt-1 rounded border-gray-300 text-navy-primary focus:ring-navy-primary"
-                    />
-                    <span className="ml-3 text-sm text-gray-700">{label}</span>
-                  </label>
-                ))}
-              </div>
+              <textarea
+                {...register('preferences')}
+                rows={6}
+                placeholder={content.preferences.placeholder}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-navy-primary resize-none"
+              />
             </div>
           </div>
         );
