@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { prisma } from '@/lib/database/prisma';
 import { EmailService } from '../../../lib/email/EmailService';
 import { recaptchaService } from '../../../lib/recaptcha/RecaptchaService';
-import { quoteRateLimiter, getRateLimitHeaders } from '@/lib/redis/rate-limiter';
+import { quoteRateLimiter, getRateLimitHeaders, checkRateLimit } from '@/lib/redis/rate-limiter';
 import {
   generateAriaValidationResponse,
   generateAriaSuccessInfo,
@@ -139,9 +139,9 @@ export async function POST(req: NextRequest) {
 
       reqLogger.info('Quote request received', { clientIP });
 
-      // Distributed rate limiting check (Redis-based)
+      // Distributed rate limiting check (Redis-based, fails open if Redis is down)
       const rateLimitResult = await withSpan('ratelimit.check', () =>
-        quoteRateLimiter.limit(clientIP)
+        checkRateLimit(quoteRateLimiter, clientIP)
       );
 
       if (!rateLimitResult.success) {
