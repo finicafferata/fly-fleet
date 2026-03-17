@@ -88,12 +88,7 @@ export class EmailService {
     Object.keys(data).forEach(key => {
       const value = data[key];
       const regex = new RegExp(`{{${key}}}`, 'g');
-      result = result.replace(regex, value || '');
-    });
-
-    // Handle conditional blocks {{#if variable}}...{{/if}}
-    result = result.replace(/{{#if\s+(\w+)}}([\s\S]*?){{\/if}}/g, (match, variable, content) => {
-      return data[variable] ? content : '';
+      result = result.replace(regex, value !== undefined && value !== null ? String(value) : '');
     });
 
     // Handle each loops {{#each array}}...{{/each}}
@@ -104,6 +99,19 @@ export class EmailService {
       }
       return '';
     });
+
+    // Handle conditional blocks - multiple passes to resolve nested {{#if}}
+    // Supports {{#if variable}}...{{/if}} and {{#if variable}}...{{else}}...{{/if}}
+    let prevResult;
+    do {
+      prevResult = result;
+      result = result.replace(/{{#if\s+(\w+)}}([\s\S]*?){{\/if}}/g, (match, variable, content) => {
+        const parts = content.split('{{else}}');
+        const truePart = parts[0];
+        const falsePart = parts[1] ?? '';
+        return data[variable] ? truePart : falsePart;
+      });
+    } while (result !== prevResult);
 
     return result;
   }
@@ -250,6 +258,11 @@ export class EmailService {
         emailEndMessage: 'Fin del mensaje de email',
         screenReaderSummary: 'Nueva solicitud de cotización recibida y lista para procesar',
 
+        // Tracking labels
+        sourceLabel: 'Fuente',
+        mediumLabel: 'Medio',
+        campaignLabel: 'Campaña',
+
         // Table captions
         customerInfoCaption: 'Información de contacto del cliente',
         flightDetailsCaption: 'Detalles del vuelo solicitado',
@@ -314,6 +327,11 @@ export class EmailService {
         emailEndMessage: 'End of email message',
         screenReaderSummary: 'New quote request received and ready for processing',
 
+        // Tracking labels
+        sourceLabel: 'Source',
+        mediumLabel: 'Medium',
+        campaignLabel: 'Campaign',
+
         // Table captions
         customerInfoCaption: 'Customer contact information',
         flightDetailsCaption: 'Requested flight details',
@@ -377,6 +395,11 @@ export class EmailService {
         skipToContentText: 'Pular para o conteúdo principal',
         emailEndMessage: 'Fim da mensagem de email',
         screenReaderSummary: 'Nova solicitação de cotação recebida e pronta para processamento',
+
+        // Tracking labels
+        sourceLabel: 'Fonte',
+        mediumLabel: 'Meio',
+        campaignLabel: 'Campanha',
 
         // Table captions
         customerInfoCaption: 'Informações de contato do cliente',
